@@ -1,0 +1,69 @@
+####################################################################################################
+# \file arm-gcc-os-less-stm32l476.target
+# \brief No OS with STM32L476 with ARM GCC target definition
+# \author C. Jimenez
+# \copyright Copyright(c) 2017 Cedric Jimenez
+#
+# This file is part of Open-Vario.
+#
+# Open-Vario is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Open-Vario is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################################
+
+# Include toolchain
+include $(ROOT_DIR)/build/make/compilers/arm-gcc-cortex-m.compiler
+
+# Target operating system
+TARGET_OS=os_less
+
+# Target CPU
+TARGET_CPU=stm32l476
+
+# Target Board
+TARGET_BOARD=open_vario_1_0
+
+# Target BSP
+TARGET_BSP=bsps/bsp_stm32l476
+
+# Target lib dependencies
+TARGET_DEPENDENCIES=
+
+# Target specific include directories
+TARGET_INC_DIRS=
+
+# Target specific lib directories
+TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard -L$(TOOLCHAIN_PATH)/lib/gcc/arm-none-eabi/7.3.1/thumb/v7e-m/fpv4-sp/hard
+
+# Target specific libraries
+TARGET_LIBS=-lgcc -lc -lnosys
+
+# Target implementation for the project defines
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DNANO_IP_OAL_OS_LESS
+
+
+# Optimisation level
+OPTIMIZATION_LEVEL = -O0
+
+# Disabled warnings
+DISABLED_WARNINGS = 
+
+# Toolchain flags
+COMMON_FLAGS = -g -Wall -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard -mfpu=vfpv4 -mapcs-frame -mlittle-endian $(OPTIMIZATION_LEVEL) $(TARGET_PROJECT_DEFINES)
+CFLAGS = -DCORE_M4 -Wno-main $(COMMON_FLAGS) -fsigned-char  -fno-exceptions $(PROJECT_CFLAGS)
+CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -pedantic -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit -Wno-register
+ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
+LDFLAGS = -e _start -Map $(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) -EL -g --gc-sections -dT $(ROOT_DIR)/src/bsps/bsp_stm32l476/gcc/stm32l476.ld $(PROJECT_LDFLAGS)
+ARFLAGS = -c -r $(PROJECT_ARFLAGS)
+
+# Number of times the libraries names shall be duplicated in the command line
+TARGET_DUP_COUNT := 1

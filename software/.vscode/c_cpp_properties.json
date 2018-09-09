@@ -1,0 +1,42 @@
+{
+    "configurations": [
+        {
+            "name": "STM32L476",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/src/apps",
+                "${workspaceFolder}/src/apps/demo_app",
+                "${workspaceFolder}/src/bsps",
+                "${workspaceFolder}/src/bsps/bsp_stm32l476",
+                "${workspaceFolder}/src/libs",
+                "${workspaceFolder}/src/libs/board",
+                "${workspaceFolder}/src/libs/board/open_vario_1_0",
+                "${workspaceFolder}/src/libs/cpu",
+                "${workspaceFolder}/src/libs/cpu/stm32l476",
+                "${workspaceFolder}/src/libs/os",
+                "${workspaceFolder}/src/libs/os/nano-os",
+                "${workspaceFolder}/src/libs/peripherals",
+                "${workspaceFolder}/src/libs/peripherals/interfaces",
+                "${workspaceFolder}/src/libs/peripherals/components",
+
+                "C:\\gcc_arm_cortex_m_7.3\\arm-none-eabi\\include",
+                "C:\\gcc_arm_cortex_m_7.3\\arm-none-eabi\\include\\c++\\7.3.1"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\gcc_arm_cortex_m_7.3\\bin\\arm-none-eabi-gcc.exe",
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}

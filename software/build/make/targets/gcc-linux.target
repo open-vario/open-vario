@@ -1,0 +1,65 @@
+####################################################################################################
+# \file gcc-linux.target
+# \brief Linux with GCC target definition
+# \author C. Jimenez
+# \copyright Copyright(c) 2017 Cedric Jimenez
+#
+# This file is part of Open-Vario.
+#
+# Open-Vario is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Open-Vario is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################################
+
+# Include toolchain
+include $(ROOT_DIR)/build/make/compilers/gnu-gcc.compiler
+
+# Target operating system
+TARGET_OS=linux
+
+# Target CPU
+TARGET_CPU=
+
+# Target BSP
+TARGET_BSP=bsps/bsp_linux
+
+# Target network interface
+TARGET_NETIF=libs/net_if/pcap_netif
+
+# Target lib dependencies
+TARGET_DEPENDENCIES=3rdparty/pcap
+
+# Target specific include directories
+TARGET_INC_DIRS=
+
+# Target specific lib directories
+TARGET_LIB_DIRS=
+
+# Target specific librairies
+TARGET_LIBS=
+
+# Target implementation for the project defines
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE))
+
+
+# Optimisation level
+OPTIMIZATION_LEVEL = -O0
+
+# Toolchain flags
+CFLAGS = -DLINUX -Wextra -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CFLAGS) $(TARGET_PROJECT_DEFINES) -g
+CXXFLAGS = -DLINUX -Wextra -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CXXFLAGS) $(TARGET_PROJECT_DEFINES) -std=c++17 -g
+ASFLAGS = -DLINUX -Wextra -Wall $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS) $(TARGET_PROJECT_DEFINES) -g
+LDFLAGS = -Wl,-Map=$(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME))) $(PROJECT_LDFLAGS) -lrt -lpthread
+ARFLAGS = -c -r $(PROJECT_ARFLAGS)
+
+# Number of times the libraries names shall be duplicated in the command line
+TARGET_DUP_COUNT := 1
