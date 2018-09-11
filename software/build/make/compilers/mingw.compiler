@@ -47,8 +47,8 @@ BUILD_OUTPUT_CMD=-o
 LINK_OUTPUT_CMD=-o
 
 # Compiler output file extensions
-COMP_LIB_EXTENSION=.lib
-COMP_EXE_EXTENSION=.exe
+COMP_LIB_EXTENSION=.a
+COMP_EXE_EXTENSION=.elf
 
 # Compiler flag for header files dependency generation
 COMP_HEADER_DEP_FLAGS=-MMD -MP

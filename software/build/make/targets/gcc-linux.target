@@ -30,13 +30,10 @@ TARGET_OS=linux
 TARGET_CPU=
 
 # Target BSP
-TARGET_BSP=bsps/bsp_linux
-
-# Target network interface
-TARGET_NETIF=libs/net_if/pcap_netif
+TARGET_BSP=
 
 # Target lib dependencies
-TARGET_DEPENDENCIES=3rdparty/pcap
+TARGET_DEPENDENCIES=
 
 # Target specific include directories
 TARGET_INC_DIRS=

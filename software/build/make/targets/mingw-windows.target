@@ -27,16 +27,16 @@ include $(ROOT_DIR)/build/make/compilers/mingw.compiler
 TARGET_OS=windows
 
 # Target CPU
-TARGET_CPU=
+TARGET_CPU=windows
 
 # Target BSP
-TARGET_BSP=bsps/bsp_windows
+TARGET_BSP=
 
-# Target network interface
-TARGET_NETIF=libs/net_if/pcap_netif
+# Target Board
+TARGET_BOARD=open_vario_simulator
 
 # Target lib dependencies
-TARGET_DEPENDENCIES=3rdparty/winpcap
+TARGET_DEPENDENCIES=libs/simulator
 
 # Target specific include directories
 TARGET_INC_DIRS=
@@ -60,7 +60,7 @@ DISABLED_WARNINGS =
 # Toolchain flags
 COMMON_FLAGS = -g -D _WIN32_WINNT=0x0601 -D WINVER=0x0601 -DMINGW32 -DWINDOWS -Wall $(OPTIMIZATION_LEVEL) $(TARGET_PROJECT_DEFINES)
 CFLAGS = $(COMMON_FLAGS) -fsigned-char $(PROJECT_CFLAGS)
-CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++0x
+CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17
 ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
 LDFLAGS = -Wl,-Map=$(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) $(PROJECT_LDFLAGS)
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)

@@ -5,8 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "MinGW Windows",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/apps/open-vario/bin/mingw-windows/open-vario.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "c:/mingw32/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "cwd": "${workspaceRoot}",
-            "executable": "./build/apps/demo_app/bin/arm-gcc-os-less-stm32l476/demo_app.elf",
+            "executable": "./build/apps/open-vario/bin/arm-gcc-nano-os-stm32l476/open-vario.elf",
             "name": "J-Link Debug STM32L476",
             "request": "launch",
             "type": "cortex-debug",

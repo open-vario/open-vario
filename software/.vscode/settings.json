@@ -10,6 +10,9 @@
         "**/.DS_Store": true
     },
     "files.associations": {
-        "cstddef": "cpp"
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "typeinfo": "cpp",
+        "*.tcc": "cpp"
     }
 }

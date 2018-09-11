@@ -33,7 +33,8 @@ BUILD_TYPE := LIB
 # Projects that need to be build before the project or containing necessary include paths
 PROJECT_DEPENDENCIES = libs/cpu \
                        libs/peripherals \
-                       $(TARGET_BSP)
+                       $(TARGET_BSP) \
+					   $(TARGET_DEPENDENCIES)
 
 			  
 # Including common makefile definitions

@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "make demo STM32L476",
+            "label": "make STM32L476",
             "type": "shell",
             "command": "make",
             "args": [
                 "-C",
-                "${workspaceFolder}/build/apps/demo_app",
+                "${workspaceFolder}/build/apps/open-vario",
                 "all+",
-                "TARGET=arm-gcc-os-less-stm32l476"
+                "TARGET=arm-gcc-nano-os-stm32l476"
             ],
             "group": {
                 "kind": "build",
@@ -34,14 +34,54 @@
             }
         },
         {
-            "label": "clean demo STM32L476",
+            "label": "clean STM32L476",
             "type": "shell",
             "command": "make",
             "args": [
                 "-C",
-                "${workspaceFolder}/build/apps/demo_app",
+                "${workspaceFolder}/build/apps/open-vario",
                 "clean+",
-                "TARGET=arm-gcc-os-less-stm32l476"
+                "TARGET=arm-gcc-nano-os-stm32l476"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "make Windows",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "${workspaceFolder}/build/apps/open-vario",
+                "all+",
+                "TARGET=mingw-windows"
+            ],
+            "group": "build",
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "clean Windows",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "${workspaceFolder}/build/apps/open-vario",
+                "clean+",
+                "TARGET=mingw-windows"
             ],
             "group": "build",
             "problemMatcher": []

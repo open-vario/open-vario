@@ -26,7 +26,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
     .long   Reset_Handler             /* Reset Handler */
     .long   NMI_Handler               /* NMI Handler */
     .long   HardFault_Handler         /* Hard Fault Handler */
-    .long   MPUFault_Handler          /* MPU Fault Handler */
+    .long   MemManage_Handler         /* Memory Fault Handler */
     .long   BusFault_Handler          /* Bus Fault Handler */
     .long   UsageFault_Handler        /* Usage Fault Handler */
     .long   0x00000000                /* Reserved */

@@ -53,16 +53,16 @@ class Stm32l476Cpu : public ICpu
 
 
         /** \brief Get the SYSCLK frequency */
-        virtual uint32_t getSysclkFrequency() const { return 48000000u; /* To be changed with runtime computation */}
+        uint32_t getSysclkFrequency() const { return 48000000u; /* To be changed with runtime computation */}
 
         /** \brief Get the HCLK frequency */
-        virtual uint32_t getHclkFrequency() const { return 48000000u; /* To be changed with runtime computation */}
+        uint32_t getHclkFrequency() const { return 48000000u; /* To be changed with runtime computation */}
 
         /** \brief Get the PCLK1 frequency */
-        virtual uint32_t getPclk1Frequency() const { return 12000000u; /* To be changed with runtime computation */}
+        uint32_t getPclk1Frequency() const { return 12000000u; /* To be changed with runtime computation */}
 
         /** \brief Get the PCLK2 frequency */
-        virtual uint32_t getPclk2Frequency() const { return 12000000u; /* To be changed with runtime computation */}
+        uint32_t getPclk2Frequency() const { return 12000000u; /* To be changed with runtime computation */}
 };
 
 }

@@ -31,7 +31,9 @@ PROJECT_NAME := cpu
 BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = $(TARGET_BSP)
+PROJECT_DEPENDENCIES = libs/os \
+                       $(TARGET_BSP) \
+					   $(TARGET_DEPENDENCIES)
 
 			  
 # Including common makefile definitions

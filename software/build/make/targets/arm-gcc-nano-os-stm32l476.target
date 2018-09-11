@@ -28,11 +28,14 @@ TARGET_OS=nano-os
 
 # NanoOS configuration
 NANO_OS_TARGET=arm-gcc-stm32l476
-NANO_OS_CONFIG_FILE_DIR=$(ROOT_DIR)/src/bsps/bsp_stm32l476/nano-os
+NANO_OS_CONFIG_FILE_DIR=$(ROOT_DIR)/src/libs/os/nano-os
 
 # Target ARCH and CPU
 TARGET_ARCH=cortex-m4
 TARGET_CPU=stm32l476
+
+# Target Board
+TARGET_BOARD=open_vario_1_0
 
 # Target BSP
 TARGET_BSP=bsps/bsp_stm32l476
@@ -47,10 +50,10 @@ TARGET_INC_DIRS=
 TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard -L$(TOOLCHAIN_PATH)/lib/gcc/arm-none-eabi/7.3.1/thumb/v7e-m/fpv4-sp/hard
 
 # Target specific libraries
-TARGET_LIBS=-lgcc -lc -lnosys 
+TARGET_LIBS=-lgcc -lc -lnosys
 
 # Target implementation for the project defines
-TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DNANO_IP_OAL_NANO_OS
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE))
 
 
 # Optimisation level
@@ -62,7 +65,7 @@ DISABLED_WARNINGS =
 # Toolchain flags
 COMMON_FLAGS = -g -Wall -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard -mfpu=vfpv4 -mapcs-frame -mlittle-endian $(OPTIMIZATION_LEVEL) $(TARGET_PROJECT_DEFINES)
 CFLAGS = -DCORE_M4 -Wno-main $(COMMON_FLAGS) -fsigned-char -fno-exceptions $(PROJECT_CFLAGS)
-CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -pedantic -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit
+CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -pedantic -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit -Wno-register
 ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
 LDFLAGS = -e _start -Map $(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) -EL -g --gc-sections -dT $(ROOT_DIR)/src/bsps/bsp_stm32l476/gcc/stm32l476.ld $(PROJECT_LDFLAGS)
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)
