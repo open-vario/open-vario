@@ -23,8 +23,15 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IOpenVarioApp.h"
 #include "Os.h"
 #include "OpenVarioBoard.h"
+#include "LogManager.h"
+#include "LogHistory.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
+#include "InitMode.h"
+#include "RunMode.h"
+#include "PowerOffMode.h"
+
+#include "nano-stl.h"
 
 namespace open_vario
 {
@@ -39,11 +46,17 @@ class OpenVarioApp : public IOpenVarioApp
         OpenVarioApp();
 
 
+        /** \brief Get the version string */
+        virtual const char* getVersion() { return "Open Vario v0.1"; }
+
         /** \brief Get the operating system */
         virtual IOs& getOs() { return m_os; }
 
         /** \brief Get the board */
         virtual IOpenVarioBoard& getBoard() { return m_board; }
+
+        /** \brief Get the logger */
+        virtual ILogger& getLogger() { return m_log_manager; }
 
 
         /** \brief Initialize the application */
@@ -62,6 +75,9 @@ class OpenVarioApp : public IOpenVarioApp
         virtual bool onStart() = 0;
 
 
+        /** \brief Get the log history */
+        virtual ILogHistory& getLogHistory() { return m_log_history; }
+
     private:
 
         /** \brief Operating system */
@@ -70,11 +86,30 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Board */
         OpenVarioBoard m_board;
 
+        /** \brief Log manager */
+        LogManager m_log_manager;
+
+        /** \brief Log history */
+        LogHistory m_log_history;
+
         /** \brief Mode manager */
         ModeManager m_mode_manager;
 
+        /** \brief Operating modes */
+        nano_stl::StaticVector<IMode*, 3u> m_operating_modes;
+
+        /** \brief Init mode */
+        InitMode m_init_mode;
+
+        /** \brief Run mode */
+        RunMode m_run_mode;
+
+        /** \brief Power off mode */
+        PowerOffMode m_power_off_mode;
+
         /** \brief HMI manager */
         HmiManager m_hmi_manager;
+
 };
 
 }

@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IOs.h"
 #include "IOpenVarioBoard.h"
+#include "ILogger.h"
 
 namespace open_vario
 {
@@ -32,12 +33,17 @@ class IOpenVarioApp
 {
     public:
 
+        /** \brief Get the version string */
+        virtual const char* getVersion() = 0;
 
         /** \brief Get the Operating System */
         virtual IOs& getOs() = 0;
 
         /** \brief Get the board */
         virtual IOpenVarioBoard& getBoard() = 0;
+
+        /** \brief Get the logger */
+        virtual ILogger& getLogger() = 0;
 
 
         /** \brief Initialize the application */

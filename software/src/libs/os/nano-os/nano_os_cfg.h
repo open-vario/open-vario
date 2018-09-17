@@ -337,7 +337,7 @@ along with Nano-OS.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /** \brief Enable the console module */
-#define NANO_OS_CONSOLE_ENABLED                 0u
+#define NANO_OS_CONSOLE_ENABLED                 1u
 
 /** \brief Priority level of the console task */
 #define NANO_OS_CONSOLE_TASK_PRIORITY           1u

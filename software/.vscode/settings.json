@@ -7,12 +7,17 @@
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,
-        "**/.DS_Store": true
+        "**/.DS_Store": true,
+        "**/3rdparty/nano-os/src/bsps":true
     },
     "files.associations": {
         "cstddef": "cpp",
         "cstdint": "cpp",
         "typeinfo": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "optional": "cpp",
+        "system_error": "cpp"
     }
 }

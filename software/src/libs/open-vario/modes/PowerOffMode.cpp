@@ -17,48 +17,32 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "NanoOsOpenVarioApp.h"
-
-#include "nano_os_api.h"
+#include "PowerOffMode.h"
+#include "LogMacro.h"
 
 namespace open_vario
 {
 
 
-/** \brief Singleton */
-NanoOsOpenVarioApp NanoOsOpenVarioApp::m_singleton;
-
-
-
 /** \brief Constructor */
-NanoOsOpenVarioApp::NanoOsOpenVarioApp()
-: OpenVarioApp()
-, m_nano_os_console(getBoard().debugUart(), getLogHistory())
+PowerOffMode::PowerOffMode(ModeManager& mode_manager, HmiManager& hmi_manager)
+: m_mode_manager(mode_manager)
+, m_hmi_manager(hmi_manager)
 {}
 
-/** \brief Called during application initialization */
-bool NanoOsOpenVarioApp::onInit(uint8_t argc, char* argv[])
+/** \brief Enter into the operating mode */
+void PowerOffMode::enter()
 {
-    (void)argc;
-    (void)argv;
+    LOG_INFO("Entering power off mode...");
 
-    // Initialize Nano-OS console commands
-    bool ret = m_nano_os_console.init();
-
-    return ret;
+    // Update LED blink
+    m_hmi_manager.getActivityLed().update(LedController::MEDIUM_BLINK);
 }
 
-/** \brief Called before application start */
-bool NanoOsOpenVarioApp::onStart()
+/** \brief Leave the operating mode */
+void PowerOffMode::leave()
 {
-    return true;
-}
-
-
-/** \brief Singleton to retrieve the unique instance of the application */
-IOpenVarioApp& IOpenVarioApp::getInstance()
-{
-    return NanoOsOpenVarioApp::getInstance();
+    LOG_INFO("Leaving power off mode...");
 }
 
 

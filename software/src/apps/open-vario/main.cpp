@@ -18,8 +18,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "IOpenVarioApp.h"
-
+#include "FlagSet.h"
 using namespace open_vario;
+
+FlagSet flagset(15u);
 
 /** \brief Application's entry point */
 int main(int argc, char* argv[])

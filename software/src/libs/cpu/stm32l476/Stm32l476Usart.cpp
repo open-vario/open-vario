@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Stm32l476Usart.h"
 #include "Stm32l476Cpu.h"
+#include "IOs.h"
 
 #include "stm32l476xx.h"
 
@@ -27,11 +28,23 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+/** \brief Rx ready flag mask */
+static const uint32_t UART_RX_READY_FLAG_MASK = 1u;
+
+/** \brief Tx ready flag mask */
+static const uint32_t UART_TX_READY_FLAG_MASK = 2u;
+
+
+
 /** \brief Register definitions for the USARTs */
-static USART_TypeDef* const usart_regs[] = { USART1, USART2, USART3 };
+static USART_TypeDef* const usart_regs[Stm32l476Usart::USART_MAX] = { USART1, USART2, USART3 };
+
+/** \brief USART irq numbers */
+static const IRQn_Type usart_irqs[Stm32l476Usart::USART_MAX] = {USART1_IRQn, USART2_IRQn, USART3_IRQn};
 
 /** \brief USART instances */
 static Stm32l476Usart* usarts[Stm32l476Usart::USART_MAX] = {NULL, NULL, NULL};
+
 
 
 /** \brief Constructor */
@@ -42,6 +55,9 @@ Stm32l476Usart::Stm32l476Usart(const Stm32l476Cpu& cpu, const Usart usart, const
 , m_parity(parity)
 , m_stop_bits(stop_bits)
 , m_flow_control(flow_control)
+, m_status_flags(0u)
+, m_rx_queue()
+, m_tx_queue()
 {
     // Register instance
     usarts[usart] = this;
@@ -178,6 +194,10 @@ bool Stm32l476Usart::configure()
         const uint32_t usart_div = input_clock_freq / m_baudrate;
         usart->BRR = usart_div;
 
+        // Enable Rx interrupt
+        usart->CR1 |= (1u << 5u);
+        NVIC_EnableIRQ(usart_irqs[m_usart]);
+
         // Enable receive and transmit
         usart->CR1 |= (1u << 0u) | (1u << 2u) | (1u << 3u);
     }
@@ -188,36 +208,145 @@ bool Stm32l476Usart::configure()
 /** \brief Write data through the UART */
 bool Stm32l476Usart::write(const uint8_t* const data, const uint32_t size)
 {
-    uint32_t data_len = size;
+    bool ret = true;
+    uint32_t data_left = size;
     const uint8_t* current = data;
     USART_TypeDef* const usart = usart_regs[m_usart];
 
-    while (data_len != 0)
+    while (ret && (data_left != 0u))
     {
-        while (((usart->ISR & (1u << 7u)) == 0)) // TXE bit
-        {}
+        // Disable Rx and Tx interrupts
+        usart->CR1 &= ~((1u << 5u) | (1u << 7u));
 
-        // Send byte
-        usart->TDR = (*current);
+        // Add data to the transmit buffer
+        while ((data_left != 0u) && m_tx_queue.push(*current))
+        {
+            current++;
+            data_left--;
+        }
+        if (data_left != 0u)
+        {
+            m_status_flags.reset(UART_TX_READY_FLAG_MASK);
+        }
 
-        // Next byte
-        current++;
-        data_len--;
+        // Enable Rx and Tx interrupts
+        usart->CR1 |= ((1u << 5u) | (1u << 7u));
+
+        // Wait for Tx ready if more data has to be sent
+        if (data_left != 0u)
+        {
+            uint32_t wake_up_flags = UART_TX_READY_FLAG_MASK;
+            ret = m_status_flags.wait(wake_up_flags, false, IOs::getInstance().getInfiniteTimeoutValue());
+        }
     }
 
-    return true;
+    return ret;
 }
 
 /** \brief Read data through the UART */
 bool Stm32l476Usart::read(uint8_t* const data, const uint32_t size, const uint32_t timeout)
 {
-    return false;
+    bool ret = true;
+    uint8_t* current = data;
+    uint32_t data_left = size;
+    USART_TypeDef* const usart = usart_regs[m_usart];
+
+    while (ret && (data_left != 0))
+    {
+        // Save interrupt mask
+        uint32_t int_mask = usart->CR1;
+
+        // Disable Rx and Tx interrupts
+        usart->CR1 &= ~((1u << 5u) | (1u << 7u));
+
+        // Get received data
+        while ((data_left != 0u) && m_rx_queue.pop(*current))
+        {
+            current++;
+            data_left--;
+        }
+        if (m_rx_queue.getCount() == 0u)
+        {
+            m_status_flags.reset(UART_RX_READY_FLAG_MASK);
+        }
+
+        // Restore interrupt mask
+        usart->CR1 = int_mask;
+
+        // Wait for Rx ready if more data has to be received
+        if (data_left != 0)
+        {
+            uint32_t wake_up_flags = UART_RX_READY_FLAG_MASK;
+            ret = m_status_flags.wait(wake_up_flags, false, timeout);
+        }
+    }
+
+    return ret;
 }
 
 /** \brief IRQ handler */
 void Stm32l476Usart::irqHandler()
 {
+    #ifdef OS_NANO_OS
+    NANO_OS_INTERRUPT_Enter();
+    #endif // OS_NANO_OS
 
+    bool signal;
+    USART_TypeDef* const usart = usart_regs[m_usart];
+
+    // Read received data
+    signal = (m_rx_queue.getCount() == 0u);
+    while ((usart->ISR & ( 1u << 5u)) != 0) // RXNE bit
+    {
+        // Read the received byte
+        m_rx_queue.push(static_cast<uint8_t>(usart->RDR));
+    }
+
+    // Signal received data
+    if (signal && (m_rx_queue.getCount() != 0u))
+    {
+        m_status_flags.set(UART_RX_READY_FLAG_MASK, true);
+    }
+
+    // Transmit data
+    if ((usart->ISR & (1u << 7u)) != 0) // TXE bit
+    {
+		if (m_tx_queue.getCount() != 0u)
+		{
+		    // Check if Tx queue was full
+		    signal = (m_tx_queue.getCount() == m_tx_queue.getCapacity());
+
+            // Send byte
+            uint8_t data;
+            m_tx_queue.pop(data);
+			usart->TDR = static_cast<uint16_t>(data);
+
+			// Check end of transmit */
+			if (m_tx_queue.getCount() == 0u)
+			{
+				// Disable TXE interrupt
+			    USART3->CR1 &= ~(1u << 7u);
+			}
+
+			// Signal Tx ready
+			if (signal)
+			{
+                m_status_flags.set(UART_TX_READY_FLAG_MASK, true);
+			}
+		}
+		else
+		{
+		    // Disable TXE interrupt
+		    usart->CR1 &= ~(1u << 7u);
+		}
+    }
+
+    // Clear error flags
+    usart->ICR = 0x00u;
+
+    #ifdef OS_NANO_OS
+    NANO_OS_INTERRUPT_Exit();
+    #endif // OS_NANO_OS
 }
 
 

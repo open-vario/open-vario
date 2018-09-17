@@ -20,7 +20,11 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MODEMANAGER_H
 #define MODEMANAGER_H
 
+#include "IMode.h"
 #include "TaskHelper.h"
+#include "OperatingMode.h"
+#include "MessageQueue.h"
+#include "nano-stl.h"
 
 namespace open_vario
 {
@@ -33,12 +37,14 @@ class ModeManager : public ITaskStart
     public:
 
         /** \brief Constructor */
-        ModeManager(HmiManager& hmi_manager);
+        ModeManager(nano_stl::IArray<IMode*>& operating_modes);
 
 
         /** \brief Start the mode manager */
         virtual bool start();
 
+        /** \brief Switch to the requested mode */
+        virtual void switchToMode(const OperatingMode mode);
         
         /** \brief Method which will be called at the task's startup */
         virtual void taskStart(void* const param);
@@ -46,10 +52,13 @@ class ModeManager : public ITaskStart
     private:
 
         /** \brief Thread */
-        TaskHelper<1024u> m_task;
+        TaskHelper<2048u> m_task;
 
-        /** \brief HMI manager */
-        HmiManager& m_hmi_manager;
+        /** \brief Operating modes */
+        nano_stl::IArray<IMode*>& m_operating_modes;
+
+        /** \brief Message queue for change of operating mode */
+        MessageQueue<OperatingMode, 1u> m_mode_change_queue;
 };
 
 }

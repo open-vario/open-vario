@@ -17,39 +17,33 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HMIMANAGER_H
-#define HMIMANAGER_H
+#ifndef ILOGHISTORY_H
+#define ILOGHISTORY_H
 
-#include "LedController.h"
+
+#include "Log.h"
 
 namespace open_vario
 {
 
 
-/** \brief Human Machine Interface manager */
-class HmiManager
+/** \brief Interface for log history implementation */
+class ILogHistory
 {
     public:
 
-        /** \brief Constructor */
-        HmiManager(ILed& activity_led);
 
+        /** \brief Get the number of logs in the log history */
+        virtual uint32_t getLogCount() const = 0;
 
-        /** \brief Start the HMI manager */
-        bool start();
+        /** \brief Clear the log history */
+        virtual void clearLogs() = 0;
 
+        /** \brief Read a log from the log history */
+        virtual bool readLog(Log& log) = 0; 
 
-        /** \brief Get the LED controller for the activity LED */
-        LedController& getActivityLed() { return m_activity_led_controller; }
-
-        
-
-    private:
-
-        /** \brief Activity LED controller */
-        LedController m_activity_led_controller;
 };
 
 }
 
-#endif // HMIMANAGER_H
+#endif // ILOGHISTORY_H

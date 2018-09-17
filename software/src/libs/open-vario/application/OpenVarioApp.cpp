@@ -27,9 +27,22 @@ namespace open_vario
 OpenVarioApp::OpenVarioApp()
 : m_os()
 , m_board()
-, m_mode_manager(m_hmi_manager)
+
+, m_log_manager(Log::LL_INFO, m_os)
+, m_log_history(m_log_manager)
+
+, m_mode_manager(m_operating_modes)
+, m_operating_modes()
+, m_init_mode(m_mode_manager, m_hmi_manager)
+, m_run_mode(m_mode_manager, m_hmi_manager)
+, m_power_off_mode(m_mode_manager, m_hmi_manager)
+
 , m_hmi_manager(m_board.activityLed())
-{}
+{
+    m_operating_modes.pushBack(&m_init_mode);
+    m_operating_modes.pushBack(&m_run_mode);
+    m_operating_modes.pushBack(&m_power_off_mode);
+}
 
 /** \brief Initialize the application */
 bool OpenVarioApp::init(uint8_t argc, char* argv[])

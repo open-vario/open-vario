@@ -36,7 +36,6 @@ SECTIONS
     *(.rodata)
     *(.rodata.*)
     . = ALIGN(4);
-    _DATA_ROM_START_ = .;
   } > flash
 
  /* Constructors */
@@ -54,6 +53,7 @@ SECTIONS
     PROVIDE_HIDDEN ( __exidx_start = .);
     *(.ARM.exidx*)
     PROVIDE_HIDDEN (__exidx_end = .);
+    _DATA_ROM_START_ = .;
   } > flash
 
   /* Stack */

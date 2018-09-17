@@ -32,6 +32,7 @@ BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
 PROJECT_DEPENDENCIES = libs/os \
+                       3rdparty/nano-stl \
                        $(TARGET_BSP) \
 					   $(TARGET_DEPENDENCIES)
 

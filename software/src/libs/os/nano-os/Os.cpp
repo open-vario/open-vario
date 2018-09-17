@@ -26,6 +26,10 @@ namespace open_vario
 {
 
 
+/** \brief Singleton */
+Os* Os::m_singleton = NULL;
+
+
 /** \brief Constructor */
 Os::Os()
 : m_os_init_suceeded(false)
@@ -34,6 +38,7 @@ Os::Os()
     // objects' constructors
     const nano_os_error_t ret = NANO_OS_Init();
     m_os_init_suceeded = (ret == NOS_ERR_SUCCESS);
+    m_singleton = this;
 }
 
 
@@ -56,7 +61,7 @@ uint32_t Os::getMsTimestamp()
 {
     uint32_t tick_count = 0u;
     (void)NANO_OS_GetTickCount(&tick_count);
-    return tick_count;
+    return NANO_OS_TICKS_TO_MS(tick_count);
 }
 
 /** \brief Put the current task into sleep for a specified time duration in milliseconds */
@@ -65,5 +70,10 @@ void Os::waitMs(const uint32_t timeout)
     (void)NANO_OS_TASK_Sleep(NANO_OS_MS_TO_TICKS(timeout));
 }
 
+/** \brief Get the unique instance of the operating system */
+IOs& IOs::getInstance()
+{
+    return Os::getInstance();
+}
 
 }

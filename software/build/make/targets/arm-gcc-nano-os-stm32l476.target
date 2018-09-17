@@ -53,7 +53,7 @@ TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard -
 TARGET_LIBS=-lgcc -lc -lnosys
 
 # Target implementation for the project defines
-TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE))
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_NANO_OS
 
 
 # Optimisation level

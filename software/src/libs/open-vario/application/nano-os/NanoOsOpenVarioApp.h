@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define NANOOSOPENVARIOAPP_H
 
 #include "OpenVarioApp.h"
+#include "NanoOsConsole.h"
 
 namespace open_vario
 {
@@ -49,6 +50,10 @@ class NanoOsOpenVarioApp : public OpenVarioApp
 
 
     private:
+
+
+        /** \brief Specific commands implementation for Nano-OS console */
+        NanoOsConsole m_nano_os_console;
 
 
         /** \brief Singleton */

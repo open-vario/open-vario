@@ -17,39 +17,46 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HMIMANAGER_H
-#define HMIMANAGER_H
+#ifndef INITMODE_H
+#define INITMODE_H
 
-#include "LedController.h"
+#include "IMode.h"
+#include "ModeManager.h"
+#include "HmiManager.h"
 
 namespace open_vario
 {
 
+class HmiManager;
 
-/** \brief Human Machine Interface manager */
-class HmiManager
+/** \brief Operating mode : Initialization */
+class InitMode : public IMode
 {
     public:
 
         /** \brief Constructor */
-        HmiManager(ILed& activity_led);
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager);
 
 
-        /** \brief Start the HMI manager */
-        bool start();
+        ////// Implementation of IMode interface //////
 
 
-        /** \brief Get the LED controller for the activity LED */
-        LedController& getActivityLed() { return m_activity_led_controller; }
+        /** \brief Enter into the operating mode */
+        virtual void enter();
 
-        
+        /** \brief Leave the operating mode */
+        virtual void leave();
+
 
     private:
 
-        /** \brief Activity LED controller */
-        LedController m_activity_led_controller;
+        /** \brief Mode manager */
+        ModeManager& m_mode_manager;
+
+        /** \brief HMI manager */
+        HmiManager& m_hmi_manager;
 };
 
 }
 
-#endif // HMIMANAGER_H
+#endif // INITMODE_H

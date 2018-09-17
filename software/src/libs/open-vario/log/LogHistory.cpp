@@ -17,39 +17,51 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HMIMANAGER_H
-#define HMIMANAGER_H
+#include "LogHistory.h"
 
-#include "LedController.h"
 
 namespace open_vario
 {
 
 
-/** \brief Human Machine Interface manager */
-class HmiManager
+/** \brief Constructor */
+LogHistory::LogHistory(ILogger& logger)
+: m_logs()
 {
-    public:
-
-        /** \brief Constructor */
-        HmiManager(ILed& activity_led);
-
-
-        /** \brief Start the HMI manager */
-        bool start();
-
-
-        /** \brief Get the LED controller for the activity LED */
-        LedController& getActivityLed() { return m_activity_led_controller; }
-
-        
-
-    private:
-
-        /** \brief Activity LED controller */
-        LedController m_activity_led_controller;
-};
-
+    logger.registerListener(*this);
 }
 
-#endif // HMIMANAGER_H
+
+////// Implementation of ILogListener interface //////
+
+
+/** \brief Called when a new log is available */
+void LogHistory::onNewLog(const Log& log)
+{
+    m_logs.write(log);
+}
+
+
+////// Implementation of LogHistory methods //////
+
+
+/** \brief Get the number of logs in the log history */
+uint32_t LogHistory::getLogCount() const
+{
+    return static_cast<uint32_t>(m_logs.getCount());
+}
+
+/** \brief Clear the log history */
+void LogHistory::clearLogs()
+{
+    m_logs.clear();
+}
+
+/** \brief Read a log from the log history */
+bool LogHistory::readLog(Log& log)
+{
+    return m_logs.read(log);
+}
+
+
+}

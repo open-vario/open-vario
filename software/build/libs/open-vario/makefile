@@ -35,6 +35,7 @@ PROJECT_DEPENDENCIES = libs/board \
                        libs/cpu \
                        libs/peripherals \
 					   libs/os \
+					   3rdparty/nano-stl \
                        $(TARGET_BSP) \
 					   $(TARGET_DEPENDENCIES)
 

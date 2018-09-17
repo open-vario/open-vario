@@ -31,8 +31,10 @@ PROJECT_NAME := board
 BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = libs/cpu \
+PROJECT_DEPENDENCIES = libs/os \
+                       libs/cpu \
                        libs/peripherals \
+					   3rdparty/nano-stl \
                        $(TARGET_BSP) \
 					   $(TARGET_DEPENDENCIES)
 

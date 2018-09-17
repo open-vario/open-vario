@@ -21,11 +21,20 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define STM32L476USART_H
 
 #include "IUart.h"
+#include "FlagSet.h"
+#include "nano-stl.h"
 
 namespace open_vario
 {
 
 class Stm32l476Cpu;
+
+/** \brief IRQ handler for USART 1 */
+extern "C" void USART1_IRQHandler(void);
+/** \brief IRQ handler for USART 2 */
+extern "C" void USART2_IRQHandler(void);
+/** \brief IRQ handler for USART 3 */
+extern "C" void USART3_IRQHandler(void);
 
 
 /** \brief STM32L476 USART */
@@ -61,9 +70,6 @@ class Stm32l476Usart : public IUart
         virtual bool read(uint8_t* const data, const uint32_t size, const uint32_t timeout);
 
 
-        /** \brief IRQ handler */
-        void irqHandler();
-
     private:
 
         /** \brief CPU */
@@ -83,6 +89,25 @@ class Stm32l476Usart : public IUart
 
         /** \brief Flow control */
         const FlowControl m_flow_control;
+
+
+        /** \brief Uart status flags */
+        FlagSet m_status_flags;
+
+        /** \brief Received data queue */
+        nano_stl::StaticQueue<uint8_t, 32u> m_rx_queue;
+
+        /** \brief Transmit data queue */
+        nano_stl::StaticQueue<uint8_t, 32u> m_tx_queue;
+
+
+        /** \brief IRQ handler */
+        void irqHandler();
+
+        // To allow access to generic IRQ handler
+        friend void USART1_IRQHandler(void);
+        friend void USART2_IRQHandler(void);
+        friend void USART3_IRQHandler(void);
 };
 
 }

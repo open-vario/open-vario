@@ -26,9 +26,15 @@ namespace open_vario
 {
 
 
+/** \brief Singleton */
+Os* Os::m_singleton = NULL;
+
+
 /** \brief Constructor */
 Os::Os()
-{}
+{
+    m_singleton = this;
+}
 
 
 /** \brief Initialize the operating system */
@@ -56,5 +62,10 @@ void Os::waitMs(const uint32_t timeout)
     Sleep(timeout);
 }
 
+/** \brief Get the unique instance of the operating system */
+IOs& IOs::getInstance()
+{
+    return Os::getInstance();
+}
 
 }

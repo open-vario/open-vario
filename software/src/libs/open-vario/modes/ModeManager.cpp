@@ -20,15 +20,17 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "IOpenVarioApp.h"
 #include "HmiManager.h"
+#include "LogMacro.h"
 
 namespace open_vario
 {
 
 
 /** \brief Constructor */
-ModeManager::ModeManager(HmiManager& hmi_manager)
+ModeManager::ModeManager(nano_stl::IArray<IMode*>& operating_modes)
 : m_task("Mode manager", 10u)
-, m_hmi_manager(hmi_manager)
+, m_operating_modes(operating_modes)
+, m_mode_change_queue()
 {}
 
 /** \brief Start the mode manager */
@@ -37,17 +39,40 @@ bool ModeManager::start()
     return m_task.start(*this, NULL);
 }
 
+/** \brief Switch to the requested mode */
+void ModeManager::switchToMode(const OperatingMode mode)
+{
+    m_mode_change_queue.post(mode, false);
+}
+
 /** \brief Method which will be called at the task's startup */
 void ModeManager::taskStart(void* const param)
 {
     (void)param;
 
-    m_hmi_manager.start();
+    LOG_INFO("----------------------------------------");
+    LOG_INFO("Starting %s", IOpenVarioApp::getInstance().getVersion());
+    LOG_INFO("----------------------------------------");
 
-    // Task loop
+    // Enter first mode
+    IMode* current_mode = m_operating_modes[0u];
+    current_mode->enter();
+
+    // Task loop    
     while (true)
     {
-        IOpenVarioApp::getInstance().getOs().waitMs(1000);
+        // Wait for a change of mode
+        OperatingMode mode;
+        if (m_mode_change_queue.wait(mode, IOs::getInstance().getInfiniteTimeoutValue()))
+        {
+            IMode* const new_mode = m_operating_modes[mode];
+            if (new_mode != current_mode)
+            {
+                current_mode->leave();
+                new_mode->enter();
+                current_mode = new_mode;
+            }
+        }
     }
 
 }

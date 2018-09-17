@@ -17,49 +17,56 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINDOWSOPENVARIOAPP_H
-#define WINDOWSOPENVARIOAPP_H
+#ifndef LOGHISTORY_H
+#define LOGHISTORY_H
 
-#include "OpenVarioApp.h"
+
+#include "ILogHistory.h"
 #include "ILogger.h"
+
+#include "StaticRingBuffer.h"
 
 namespace open_vario
 {
 
 
-/** \brief Open-vario application */
-class WindowsOpenVarioApp : public OpenVarioApp, public ILogListener
+/** \brief Log history */
+class LogHistory : public ILogHistory, public ILogListener
 {
     public:
 
         /** \brief Constructor */
-        WindowsOpenVarioApp();
+        LogHistory(ILogger& logger);
+
+
+        ////// Implementation of ILogListener interface //////
 
 
         /** \brief Called when a new log is available */
         virtual void onNewLog(const Log& log);
 
 
-        /** \brief Singleton to retrieve the unique instance of the application */
-        static IOpenVarioApp& getInstance() { return m_singleton; }
+        ////// Implementation of ILogHistory interface //////
 
 
-    protected:
+        /** \brief Get the number of logs in the log history */
+        virtual uint32_t getLogCount() const;
 
-        /** \brief Called during application initialization */
-        virtual bool onInit(uint8_t argc, char* argv[]);
+        /** \brief Clear the log history */
+        virtual void clearLogs();
 
-        /** \brief Called before application start */
-        virtual bool onStart();
+        /** \brief Read a log from the log history */
+        virtual bool readLog(Log& log); 
 
 
     private:
 
 
-        /** \brief Singleton */
-        static WindowsOpenVarioApp m_singleton;
+        /** \brief Log history */
+        nano_stl::StaticRingBuffer<Log, 20u> m_logs;
+
 };
 
 }
 
-#endif // WINDOWSOPENVARIOAPP_H
+#endif // LOGHISTORY_H

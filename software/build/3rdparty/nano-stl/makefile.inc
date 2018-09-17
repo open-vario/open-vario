@@ -30,7 +30,8 @@ SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/containers \
                $(LIBRARY_DIR)/helpers \
                $(LIBRARY_DIR)/interfaces \
-               $(LIBRARY_DIR)/memory
+               $(LIBRARY_DIR)/memory \
+               $(LIBRARY_DIR)/strings \
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \

@@ -17,49 +17,44 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINDOWSOPENVARIOAPP_H
-#define WINDOWSOPENVARIOAPP_H
+#ifndef ILOGGER_H
+#define ILOGGER_H
 
-#include "OpenVarioApp.h"
-#include "ILogger.h"
+#include "Log.h"
 
 namespace open_vario
 {
 
 
-/** \brief Open-vario application */
-class WindowsOpenVarioApp : public OpenVarioApp, public ILogListener
+/** \brief Interface for objects which want to listen to incoming logs */
+class ILogListener
 {
     public:
 
-        /** \brief Constructor */
-        WindowsOpenVarioApp();
-
-
         /** \brief Called when a new log is available */
-        virtual void onNewLog(const Log& log);
+        virtual void onNewLog(const Log& log) = 0;
+};
+
+/** \brief Interface for all loggers implementations */
+class ILogger
+{
+    public:
+
+        /** \brief Set the log level */
+        virtual void setLevel(const Log::Level log_level) = 0;
+
+        /** \brief Get the log level */
+        virtual Log::Level getLevel() const  = 0;
 
 
-        /** \brief Singleton to retrieve the unique instance of the application */
-        static IOpenVarioApp& getInstance() { return m_singleton; }
+        /** \brief Log a message */
+        virtual void log(const Log::Level log_level, const char* const message, ...) = 0;
 
+        /** \brief Add a listener */
+        virtual bool registerListener(ILogListener& listener)  = 0;
 
-    protected:
-
-        /** \brief Called during application initialization */
-        virtual bool onInit(uint8_t argc, char* argv[]);
-
-        /** \brief Called before application start */
-        virtual bool onStart();
-
-
-    private:
-
-
-        /** \brief Singleton */
-        static WindowsOpenVarioApp m_singleton;
 };
 
 }
 
-#endif // WINDOWSOPENVARIOAPP_H
+#endif // ILOGGER_H

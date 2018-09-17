@@ -50,6 +50,19 @@ class Os : public IOs
 
         /** \brief Put the current task into sleep for a specified time duration in milliseconds */
         virtual void waitMs(const uint32_t timeout);
+
+        /** \brief Get the timeout value which corresponds to an infinite timeout */
+        virtual uint32_t getInfiniteTimeoutValue() const { return 0xFFFFFFFFu; }
+
+
+        /** \brief Get the unique instance of the operating system */
+        static Os& getInstance() { return (*m_singleton); }
+
+
+    private:
+
+        /** \brief Singleton */
+        static Os* m_singleton;
         
 };
 

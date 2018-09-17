@@ -19,6 +19,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "WindowsOpenVarioApp.h"
 
+#include <iostream>
+
 namespace open_vario
 {
 
@@ -31,7 +33,15 @@ WindowsOpenVarioApp WindowsOpenVarioApp::m_singleton;
 /** \brief Constructor */
 WindowsOpenVarioApp::WindowsOpenVarioApp()
 : OpenVarioApp()
-{}
+{
+    getLogger().registerListener(*this);
+}
+
+/** \brief Called when a new log is available */
+void WindowsOpenVarioApp::onNewLog(const Log& log)
+{
+    std::cout << log.timestamp << " - " << log.getLevelString() << " - " << log.message.cStr() << std::endl; 
+}
 
 /** \brief Called during application initialization */
 bool WindowsOpenVarioApp::onInit(uint8_t argc, char* argv[])

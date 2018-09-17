@@ -72,7 +72,7 @@ class MessageQueue : public IMessageQueue<MsgType>
             bool ret = true;
 
             EnterCriticalSection(&m_cs);
-            if (m_queue.size() != 0)
+            if (m_queue.size() == 0)
             {
                 const BOOL success = SleepConditionVariableCS(&m_cond, &m_cs, timeout);
                 ret = (success != 0);

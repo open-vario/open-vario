@@ -29,6 +29,7 @@ SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/application \
                $(LIBRARY_DIR)/application/$(TARGET_OS) \
                $(LIBRARY_DIR)/hmi \
+               $(LIBRARY_DIR)/log \
                $(LIBRARY_DIR)/modes
               
 # Project specific include directories
