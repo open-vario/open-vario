@@ -19,10 +19,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "InitMode.h"
 #include "LogMacro.h"
+#include "ISpi.h"
 
 namespace open_vario
 {
 
+extern ISpi* spi_2;
 
 /** \brief Constructor */
 InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager)

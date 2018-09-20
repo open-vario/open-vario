@@ -25,6 +25,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476Cpu.h"
 #include "Stm32l476Gpio.h"
 #include "Stm32l476Usart.h"
+#include "Stm32l476Spi.h"
+#include "SpiChipSelectDriver.h"
 
 #include "IoLed.h"
 
@@ -79,6 +81,57 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Debug UART */
         Stm32l476Usart m_debug_uart;
+
+
+
+        /** \brief SPI bus 1 SCK pin */
+        Stm32l476Gpio m_spi_1_sck_pin;
+
+        /** \brief SPI bus 1 MOSI pin */
+        Stm32l476Gpio m_spi_1_mosi_pin;
+
+        /** \brief SPI bus 1 MISO pin */
+        Stm32l476Gpio m_spi_1_miso_pin;
+
+        /** \brief SPI bus 1 CS0 pin */
+        Stm32l476Gpio m_spi_1_cs0_pin;
+
+        /** \brief SPI bus 1 CS1 pin */
+        Stm32l476Gpio m_spi_1_cs1_pin;
+
+        /** \brief SPI bus 1 CS2 pin */
+        Stm32l476Gpio m_spi_1_cs2_pin;
+
+        /** \brief Chip select driver for SPI bus 1 */
+        SpiChipSelectDriver m_cs_driver_1;
+
+        /** \brief SPI bus 1 */
+        Stm32l476Spi m_spi_1;
+
+
+        /** \brief SPI bus 2 SCK pin */
+        Stm32l476Gpio m_spi_2_sck_pin;
+
+        /** \brief SPI bus 2 MOSI pin */
+        Stm32l476Gpio m_spi_2_mosi_pin;
+
+        /** \brief SPI bus 2 MISO pin */
+        Stm32l476Gpio m_spi_2_miso_pin;
+
+        /** \brief SPI bus 2 CS0 pin */
+        Stm32l476Gpio m_spi_2_cs0_pin;
+
+        /** \brief SPI bus 2 CS1 pin */
+        Stm32l476Gpio m_spi_2_cs1_pin;
+
+        /** \brief SPI bus 2 CS2 pin */
+        Stm32l476Gpio m_spi_2_cs2_pin;
+
+        /** \brief Chip select driver for SPI bus 2 */
+        SpiChipSelectDriver m_cs_driver_2;
+
+        /** \brief SPI bus 2 */
+        Stm32l476Spi m_spi_2;
 };
 
 }

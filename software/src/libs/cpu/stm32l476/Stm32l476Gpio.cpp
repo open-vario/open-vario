@@ -154,17 +154,15 @@ IIoPin::Level Stm32l476Gpio::getLevel()
 /** \brief Set the pin to low level */
 void Stm32l476Gpio::setLow()
 {
-    const uint8_t pin_bit_mask = (1u << m_pin);
     GPIO_TypeDef* const gpio_port = gpio_regs[m_port];
-    gpio_port->ODR &= ~pin_bit_mask;
+    gpio_port->BSRR = (1u << (m_pin + 16u));
 }
 
 /** \brief Set the pin to high level */
 void Stm32l476Gpio::setHigh()
 {
-    const uint8_t pin_bit_mask = (1u << m_pin);
     GPIO_TypeDef* const gpio_port = gpio_regs[m_port];
-    gpio_port->ODR |= pin_bit_mask;
+    gpio_port->BSRR = (1u << m_pin);
 }
 
 /** \brief Set the pin to a specified level */

@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+ISpi* spi_2;
 
 /** \brief Constructor */
 OpenVarioBoard::OpenVarioBoard()
@@ -30,12 +31,28 @@ OpenVarioBoard::OpenVarioBoard()
 , m_activity_led_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
 , m_activity_led(m_activity_led_pin, ILed::OFF, IIoPin::HIGH)
 
-, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A, 3u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A, 2u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart(m_cpu, Stm32l476Usart::USART_2, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
-{
+, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 3u /* 11u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 2u /* 10u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_3 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
-}
+, m_spi_1_sck_pin(Stm32l476Gpio::PORT_A, 4u /* 5u */, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_1_mosi_pin(Stm32l476Gpio::PORT_A, 7u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_1_miso_pin(Stm32l476Gpio::PORT_A, 6u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_1_cs0_pin(Stm32l476Gpio::PORT_A, 0u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_1_cs1_pin(Stm32l476Gpio::PORT_A, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_1_cs2_pin(Stm32l476Gpio::PORT_A, 15u /* 2u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_cs_driver_1(Stm32l476Gpio::PORT_A)
+, m_spi_1(m_cpu, Stm32l476Spi::SPI_1, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_1)
+
+, m_spi_2_sck_pin(Stm32l476Gpio::PORT_B, 13u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_2_mosi_pin(Stm32l476Gpio::PORT_B, 15u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_2_miso_pin(Stm32l476Gpio::PORT_B, 14u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_2_cs0_pin(Stm32l476Gpio::PORT_B, 0u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_2_cs1_pin(Stm32l476Gpio::PORT_B, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_2_cs2_pin(Stm32l476Gpio::PORT_B, 2u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_cs_driver_2(Stm32l476Gpio::PORT_B)
+, m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_2)
+{}
 
 /** \brief Configure the board peripherals */
 bool OpenVarioBoard::configure()
@@ -48,6 +65,25 @@ bool OpenVarioBoard::configure()
     ret = ret && m_debug_uart_tx_pin.configure();
     ret = ret && m_debug_uart.configure();
 
+    ret = ret && m_spi_1_sck_pin.configure();
+    ret = ret && m_spi_1_mosi_pin.configure();
+    ret = ret && m_spi_1_miso_pin.configure();
+    ret = ret && m_spi_1_cs0_pin.configure();
+    ret = ret && m_spi_1_cs1_pin.configure();
+    ret = ret && m_spi_1_cs2_pin.configure();
+    ret = ret && m_cs_driver_1.configure();
+    ret = ret && m_spi_1.configure();
+
+    ret = ret && m_spi_2_sck_pin.configure();
+    ret = ret && m_spi_2_mosi_pin.configure();
+    ret = ret && m_spi_2_miso_pin.configure();
+    ret = ret && m_spi_2_cs0_pin.configure();
+    ret = ret && m_spi_2_cs1_pin.configure();
+    ret = ret && m_spi_2_cs2_pin.configure();
+    ret = ret && m_cs_driver_2.configure();
+    ret = ret && m_spi_2.configure();
+
+    spi_2 = &m_spi_2;
     return ret;
 }
 
