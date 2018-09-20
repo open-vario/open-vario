@@ -60,6 +60,8 @@ OpenVarioBoard::OpenVarioBoard()
 
 , m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
+
+, m_config_eeprom(m_spi_2, 1u, 32768u)
 {}
 
 /** \brief Configure the board peripherals */
@@ -102,6 +104,9 @@ bool OpenVarioBoard::configure()
     ret = ret && m_activity_led.configure();
     ret = ret && m_low_bat_led.configure();
 
+    // EEPROM
+    ret = ret && m_config_eeprom.configure();
+    
     return ret;
 }
 

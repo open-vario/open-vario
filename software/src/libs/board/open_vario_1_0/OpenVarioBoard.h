@@ -31,6 +31,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IoLed.h"
 #include "Mcp23S17.h"
 #include "IoExpanderPin.h"
+#include "At25xxx.h"
 
 namespace open_vario
 {
@@ -158,6 +159,10 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Low battery LED */
         IoLed m_low_bat_led;
+
+
+        /** \brief Configuration EEPROM */
+        At25xxx m_config_eeprom;
 
 };
 
