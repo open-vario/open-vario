@@ -52,12 +52,8 @@ bool OpenVarioApp::init(uint8_t argc, char* argv[])
     // Initialize operating system
     if (m_os.init())
     {
-        // Configure the board 
-        if (m_board.configure())
-        {
-            // Initialize application
-            ret = onInit(argc, argv);
-        }
+        // Initialize application
+        ret = onInit(argc, argv);
     }
 
     return ret;

@@ -29,6 +29,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SpiChipSelectDriver.h"
 
 #include "IoLed.h"
+#include "Mcp23S17.h"
+#include "IoExpanderPin.h"
 
 namespace open_vario
 {
@@ -66,11 +68,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         Stm32l476Cpu m_cpu;
 
 
-        /** \brief Pin to drive the activity LED */
-        Stm32l476Gpio m_activity_led_pin;
+        /** \brief Pin to drive the activity LED (eval board) */
+        Stm32l476Gpio m_activity_led_eval_pin;
 
-        /** \brief Activity LED */
-        IoLed m_activity_led;
 
 
         /** \brief Debug UART Rx pin */
@@ -132,6 +132,33 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief SPI bus 2 */
         Stm32l476Spi m_spi_2;
+
+
+        /** \brief I/O expander */
+        Mcp23S17 m_io_expander;
+
+        /** \brief Pin to read PLUS button state */
+        IoExpanderPin m_plus_button_pin;
+
+        /** \brief Pin to read MINUS button state */
+        IoExpanderPin m_minus_button_pin;
+
+        /** \brief Pin to read ENTER button state */
+        IoExpanderPin m_enter_button_pin;
+
+        /** \brief Pin to drive the activity LED */
+        IoExpanderPin m_activity_led_pin;
+
+        /** \brief Pin to drive the low battery LED */
+        IoExpanderPin m_low_bat_led_pin;
+
+
+        /** \brief Activity LED */
+        IoLed m_activity_led;
+
+        /** \brief Low battery LED */
+        IoLed m_low_bat_led;
+
 };
 
 }

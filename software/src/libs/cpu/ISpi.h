@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define ISPI_H
 
 #include <cstdint>
+#include <cstddef>
 
 namespace open_vario
 {
@@ -67,6 +68,16 @@ class ISpi
         /** \brief SPI transfer description */
         struct XFer
         {
+            /** \brief Constructor */
+            XFer()
+            : write_data(NULL)
+            , read_data(NULL)
+            , size(0u)
+            , cs(0u)
+            , keep_cs_active(false)
+            , next(NULL)
+            {}
+
             /** \brief Buffer to write */
             const uint8_t* write_data;
             /** \brief Buffer for read data */

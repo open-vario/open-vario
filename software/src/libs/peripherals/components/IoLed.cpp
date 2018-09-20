@@ -25,9 +25,8 @@ namespace open_vario
 
 
 /** \brief Constructor */
-IoLed::IoLed(IOutputPin& pin, const State initial_state, const IIoPin::Level on_state_level)
+IoLed::IoLed(IOutputPin& pin, const IIoPin::Level on_state_level)
 : m_pin(pin)
-, m_initial_state(initial_state)
 , m_on_state_level(on_state_level)
 {}
 

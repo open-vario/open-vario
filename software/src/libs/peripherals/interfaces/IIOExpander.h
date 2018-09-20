@@ -17,48 +17,34 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef IOLED_H
-#define IOLED_H
+#ifndef IIOEXPANDER_H
+#define IIOEXPANDER_H
 
-#include "ILed.h"
 #include "IIoPin.h"
 
 namespace open_vario
 {
 
-class IOutputPin;
 
 
-/** \brief LED driven by an IO */
-class IoLed : public ILed
+/** \brief Interface for all I/O expanders implementations */
+class IIOExpander
 {
     public:
 
-        /** \brief Constructor */
-        IoLed(IOutputPin& pin, const IIoPin::Level on_state_level);
+        /** \brief Configure the I/O expander */
+        virtual bool configure() = 0;
 
+        /** \brief Configure the mode of an I/O */
+        virtual bool configurePin(const uint8_t pin, const bool input) = 0;
 
-        /** \brief Configure the LED */
-        virtual bool configure();
+        /** \brief Set the level of an I/O */
+        virtual void setLevel(const uint8_t pin, const IIoPin::Level level) = 0;
 
-        /** \brief Set LED on */
-        virtual void setOn();
-
-        /** \brief Set LED off */
-        virtual void setOff();
-
-        /** \brief Set the LED to a specified state */
-        virtual void setState(const State state);
-
-    private:
-
-        /** \brief Output pin to drive the LED */
-        IOutputPin& m_pin;
-
-        /** \brief Pin level for LED on state */
-        const IIoPin::Level m_on_state_level;
+        /** \brief Get the level of an I/O */
+        virtual IIoPin::Level getLevel(const uint8_t pin) = 0;
 };
 
 }
 
-#endif // IOLED_H
+#endif // IIOEXPANDER_H

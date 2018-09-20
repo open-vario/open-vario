@@ -24,7 +24,6 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
-extern ISpi* spi_2;
 
 /** \brief Constructor */
 InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager)
@@ -35,15 +34,24 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager)
 /** \brief Enter into the operating mode */
 void InitMode::enter()
 {
-    LOG_INFO("Entering init mode...");
+    // Initialize the board
+    const bool ret = IOpenVarioApp::getInstance().getBoard().configure();
+    if (!ret)
+    {
+        LOG_ERROR("Failure during board initialization...");
+    }
+    else
+    {
+        LOG_INFO("Entering init mode...");
 
-    // Start HMI
-    m_hmi_manager.start();
-    m_hmi_manager.getActivityLed().update(LedController::FAST_BLINK);
-    IOpenVarioApp::getInstance().getOs().waitMs(3000);
+        // Start HMI
+        m_hmi_manager.start();
+        m_hmi_manager.getActivityLed().update(LedController::FAST_BLINK);
+        IOpenVarioApp::getInstance().getOs().waitMs(3000);
 
-    // Init done, switch to run mode
-    m_mode_manager.switchToMode(OPMODE_RUN);
+        // Init done, switch to run mode
+        m_mode_manager.switchToMode(OPMODE_RUN);
+    }
 }
 
 /** \brief Leave the operating mode */

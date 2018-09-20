@@ -22,14 +22,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
-ISpi* spi_2;
 
 /** \brief Constructor */
 OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
 
-, m_activity_led_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
-, m_activity_led(m_activity_led_pin, ILed::OFF, IIoPin::HIGH)
+, m_activity_led_eval_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
 
 , m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 3u /* 11u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 2u /* 10u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -52,19 +50,29 @@ OpenVarioBoard::OpenVarioBoard()
 , m_spi_2_cs2_pin(Stm32l476Gpio::PORT_B, 2u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_cs_driver_2(Stm32l476Gpio::PORT_B)
 , m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_2)
+
+, m_io_expander(m_spi_2, 4u)
+, m_plus_button_pin(m_io_expander, 0u, true)
+, m_minus_button_pin(m_io_expander, 1u, true)
+, m_enter_button_pin(m_io_expander, 2u, true)
+, m_activity_led_pin(m_io_expander, 6u, false)
+, m_low_bat_led_pin(m_io_expander, 7u, false)
+
+, m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
+, m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 {}
 
 /** \brief Configure the board peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
-    
-    ret = ret && m_activity_led.configure();
 
+    // Debug UART
     ret = ret && m_debug_uart_rx_pin.configure();
     ret = ret && m_debug_uart_tx_pin.configure();
     ret = ret && m_debug_uart.configure();
 
+    // SPI bus 1
     ret = ret && m_spi_1_sck_pin.configure();
     ret = ret && m_spi_1_mosi_pin.configure();
     ret = ret && m_spi_1_miso_pin.configure();
@@ -74,6 +82,7 @@ bool OpenVarioBoard::configure()
     ret = ret && m_cs_driver_1.configure();
     ret = ret && m_spi_1.configure();
 
+    // SPI bus 2
     ret = ret && m_spi_2_sck_pin.configure();
     ret = ret && m_spi_2_mosi_pin.configure();
     ret = ret && m_spi_2_miso_pin.configure();
@@ -83,7 +92,16 @@ bool OpenVarioBoard::configure()
     ret = ret && m_cs_driver_2.configure();
     ret = ret && m_spi_2.configure();
 
-    spi_2 = &m_spi_2;
+    // I/O expander
+    ret = ret && m_io_expander.configure();
+    ret = ret && m_plus_button_pin.configure();
+    ret = ret && m_minus_button_pin.configure();
+    ret = ret && m_enter_button_pin.configure();
+
+    // LEDs
+    ret = ret && m_activity_led.configure();
+    ret = ret && m_low_bat_led.configure();
+
     return ret;
 }
 
