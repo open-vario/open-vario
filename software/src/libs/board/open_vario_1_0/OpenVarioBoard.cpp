@@ -61,7 +61,8 @@ OpenVarioBoard::OpenVarioBoard()
 , m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 
-, m_config_eeprom(m_spi_2, 1u, 32768u)
+, m_config_eeprom(m_spi_2, 1u, 32768u) // 32kB
+, m_flight_data_flash(m_spi_2, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
 {}
 
 /** \brief Configure the board peripherals */
@@ -106,6 +107,9 @@ bool OpenVarioBoard::configure()
 
     // EEPROM
     ret = ret && m_config_eeprom.configure();
+
+    // NOR flash
+    ret = ret && m_flight_data_flash.configure();
     
     return ret;
 }

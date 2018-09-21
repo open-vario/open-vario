@@ -60,7 +60,11 @@ bool At25xxx::read(const uint16_t address, uint8_t data[], const uint16_t size)
         spi_xfer_data.cs = m_chip_select;
 
         // Prepare SPI transfer to send the READ command
-        uint8_t read_cmd[] = {0x03u, static_cast<uint8_t>((address >> 8u) & 0x0Fu), static_cast<uint8_t>(address & 0x0Fu)};
+        uint8_t read_cmd[] = {
+                                0x03u, 
+                                static_cast<uint8_t>((address >> 8u) & 0xFFu), 
+                                static_cast<uint8_t>(address & 0xFFu)
+                             };
         ISpi::XFer spi_xfer_cmd;
         spi_xfer_cmd.write_data = read_cmd;
         spi_xfer_cmd.size = sizeof(read_cmd);
@@ -101,7 +105,11 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
             spi_xfer_data.cs = m_chip_select;
 
             // Prepare SPI transfer to send the READ command
-            uint8_t write_cmd[] = {0x02u, static_cast<uint8_t>(((address + index) >> 8u) & 0x0Fu), static_cast<uint8_t>((address + index) & 0x0Fu)};
+            uint8_t write_cmd[] = {
+                                    0x02u, 
+                                    static_cast<uint8_t>(((address + index) >> 8u) & 0xFFu), 
+                                    static_cast<uint8_t>((address + index) & 0xFFu)
+                                  };
             ISpi::XFer spi_xfer_cmd;
             spi_xfer_cmd.write_data = write_cmd;
             spi_xfer_cmd.size = sizeof(write_cmd);

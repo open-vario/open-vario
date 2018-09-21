@@ -65,7 +65,7 @@ DISABLED_WARNINGS =
 # Toolchain flags
 COMMON_FLAGS = -g -Wall -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard -mfpu=vfpv4 -mapcs-frame -mlittle-endian $(OPTIMIZATION_LEVEL) $(TARGET_PROJECT_DEFINES)
 CFLAGS = -DCORE_M4 -Wno-main $(COMMON_FLAGS) -fsigned-char -fno-exceptions $(PROJECT_CFLAGS)
-CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -pedantic -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit -Wno-register
+CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit -Wno-register
 ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
 LDFLAGS = -e _start -Map $(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) -EL -g --gc-sections -dT $(ROOT_DIR)/src/bsps/bsp_stm32l476/gcc/stm32l476.ld $(PROJECT_LDFLAGS)
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)

@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Mcp23S17.h"
 #include "IoExpanderPin.h"
 #include "At25xxx.h"
+#include "SSt26xxx.h"
 
 namespace open_vario
 {
@@ -163,6 +164,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Configuration EEPROM */
         At25xxx m_config_eeprom;
+
+        /** \brief Flight data NOR flash */
+        SSt26xxx m_flight_data_flash;
 
 };
 

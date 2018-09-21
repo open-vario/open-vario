@@ -58,8 +58,8 @@ class At25xxx : public IEeprom
         /** \brief Chip select */
         const uint8_t m_chip_select;
 
-        /** \brief EEPROM's size */
-        const uint8_t m_size;
+        /** \brief EEPROM's size in bytes */
+        const uint16_t m_size;
 };
 
 }
