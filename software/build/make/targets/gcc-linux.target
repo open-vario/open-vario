@@ -21,19 +21,22 @@
 ####################################################################################################
 
 # Include toolchain
-include $(ROOT_DIR)/build/make/compilers/gnu-gcc.compiler
+include $(ROOT_DIR)/build/make/compilers/gcc.compiler
 
 # Target operating system
 TARGET_OS=linux
 
 # Target CPU
-TARGET_CPU=
+TARGET_CPU=linux
 
 # Target BSP
 TARGET_BSP=
 
+# Target Board
+TARGET_BOARD=open_vario_simulator
+
 # Target lib dependencies
-TARGET_DEPENDENCIES=
+TARGET_DEPENDENCIES=libs/simulator
 
 # Target specific include directories
 TARGET_INC_DIRS=
@@ -45,16 +48,16 @@ TARGET_LIB_DIRS=
 TARGET_LIBS=
 
 # Target implementation for the project defines
-TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE))
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_LINUX
 
 
 # Optimisation level
 OPTIMIZATION_LEVEL = -O0
 
 # Toolchain flags
-CFLAGS = -DLINUX -Wextra -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CFLAGS) $(TARGET_PROJECT_DEFINES) -g
-CXXFLAGS = -DLINUX -Wextra -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CXXFLAGS) $(TARGET_PROJECT_DEFINES) -std=c++17 -g
-ASFLAGS = -DLINUX -Wextra -Wall $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS) $(TARGET_PROJECT_DEFINES) -g
+CFLAGS = -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CFLAGS) $(TARGET_PROJECT_DEFINES) -g
+CXXFLAGS = -Wall -fsigned-char $(OPTIMIZATION_LEVEL) $(PROJECT_CXXFLAGS) $(TARGET_PROJECT_DEFINES) -std=c++17 -g
+ASFLAGS = -Wall $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS) $(TARGET_PROJECT_DEFINES) -g
 LDFLAGS = -Wl,-Map=$(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME))) $(PROJECT_LDFLAGS) -lrt -lpthread
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)
 
