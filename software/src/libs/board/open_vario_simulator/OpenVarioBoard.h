@@ -22,7 +22,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IOpenVarioBoard.h"
 
+#ifdef OS_WINDOWS
 #include "WindowsCpu.h"
+#endif // OS_WINDOWS
+#ifdef OS_LINUX
+#include "LinuxCpu.h"
+#endif // OS_LINUX
 #include "SimuLed.h"
 #include "SimuUart.h"
 
@@ -58,8 +63,14 @@ class OpenVarioBoard : public IOpenVarioBoard
 
     private:
 
+        #ifdef OS_WINDOWS
         /** \brief CPU */
         WindowsCpu m_cpu;
+        #endif // OS_WINDOWS
+        #ifdef OS_LINUX
+        /** \brief CPU */
+        LinuxCpu m_cpu;
+        #endif // OS_LINUX
 
         /** \brief Activity LED */
         SimuLed m_activity_led;
