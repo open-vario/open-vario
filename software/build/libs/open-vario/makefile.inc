@@ -28,9 +28,11 @@ LIBRARY_DIR := $(ROOT_DIR)/src/libs/open-vario
 SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/application \
                $(LIBRARY_DIR)/application/$(TARGET_OS) \
+               $(LIBRARY_DIR)/fight \
                $(LIBRARY_DIR)/hmi \
                $(LIBRARY_DIR)/log \
-               $(LIBRARY_DIR)/modes
+               $(LIBRARY_DIR)/modes \
+               $(LIBRARY_DIR)/storage
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \

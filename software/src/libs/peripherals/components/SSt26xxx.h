@@ -55,8 +55,11 @@ class SSt26xxx : public INorFlash
         /** \brief Erase a sector of the NOR flash */
         virtual bool sectorErase(const uint32_t address);
 
+        /** \brief Erase a range of sectors of the NOR flash */
+        virtual bool sectorErase(const uint32_t first_sector, const uint32_t sector_count);
+
         /** \brief Erase the whole the NOR flash */
-        virtual bool chipErase(const uint32_t address);
+        virtual bool chipErase();
 
 
     private:
@@ -75,6 +78,9 @@ class SSt26xxx : public INorFlash
 
         /** \brief Size of a programming page of the NOR flash in bytes */
         const uint32_t m_page_size;
+
+        /** \brief Number of sectors in the NOR flash */
+        const uint32_t m_sector_count;
 
 
         /** \brief Send a command to the NOR flash */

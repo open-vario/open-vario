@@ -33,6 +33,7 @@ SSt26xxx::SSt26xxx(ISpi& spi, const uint8_t chip_select, const uint32_t size, co
 , m_size(size)
 , m_sector_size(sector_size)
 , m_page_size(page_size)
+, m_sector_count(m_size / m_sector_size)
 {}
 
 /** \brief Configure the NOR flash */
@@ -178,25 +179,36 @@ bool SSt26xxx::sectorErase(const uint32_t address)
     return ret;
 }
 
-/** \brief Erase the whole the NOR flash */
-bool SSt26xxx::chipErase(const uint32_t address)
+/** \brief Erase a range of sectors of the NOR flash */
+bool SSt26xxx::sectorErase(const uint32_t first_sector, const uint32_t sector_count)
 {
-    bool ret = false;
+    bool ret = true;
 
-    // Check address
-    if (address < m_size)
+    // Check range
+    if ((first_sector + sector_count) <= m_sector_count)
     {
-        // Enable write operations
-        ret = sendCommand(WREN);
-
-        // Sector erase
-        uint8_t params[] = {
-                                static_cast<uint8_t>((address >> 16u) & 0xFFu),
-                                static_cast<uint8_t>((address >> 8u) & 0xFFu),
-                                static_cast<uint8_t>(address & 0xFFu)
-                           };
-        ret = ret && sendCommand(SE, params, sizeof(params));
+        // Erase sectors
+        uint32_t sector = first_sector;
+        while (ret && (sector < (first_sector + sector_count)))
+        {
+            ret = sectorErase(sector);
+            sector++;
+        }
     }
+
+    return ret;
+}
+
+/** \brief Erase the whole the NOR flash */
+bool SSt26xxx::chipErase()
+{
+    bool ret;
+
+    // Enable write operations
+    ret = sendCommand(WREN);
+
+    // Chip erase
+    ret = ret && sendCommand(CE);
 
     return ret;
 }

@@ -50,8 +50,11 @@ class INorFlash
         /** \brief Erase a sector of the NOR flash */
         virtual bool sectorErase(const uint32_t address) = 0;
 
+        /** \brief Erase a range of sectors of the NOR flash */
+        virtual bool sectorErase(const uint32_t first_sector, const uint32_t sector_count) = 0;
+
         /** \brief Erase the whole the NOR flash */
-        virtual bool chipErase(const uint32_t address) = 0;
+        virtual bool chipErase() = 0;
 };
 
 }
