@@ -32,7 +32,8 @@ SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/hmi \
                $(LIBRARY_DIR)/log \
                $(LIBRARY_DIR)/modes \
-               $(LIBRARY_DIR)/storage
+               $(LIBRARY_DIR)/storage \
+               $(LIBRARY_DIR)/time
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \

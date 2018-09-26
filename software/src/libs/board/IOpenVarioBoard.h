@@ -27,6 +27,7 @@ namespace open_vario
 {
 
 class ICpu;
+class IRtc;
 class ILed;
 class IUart;
 
@@ -45,6 +46,9 @@ class IOpenVarioBoard
 
         /** \brief Get the board's CPU */
         virtual ICpu& cpu() = 0;
+
+        /** \brief Get the board's RTC */
+        virtual IRtc& rtc() = 0;
 
         /** \brief Get the board's activity LED */
         virtual ILed& activityLed() = 0;

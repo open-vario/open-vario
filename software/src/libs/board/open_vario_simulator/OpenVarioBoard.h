@@ -24,10 +24,14 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef OS_WINDOWS
 #include "WindowsCpu.h"
+#include "WindowsRtc.h"
 #endif // OS_WINDOWS
 #ifdef OS_LINUX
 #include "LinuxCpu.h"
+#include "LinuxRtc.h"
 #endif // OS_LINUX
+
+#include "McuRtc.h"
 #include "SimuLed.h"
 #include "SimuUart.h"
 
@@ -54,6 +58,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's CPU */
         virtual ICpu& cpu() { return m_cpu; }
 
+        /** \brief Get the board's RTC */
+        virtual IRtc& rtc() { return m_rtc; }
+
         /** \brief Get the board's activity LED */
         virtual ILed& activityLed() { return m_activity_led; }
 
@@ -66,11 +73,20 @@ class OpenVarioBoard : public IOpenVarioBoard
         #ifdef OS_WINDOWS
         /** \brief CPU */
         WindowsCpu m_cpu;
+
+        /** \brief RTC */
+        WindowsRtc m_rtc_driver;
         #endif // OS_WINDOWS
         #ifdef OS_LINUX
         /** \brief CPU */
         LinuxCpu m_cpu;
+
+        /** \brief RTC */
+        LinuxRtc m_rtc_driver;
         #endif // OS_LINUX
+
+        /** \brief RTC peripheral */
+        McuRtc m_rtc;
 
         /** \brief Activity LED */
         SimuLed m_activity_led;

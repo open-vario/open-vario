@@ -17,45 +17,42 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef POWEROFFMODE_H
-#define POWEROFFMODE_H
+#ifndef MCURTC_H
+#define MCURTC_H
 
-#include "IMode.h"
+#include "IRtc.h"
+#include "IMcuRtc.h"
 
 namespace open_vario
 {
 
-class ModeManager;
-class HmiManager;
 
-/** \brief Operating mode : Power off */
-class PowerOffMode : public IMode
+/** \brief RTC internal to a MCU */
+class McuRtc : public IRtc
 {
     public:
 
         /** \brief Constructor */
-        PowerOffMode(ModeManager& mode_manager, HmiManager& hmi_manager);
+        McuRtc(IMcuRtc& mcu_rtc)
+        : m_mcu_rtc(mcu_rtc)
+        {}
 
 
-        ////// Implementation of IMode interface //////
+        /** \brief Configure the RTC */
+        virtual bool configure() { return m_mcu_rtc.configure(); }
 
+        /** \brief Set the date and time in the RTC */
+        virtual bool setDateTime(const DateTime& date_time) { return m_mcu_rtc.setDateTime(reinterpret_cast<const IMcuRtc::DateTime&>(date_time)); }
 
-        /** \brief Enter into the operating mode */
-        virtual void enter();
-
-        /** \brief Leave the operating mode */
-        virtual void leave();
-
+        /** \brief Get the date and time in the RTC */
+        virtual bool getDateTime(DateTime& date_time) { return m_mcu_rtc.getDateTime(reinterpret_cast<IMcuRtc::DateTime&>(date_time)); }
 
     private:
 
-        /** \brief Mode manager */
-        ModeManager& m_mode_manager;
-
-        /** \brief HMI manager */
-        HmiManager& m_hmi_manager;
+        /** \brief MCU RTC driver */
+        IMcuRtc& m_mcu_rtc;
 };
 
 }
 
-#endif // POWEROFFMODE_H
+#endif // MCURTC_H

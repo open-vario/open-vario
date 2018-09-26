@@ -268,7 +268,7 @@ bool SSt26xxx::waitReady()
             ready = ((read_sr[1u] & (1u << 0u)) == 0u);
         }
     }
-    while (ret && ready);
+    while (ret && !ready);
 
     return ready;
 }

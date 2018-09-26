@@ -23,11 +23,13 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IOpenVarioBoard.h"
 
 #include "Stm32l476Cpu.h"
+#include "Stm32l476Rtc.h"
 #include "Stm32l476Gpio.h"
 #include "Stm32l476Usart.h"
 #include "Stm32l476Spi.h"
 #include "SpiChipSelectDriver.h"
 
+#include "McuRtc.h"
 #include "IoLed.h"
 #include "Mcp23S17.h"
 #include "IoExpanderPin.h"
@@ -57,6 +59,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's CPU */
         virtual ICpu& cpu() { return m_cpu; }
 
+        /** \brief Get the board's RTC */
+        virtual IRtc& rtc() { return m_rtc; }
+
         /** \brief Get the board's activity LED */
         virtual ILed& activityLed() { return m_activity_led; }
 
@@ -68,6 +73,14 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief CPU */
         Stm32l476Cpu m_cpu;
+
+
+        /** \brief RTC driver */
+        Stm32l476Rtc m_rtc_driver;
+
+        /** \brief RTC peripheral */
+        McuRtc m_rtc;
+
 
 
         /** \brief Pin to drive the activity LED (eval board) */
@@ -167,6 +180,16 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Flight data NOR flash */
         SSt26xxx m_flight_data_flash;
+
+
+        /** \brief Expansion UART Rx pin */
+        Stm32l476Gpio m_exp_uart_rx_pin;
+
+        /** \brief Expansion UART Tx pin */
+        Stm32l476Gpio m_exp_uart_tx_pin;
+
+        /** \brief Expansion UART */
+        Stm32l476Usart m_exp_uart;
 
 };
 

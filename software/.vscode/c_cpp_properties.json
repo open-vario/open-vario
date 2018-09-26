@@ -23,6 +23,7 @@
                 "${workspaceFolder}/src/libs/open-vario/log",
                 "${workspaceFolder}/src/libs/open-vario/modes",
                 "${workspaceFolder}/src/libs/open-vario/storage",
+                "${workspaceFolder}/src/libs/open-vario/time",
                 "${workspaceFolder}/src/libs/peripherals",
                 "${workspaceFolder}/src/libs/peripherals/interfaces",
                 "${workspaceFolder}/src/libs/peripherals/components",

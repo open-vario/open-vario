@@ -21,13 +21,13 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define INITMODE_H
 
 #include "IMode.h"
-#include "ModeManager.h"
-#include "HmiManager.h"
 
 namespace open_vario
 {
 
+class ModeManager;
 class HmiManager;
+class TimeManager;
 
 /** \brief Operating mode : Initialization */
 class InitMode : public IMode
@@ -35,7 +35,7 @@ class InitMode : public IMode
     public:
 
         /** \brief Constructor */
-        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager);
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -55,6 +55,9 @@ class InitMode : public IMode
 
         /** \brief HMI manager */
         HmiManager& m_hmi_manager;
+
+        /** \brief Date and time manager */
+        TimeManager& m_time_manager;
 };
 
 }

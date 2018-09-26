@@ -17,45 +17,36 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef POWEROFFMODE_H
-#define POWEROFFMODE_H
-
-#include "IMode.h"
+#include "TimeManager.h"
 
 namespace open_vario
 {
 
-class ModeManager;
-class HmiManager;
 
-/** \brief Operating mode : Power off */
-class PowerOffMode : public IMode
+/** \brief Constructor */
+TimeManager::TimeManager(IRtc& rtc)
+: m_rtc(rtc)
+{}
+
+
+/** \brief Start the date and time manager */
+bool TimeManager::start()
 {
-    public:
-
-        /** \brief Constructor */
-        PowerOffMode(ModeManager& mode_manager, HmiManager& hmi_manager);
-
-
-        ////// Implementation of IMode interface //////
-
-
-        /** \brief Enter into the operating mode */
-        virtual void enter();
-
-        /** \brief Leave the operating mode */
-        virtual void leave();
-
-
-    private:
-
-        /** \brief Mode manager */
-        ModeManager& m_mode_manager;
-
-        /** \brief HMI manager */
-        HmiManager& m_hmi_manager;
-};
-
+    // Noting to do
+    return true;
 }
 
-#endif // POWEROFFMODE_H
+/** \brief Set the system's date and time */
+bool TimeManager::setDateTime(const IRtc::DateTime& date_time)
+{
+    return m_rtc.setDateTime(date_time);
+}
+
+/** \brief Get the system's date and time */
+bool TimeManager::getDateTime(IRtc::DateTime& date_time)
+{
+    return m_rtc.getDateTime(date_time);
+}
+
+
+}

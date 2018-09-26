@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHistory.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
+#include "TimeManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "PowerOffMode.h"
@@ -109,6 +110,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief HMI manager */
         HmiManager m_hmi_manager;
+
+        /** \brief Date and time manager */
+        TimeManager m_time_manager;
 
 };
 

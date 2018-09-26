@@ -18,6 +18,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "RunMode.h"
+#include "ModeManager.h"
+#include "HmiManager.h"
 #include "LogMacro.h"
 
 namespace open_vario

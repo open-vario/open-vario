@@ -21,12 +21,11 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define RUNMODE_H
 
 #include "IMode.h"
-#include "ModeManager.h"
-#include "HmiManager.h"
 
 namespace open_vario
 {
 
+class ModeManager;
 class HmiManager;
 
 /** \brief Operating mode : Running */

@@ -17,45 +17,46 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef POWEROFFMODE_H
-#define POWEROFFMODE_H
+#ifndef STM32L476RTC_H
+#define STM32L476RTC_H
 
-#include "IMode.h"
+#include "IMcuRtc.h"
 
 namespace open_vario
 {
 
-class ModeManager;
-class HmiManager;
 
-/** \brief Operating mode : Power off */
-class PowerOffMode : public IMode
+/** \brief STM32L476 RTC */
+class Stm32l476Rtc : public IMcuRtc
 {
     public:
 
         /** \brief Constructor */
-        PowerOffMode(ModeManager& mode_manager, HmiManager& hmi_manager);
+        Stm32l476Rtc();
 
 
-        ////// Implementation of IMode interface //////
+        /** \brief Configure the RTC */
+        virtual bool configure();
 
+        /** \brief Set the date and time in the RTC */
+        virtual bool setDateTime(const DateTime& date_time);
 
-        /** \brief Enter into the operating mode */
-        virtual void enter();
-
-        /** \brief Leave the operating mode */
-        virtual void leave();
+        /** \brief Get the date and time in the RTC */
+        virtual bool getDateTime(DateTime& date_time);
 
 
     private:
 
-        /** \brief Mode manager */
-        ModeManager& m_mode_manager;
+        /** \brief Synchronize shadow registers */
+        void syncShadowRegs();
+ 
+        /** \brief Convert a value to BCD format */
+        uint8_t toBcd(const uint8_t value);
 
-        /** \brief HMI manager */
-        HmiManager& m_hmi_manager;
+        /** \brief Convert a value from BCD format */
+        uint8_t fromBcd(const uint8_t bcd_value);
 };
 
 }
 
-#endif // POWEROFFMODE_H
+#endif // STM32L476RTC_H

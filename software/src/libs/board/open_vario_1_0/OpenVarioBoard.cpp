@@ -27,11 +27,14 @@ namespace open_vario
 OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
 
+, m_rtc_driver()
+, m_rtc(m_rtc_driver)
+
 , m_activity_led_eval_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
 
-, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 3u /* 11u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 2u /* 10u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_3 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
+, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 3u /* 7u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 2u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_1 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
 , m_spi_1_sck_pin(Stm32l476Gpio::PORT_A, 4u /* 5u */, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_1_mosi_pin(Stm32l476Gpio::PORT_A, 7u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
@@ -63,12 +66,20 @@ OpenVarioBoard::OpenVarioBoard()
 
 , m_config_eeprom(m_spi_2, 1u, 32768u) // 32kB
 , m_flight_data_flash(m_spi_2, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
+
+, m_exp_uart_rx_pin(Stm32l476Gpio::PORT_C, 11u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_exp_uart_tx_pin(Stm32l476Gpio::PORT_C, 10u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_exp_uart(m_cpu, Stm32l476Usart::USART_3, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
+
 {}
 
 /** \brief Configure the board peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
+
+    // RTC
+    ret = ret && m_rtc.configure();
 
     // Debug UART
     ret = ret && m_debug_uart_rx_pin.configure();

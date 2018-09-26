@@ -26,6 +26,8 @@ namespace open_vario
 /** \brief Constructor */
 OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
+, m_rtc_driver()
+, m_rtc(m_rtc_driver)
 , m_activity_led("activity_led", ILed::OFF)
 , m_debug_uart("debug_uart")
 {
