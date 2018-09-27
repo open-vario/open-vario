@@ -35,6 +35,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IoExpanderPin.h"
 #include "At25xxx.h"
 #include "SSt26xxx.h"
+#include "Ms56xxSpi.h"
+#include "BarometricAltimeter.h"
 
 namespace open_vario
 {
@@ -190,6 +192,13 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Expansion UART */
         Stm32l476Usart m_exp_uart;
+
+
+        /** \brief Barometric pressure sensor */
+        Ms56xxSpi m_baro_sensor;
+
+        /** \brief Barometric altimeter sensor */
+        BarometricAltimeter m_alti_sensor;
 
 };
 

@@ -71,6 +71,8 @@ OpenVarioBoard::OpenVarioBoard()
 , m_exp_uart_tx_pin(Stm32l476Gpio::PORT_C, 10u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_exp_uart(m_cpu, Stm32l476Usart::USART_3, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
+, m_baro_sensor(m_spi_1, 0u)
+, m_alti_sensor(m_baro_sensor)
 {}
 
 /** \brief Configure the board peripherals */
@@ -121,6 +123,9 @@ bool OpenVarioBoard::configure()
 
     // NOR flash
     ret = ret && m_flight_data_flash.configure();
+
+    // Barometric altimeter sensor
+    ret = ret && m_alti_sensor.configure();
     
     return ret;
 }
