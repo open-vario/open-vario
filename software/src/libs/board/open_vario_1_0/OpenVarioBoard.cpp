@@ -73,6 +73,9 @@ OpenVarioBoard::OpenVarioBoard()
 
 , m_baro_sensor(m_spi_1, 0u)
 , m_alti_sensor(m_baro_sensor)
+
+, m_gnss_thread("GNSS Thread", 10u)
+, m_gnss(m_exp_uart, m_gnss_thread)
 {}
 
 /** \brief Configure the board peripherals */
@@ -126,6 +129,9 @@ bool OpenVarioBoard::configure()
 
     // Barometric altimeter sensor
     ret = ret && m_alti_sensor.configure();
+
+    // GNSS
+    ret = ret && m_gnss.configure();
     
     return ret;
 }

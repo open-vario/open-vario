@@ -22,6 +22,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IOpenVarioBoard.h"
 
+#include "TaskHelper.h"
+
 #include "Stm32l476Cpu.h"
 #include "Stm32l476Rtc.h"
 #include "Stm32l476Gpio.h"
@@ -37,6 +39,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SSt26xxx.h"
 #include "Ms56xxSpi.h"
 #include "BarometricAltimeter.h"
+#include "UBloxM8.h"
 
 namespace open_vario
 {
@@ -199,6 +202,13 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Barometric altimeter sensor */
         BarometricAltimeter m_alti_sensor;
+
+
+        /** \brief U-Blox M8 GNSS Rx task */
+        TaskHelper<1024u> m_gnss_thread;
+
+        /** \brief U-Blox M8 GNSS */
+        UBloxM8 m_gnss;
 
 };
 

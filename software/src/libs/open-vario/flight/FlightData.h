@@ -36,7 +36,7 @@ struct FlightData
     /** \brief Acceleration : 1 = 0.1 g */
     uint8_t accelleration;
     /** \brief Speed : 1 = 0.1 m/s */
-    uint16_t speed;
+    uint32_t speed;
     /** \brief Latitude : 1 = 1° */
     double latitude;
     /** \brief Longitude : 1 = 1° */
