@@ -325,7 +325,7 @@ void Stm32l476Usart::irqHandler()
 			if (m_tx_queue.getCount() == 0u)
 			{
 				// Disable TXE interrupt
-			    USART3->CR1 &= ~(1u << 7u);
+			    usart->CR1 &= ~(1u << 7u);
 			}
 
 			// Signal Tx ready

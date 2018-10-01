@@ -28,6 +28,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476Rtc.h"
 #include "Stm32l476Gpio.h"
 #include "Stm32l476Usart.h"
+#include "Stm32l476LpUart.h"
 #include "Stm32l476Spi.h"
 #include "SpiChipSelectDriver.h"
 
@@ -203,6 +204,15 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Barometric altimeter sensor */
         BarometricAltimeter m_alti_sensor;
 
+
+        /** \brief GNSS UART Rx pin */
+        Stm32l476Gpio m_gnss_uart_rx_pin;
+
+        /** \brief GNSS UART Tx pin */
+        Stm32l476Gpio m_gnss_uart_tx_pin;
+
+        /** \brief GNSS UART */
+        Stm32l476LpUart m_gnss_uart;
 
         /** \brief U-Blox M8 GNSS Rx task */
         TaskHelper<1024u> m_gnss_thread;

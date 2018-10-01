@@ -74,8 +74,11 @@ OpenVarioBoard::OpenVarioBoard()
 , m_baro_sensor(m_spi_1, 0u)
 , m_alti_sensor(m_baro_sensor)
 
+, m_gnss_uart_rx_pin(Stm32l476Gpio::PORT_C, 0u, Stm32l476Gpio::MODE_AF, 8u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_gnss_uart_tx_pin(Stm32l476Gpio::PORT_C, 1u, Stm32l476Gpio::MODE_AF, 8u, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_gnss_uart(m_cpu, 9600u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 , m_gnss_thread("GNSS Thread", 10u)
-, m_gnss(m_exp_uart, m_gnss_thread)
+, m_gnss(m_gnss_uart, m_gnss_thread)
 {}
 
 /** \brief Configure the board peripherals */
@@ -131,6 +134,9 @@ bool OpenVarioBoard::configure()
     ret = ret && m_alti_sensor.configure();
 
     // GNSS
+    ret = ret && m_gnss_uart_rx_pin.configure();
+    ret = ret && m_gnss_uart_tx_pin.configure();
+    ret = ret && m_gnss_uart.configure();
     ret = ret && m_gnss.configure();
     
     return ret;

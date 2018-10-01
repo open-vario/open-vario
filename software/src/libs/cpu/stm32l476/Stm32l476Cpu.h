@@ -52,6 +52,9 @@ class Stm32l476Cpu : public ICpu
         virtual bool reset();
 
 
+        /** \brief Get the LSE frequency */
+        uint32_t getLseFrequency() const { return 32768u; /* To be changed with runtime computation */}
+
         /** \brief Get the SYSCLK frequency */
         uint32_t getSysclkFrequency() const { return 48000000u; /* To be changed with runtime computation */}
 
