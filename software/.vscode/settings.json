@@ -19,6 +19,9 @@
         "array": "cpp",
         "string_view": "cpp",
         "optional": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "type_traits": "cpp"
     }
 }

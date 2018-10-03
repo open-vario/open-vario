@@ -22,14 +22,31 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IInputPin.h"
 #include "IOutputPin.h"
+#include "IInterruptPin.h"
 
 namespace open_vario
 {
 
 
+/** \brief IRQ handler for EXTI 0 */
+extern "C" void EXTI0_IRQHandler(void);
+/** \brief IRQ handler for EXTI 1 */
+extern "C" void EXTI1_IRQHandler(void);
+/** \brief IRQ handler for EXTI 2 */
+extern "C" void EXTI2_IRQHandler(void);
+/** \brief IRQ handler for EXTI 3 */
+extern "C" void EXTI3_IRQHandler(void);
+/** \brief IRQ handler for EXTI 4 */
+extern "C" void EXTI4_IRQHandler(void);
+/** \brief IRQ handler for EXTI 5 to 9 */
+extern "C" void EXTI9_5_IRQHandler(void);
+/** \brief IRQ handler for EXTI 10 to 15 */
+extern "C" void EXTI15_10_IRQHandler(void);
+
+
 
 /** \brief STM32L476 GPIO */
-class Stm32l476Gpio : public IInputPin, public IOutputPin
+class Stm32l476Gpio : public IInputPin, public IOutputPin, public IInterruptPin
 {
     public:
 
@@ -95,6 +112,22 @@ class Stm32l476Gpio : public IInputPin, public IOutputPin
             SPEED_MAX
         };
 
+        /** \brief IO interrupt */
+        enum Interrupt
+        {
+            /** \brief No interrupt */
+            IT_NONE = 0u,
+            /** \brief Rising edge */
+            IT_RAISING = 1u,
+            /** \brief Falling edge */
+            IT_FALLING = 2u,
+            /** \brief Both edges */
+            IT_BOTH = 3u,
+
+            /** \brief Max interrupt value (do not use) */
+            IT_MAX
+        };
+
         /** \brief Maximum number of pins per port */
         static const uint8_t MAX_PIN_PER_PORT = 16u;
 
@@ -103,7 +136,7 @@ class Stm32l476Gpio : public IInputPin, public IOutputPin
 
 
         /** \brief Constructor */
-        Stm32l476Gpio(const Port port, const uint8_t pin, const Mode mode, const uint8_t alternate_function, const uint8_t configuration, const Speed speed);
+        Stm32l476Gpio(const Port port, const uint8_t pin, const Mode mode, const uint8_t alternate_function, const Interrupt it, const uint8_t configuration, const Speed speed);
 
         /** \brief Configure the pin */
         virtual bool configure();
@@ -126,6 +159,15 @@ class Stm32l476Gpio : public IInputPin, public IOutputPin
         /** \brief Set the pin to a specified level */
         virtual void setLevel(const Level level);
 
+        /** \brief Register a listener for the interrupt event */
+        virtual bool registerListener(IInterruptPinListener& listener);
+
+        /** \brief Enable interrupt on the pin */
+        virtual bool enableInterrupt();
+
+        /** \brief Disable interrupt on the pin */
+        virtual bool disableInterrupt();
+
     private:
 
 
@@ -141,11 +183,30 @@ class Stm32l476Gpio : public IInputPin, public IOutputPin
         /** \brief Alternate function */
         const uint8_t m_alternate_function;
 
+        /** \brief Interrupt */
+        const Interrupt m_it;
+
         /** \brief Configuration */
         const uint8_t m_configuration;
         
         /** \brief Speed */
         const Speed m_speed;
+
+        /** \brief Listener for the interrupt event */
+        IInterruptPinListener* m_it_listener;
+
+
+        /** \brief IRQ handler */
+        void irqHandler();
+
+        // To allow access to generic IRQ handler
+        friend void EXTI0_IRQHandler(void);
+        friend void EXTI1_IRQHandler(void);
+        friend void EXTI2_IRQHandler(void);
+        friend void EXTI3_IRQHandler(void);
+        friend void EXTI4_IRQHandler(void);
+        friend void EXTI9_5_IRQHandler(void);
+        friend void EXTI15_10_IRQHandler(void);
 };
 
 }
