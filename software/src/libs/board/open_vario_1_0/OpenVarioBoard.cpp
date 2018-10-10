@@ -27,6 +27,8 @@ namespace open_vario
 OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
 
+, m_dma1(Stm32l476Dma::DMA_1)
+
 , m_rtc_driver()
 , m_rtc(m_rtc_driver)
 
@@ -43,7 +45,7 @@ OpenVarioBoard::OpenVarioBoard()
 , m_spi_1_cs1_pin(Stm32l476Gpio::PORT_A, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_spi_1_cs2_pin(Stm32l476Gpio::PORT_A, 15u /* 2u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_cs_driver_1(Stm32l476Gpio::PORT_A)
-, m_spi_1(m_cpu, Stm32l476Spi::SPI_1, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_1)
+, m_spi_1(m_cpu, Stm32l476Spi::SPI_1, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_1, m_dma1)
 
 , m_spi_2_sck_pin(Stm32l476Gpio::PORT_B, 13u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_2_mosi_pin(Stm32l476Gpio::PORT_B, 15u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
@@ -52,7 +54,7 @@ OpenVarioBoard::OpenVarioBoard()
 , m_spi_2_cs1_pin(Stm32l476Gpio::PORT_B, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_spi_2_cs2_pin(Stm32l476Gpio::PORT_B, 2u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_cs_driver_2(Stm32l476Gpio::PORT_B)
-, m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_2)
+, m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_2, m_dma1)
 
 , m_io_expander(m_spi_2, 4u)
 , m_plus_button_pin(m_io_expander, 0u, true)
@@ -64,7 +66,7 @@ OpenVarioBoard::OpenVarioBoard()
 , m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 
-, m_config_eeprom(m_spi_2, 1u, 32768u) // 32kB
+, m_config_eeprom(m_spi_2, 1u, 32768u, 64u) // 32kB - 64B
 , m_flight_data_flash(m_spi_2, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
 
 , m_exp_uart_rx_pin(Stm32l476Gpio::PORT_C, 11u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -85,6 +87,9 @@ OpenVarioBoard::OpenVarioBoard()
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
+
+    // DMA
+    ret = ret && m_dma1.configure();
 
     // RTC
     ret = ret && m_rtc.configure();

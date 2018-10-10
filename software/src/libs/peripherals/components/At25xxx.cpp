@@ -26,23 +26,18 @@ namespace open_vario
 
 
 /** \brief Constructor */
-At25xxx::At25xxx(ISpi& spi, const uint8_t chip_select, const uint16_t size)
+At25xxx::At25xxx(ISpi& spi, const uint8_t chip_select, const uint16_t size, const uint16_t page_size)
 : m_spi(spi)
 , m_chip_select(chip_select)
 , m_size(size)
+, m_page_size(page_size)
 {}
 
 /** \brief Configure the EEPROM */
 bool At25xxx::configure()
 {
-    // Enable write operations
-    const uint8_t write_en_cmd = 0x06u;
-    ISpi::XFer spi_xfer;
-    spi_xfer.write_data = &write_en_cmd;
-    spi_xfer.size = sizeof(write_en_cmd);
-    spi_xfer.cs = m_chip_select;
-
-    return m_spi.xfer(spi_xfer);
+    // Nothing to do
+    return true;
 }
 
 /** \brief Read data from the EEPROM */
@@ -88,20 +83,37 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
     {
         uint16_t index = 0u;
         uint16_t left = size;
+        uint32_t current_address = address;
         ret = true;
         while (ret && (left != 0u))
         {
-            // Compute transfer size
-            uint8_t xfer_size = 64u;
-            if (left < xfer_size)
+            // Enable write operations
+            sendWriteEnableCmd();
+
+            // Check programming page alignment
+            const uint32_t page_align = current_address & (m_page_size - 1u);
+
+            // Compute programming size
+            uint32_t program_size = left;
+            if (page_align != 0u)
             {
-                xfer_size = left;
+                if (program_size > (m_page_size - page_align))
+                {
+                    program_size = m_page_size - page_align;
+                }
+            }
+            else
+            {
+                if (program_size > m_page_size)
+                {
+                    program_size = m_page_size;
+                }
             }
 
             // Prepare SPI transfer for the data to write
             ISpi::XFer spi_xfer_data;
             spi_xfer_data.write_data = &data[index];
-            spi_xfer_data.size = xfer_size;
+            spi_xfer_data.size = program_size;
             spi_xfer_data.cs = m_chip_select;
 
             // Prepare SPI transfer to send the READ command
@@ -139,16 +151,29 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
                         ready = ((read_sr[1u] & (1u << 0u)) == 0u);
                     }
                 }
-                while (ret && ready);
+                while (ret && !ready);
 
                 // Next transfer
-                index += xfer_size;
-                left -= xfer_size;
+                index += program_size;
+                left -= program_size;
+                current_address += program_size;
             }
         }
     }
 
     return ret;
+}
+
+/** \brief Send the write enable command */
+bool At25xxx::sendWriteEnableCmd()
+{
+    const uint8_t write_en_cmd = 0x06u;
+    ISpi::XFer spi_xfer;
+    spi_xfer.write_data = &write_en_cmd;
+    spi_xfer.size = sizeof(write_en_cmd);
+    spi_xfer.cs = m_chip_select;
+
+    return m_spi.xfer(spi_xfer);
 }
 
 

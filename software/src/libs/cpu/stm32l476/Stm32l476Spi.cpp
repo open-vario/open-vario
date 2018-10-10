@@ -28,6 +28,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+/** \brief DMA channel for Rx */
+const uint8_t Stm32l476Spi::RX_DMA_CHANNEL[] = {2u, 4u, 1u};
+
+/** \brief DMA channel for Tx */
+const uint8_t Stm32l476Spi::TX_DMA_CHANNEL[] = {3u, 5u, 2u};
+
+/** \brief DMA request source */
+const uint8_t Stm32l476Spi::DMA_REQ_SOURCE[] = {1u, 1u, 3u};
+
+
 
 /** \brief Register definitions for the SPIs */
 static SPI_TypeDef* const spi_regs[Stm32l476Spi::SPI_MAX] = {SPI1, SPI2, SPI3};
@@ -35,28 +45,23 @@ static SPI_TypeDef* const spi_regs[Stm32l476Spi::SPI_MAX] = {SPI1, SPI2, SPI3};
 /** \brief SPI irq numbers */
 static const IRQn_Type spi_irqs[Stm32l476Spi::SPI_MAX] = {SPI1_IRQn, SPI2_IRQn, SPI3_IRQn};
 
-/** \brief SPI instances */
-static Stm32l476Spi* spis[Stm32l476Spi::SPI_MAX] = {NULL, NULL, NULL};
-
 
 
 /** \brief Constructor */
-Stm32l476Spi::Stm32l476Spi(const Stm32l476Cpu& cpu, const Spi spi, const uint32_t frequency, const Polarity polarity, const Phase phase, ISpiChipSelect& cs)
+Stm32l476Spi::Stm32l476Spi(const Stm32l476Cpu& cpu, const Spi spi, const uint32_t frequency, const Polarity polarity, const Phase phase, ISpiChipSelect& cs, Stm32l476Dma& dma)
 : m_cpu(cpu)
 , m_spi(spi)
 , m_frequency(frequency)
 , m_polarity(polarity)
 , m_phase(phase)
 , m_cs(cs)
+, m_dma(dma)
 , m_xfer(NULL)
-, m_xfer_tx_index(0u)
-, m_xfer_rx_index(0u)
 , m_end_of_xfer(0u, 1u)
 , m_mutex()
-{
-    // Register instance
-    spis[spi] = this;
-}
+, m_cs_active(false)
+, m_last_cs(0u)
+{}
 
 /** \brief Configure the SPI */
 bool Stm32l476Spi::configure()
@@ -140,12 +145,22 @@ bool Stm32l476Spi::configure()
         // Configure FIFO threshold to one byte
         spi->CR2 |= (1u << 12u);
 
-        // Enable Tx/Rx interrupt
-        NVIC_EnableIRQ(spi_irqs[m_spi]);
+        // Configure DMA
+        Stm32l476Dma::ChannelConfig config;
+        
+        config.request = DMA_REQ_SOURCE[m_spi];
+        config.mem_2_mem = false;
+        config.priority = Stm32l476Dma::PRIO_HIGH;
+        config.memory_size = Stm32l476Dma::MEM_8;
+        config.periph_size = Stm32l476Dma::MEM_8;
+        config.mem_inc = true;
+        config.periph_inc = false;
+        config.circular = false;
+        config.dir = Stm32l476Dma::DIR_PERIPH_2_MEM;
+        ret = m_dma.configureChannel(RX_DMA_CHANNEL[m_spi], config, *this);
 
-        // Enable SPI
-        spi->CR1 |= (1u << 6u);
-
+        config.dir = Stm32l476Dma::DIR_MEM_2_PERIPH;
+        ret = ret && m_dma.configureChannel(TX_DMA_CHANNEL[m_spi], config, *this);
     }
 
     return ret;
@@ -157,29 +172,66 @@ bool Stm32l476Spi::xfer(const XFer& xfer)
     // Lock SPI bus
     m_mutex.lock();
 
+    // Unlock the bus if the chip select has been maintained active between calls
+    if (m_cs_active)
+    {
+        m_mutex.unlock();
+    }
+
     // Transfer loop
     m_xfer = &xfer;
     do
     {
-        // Reset transfer informations
-        m_xfer_tx_index = 0u;
-        m_xfer_rx_index = 0u;
-
         // Enable peripheral selection
         m_cs.enable(m_xfer->cs);
 
-        // Enable interrupt to start transfer
+        // Configure DMA
         SPI_TypeDef* const spi = spi_regs[m_spi];
-        spi->CR2 |= (1u << 6u) | (1u << 7u);
+        if (m_xfer->read_data != NULL)
+        {
+            spi->CR2 |= (1u << 0u);
+            m_dma.startXfer(RX_DMA_CHANNEL[m_spi], m_xfer->read_data, &spi->DR, m_xfer->size);
+        }
+        if (m_xfer->write_data != NULL)
+        {
+            m_dma.startXfer(TX_DMA_CHANNEL[m_spi], m_xfer->write_data, &spi->DR, m_xfer->size);
+        }        
+        else
+        {
+            m_dma.startXfer(TX_DMA_CHANNEL[m_spi], m_xfer->read_data, &spi->DR, m_xfer->size);
+        }
+        spi->CR2 |= (1u << 1u);
+
+        // Enable SPI to start transfer
+        spi->CR1 |= (1u << 6u);
 
         // Wait for end of transfer
         (void)m_end_of_xfer.wait(IOs::getInstance().getInfiniteTimeoutValue());
 
+        // Ensure that transfer is complete (BSY flag)
+        while ((spi->SR & (1u << 7u)) != 0u)
+        {}
+
         // Disable peripheral selection
-        if ((m_xfer->next == NULL) ||
-            (!m_xfer->keep_cs_active))
+        if (!m_xfer->keep_cs_active)
         {
             m_cs.disable(m_xfer->cs);
+            m_cs_active = false;
+        }
+        else
+        {
+            m_cs_active = true;
+            m_last_cs = m_xfer->cs;
+        }
+
+        // Disable SPI communication
+        spi->CR1 &= ~(1u << 6u);
+        spi->CR2 &= ~(1u << 0u);
+        spi->CR2 &= ~(1u << 1u);
+        while ((spi->SR & (1u << 0)) != 0u)
+        {
+            // Dummy read to flush rx FIFO
+            const uint8_t dummy = spi->DR;
         }
 
         // Next transfer
@@ -187,88 +239,52 @@ bool Stm32l476Spi::xfer(const XFer& xfer)
     }
     while (m_xfer != NULL);
 
-    // Lock SPI bus
-    m_mutex.unlock();
+    // Unlock SPI bus only if chip select is not active
+    if (!m_cs_active)
+    {
+        m_mutex.unlock();
+    }
 
     return true;
 }
 
-/** \brief IRQ handler */
-void Stm32l476Spi::irqHandler()
+/** \brief Release chip select if it has been maintened active after a call to xfer() methode */
+bool Stm32l476Spi::releaseCs()
 {
-    #ifdef OS_NANO_OS
-    NANO_OS_INTERRUPT_Enter();
-    #endif // OS_NANO_OS
+    bool ret = false;
 
-    SPI_TypeDef* const spi = spi_regs[m_spi];
-
-    // Transmit data
-    while ((m_xfer_tx_index < m_xfer->size) &&
-            ((spi->SR & (1u << 1u)) != 0u))
+    // Unlock the bus if the chip select has been maintained active between calls
+    if (m_cs_active)
     {
-        if (m_xfer->write_data != NULL)
-        {
-            spi->DR = m_xfer->write_data[m_xfer_tx_index];
-        }
-        else
-        {
-            // Dummy write
-            spi->DR = 0xAA;
-        }
-        m_xfer_tx_index++;
-    }
-    if (m_xfer_tx_index == m_xfer->size)
-    {
-        // Disable Tx interrupt
-        spi->CR2 &= ~(1u << 7u);
+        m_cs.disable(m_last_cs);
+        m_cs_active = false;
+        ret = m_mutex.unlock();
     }
 
-    // Receive data
-    while ((m_xfer_rx_index < m_xfer->size) &&
-            ((spi->SR & (1u << 0u)) != 0u))
-    {
-        if (m_xfer->read_data != NULL)
-        {
-            m_xfer->read_data[m_xfer_rx_index] = spi->DR;
-        }
-        else
-        {
-            // Dummy read
-            spi->CRCPR = spi->DR;
-        }
-        m_xfer_rx_index++;
-    }
-    if (m_xfer_rx_index == m_xfer->size)
-    {
-        // Disable Rx interrupt
-        spi->CR2 &= ~(1u << 6u);
+    return ret;
+}
 
-        // End of transfer
+/** \brief Called when the DMA transfer is done on a channel */
+void Stm32l476Spi::onDmaComplete(const uint8_t channel, const bool success)
+{
+    (void)success;
+
+    // Check end of transfer:
+    // - End of RX DMA request
+    // or
+    // - If write only, end of TX DMA request
+    if (m_xfer->read_data == NULL)
+    {
         m_end_of_xfer.post(true);
     }
-
-    #ifdef OS_NANO_OS
-    NANO_OS_INTERRUPT_Exit();
-    #endif // OS_NANO_OS
+    else
+    {
+        if (channel == RX_DMA_CHANNEL[m_spi])
+        {
+            m_end_of_xfer.post(true);
+        }
+    }
 }
 
-
-/** \brief IRQ handler for SPI 1 */
-extern "C" void SPI1_IRQHandler(void)
-{
-    spis[Stm32l476Spi::SPI_1]->irqHandler();
-}
-
-/** \brief IRQ handler for SPI 2 */
-extern "C" void SPI2_IRQHandler(void)
-{
-    spis[Stm32l476Spi::SPI_2]->irqHandler();
-}
-
-/** \brief IRQ handler for SPI 3 */
-extern "C" void SPI3_IRQHandler(void)
-{
-    spis[Stm32l476Spi::SPI_3]->irqHandler();
-}
 
 }
