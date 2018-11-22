@@ -1,6 +1,6 @@
 ####################################################################################################
 # \file makefile
-# \brief  Makefile for the include files of open-vario library
+# \brief  Makefile for the include files of ble library
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -25,7 +25,7 @@
 ROOT_DIR := ../../..
 
 # Project name
-PROJECT_NAME := open-vario
+PROJECT_NAME := ble
 
 # Build type
 BUILD_TYPE := LIB
@@ -34,7 +34,6 @@ BUILD_TYPE := LIB
 PROJECT_DEPENDENCIES = libs/board \
                        libs/cpu \
                        libs/peripherals \
-					   libs/ble \
 					   libs/os \
 					   3rdparty/nano-stl \
                        $(TARGET_BSP) \

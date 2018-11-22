@@ -22,13 +22,14 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "TaskHelper.h"
 #include "BlueNrgMs.h"
+#include "BlueNrgMsStack.h"
 
 namespace open_vario
 {
 
 
 /** \brief BLE test task */
-class BleTest : public ITaskStart, public IBlueNrgMsListener
+class BleTest : public ITaskStart, public IBlePeripheralStackListener
 {
     public:
 
@@ -42,11 +43,11 @@ class BleTest : public ITaskStart, public IBlueNrgMsListener
         /** \brief Method which will be called at the task's startup */
         virtual void taskStart(void* const param);
 
-        /** \brief Called when the module is connected to another device */
-        virtual void bleConnected();
+        /** \brief Called when a client device is connected to the stack */
+        virtual void bleClientConnected();
 
-        /** \brief Called when the module is disconnected from another device */
-        virtual void bleDisconnected();
+        /** \brief Called when a client device is connected to the stack */
+        virtual void bleClientDisconnected();
 
 
     private:
@@ -54,13 +55,11 @@ class BleTest : public ITaskStart, public IBlueNrgMsListener
         /** \brief ST BlueNrg MS chip */
         BlueNrgMs& m_blue_nrg;
 
+        /** \brief ST BlueNrg MS stack */
+        BlueNrgMsStack m_blue_nrg_stack;
+
         /** \brief Task */
-        TaskHelper<1024u> m_task;
-
-
-        /** \brief Indicate if the module must be discoverable again */
-        bool m_set_discoverable;
-
+        TaskHelper<2048u> m_task;
 
 };
 

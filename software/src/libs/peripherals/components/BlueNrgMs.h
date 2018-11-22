@@ -42,6 +42,9 @@ class IBlueNrgMsListener
 
         /** \brief Called when the module is disconnected from another device */
         virtual void bleDisconnected() = 0;
+
+        /** \brief Called when an attribute as been modified by a client */
+        virtual void attributeModified(const uint16_t handle, const uint8_t size, const uint8_t* const data) = 0;
 };
 
 
@@ -63,9 +66,36 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
             uint8_t ir[16u];
         };
 
+        /** \brief Attribute security permission */
+        enum SecurityPermission
+        {
+            /** \brief None */
+            SP_NONE = 0u,
+            /** \brief Authentication required */
+            SP_AUTHE_REQUIRED = 1u,
+            /** \brief Authorization required */
+            SP_AUTHO_REQUIRED = 2u,
+            /** \brief Encryption required */
+            SP_ENC_REQUIRED = 3u
+        };
+
+        /** \brief Attribute access permission */
+        enum AccessPermission
+        {
+            /** \brief None */
+            AP_NONE = 0u,
+            /** \brief Read */
+            AP_READ = 1u,
+            /** \brief Write */
+            AP_WRITE = 2u,
+            /** \brief Read/Write */
+            AP_READ_WRITE = 3u
+        };
+
 
         /** \brief Constructor */
         BlueNrgMs(ISpi& spi, const uint8_t chip_select, IOutputPin& reset_pin, IInterruptPin& it_pin, ITask& rx_task);
+
 
 
         /** \brief Check if the module is present */
@@ -73,6 +103,9 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
 
         /** \brief Set the module hardware configuration (must be called before any method other than probe()) */
         void setHwConfig(const HwConfig& config) { m_config = config; }
+
+        /** \brief Set the device name */
+        void setDeviceName(const char* const name);
 
         /** \brief Set the module's listener */
         bool setListener(IBlueNrgMsListener& listener) { m_listener = &listener; return true; }
@@ -84,8 +117,22 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
         bool getVersion(uint8_t& hw_version, uint8_t& fw_version, uint8_t& fw_subversion);
 
         /** \brief Set the module discoverable */
-        bool setDiscoverable(const char* local_name);
+        bool setDiscoverable();
 
+        /** \brief Add a BLE service */
+        bool addBleService(const uint8_t* uuid, const size_t uuid_size, const bool primary_service, const uint8_t max_attr_count, uint16_t& service_handle);
+
+        /** \brief Include a BLE service into another BLE service */
+        bool includeBleService(const uint16_t root_service_handle, const uint16_t service_handle, const uint8_t* uuid, const size_t uuid_size, uint16_t& included_handle);
+
+        /** \brief Add a BLE characteristic */
+        bool addBleCharacteristic(const uint16_t service_handle, const uint8_t* uuid, const size_t uuid_size, const uint8_t max_length, const bool is_fixed_length, const uint8_t properties, const SecurityPermission security_perms, uint16_t& char_handle);
+
+        /** \brief Add a BLE characteristic descriptor */
+        bool addBleCharacteristicDescriptor(const uint16_t service_handle, const uint16_t char_handle, const uint8_t* uuid, const size_t uuid_size, const void* value, const uint8_t length, const AccessPermission access_perms, const SecurityPermission security_perms, uint16_t& char_desc_handle);
+
+        /** \brief Update the value of a BLE characteristic */
+        bool updateBleCharacteristicValue(const uint16_t service_handle, const uint16_t char_handle, const void* value, const uint8_t length);
 
 
         /** \brief Method which will be called at the task's startup */
@@ -132,6 +179,149 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
 
         /** \brief Module's listener */
         IBlueNrgMsListener* m_listener;
+
+        /** \brief Device name */
+        char m_device_name[32u];
+
+        /** \brief GAP service handle */
+        uint16_t m_gap_service_handle;
+
+        /** \brief GAP device name characteristic handle */
+        uint16_t m_gap_device_name_handle;
+
+        /** \brief Buffer for commands */
+        union
+        {
+            /** \brief Hal_Write_Config_Data command */
+            struct HalWriteConfigData
+            {
+                uint8_t  offset;
+                uint8_t  length;
+                union
+                {   
+                    uint8_t public_address[6u];
+                    uint16_t div;
+                    uint8_t er[16u];
+                    uint8_t it[16u];
+                    uint8_t ll_without_host;
+                    uint8_t role;
+                } __attribute__((packed)) data;
+            } __attribute__((packed)) hal_write_config_data;
+
+            /** \brief Hal_Set_Tx_Power_Level command */
+            struct HalSetTxPowerLevel
+            {
+                uint8_t high_power_enabled;
+                uint8_t pa_level;
+            } __attribute__((packed)) hal_set_tx_power_level;
+
+            /** \brief Gap_Init command */
+            struct GapInit
+            {
+                uint8_t role;
+                uint8_t privacy;
+                uint8_t device_name_length;
+            } __attribute__((packed)) gap_init;
+
+            /** \brief Gap_Set_IO_Capability command */
+            struct GapSetIoCapability
+            {
+                uint8_t io_capability;
+            } __attribute__((packed)) gap_set_io_capability;
+
+            /** \brief Gap_Set_Auth_Requirement command */
+            struct GapSetAuthRequirement
+            {
+                uint8_t mitm_mode;
+                uint8_t oob_enable;
+                uint8_t oob_data[16u];
+                uint8_t min_encryption_key_size;
+                uint8_t max_encryption_key_size;
+                uint8_t use_fixed_pin;
+                uint32_t fixed_pin;
+                uint8_t bounding_mode;
+            } __attribute__((packed)) gap_set_auth_requirement;
+
+            /** \brief Gatt_Include_Service command */
+            struct GattIncludeService
+            {
+                uint16_t service_handle;
+                uint16_t include_start_handle;
+                uint16_t include_end_handle;
+                uint8_t uuid_type;
+                uint8_t uuid[16u];
+            } __attribute__((packed)) gatt_include_service;
+
+            /** \brief Gatt_Update_Char_Value command */
+            struct GattUpdateCharValue
+            {
+                uint16_t service_handle;
+                uint16_t char_handle;
+                uint8_t val_offset;
+                uint8_t char_value_length;
+                uint8_t value[122u];
+            } __attribute__((packed)) gatt_update_char_value;
+
+            /** \brief Byte buffer */
+            uint8_t buffer[128u];
+
+        } m_cmd;
+
+        /** \brief Buffer for responses */
+        union
+        {
+            /** \brief Status */
+            uint8_t status;
+
+            /** \brief Read_Local_Version_Information response */
+            struct ReadLocalVersionInformation
+            {
+                uint8_t  status;
+                uint8_t  hci_version;
+                uint16_t hci_revision;
+                uint8_t  lmp_pal_version;
+                uint16_t manufacturer_name;
+                uint16_t lmp_pal_subversion;
+            } __attribute__((packed)) read_local_version_information;
+
+            /** \brief Gap_Init response */
+            struct GapInit
+            {
+                uint8_t status;
+                uint16_t service_handle;
+                uint16_t device_name_handle;
+                uint16_t appearance_handle;
+            } __attribute__((packed)) gap_init;
+
+            /** \brief Gatt_Add_Serv response */
+            struct GattAddServ
+            {
+                uint8_t status;
+                uint16_t service_handle;
+            } __attribute__((packed)) gatt_add_serv;
+
+            /** \brief Gatt_Include_Service response */
+            struct GattIncludeService
+            {
+                uint8_t status;
+                uint16_t included_handle;
+            } __attribute__((packed)) gatt_include_service;
+
+            /** \brief Gatt_Add_Char response */
+            struct GattAddChar
+            {
+                uint8_t status;
+                uint16_t characteristic_handle;
+            } __attribute__((packed)) gatt_add_char;
+
+            /** \brief Gatt_Add_Char_Desc response */
+            struct GattAddCharDesc
+            {
+                uint8_t status;
+                uint16_t char_desc_handle;
+            } __attribute__((packed)) gatt_add_char_desc;
+
+        } m_resp;
 
 
 
