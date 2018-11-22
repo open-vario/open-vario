@@ -1,6 +1,6 @@
 ####################################################################################################
-# \file makefile
-# \brief  Makefile for the include files of open-vario library
+# \file makefile.inc
+# \brief  Makefile for the include files of ble library
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -21,34 +21,14 @@
 ####################################################################################################
 
 
-# Locating the root directory
-ROOT_DIR := ../../..
+# Library directory
+LIBRARY_DIR := $(ROOT_DIR)/src/libs/ble
 
-# Project name
-PROJECT_NAME := open-vario
-
-# Build type
-BUILD_TYPE := LIB
-
-# Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = libs/board \
-                       libs/cpu \
-                       libs/peripherals \
-					   libs/ble \
-					   libs/os \
-					   3rdparty/nano-stl \
-                       $(TARGET_BSP) \
-					   $(TARGET_DEPENDENCIES)
-
-			  
-# Including common makefile definitions
-include $(ROOT_DIR)/build/make/generic_makefile
-
-
-# Rules for building the source files
-$(BIN_DIR)/$(OUTPUT_NAME): $(BIN_DEPENDENCIES)
-	@echo "Creating archive $(notdir $@)..."
-	$(DISP)$(AR) $(ARFLAGS) $@ $(OBJECT_FILES)
-
-	
+# Source directories
+SOURCE_DIRS := $(LIBRARY_DIR) \
+               $(LIBRARY_DIR)/bluenrg_ms
+              
+# Project specific include directories
+PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \
+                    $(foreach LIB_DIR, $(SOURCE_DIRS), $(LIB_DIR))
 

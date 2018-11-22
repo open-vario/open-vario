@@ -1,6 +1,6 @@
 ####################################################################################################
-# \file makefile
-# \brief  Makefile for the include files of open-vario library
+# \file makefile.inc
+# \brief  Makefile for test_ble application
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -20,35 +20,12 @@
 # along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################################
 
+# Application directory
+APPLICATION_DIR := $(ROOT_DIR)/src/apps/test_ble
 
-# Locating the root directory
-ROOT_DIR := ../../..
-
-# Project name
-PROJECT_NAME := open-vario
-
-# Build type
-BUILD_TYPE := LIB
-
-# Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = libs/board \
-                       libs/cpu \
-                       libs/peripherals \
-					   libs/ble \
-					   libs/os \
-					   3rdparty/nano-stl \
-                       $(TARGET_BSP) \
-					   $(TARGET_DEPENDENCIES)
-
-			  
-# Including common makefile definitions
-include $(ROOT_DIR)/build/make/generic_makefile
-
-
-# Rules for building the source files
-$(BIN_DIR)/$(OUTPUT_NAME): $(BIN_DEPENDENCIES)
-	@echo "Creating archive $(notdir $@)..."
-	$(DISP)$(AR) $(ARFLAGS) $@ $(OBJECT_FILES)
-
-	
-
+# Source directories
+SOURCE_DIRS := $(APPLICATION_DIR)
+              
+# Project specific include directories
+PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \
+                    $(foreach APP_DIR, $(SOURCE_DIRS), $(APP_DIR))

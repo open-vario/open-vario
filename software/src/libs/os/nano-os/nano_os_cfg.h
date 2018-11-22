@@ -92,7 +92,7 @@ along with Nano-OS.  If not, see <http://www.gnu.org/licenses/>.
 #define NANO_OS_IDLE_TASK_STACK_SIZE            NANO_OS_PORT_MIN_STACK_SIZE
 
 /** \brief Nano OS tick rate in Hz */
-#define NANO_OS_TICK_RATE_HZ                    10u
+#define NANO_OS_TICK_RATE_HZ                    100u
 
 
 /** \brief Maximum number of interrupt service requests

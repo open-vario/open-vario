@@ -34,6 +34,7 @@ BUILD_TYPE := LIB
 PROJECT_DEPENDENCIES = libs/os \
                        libs/cpu \
                        libs/peripherals \
+					   libs/ble \
 					   3rdparty/nano-stl \
                        $(TARGET_BSP) \
 					   $(TARGET_DEPENDENCIES)

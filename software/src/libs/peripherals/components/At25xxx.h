@@ -34,7 +34,7 @@ class At25xxx : public IEeprom
     public:
 
         /** \brief Constructor */
-        At25xxx(ISpi& spi, const uint8_t chip_select, const uint16_t size);
+        At25xxx(ISpi& spi, const uint8_t chip_select, const uint16_t size, const uint16_t page_size);
 
 
         /** \brief Get the size of the EEPROM in bytes */
@@ -60,6 +60,13 @@ class At25xxx : public IEeprom
 
         /** \brief EEPROM's size in bytes */
         const uint16_t m_size;
+
+        /** \brief EEPROM's page size in bytes */
+        const uint16_t m_page_size;
+
+
+        /** \brief Send the write enable command */
+        bool sendWriteEnableCmd();
 };
 
 }

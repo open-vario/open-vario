@@ -9,6 +9,8 @@
                 "${workspaceFolder}/src/bsps",
                 "${workspaceFolder}/src/bsps/bsp_stm32l476",
                 "${workspaceFolder}/src/libs",
+                "${workspaceFolder}/src/libs/ble",
+                "${workspaceFolder}/src/libs/ble/bluenrg_ms",
                 "${workspaceFolder}/src/libs/board",
                 "${workspaceFolder}/src/libs/board/open_vario_1_0",
                 "${workspaceFolder}/src/libs/cpu",

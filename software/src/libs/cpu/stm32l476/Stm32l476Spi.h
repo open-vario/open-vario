@@ -23,22 +23,15 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ISpi.h"
 #include "Mutex.h"
 #include "Semaphore.h"
+#include "Stm32l476Dma.h"
 
 namespace open_vario
 {
 
 class Stm32l476Cpu;
 
-/** \brief IRQ handler for SPI 1 */
-extern "C" void SPI1_IRQHandler(void);
-/** \brief IRQ handler for SPI 2 */
-extern "C" void SPI2_IRQHandler(void);
-/** \brief IRQ handler for SPI 3 */
-extern "C" void SPI3_IRQHandler(void);
-
-
 /** \brief STM32L476 SPI */
-class Stm32l476Spi : public ISpi
+class Stm32l476Spi : public ISpi, public IStm32l476DmaListener
 {
     public:
 
@@ -58,7 +51,7 @@ class Stm32l476Spi : public ISpi
         };
 
         /** \brief Constructor */
-        Stm32l476Spi(const Stm32l476Cpu& cpu, const Spi spi, const uint32_t frequency, const Polarity polarity, const Phase phase, ISpiChipSelect& cs);
+        Stm32l476Spi(const Stm32l476Cpu& cpu, const Spi spi, const uint32_t frequency, const Polarity polarity, const Phase phase, ISpiChipSelect& cs, Stm32l476Dma& dma);
 
 
         /** \brief Configure the SPI */
@@ -66,6 +59,12 @@ class Stm32l476Spi : public ISpi
 
         /** \brief Transfer data through the SPI */
         virtual bool xfer(const XFer& xfer);
+
+        /** \brief Release chip select if it has been maintened active after a call to xfer() methode */
+        virtual bool releaseCs();
+
+        /** \brief Called when the DMA transfer is done on a channel */
+        virtual void onDmaComplete(const uint8_t channel, const bool success);
 
 
     private:
@@ -88,30 +87,35 @@ class Stm32l476Spi : public ISpi
         /** \brief Chip select driver */
         ISpiChipSelect& m_cs;
 
+        /** \brief DMA controller */
+        Stm32l476Dma& m_dma;
+
 
         /** \brief Current transfer */
         const XFer* m_xfer;
-
-        /** \brief Index of the data currently being transfered */
-        uint32_t m_xfer_tx_index;
-
-        /** \brief Index of the data currently being received */
-        uint32_t m_xfer_rx_index;
 
         /** \brief End of transfer semaphore */
         Semaphore m_end_of_xfer;
 
         /** \brief Mutex to protect concurrent bus access */
         Mutex m_mutex;
-        
 
-        /** \brief IRQ handler */
-        void irqHandler();
+        /** \brief Indicate if the chip select is still active after the transfer */
+        bool m_cs_active;
 
-        // To allow access to generic IRQ handler
-        friend void SPI1_IRQHandler(void);
-        friend void SPI2_IRQHandler(void);
-        friend void SPI3_IRQHandler(void);
+        /** \brief Last chip select */
+        uint8_t m_last_cs;
+
+
+        /** \brief DMA channel for Rx */
+        static const uint8_t RX_DMA_CHANNEL[];
+
+        /** \brief DMA channel for Tx */
+        static const uint8_t TX_DMA_CHANNEL[];
+
+        /** \brief DMA request source */
+        static const uint8_t DMA_REQ_SOURCE[];
+
 };
 
 }

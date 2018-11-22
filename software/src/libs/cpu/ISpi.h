@@ -99,6 +99,9 @@ class ISpi
         /** \brief Transfer data through the SPI */
         virtual bool xfer(const XFer& xfer) = 0;
 
+        /** \brief Release chip select if it has been maintened active after a call to xfer() methode */
+        virtual bool releaseCs() = 0;
+
 };
 
 }

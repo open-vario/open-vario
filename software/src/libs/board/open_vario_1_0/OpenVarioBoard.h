@@ -25,6 +25,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "TaskHelper.h"
 
 #include "Stm32l476Cpu.h"
+#include "Stm32l476Dma.h"
 #include "Stm32l476Rtc.h"
 #include "Stm32l476Gpio.h"
 #include "Stm32l476Usart.h"
@@ -79,6 +80,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief CPU */
         Stm32l476Cpu m_cpu;
+
+        /** \brief DMA controller 1 */
+        Stm32l476Dma m_dma1;
 
 
         /** \brief RTC driver */
