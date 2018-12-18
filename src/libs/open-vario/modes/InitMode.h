@@ -28,6 +28,7 @@ namespace open_vario
 class ModeManager;
 class HmiManager;
 class TimeManager;
+class ConfigManager;
 
 /** \brief Operating mode : Initialization */
 class InitMode : public IMode
@@ -35,7 +36,7 @@ class InitMode : public IMode
     public:
 
         /** \brief Constructor */
-        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager);
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -58,6 +59,9 @@ class InitMode : public IMode
 
         /** \brief Date and time manager */
         TimeManager& m_time_manager;
+
+        /** \brief Configuration manager */
+        ConfigManager& m_config_manager;
 };
 
 }

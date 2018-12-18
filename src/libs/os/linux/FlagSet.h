@@ -28,7 +28,7 @@ namespace open_vario
 {
 
 
-/** \brief Flag set implementation for Windows */
+/** \brief Flag set implementation for Linux */
 class FlagSet : public IFlagSet
 {
     public:

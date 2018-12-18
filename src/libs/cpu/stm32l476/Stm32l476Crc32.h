@@ -17,48 +17,37 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "OpenVarioBoard.h"
+#ifndef STM32L476CRC32_H
+#define STM32L476CRC32_H
+
+#include "ICrc32.h"
+
 
 namespace open_vario
 {
 
-
-/** \brief Constructor */
-OpenVarioBoard::OpenVarioBoard()
-: m_cpu()
-, m_rtc_driver()
-, m_rtc(m_rtc_driver)
-, m_activity_led("activity_led", ILed::OFF)
-, m_debug_uart("debug_uart")
-, m_crc32()
-, m_config_eeprom("config_eeprom.bin", 32768u) // 32kB
+/** \brief STM32L476 CRC-32 */
+class Stm32l476Crc32 : public ICrc32
 {
+    public:
+
+        /** \brief Constructor */
+        Stm32l476Crc32();
+
+
+        /** \brief Configure the CRC-32 driver */
+        virtual bool configure();
+
+        /** \brief Reset the CRC-32 computation */
+        virtual void reset();
+
+        /** \brief Update the CRC-32 computation with a data buffer */
+        virtual uint32_t update(const void* buffer, const size_t size);
+
+        /** \brief Get the current value of the CRC-32 computation */
+        virtual uint32_t value() const;
+};
 
 }
 
-/** \brief Configure the board peripherals */
-bool OpenVarioBoard::configure()
-{
-    bool ret = true;
-    
-    // RTC
-    ret = ret && m_rtc.configure();
-
-    // CRC-32
-    ret = ret && m_crc32.configure();
-
-    // Debug UART
-    ret = ret && m_debug_uart.configure();
-
-    // LEDs
-    ret = ret && m_activity_led.configure();
-
-    // EEPROM
-    ret = ret && m_config_eeprom.configure();
-   
-
-    return ret;
-}
-
-
-}
+#endif // STM32L476CRC32_H

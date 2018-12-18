@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476LpUart.h"
 #include "Stm32l476Spi.h"
 #include "SpiChipSelectDriver.h"
+#include "Stm32l476Crc32.h"
 
 #include "McuRtc.h"
 #include "IoLed.h"
@@ -75,6 +76,11 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's debug UART */
         virtual IUart& debugUart() { return m_debug_uart; }
 
+        /** \brief Get the board's CRC-32 unit */
+        virtual ICrc32& crc32() { return m_crc32; }
+
+        /** \brief Get the board's configuration EEPROM */
+        virtual IEeprom& config_eeprom() { return m_config_eeprom; }
 
     private:
 
@@ -83,6 +89,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief DMA controller 1 */
         Stm32l476Dma m_dma1;
+
+        /** \brief CRC-32 unit */
+        Stm32l476Crc32 m_crc32;
 
 
         /** \brief RTC driver */

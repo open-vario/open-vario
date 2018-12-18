@@ -31,14 +31,14 @@ class IConfigValue
 {
     public:
 
+        /** \brief Get the value id */
+        virtual uint16_t id() = 0;
+        
         /** \brief Get the value name */
         virtual const char* name() const = 0; 
 
         /** \brief Get the value type name */
         virtual const char* type() const = 0; 
-
-        /** \brief Indicate if the value will be taken into account only after a reset */
-        virtual bool onResetOnly() const = 0;
 
         /** \brief Get the buffer representing the value */
         virtual const uint8_t* buffer() const = 0;
@@ -51,6 +51,18 @@ class IConfigValue
 
         /** \brief Reset the value to its default value */
         virtual void reset() = 0;
+
+        /** \brief Indicate if the value has a min and max value */
+        virtual bool hasMinMax() const = 0;
+
+        /** \brief Get the buffer representing the min value */
+        virtual const uint8_t* min() const = 0;
+
+        /** \brief Get the buffer representing the max value */
+        virtual const uint8_t* max() const = 0;
+
+        /** \brief Indicate if the value will be taken into account only after a reset */
+        virtual bool onResetOnly() const = 0;
 
 };
 

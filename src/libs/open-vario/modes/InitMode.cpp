@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "TimeManager.h"
+#include "ConfigManager.h"
 #include "LogMacro.h"
 #include "ISpi.h"
 
@@ -29,10 +30,11 @@ namespace open_vario
 
 
 /** \brief Constructor */
-InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager)
+InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
+, m_config_manager(config_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -54,6 +56,9 @@ void InitMode::enter()
 
         // Start date and time management
         m_time_manager.start();
+
+        // Initialize configuration
+        m_config_manager.init();    
 
         // Blink a bit :)
         IOpenVarioApp::getInstance().getOs().waitMs(3000);

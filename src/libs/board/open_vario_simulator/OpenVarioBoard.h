@@ -34,6 +34,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "McuRtc.h"
 #include "SimuLed.h"
 #include "SimuUart.h"
+#include "SimuEeprom.h"
+#include "SoftCrc32.h"
+
 
 namespace open_vario
 {
@@ -67,6 +70,12 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's debug UART */
         virtual IUart& debugUart() { return m_debug_uart; }
 
+        /** \brief Get the board's CRC-32 unit */
+        virtual ICrc32& crc32() { return m_crc32; }
+
+        /** \brief Get the board's EEPROM */
+        virtual IEeprom& config_eeprom() { return m_config_eeprom; }
+
 
     private:
 
@@ -93,6 +102,12 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Debug UART */
         SimuUart m_debug_uart;
+
+        /** \brief CRC-32 unit (software) */
+        SoftCrc32 m_crc32;
+
+        /** \brief Configuration EEPROM */
+        SimuEeprom m_config_eeprom;
 
 };
 

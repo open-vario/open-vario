@@ -30,7 +30,8 @@ class ICpu;
 class IRtc;
 class ILed;
 class IUart;
-
+class ICrc32;
+class IEeprom;
 
 /** \brief Interface for all open vario boards implementations */
 class IOpenVarioBoard
@@ -55,6 +56,12 @@ class IOpenVarioBoard
 
         /** \brief Get the board's debug UART */
         virtual IUart& debugUart() = 0;
+
+        /** \brief Get the board's CRC-32 unit */
+        virtual ICrc32& crc32() = 0;
+
+        /** \brief Get the board's EEPROM */
+        virtual IEeprom& config_eeprom() = 0;
 };
 
 }

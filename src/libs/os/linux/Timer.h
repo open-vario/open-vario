@@ -29,7 +29,7 @@ namespace open_vario
 {
 
 
-/** \brief Timer implementation for Windows */
+/** \brief Timer implementation for Linux */
 class Timer : public ITimer
 {
     public:

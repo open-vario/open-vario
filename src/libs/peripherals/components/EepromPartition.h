@@ -17,30 +17,36 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EEPROMTEST_H
-#define EEPROMTEST_H
+#ifndef EEPROMPARTITION_H
+#define EEPROMPARTITION_H
 
-#include "TaskHelper.h"
 #include "IEeprom.h"
 
 namespace open_vario
 {
 
 
-/** \brief EEPROM test task */
-class EepromTest : public ITaskStart
+
+/** \brief EEPROM flash partition */
+class EepromPartition
 {
     public:
 
         /** \brief Constructor */
-        EepromTest(IEeprom& eeprom);
-
-        /** \brief Start the task */
-        bool start();
+        EepromPartition(IEeprom& eeprom, const uint16_t start_address, const uint16_t size);
 
 
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
+        /** \brief Get the size of the EEPROM partition in bytes */
+        uint16_t getSize() const { return m_size; }
+
+        /** \brief Configure the EEPROM partition */
+        bool configure();
+
+        /** \brief Read data from the EEPROM partition */
+        bool read(const uint16_t address, uint8_t data[], const uint16_t size);
+
+        /** \brief Write data to the EEPROM partition */
+        bool write(const uint16_t address, const uint8_t data[], const uint16_t size);
 
 
     private:
@@ -48,12 +54,14 @@ class EepromTest : public ITaskStart
         /** \brief EEPROM */
         IEeprom& m_eeprom;
 
-        /** \brief Task */
-        TaskHelper<1024u> m_task;
+        /** \brief Start address of the partition in the EEPROM */
+        const uint16_t m_start_address;
 
+        /** \brief Size of the partition in bytes */
+        const uint16_t m_size;
 
 };
 
 }
 
-#endif // EEPROMTEST_H
+#endif // EEPROMPARTITION_H

@@ -34,22 +34,23 @@ class ConfigValue : public IConfigValue
 
 
         /** \brief Constructor */
-        ConfigValue(const char* const name, const T& default_value, const bool reset_only)
-        : m_name(name)
+        ConfigValue(const uint16_t id, const char* const name, const T& default_value, const bool reset_only)
+        : m_id(id)
+        , m_name(name)
         , m_value(default_value)
         , m_default_value(default_value)
         , m_reset_only(reset_only)
         {}
 
 
+        /** \brief Get the value id */
+        virtual uint16_t id() { return m_id; }
+
         /** \brief Get the value name */
         virtual const char* name() const { return m_name; }
 
         /** \brief Get the value type name */
         virtual const char* type() const { return configvalue_type<T>(); }
-
-        /** \brief Indicate if the value will be taken into account only after a reset */
-        virtual bool onResetOnly() const { return m_reset_only; }
 
         /** \brief Get the buffer representing the value */
         virtual const uint8_t* buffer() const { return reinterpret_cast<uint8_t*>(m_value); }
@@ -63,8 +64,23 @@ class ConfigValue : public IConfigValue
         /** \brief Reset the value to its default value */
         virtual void reset() { m_value = m_reset_value; }
 
+        /** \brief Indicate if the value has a min and max value */
+        virtual bool hasMinMax() const { return ((min() != NULL) && (max() != NULL)); }
+
+        /** \brief Get the buffer representing the min value */
+        virtual const uint8_t* min() const { return NULL; }
+
+        /** \brief Get the buffer representing the max value */
+        virtual const uint8_t* max() const { return NULL; }
+
+        /** \brief Indicate if the value will be taken into account only after a reset */
+        virtual bool onResetOnly() const { return m_reset_only; }
+
 
     private:
+
+        /** \brief Id */
+        const uint16_t id;
 
         /** \brief Name */
         const char* const m_name;

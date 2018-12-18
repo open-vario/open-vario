@@ -26,7 +26,8 @@ LIBRARY_DIR := $(ROOT_DIR)/src/libs/cpu
 
 # Source directories
 SOURCE_DIRS := $(LIBRARY_DIR) \
-               $(LIBRARY_DIR)/$(TARGET_CPU)
+               $(LIBRARY_DIR)/$(TARGET_CPU) \
+               $(LIBRARY_DIR)/common
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \

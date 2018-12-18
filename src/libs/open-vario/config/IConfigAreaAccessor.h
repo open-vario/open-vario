@@ -17,43 +17,30 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef BLETEST_H
-#define BLETEST_H
+#ifndef ICONFIGAREAACCESSOR_H
+#define ICONFIGAREAACCESSOR_H
 
-#include "TaskHelper.h"
-#include "BlueNrgMs.h"
+#include <cstdint>
+#include "IArray.h"
+#include "IConfigValueGroup.h"
 
 namespace open_vario
 {
 
 
-/** \brief BLE test task */
-class BleTest : public ITaskStart
+/** \brief Interface for all configuration area accessors implementations */
+class IConfigAreaAccessor
 {
     public:
 
-        /** \brief Constructor */
-        BleTest(BlueNrgMs& blue_nrg);
+        /** \brief Load the configuration from the configuration area */
+        virtual bool load(const uint16_t config_version, const nano_stl::IArray<IConfigValueGroup*>& m_config_value_groups, bool& compatibility_mode) = 0;
 
-        /** \brief Start the task */
-        bool start();
-
-
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
-
-
-    private:
-
-        /** \brief ST BlueNrg MS chip */
-        BlueNrgMs& m_blue_nrg;
-
-        /** \brief Task */
-        TaskHelper<1024u> m_task;
-
+        /** \brief Store the configuration to the configuration area */
+        virtual bool store(const uint16_t config_version, const nano_stl::IArray<IConfigValueGroup*>& m_config_value_groups) = 0;
 
 };
 
 }
 
-#endif // BLETEST_H
+#endif // ICONFIGAREAACCESSOR_H

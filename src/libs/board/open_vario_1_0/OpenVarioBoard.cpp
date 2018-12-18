@@ -29,6 +29,8 @@ OpenVarioBoard::OpenVarioBoard()
 
 , m_dma1(Stm32l476Dma::DMA_1)
 
+, m_crc32()
+
 , m_rtc_driver()
 , m_rtc(m_rtc_driver)
 
@@ -93,6 +95,9 @@ bool OpenVarioBoard::configure()
 
     // RTC
     ret = ret && m_rtc.configure();
+
+    // CRC-32
+    ret = ret && m_crc32.configure();
 
     // Debug UART
     ret = ret && m_debug_uart_rx_pin.configure();

@@ -17,39 +17,33 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "BleTest.h"
-#include "IOs.h"
+#ifndef ICRC32_H
+#define ICRC32_H
+
+#include <cstdint>
+#include <cstddef>
 
 namespace open_vario
 {
 
-
-/** \brief Constructor */
-BleTest::BleTest(BlueNrgMs& blue_nrg)
-: m_blue_nrg(blue_nrg)
-, m_task("BLE test", 5u)
-{}
-
-/** \brief Start the task */
-bool BleTest::start()
+/** \brief Interface for all CRC-32 implementations */
+class ICrc32
 {
-    return m_task.start(*this, NULL);
-}
+    public:
 
+        /** \brief Configure the CRC-32 driver */
+        virtual bool configure() = 0;
 
-/** \brief Method which will be called at the task's startup */
-void BleTest::taskStart(void* const param)
-{
-    (void)param;
+        /** \brief Reset the CRC-32 computation */
+        virtual void reset() = 0;
 
+        /** \brief Update the CRC-32 computation with a data buffer */
+        virtual uint32_t update(const void* buffer, const size_t size) = 0;
 
-
-    // Task loop
-    while (true)
-    {
-        IOs::getInstance().waitMs(500u);
-    }
-}
-
+        /** \brief Get the current value of the CRC-32 computation */
+        virtual uint32_t value() const = 0;
+};
 
 }
+
+#endif // ICRC32_H

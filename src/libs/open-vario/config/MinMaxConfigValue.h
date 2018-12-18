@@ -34,8 +34,8 @@ class MinMaxConfigValue : public ConfigValue
 
 
         /** \brief Constructor */
-        MinMaxConfigValue(const char* const name, const T& default_value, const T& min_value, const T& max_value, const bool reset_only)
-        : ConfigValue(name, default_value, reset_only)
+        MinMaxConfigValue(const uint16_t id, const char* const name, const T& default_value, const T& min_value, const T& max_value, const bool reset_only)
+        : ConfigValue(id, name, default_value, reset_only)
         , m_min_value(min_value)
         , m_max_value(max_value)
         {}
@@ -53,6 +53,12 @@ class MinMaxConfigValue : public ConfigValue
             }
             return ret; 
         }
+
+        /** \brief Get the buffer representing the min value */
+        virtual const uint8_t* min() const { return reinterpret_cast<const uint8_t*>(&m_min_value); }
+
+        /** \brief Get the buffer representing the max value */
+        virtual const uint8_t* max() const { return reinterpret_cast<const uint8_t*>(&m_max_value); }
 
 
     private:
