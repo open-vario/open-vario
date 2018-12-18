@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define IFILE_H
 
 #include <cstdint>
+#include <cstdlib>
 
 namespace open_vario
 {

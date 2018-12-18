@@ -95,7 +95,7 @@ bool File::open(const char* file_path, const FileAccess file_access, const FileM
 /** \brief Close the file */
 bool File::close()
 {
-    const bool ret = (close(m_file) == 0);
+    const bool ret = (::close(m_file) == 0);
     return ret;
 }
 
@@ -111,7 +111,7 @@ bool File::setFileSize(const size_t new_size)
 bool File::write(const void* data, const size_t size)
 {
     const ssize_t n = ::write(m_file, data, size);
-    const bool ret = (n == size);
+    const bool ret = (n == static_cast<ssize_t>(size));
     return ret;
 }
 

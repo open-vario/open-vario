@@ -53,10 +53,7 @@
                 "all+",
                 "TARGET=mingw-windows"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [
@@ -96,7 +93,10 @@
                 "all+",
                 "TARGET=gcc-linux"
             ],
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [
