@@ -19,6 +19,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "UdpSocket.h"
 
+
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <cstring>
+
+
+/** \brief Invalid socket file descriptor */
+#define INVALID_SOCKET -1
+
 namespace open_vario
 {
 
@@ -35,7 +45,7 @@ bool UdpSocket::open()
 
     if (m_socket == INVALID_SOCKET)
     {
-        m_socket = socket(static_cast<int>(AF_UNSPEC), static_cast<int>(SOCK_DGRAM), IPPROTO_UDP);
+        m_socket = socket(static_cast<int>(AF_INET), static_cast<int>(SOCK_DGRAM), IPPROTO_UDP);
         if (m_socket != INVALID_SOCKET)
         {
             ret = true;
@@ -52,7 +62,7 @@ bool UdpSocket::close()
 
     if (m_socket != INVALID_SOCKET)
     {
-        int call_ret = closesocket(m_socket);
+        int call_ret = ::close(m_socket);
         if (call_ret == 0)
         {
             m_socket = INVALID_SOCKET;
@@ -107,11 +117,11 @@ bool UdpSocket::receiveFrom(void* data, const size_t size, size_t& received, IpE
         tv.tv_sec = timeout / 1000u;
         tv.tv_usec = (timeout - 1000u * tv.tv_sec) * 1000u;
 
-        int call_ret = select(1, &readfds, NULL, NULL, &tv);
+        int call_ret = select(m_socket + 1, &readfds, NULL, NULL, &tv);
         if( call_ret > 0)
         {
             struct sockaddr_in remoteAddr;
-            int addrLen = sizeof(remoteAddr);
+            socklen_t addrLen = sizeof(remoteAddr);
 
             call_ret = ::recvfrom(m_socket, reinterpret_cast<char *>(data), static_cast<int>(size), 0, reinterpret_cast<struct sockaddr *>(&remoteAddr), &addrLen);
             if (call_ret > 0)
@@ -140,7 +150,7 @@ bool UdpSocket::sendTo(const void* data, const size_t size, const IpEndPoint& di
         struct sockaddr_in remoteAddr;
         remoteAddr.sin_family = AF_INET;
         remoteAddr.sin_port = htons(distant_address.port);
-        remoteAddr.sin_addr.S_un.S_addr = inet_addr(distant_address.address);
+        remoteAddr.sin_addr.s_addr = inet_addr(distant_address.address);
 
         int call_ret = ::sendto(m_socket, reinterpret_cast<const char *>(data), static_cast<int>(size), 0, reinterpret_cast<struct sockaddr *>(&remoteAddr), sizeof(struct sockaddr_in));
         if (call_ret == static_cast<int>(size))
