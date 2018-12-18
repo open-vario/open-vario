@@ -39,7 +39,7 @@ TARGET_BOARD=open_vario_simulator
 TARGET_DEPENDENCIES=libs/simulator
 
 # Target specific include directories
-TARGET_INC_DIRS=
+TARGET_INC_DIRS=$(ROOT_DIR_ABS)/3rdparty/protobuf-3.6.1/src
 
 # Target specific lib directories
 TARGET_LIB_DIRS=
@@ -49,6 +49,9 @@ TARGET_LIBS=
 
 # Target implementation for the project defines
 TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_LINUX
+
+# Protocol buffer compiler
+PROTOC_COMP = protoc
 
 
 # Optimisation level

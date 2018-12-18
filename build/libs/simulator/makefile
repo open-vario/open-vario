@@ -42,9 +42,24 @@ include $(ROOT_DIR)/build/make/generic_makefile
 
 
 # Rules for building the source files
-$(BIN_DIR)/$(OUTPUT_NAME): $(BIN_DEPENDENCIES)
+$(BIN_DIR)/$(OUTPUT_NAME): protoc_gen $(BIN_DEPENDENCIES)
 	@echo "Creating archive $(notdir $@)..."
 	$(DISP)$(AR) $(ARFLAGS) $@ $(OBJECT_FILES)
 
 	
+
+# Directory which contain protocol buffer description files
+PROTOC_DIR = $(ROOT_DIR_ABS)/3rdparty/open-vario-simu/src/api
+
+# Ouput directory for generated files
+PROTOC_OUT_DIR = $(ROOT_DIR_ABS)/src/libs/simulator/api
+
+# Rule for generating protocol buffer source files
+protoc_gen:
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/requests.proto
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/responses.proto
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/notifications.proto
+	mv $(PROTOC_OUT_DIR)/requests.pb.cc $(PROTOC_OUT_DIR)/requests.pb.cpp
+	mv $(PROTOC_OUT_DIR)/responses.pb.cc $(PROTOC_OUT_DIR)/responses.pb.cpp
+	mv $(PROTOC_OUT_DIR)/notifications.pb.cc $(PROTOC_OUT_DIR)/notifications.pb.cpp
 

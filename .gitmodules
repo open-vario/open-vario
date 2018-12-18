@@ -1,6 +1,9 @@
-[submodule "software/3rdparty/nano-os"]
+[submodule "3rdparty/nano-os"]
 	path = 3rdparty/nano-os
 	url = https://github.com/nanosoft-net/nano-os.git
-[submodule "software/3rdparty/nano-stl"]
+[submodule "3rdparty/nano-stl"]
 	path = 3rdparty/nano-stl
 	url = https://github.com/nanosoft-net/nano-stl.git
+[submodule "3rdparty/open-vario-simu"]
+	path = 3rdparty/open-vario-simu
+	url = https://github.com/open-vario/open-vario-simu.git

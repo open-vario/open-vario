@@ -25,7 +25,9 @@
 LIBRARY_DIR := $(ROOT_DIR)/src/libs/simulator
 
 # Source directories
-SOURCE_DIRS := $(LIBRARY_DIR) 
+SOURCE_DIRS := $(LIBRARY_DIR) \
+               $(LIBRARY_DIR)/api \
+               $(LIBRARY_DIR)/devices
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \
