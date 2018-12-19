@@ -25,11 +25,10 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_notifications_2eproto 
 
@@ -43,7 +42,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_notifications_2eproto
 namespace open_vario {
 class AltitudeNotification;
@@ -83,7 +81,7 @@ namespace open_vario {
 
 // ===================================================================
 
-class StartNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.StartNotification) */ {
+class StartNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.StartNotification) */ {
  public:
   StartNotification();
   virtual ~StartNotification();
@@ -109,7 +107,6 @@ class StartNotification : public ::google::protobuf::Message /* @@protoc_inserti
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StartNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -134,8 +131,8 @@ class StartNotification : public ::google::protobuf::Message /* @@protoc_inserti
   StartNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<StartNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const StartNotification& from);
   void MergeFrom(const StartNotification& from);
   void Clear() final;
@@ -146,14 +143,13 @@ class StartNotification : public ::google::protobuf::Message /* @@protoc_inserti
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(StartNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -164,7 +160,7 @@ class StartNotification : public ::google::protobuf::Message /* @@protoc_inserti
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -173,13 +169,13 @@ class StartNotification : public ::google::protobuf::Message /* @@protoc_inserti
   // @@protoc_insertion_point(class_scope:open_vario.StartNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_notifications_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class PressureNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.PressureNotification) */ {
+class PressureNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.PressureNotification) */ {
  public:
   PressureNotification();
   virtual ~PressureNotification();
@@ -205,7 +201,6 @@ class PressureNotification : public ::google::protobuf::Message /* @@protoc_inse
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PressureNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -230,8 +225,8 @@ class PressureNotification : public ::google::protobuf::Message /* @@protoc_inse
   PressureNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<PressureNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const PressureNotification& from);
   void MergeFrom(const PressureNotification& from);
   void Clear() final;
@@ -242,14 +237,13 @@ class PressureNotification : public ::google::protobuf::Message /* @@protoc_inse
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(PressureNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -260,7 +254,7 @@ class PressureNotification : public ::google::protobuf::Message /* @@protoc_inse
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -275,14 +269,14 @@ class PressureNotification : public ::google::protobuf::Message /* @@protoc_inse
   // @@protoc_insertion_point(class_scope:open_vario.PressureNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::uint32 pressure_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_notifications_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.TemperatureNotification) */ {
+class TemperatureNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.TemperatureNotification) */ {
  public:
   TemperatureNotification();
   virtual ~TemperatureNotification();
@@ -308,7 +302,6 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const TemperatureNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -333,8 +326,8 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
   TemperatureNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<TemperatureNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const TemperatureNotification& from);
   void MergeFrom(const TemperatureNotification& from);
   void Clear() final;
@@ -345,14 +338,13 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(TemperatureNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -363,7 +355,7 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -390,7 +382,7 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
   // @@protoc_insertion_point(class_scope:open_vario.TemperatureNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::int32 temperature_;
   ::google::protobuf::int32 min_temperature_;
   ::google::protobuf::int32 max_temperature_;
@@ -399,7 +391,7 @@ class TemperatureNotification : public ::google::protobuf::Message /* @@protoc_i
 };
 // -------------------------------------------------------------------
 
-class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.AltitudeNotification) */ {
+class AltitudeNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.AltitudeNotification) */ {
  public:
   AltitudeNotification();
   virtual ~AltitudeNotification();
@@ -425,7 +417,6 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AltitudeNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -450,8 +441,8 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
   AltitudeNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<AltitudeNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const AltitudeNotification& from);
   void MergeFrom(const AltitudeNotification& from);
   void Clear() final;
@@ -462,14 +453,13 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(AltitudeNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -480,7 +470,7 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -531,7 +521,7 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
   // @@protoc_insertion_point(class_scope:open_vario.AltitudeNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::int32 main_altitude_;
   ::google::protobuf::int32 altitude_1_;
   ::google::protobuf::int32 altitude_2_;
@@ -544,7 +534,7 @@ class AltitudeNotification : public ::google::protobuf::Message /* @@protoc_inse
 };
 // -------------------------------------------------------------------
 
-class VarioNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.VarioNotification) */ {
+class VarioNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.VarioNotification) */ {
  public:
   VarioNotification();
   virtual ~VarioNotification();
@@ -570,7 +560,6 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const VarioNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -595,8 +584,8 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
   VarioNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<VarioNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const VarioNotification& from);
   void MergeFrom(const VarioNotification& from);
   void Clear() final;
@@ -607,14 +596,13 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(VarioNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -625,7 +613,7 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -652,7 +640,7 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
   // @@protoc_insertion_point(class_scope:open_vario.VarioNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::int32 vario_;
   ::google::protobuf::int32 min_vario_;
   ::google::protobuf::int32 max_vario_;
@@ -661,7 +649,7 @@ class VarioNotification : public ::google::protobuf::Message /* @@protoc_inserti
 };
 // -------------------------------------------------------------------
 
-class NavigationNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.NavigationNotification) */ {
+class NavigationNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.NavigationNotification) */ {
  public:
   NavigationNotification();
   virtual ~NavigationNotification();
@@ -687,7 +675,6 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const NavigationNotification& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -712,8 +699,8 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
   NavigationNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<NavigationNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const NavigationNotification& from);
   void MergeFrom(const NavigationNotification& from);
   void Clear() final;
@@ -724,14 +711,13 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(NavigationNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -742,7 +728,7 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -787,7 +773,7 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
   // @@protoc_insertion_point(class_scope:open_vario.NavigationNotification)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   double latitude_;
   ::google::protobuf::int32 speed_;
   ::google::protobuf::uint32 track_angle_;
@@ -799,7 +785,7 @@ class NavigationNotification : public ::google::protobuf::Message /* @@protoc_in
 };
 // -------------------------------------------------------------------
 
-class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.SimuNotification) */ {
+class SimuNotification : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.SimuNotification) */ {
  public:
   SimuNotification();
   virtual ~SimuNotification();
@@ -825,7 +811,6 @@ class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertio
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SimuNotification& default_instance();
 
   enum NotificationsCase {
@@ -859,8 +844,8 @@ class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertio
   SimuNotification* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<SimuNotification>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const SimuNotification& from);
   void MergeFrom(const SimuNotification& from);
   void Clear() final;
@@ -871,14 +856,13 @@ class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertio
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(SimuNotification* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -889,7 +873,7 @@ class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertio
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -968,7 +952,7 @@ class SimuNotification : public ::google::protobuf::Message /* @@protoc_insertio
   inline bool has_Notifications() const;
   inline void clear_has_Notifications();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   union NotificationsUnion {
     NotificationsUnion() {}
     ::open_vario::PressureNotification* pressure_;

@@ -71,6 +71,12 @@ bool ConfigManager::init()
         resetToDefault();
         ret = store();
     }
+    if (ret)
+    {
+        LOG_INFO("Current configuration version : %u.%u", 
+                 static_cast<uint32_t>(m_config_version >> 8u),
+                 static_cast<uint32_t>(m_config_version & 0xFFu));
+    }
 
     return ret;
 }
@@ -110,19 +116,6 @@ void ConfigManager::resetToDefault()
     }
 }
 
-/** \brief Look for a configuration value group */
-bool ConfigManager::searchConfigValueGroup(const char* const name, uint16_t& id)
-{
-    bool ret = false;
-
-    for (id = 0; (id < m_config_value_groups.getCount()) && !ret; id++)
-    {
-        ret = (strcmp(name, m_config_value_groups[id]->name()) == 0);
-    }
-
-    return ret;
-}
-
 /** \brief Get a configuration value group */
 bool ConfigManager::getConfigValueGroup(const uint16_t id, IConfigValueGroup*& config_value_group)
 {
@@ -136,5 +129,22 @@ bool ConfigManager::getConfigValueGroup(const uint16_t id, IConfigValueGroup*& c
     return ret;
 }
 
+/** \brief Get a configuration value and its group */
+bool ConfigManager::getConfigValueAndGroup(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueGroup*& config_value_group, IConfigValue*& config_value)
+{
+    bool ret = false;
+
+    if ((config_value_group_id < m_config_value_groups.getCount()) &&
+        (m_config_value_groups[config_value_group_id] != NULL))
+    {
+        config_value_group = m_config_value_groups[config_value_group_id];
+        if (config_value_id < config_value_group->getCount())
+        {
+            ret = config_value_group->getConfigValue(config_value_id, config_value);
+        }
+    }
+
+    return ret;
+}
 
 }

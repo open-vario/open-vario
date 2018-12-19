@@ -47,7 +47,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
-
+class ConfigManager;
 
 /** \brief Open vario v1.0 board */
 class OpenVarioBoard : public IOpenVarioBoard
@@ -55,11 +55,14 @@ class OpenVarioBoard : public IOpenVarioBoard
     public:
 
         /** \brief Constructor */
-        OpenVarioBoard();
+        OpenVarioBoard(ConfigManager& config_manager);
 
 
         /** \brief Configure the board peripherals */
         virtual bool configure();
+
+        /** \brief Start the board peripherals */
+        virtual bool start() {}
 
         /** \brief Get the board's name */
         virtual const char* name() const { return "Open Vario 1.0"; }

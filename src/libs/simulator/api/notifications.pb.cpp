@@ -9,10 +9,7 @@
 #include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/generated_message_reflection.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 // This is a temporary google only hack
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
 #include "third_party/protobuf/version.h"
@@ -182,152 +179,6 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_SimuNotification.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[7];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::StartNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::PressureNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::PressureNotification, pressure_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::TemperatureNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::TemperatureNotification, temperature_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::TemperatureNotification, min_temperature_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::TemperatureNotification, max_temperature_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, main_altitude_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, altitude_1_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, altitude_2_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, altitude_3_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, altitude_4_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, min_altitude_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::AltitudeNotification, max_altitude_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::VarioNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::VarioNotification, vario_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::VarioNotification, min_vario_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::VarioNotification, max_vario_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, speed_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, latitude_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, longitude_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, track_angle_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, min_speed_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::NavigationNotification, max_speed_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuNotification, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuNotification, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  offsetof(::open_vario::SimuNotificationDefaultTypeInternal, pressure_),
-  offsetof(::open_vario::SimuNotificationDefaultTypeInternal, temperature_),
-  offsetof(::open_vario::SimuNotificationDefaultTypeInternal, altitude_),
-  offsetof(::open_vario::SimuNotificationDefaultTypeInternal, vario_),
-  offsetof(::open_vario::SimuNotificationDefaultTypeInternal, navigation_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuNotification, Notifications_),
-};
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::open_vario::StartNotification)},
-  { 5, -1, sizeof(::open_vario::PressureNotification)},
-  { 11, -1, sizeof(::open_vario::TemperatureNotification)},
-  { 19, -1, sizeof(::open_vario::AltitudeNotification)},
-  { 31, -1, sizeof(::open_vario::VarioNotification)},
-  { 39, -1, sizeof(::open_vario::NavigationNotification)},
-  { 50, -1, sizeof(::open_vario::SimuNotification)},
-};
-
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_StartNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_PressureNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_TemperatureNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_AltitudeNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_VarioNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_NavigationNotification_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_SimuNotification_default_instance_),
-};
-
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "notifications.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 7);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\023notifications.proto\022\nopen_vario\"\023\n\021Sta"
-      "rtNotification\"(\n\024PressureNotification\022\020"
-      "\n\010pressure\030\001 \001(\r\"`\n\027TemperatureNotificat"
-      "ion\022\023\n\013temperature\030\001 \001(\021\022\027\n\017min_temperat"
-      "ure\030\002 \001(\021\022\027\n\017max_temperature\030\003 \001(\021\"\251\001\n\024A"
-      "ltitudeNotification\022\025\n\rmain_altitude\030\001 \001"
-      "(\021\022\022\n\naltitude_1\030\002 \001(\021\022\022\n\naltitude_2\030\003 \001"
-      "(\021\022\022\n\naltitude_3\030\004 \001(\021\022\022\n\naltitude_4\030\005 \001"
-      "(\021\022\024\n\014min_altitude\030\006 \001(\021\022\024\n\014max_altitude"
-      "\030\007 \001(\021\"H\n\021VarioNotification\022\r\n\005vario\030\001 \001"
-      "(\021\022\021\n\tmin_vario\030\002 \001(\021\022\021\n\tmax_vario\030\003 \001(\021"
-      "\"\207\001\n\026NavigationNotification\022\r\n\005speed\030\001 \001"
-      "(\021\022\020\n\010latitude\030\002 \001(\001\022\021\n\tlongitude\030\003 \001(\001\022"
-      "\023\n\013track_angle\030\004 \001(\r\022\021\n\tmin_speed\030\005 \001(\021\022"
-      "\021\n\tmax_speed\030\006 \001(\021\"\265\002\n\020SimuNotification\022"
-      "4\n\010pressure\030\001 \001(\0132 .open_vario.PressureN"
-      "otificationH\000\022:\n\013temperature\030\002 \001(\0132#.ope"
-      "n_vario.TemperatureNotificationH\000\0224\n\010alt"
-      "itude\030\003 \001(\0132 .open_vario.AltitudeNotific"
-      "ationH\000\022.\n\005vario\030\004 \001(\0132\035.open_vario.Vari"
-      "oNotificationH\000\0228\n\nnavigation\030\005 \001(\0132\".op"
-      "en_vario.NavigationNotificationH\000B\017\n\rNot"
-      "ificationsb\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 898);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "notifications.proto", &protobuf_RegisterTypes);
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
 }  // namespace protobuf_notifications_2eproto
 namespace open_vario {
 
@@ -339,14 +190,14 @@ void StartNotification::InitAsDefaultInstance() {
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 StartNotification::StartNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_StartNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.StartNotification)
 }
 StartNotification::StartNotification(const StartNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:open_vario.StartNotification)
@@ -366,11 +217,6 @@ void StartNotification::SharedDtor() {
 void StartNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* StartNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const StartNotification& StartNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_StartNotification.base);
   return *internal_default_instance();
@@ -390,6 +236,12 @@ bool StartNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.StartNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -399,8 +251,8 @@ bool StartNotification::MergePartialFromCodedStream(
     if (tag == 0) {
       goto success;
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
+    DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+        input, tag, &unknown_fields_stream));
   }
 success:
   // @@protoc_insertion_point(parse_success:open_vario.StartNotification)
@@ -417,55 +269,25 @@ void StartNotification::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.StartNotification)
-}
-
-::google::protobuf::uint8* StartNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.StartNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.StartNotification)
-  return target;
 }
 
 size_t StartNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.StartNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void StartNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.StartNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const StartNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const StartNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.StartNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.StartNotification)
-    MergeFrom(*source);
-  }
+void StartNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const StartNotification*>(&from));
 }
 
 void StartNotification::MergeFrom(const StartNotification& from) {
@@ -475,13 +297,6 @@ void StartNotification::MergeFrom(const StartNotification& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-}
-
-void StartNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.StartNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void StartNotification::CopyFrom(const StartNotification& from) {
@@ -504,9 +319,8 @@ void StartNotification::InternalSwap(StartNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata StartNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string StartNotification::GetTypeName() const {
+  return "open_vario.StartNotification";
 }
 
 
@@ -519,14 +333,14 @@ const int PressureNotification::kPressureFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PressureNotification::PressureNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_PressureNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.PressureNotification)
 }
 PressureNotification::PressureNotification(const PressureNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   pressure_ = from.pressure_;
@@ -548,11 +362,6 @@ void PressureNotification::SharedDtor() {
 void PressureNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* PressureNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const PressureNotification& PressureNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_PressureNotification.base);
   return *internal_default_instance();
@@ -573,6 +382,12 @@ bool PressureNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.PressureNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -598,8 +413,8 @@ bool PressureNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -624,42 +439,17 @@ void PressureNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->pressure(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.PressureNotification)
-}
-
-::google::protobuf::uint8* PressureNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.PressureNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 pressure = 1;
-  if (this->pressure() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->pressure(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.PressureNotification)
-  return target;
 }
 
 size_t PressureNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.PressureNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // uint32 pressure = 1;
   if (this->pressure() != 0) {
     total_size += 1 +
@@ -672,19 +462,9 @@ size_t PressureNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void PressureNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.PressureNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const PressureNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const PressureNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.PressureNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.PressureNotification)
-    MergeFrom(*source);
-  }
+void PressureNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const PressureNotification*>(&from));
 }
 
 void PressureNotification::MergeFrom(const PressureNotification& from) {
@@ -697,13 +477,6 @@ void PressureNotification::MergeFrom(const PressureNotification& from) {
   if (from.pressure() != 0) {
     set_pressure(from.pressure());
   }
-}
-
-void PressureNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.PressureNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void PressureNotification::CopyFrom(const PressureNotification& from) {
@@ -727,9 +500,8 @@ void PressureNotification::InternalSwap(PressureNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata PressureNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string PressureNotification::GetTypeName() const {
+  return "open_vario.PressureNotification";
 }
 
 
@@ -744,14 +516,14 @@ const int TemperatureNotification::kMaxTemperatureFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TemperatureNotification::TemperatureNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_TemperatureNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.TemperatureNotification)
 }
 TemperatureNotification::TemperatureNotification(const TemperatureNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&temperature_, &from.temperature_,
@@ -777,11 +549,6 @@ void TemperatureNotification::SharedDtor() {
 void TemperatureNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* TemperatureNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const TemperatureNotification& TemperatureNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_TemperatureNotification.base);
   return *internal_default_instance();
@@ -804,6 +571,12 @@ bool TemperatureNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.TemperatureNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -857,8 +630,8 @@ bool TemperatureNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -893,52 +666,17 @@ void TemperatureNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(3, this->max_temperature(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.TemperatureNotification)
-}
-
-::google::protobuf::uint8* TemperatureNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.TemperatureNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // sint32 temperature = 1;
-  if (this->temperature() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->temperature(), target);
-  }
-
-  // sint32 min_temperature = 2;
-  if (this->min_temperature() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->min_temperature(), target);
-  }
-
-  // sint32 max_temperature = 3;
-  if (this->max_temperature() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->max_temperature(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.TemperatureNotification)
-  return target;
 }
 
 size_t TemperatureNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.TemperatureNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // sint32 temperature = 1;
   if (this->temperature() != 0) {
     total_size += 1 +
@@ -965,19 +703,9 @@ size_t TemperatureNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void TemperatureNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.TemperatureNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const TemperatureNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const TemperatureNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.TemperatureNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.TemperatureNotification)
-    MergeFrom(*source);
-  }
+void TemperatureNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const TemperatureNotification*>(&from));
 }
 
 void TemperatureNotification::MergeFrom(const TemperatureNotification& from) {
@@ -996,13 +724,6 @@ void TemperatureNotification::MergeFrom(const TemperatureNotification& from) {
   if (from.max_temperature() != 0) {
     set_max_temperature(from.max_temperature());
   }
-}
-
-void TemperatureNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.TemperatureNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void TemperatureNotification::CopyFrom(const TemperatureNotification& from) {
@@ -1028,9 +749,8 @@ void TemperatureNotification::InternalSwap(TemperatureNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata TemperatureNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string TemperatureNotification::GetTypeName() const {
+  return "open_vario.TemperatureNotification";
 }
 
 
@@ -1049,14 +769,14 @@ const int AltitudeNotification::kMaxAltitudeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AltitudeNotification::AltitudeNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_AltitudeNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.AltitudeNotification)
 }
 AltitudeNotification::AltitudeNotification(const AltitudeNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&main_altitude_, &from.main_altitude_,
@@ -1082,11 +802,6 @@ void AltitudeNotification::SharedDtor() {
 void AltitudeNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* AltitudeNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const AltitudeNotification& AltitudeNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_AltitudeNotification.base);
   return *internal_default_instance();
@@ -1109,6 +824,12 @@ bool AltitudeNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.AltitudeNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1218,8 +939,8 @@ bool AltitudeNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1274,72 +995,17 @@ void AltitudeNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(7, this->max_altitude(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.AltitudeNotification)
-}
-
-::google::protobuf::uint8* AltitudeNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.AltitudeNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // sint32 main_altitude = 1;
-  if (this->main_altitude() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->main_altitude(), target);
-  }
-
-  // sint32 altitude_1 = 2;
-  if (this->altitude_1() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->altitude_1(), target);
-  }
-
-  // sint32 altitude_2 = 3;
-  if (this->altitude_2() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->altitude_2(), target);
-  }
-
-  // sint32 altitude_3 = 4;
-  if (this->altitude_3() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(4, this->altitude_3(), target);
-  }
-
-  // sint32 altitude_4 = 5;
-  if (this->altitude_4() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->altitude_4(), target);
-  }
-
-  // sint32 min_altitude = 6;
-  if (this->min_altitude() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->min_altitude(), target);
-  }
-
-  // sint32 max_altitude = 7;
-  if (this->max_altitude() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(7, this->max_altitude(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.AltitudeNotification)
-  return target;
 }
 
 size_t AltitudeNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.AltitudeNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // sint32 main_altitude = 1;
   if (this->main_altitude() != 0) {
     total_size += 1 +
@@ -1394,19 +1060,9 @@ size_t AltitudeNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void AltitudeNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.AltitudeNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const AltitudeNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const AltitudeNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.AltitudeNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.AltitudeNotification)
-    MergeFrom(*source);
-  }
+void AltitudeNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AltitudeNotification*>(&from));
 }
 
 void AltitudeNotification::MergeFrom(const AltitudeNotification& from) {
@@ -1439,13 +1095,6 @@ void AltitudeNotification::MergeFrom(const AltitudeNotification& from) {
   }
 }
 
-void AltitudeNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.AltitudeNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void AltitudeNotification::CopyFrom(const AltitudeNotification& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:open_vario.AltitudeNotification)
   if (&from == this) return;
@@ -1473,9 +1122,8 @@ void AltitudeNotification::InternalSwap(AltitudeNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata AltitudeNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string AltitudeNotification::GetTypeName() const {
+  return "open_vario.AltitudeNotification";
 }
 
 
@@ -1490,14 +1138,14 @@ const int VarioNotification::kMaxVarioFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 VarioNotification::VarioNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_VarioNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.VarioNotification)
 }
 VarioNotification::VarioNotification(const VarioNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&vario_, &from.vario_,
@@ -1523,11 +1171,6 @@ void VarioNotification::SharedDtor() {
 void VarioNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* VarioNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const VarioNotification& VarioNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_VarioNotification.base);
   return *internal_default_instance();
@@ -1550,6 +1193,12 @@ bool VarioNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.VarioNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1603,8 +1252,8 @@ bool VarioNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1639,52 +1288,17 @@ void VarioNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(3, this->max_vario(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.VarioNotification)
-}
-
-::google::protobuf::uint8* VarioNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.VarioNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // sint32 vario = 1;
-  if (this->vario() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->vario(), target);
-  }
-
-  // sint32 min_vario = 2;
-  if (this->min_vario() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(2, this->min_vario(), target);
-  }
-
-  // sint32 max_vario = 3;
-  if (this->max_vario() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->max_vario(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.VarioNotification)
-  return target;
 }
 
 size_t VarioNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.VarioNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // sint32 vario = 1;
   if (this->vario() != 0) {
     total_size += 1 +
@@ -1711,19 +1325,9 @@ size_t VarioNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void VarioNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.VarioNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const VarioNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const VarioNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.VarioNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.VarioNotification)
-    MergeFrom(*source);
-  }
+void VarioNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const VarioNotification*>(&from));
 }
 
 void VarioNotification::MergeFrom(const VarioNotification& from) {
@@ -1742,13 +1346,6 @@ void VarioNotification::MergeFrom(const VarioNotification& from) {
   if (from.max_vario() != 0) {
     set_max_vario(from.max_vario());
   }
-}
-
-void VarioNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.VarioNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void VarioNotification::CopyFrom(const VarioNotification& from) {
@@ -1774,9 +1371,8 @@ void VarioNotification::InternalSwap(VarioNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata VarioNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string VarioNotification::GetTypeName() const {
+  return "open_vario.VarioNotification";
 }
 
 
@@ -1794,14 +1390,14 @@ const int NavigationNotification::kMaxSpeedFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 NavigationNotification::NavigationNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_NavigationNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.NavigationNotification)
 }
 NavigationNotification::NavigationNotification(const NavigationNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&latitude_, &from.latitude_,
@@ -1827,11 +1423,6 @@ void NavigationNotification::SharedDtor() {
 void NavigationNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* NavigationNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const NavigationNotification& NavigationNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_NavigationNotification.base);
   return *internal_default_instance();
@@ -1854,6 +1445,12 @@ bool NavigationNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.NavigationNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1949,8 +1546,8 @@ bool NavigationNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -2000,67 +1597,17 @@ void NavigationNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteSInt32(6, this->max_speed(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.NavigationNotification)
-}
-
-::google::protobuf::uint8* NavigationNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.NavigationNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // sint32 speed = 1;
-  if (this->speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(1, this->speed(), target);
-  }
-
-  // double latitude = 2;
-  if (this->latitude() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->latitude(), target);
-  }
-
-  // double longitude = 3;
-  if (this->longitude() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(3, this->longitude(), target);
-  }
-
-  // uint32 track_angle = 4;
-  if (this->track_angle() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->track_angle(), target);
-  }
-
-  // sint32 min_speed = 5;
-  if (this->min_speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(5, this->min_speed(), target);
-  }
-
-  // sint32 max_speed = 6;
-  if (this->max_speed() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(6, this->max_speed(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.NavigationNotification)
-  return target;
 }
 
 size_t NavigationNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.NavigationNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // double latitude = 2;
   if (this->latitude() != 0) {
     total_size += 1 + 8;
@@ -2104,19 +1651,9 @@ size_t NavigationNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void NavigationNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.NavigationNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const NavigationNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const NavigationNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.NavigationNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.NavigationNotification)
-    MergeFrom(*source);
-  }
+void NavigationNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const NavigationNotification*>(&from));
 }
 
 void NavigationNotification::MergeFrom(const NavigationNotification& from) {
@@ -2146,13 +1683,6 @@ void NavigationNotification::MergeFrom(const NavigationNotification& from) {
   }
 }
 
-void NavigationNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.NavigationNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void NavigationNotification::CopyFrom(const NavigationNotification& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:open_vario.NavigationNotification)
   if (&from == this) return;
@@ -2179,25 +1709,14 @@ void NavigationNotification::InternalSwap(NavigationNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata NavigationNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string NavigationNotification::GetTypeName() const {
+  return "open_vario.NavigationNotification";
 }
 
 
 // ===================================================================
 
 void SimuNotification::InitAsDefaultInstance() {
-  ::open_vario::_SimuNotification_default_instance_.pressure_ = const_cast< ::open_vario::PressureNotification*>(
-      ::open_vario::PressureNotification::internal_default_instance());
-  ::open_vario::_SimuNotification_default_instance_.temperature_ = const_cast< ::open_vario::TemperatureNotification*>(
-      ::open_vario::TemperatureNotification::internal_default_instance());
-  ::open_vario::_SimuNotification_default_instance_.altitude_ = const_cast< ::open_vario::AltitudeNotification*>(
-      ::open_vario::AltitudeNotification::internal_default_instance());
-  ::open_vario::_SimuNotification_default_instance_.vario_ = const_cast< ::open_vario::VarioNotification*>(
-      ::open_vario::VarioNotification::internal_default_instance());
-  ::open_vario::_SimuNotification_default_instance_.navigation_ = const_cast< ::open_vario::NavigationNotification*>(
-      ::open_vario::NavigationNotification::internal_default_instance());
 }
 void SimuNotification::set_allocated_pressure(::open_vario::PressureNotification* pressure) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -2278,14 +1797,14 @@ const int SimuNotification::kNavigationFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SimuNotification::SimuNotification()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_notifications_2eproto::scc_info_SimuNotification.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.SimuNotification)
 }
 SimuNotification::SimuNotification(const SimuNotification& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   clear_has_Notifications();
@@ -2335,11 +1854,6 @@ void SimuNotification::SharedDtor() {
 void SimuNotification::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SimuNotification::descriptor() {
-  ::protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const SimuNotification& SimuNotification::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_notifications_2eproto::scc_info_SimuNotification.base);
   return *internal_default_instance();
@@ -2391,6 +1905,12 @@ bool SimuNotification::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.SimuNotification)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -2462,8 +1982,8 @@ bool SimuNotification::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -2485,100 +2005,45 @@ void SimuNotification::SerializeWithCachedSizes(
 
   // .open_vario.PressureNotification pressure = 1;
   if (has_pressure()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->_internal_pressure(), output);
   }
 
   // .open_vario.TemperatureNotification temperature = 2;
   if (has_temperature()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       2, this->_internal_temperature(), output);
   }
 
   // .open_vario.AltitudeNotification altitude = 3;
   if (has_altitude()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       3, this->_internal_altitude(), output);
   }
 
   // .open_vario.VarioNotification vario = 4;
   if (has_vario()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       4, this->_internal_vario(), output);
   }
 
   // .open_vario.NavigationNotification navigation = 5;
   if (has_navigation()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       5, this->_internal_navigation(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.SimuNotification)
-}
-
-::google::protobuf::uint8* SimuNotification::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.SimuNotification)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .open_vario.PressureNotification pressure = 1;
-  if (has_pressure()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_pressure(), deterministic, target);
-  }
-
-  // .open_vario.TemperatureNotification temperature = 2;
-  if (has_temperature()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_temperature(), deterministic, target);
-  }
-
-  // .open_vario.AltitudeNotification altitude = 3;
-  if (has_altitude()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        3, this->_internal_altitude(), deterministic, target);
-  }
-
-  // .open_vario.VarioNotification vario = 4;
-  if (has_vario()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        4, this->_internal_vario(), deterministic, target);
-  }
-
-  // .open_vario.NavigationNotification navigation = 5;
-  if (has_navigation()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        5, this->_internal_navigation(), deterministic, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.SimuNotification)
-  return target;
 }
 
 size_t SimuNotification::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.SimuNotification)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   switch (Notifications_case()) {
     // .open_vario.PressureNotification pressure = 1;
     case kPressure: {
@@ -2624,19 +2089,9 @@ size_t SimuNotification::ByteSizeLong() const {
   return total_size;
 }
 
-void SimuNotification::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.SimuNotification)
-  GOOGLE_DCHECK_NE(&from, this);
-  const SimuNotification* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SimuNotification>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.SimuNotification)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.SimuNotification)
-    MergeFrom(*source);
-  }
+void SimuNotification::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const SimuNotification*>(&from));
 }
 
 void SimuNotification::MergeFrom(const SimuNotification& from) {
@@ -2673,13 +2128,6 @@ void SimuNotification::MergeFrom(const SimuNotification& from) {
   }
 }
 
-void SimuNotification::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.SimuNotification)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void SimuNotification::CopyFrom(const SimuNotification& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:open_vario.SimuNotification)
   if (&from == this) return;
@@ -2702,9 +2150,8 @@ void SimuNotification::InternalSwap(SimuNotification* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SimuNotification::GetMetadata() const {
-  protobuf_notifications_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_notifications_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string SimuNotification::GetTypeName() const {
+  return "open_vario.SimuNotification";
 }
 
 

@@ -49,6 +49,9 @@ class IConfigValue
         /** \brief Set the value from a buffer */
         virtual bool set(const uint8_t* const buffer) = 0;
 
+        /** \brief Copy the value to a buffer */
+        virtual bool get(uint8_t* const buffer) const = 0;
+
         /** \brief Reset the value to its default value */
         virtual void reset() = 0;
 

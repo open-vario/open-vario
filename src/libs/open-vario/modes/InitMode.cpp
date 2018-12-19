@@ -41,7 +41,8 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManag
 void InitMode::enter()
 {
     // Initialize the board
-    const bool ret = IOpenVarioApp::getInstance().getBoard().configure();
+    IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
+    bool ret = board.configure();
     if (!ret)
     {
         LOG_ERROR("Failure during board initialization...");
@@ -60,11 +61,23 @@ void InitMode::enter()
         // Initialize configuration
         m_config_manager.init();    
 
-        // Blink a bit :)
-        IOpenVarioApp::getInstance().getOs().waitMs(3000);
+        // Start the board peripherals
+        ret = board.start();
+        if (ret)
+        {
+            // Blink a bit :)
+            IOpenVarioApp::getInstance().getOs().waitMs(3000);
 
-        // Init done, switch to run mode
-        m_mode_manager.switchToMode(OPMODE_RUN);
+            // Init done, switch to run mode
+            m_mode_manager.switchToMode(OPMODE_RUN);
+        }
+        else
+        {
+            LOG_ERROR("Failure during board startup...");
+
+            // Init failed, switch to power off mode
+            m_mode_manager.switchToMode(OPMODE_POWEROFF);
+        }
     }
 }
 

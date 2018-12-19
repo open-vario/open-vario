@@ -24,7 +24,7 @@ namespace open_vario
 
 
 /** \brief Constructor */
-OpenVarioBoard::OpenVarioBoard()
+OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 : m_cpu()
 
 , m_dma1(Stm32l476Dma::DMA_1)
@@ -83,7 +83,9 @@ OpenVarioBoard::OpenVarioBoard()
 , m_gnss_uart(m_cpu, 9600u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 , m_gnss_thread("GNSS Thread", 10u)
 , m_gnss(m_gnss_uart, m_gnss_thread)
-{}
+{
+    (void)config_manager;
+}
 
 /** \brief Configure the board peripherals */
 bool OpenVarioBoard::configure()

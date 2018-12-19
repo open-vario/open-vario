@@ -32,8 +32,11 @@ BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
 PROJECT_DEPENDENCIES = libs/cpu \
-                       libs/peripherals \
+                       libs/board \
+					   libs/peripherals \
 					   libs/os \
+					   libs/open-vario \
+					   3rdparty/nano-stl \
                        $(TARGET_BSP)
 
 			  
@@ -55,11 +58,16 @@ PROTOC_DIR = $(ROOT_DIR_ABS)/3rdparty/open-vario-simu/src/api
 PROTOC_OUT_DIR = $(ROOT_DIR_ABS)/src/libs/simulator/api
 
 # Rule for generating protocol buffer source files
-protoc_gen:
-	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/requests.proto
-	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/responses.proto
-	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/notifications.proto
-	mv $(PROTOC_OUT_DIR)/requests.pb.cc $(PROTOC_OUT_DIR)/requests.pb.cpp
-	mv $(PROTOC_OUT_DIR)/responses.pb.cc $(PROTOC_OUT_DIR)/responses.pb.cpp
-	mv $(PROTOC_OUT_DIR)/notifications.pb.cc $(PROTOC_OUT_DIR)/notifications.pb.cpp
+protoc_gen: $(PROTOC_OUT_DIR)/requests.pb.cpp $(PROTOC_OUT_DIR)/responses.pb.cpp $(PROTOC_OUT_DIR)/notifications.pb.cpp
 
+$(PROTOC_OUT_DIR)/requests.pb.cpp: $(PROTOC_DIR)/requests.proto
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/requests.proto
+	mv $(PROTOC_OUT_DIR)/requests.pb.cc $(PROTOC_OUT_DIR)/requests.pb.cpp
+
+$(PROTOC_OUT_DIR)/responses.pb.cpp: $(PROTOC_DIR)/responses.proto
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/responses.proto
+	mv $(PROTOC_OUT_DIR)/responses.pb.cc $(PROTOC_OUT_DIR)/responses.pb.cpp
+
+$(PROTOC_OUT_DIR)/notifications.pb.cpp: $(PROTOC_DIR)/notifications.proto
+	$(PROTOC_COMP) --cpp_out=$(PROTOC_OUT_DIR) -I$(PROTOC_DIR) $(PROTOC_DIR)/notifications.proto
+	mv $(PROTOC_OUT_DIR)/notifications.pb.cc $(PROTOC_OUT_DIR)/notifications.pb.cpp

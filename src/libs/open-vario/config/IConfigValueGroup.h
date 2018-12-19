@@ -48,8 +48,8 @@ class IConfigValueGroup
         /** \brief Unlock the group */
         virtual void unlock() = 0;
 
-        /** \brief Look for a configuration value in the group */
-        virtual bool searchConfigValue(const char* const name, uint16_t& index) = 0;
+        /** \brief Register a configuration value */
+        virtual bool registerConfigValue(IConfigValue& config_value) = 0;
 
         /** \brief Get a configuration value */
         virtual bool getConfigValue(const uint16_t index, IConfigValue*& config_value) = 0;

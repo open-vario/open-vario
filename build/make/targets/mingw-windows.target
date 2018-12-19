@@ -42,10 +42,10 @@ TARGET_DEPENDENCIES=libs/simulator
 TARGET_INC_DIRS=$(ROOT_DIR_ABS)/3rdparty/protobuf-3.6.1/src
 
 # Target specific lib directories
-TARGET_LIB_DIRS=
+TARGET_LIB_DIRS=-L$(ROOT_DIR_ABS)/3rdparty/protobuf-3.6.1/src/.libs
 
 # Target specific libraries
-TARGET_LIBS=
+TARGET_LIBS=-lws2_32 -lprotobuf-lite
 
 # Target implementation for the project defines
 TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_WINDOWS

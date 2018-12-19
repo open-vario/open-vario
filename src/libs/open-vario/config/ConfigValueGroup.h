@@ -23,6 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IConfigValueGroup.h"
 #include "Mutex.h"
 #include "StaticVector.h"
+#include "IConfigValue.h"
 
 #include <cstring>
 
@@ -37,7 +38,7 @@ class ConfigValueGroup : public IConfigValueGroup
     public:
 
         /** \brief Constructor */
-        ConfigValueGroup(const char* const name)
+        ConfigValueGroup(const uint16_t id, const char* const name)
         : m_id(id)
         , m_name(name)
         , m_mutex()
@@ -60,27 +61,22 @@ class ConfigValueGroup : public IConfigValueGroup
         /** \brief Unlock the group */
         virtual void unlock() { m_mutex.unlock(); }
 
-        /** \brief Look for a configuration value in the group */
-        virtual bool searchConfigValue(const char* const name, uint16_t& index)
-        {
-            bool ret = false;
-
-            for (index = 0; (index < m_config_values.getCount()) && !ret; index++)
-            {
-                ret = (strcmp(name, m_config_values[index]->name()) == 0);
-            }
-
+        /** \brief Register a configuration value */
+        virtual bool registerConfigValue(IConfigValue& config_value) 
+        { 
+            const bool ret = m_config_values.pushBack(&config_value);
             return ret;
         }
 
         /** \brief Get a configuration value */
-        virtual bool getConfigValue(const uint16_t index, IConfigValue*& config_value)
+        virtual bool getConfigValue(const uint16_t id, IConfigValue*& config_value)
         {
             bool ret = false;
 
-            if (index < m_config_values.getCount())
+            if (id < m_config_values.getCount())
             {
-                config_value = m_config_values[index];
+                config_value = m_config_values[id];
+                ret = true;
             }
 
             return ret;

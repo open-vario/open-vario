@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "WindowsOpenVarioApp.h"
 
+#include <Windows.h>
 #include <iostream>
 
 namespace open_vario
@@ -48,7 +49,12 @@ bool WindowsOpenVarioApp::onInit(uint8_t argc, char* argv[])
 {
     (void)argc;
     (void)argv;
-    return true;
+
+    // Initialize sockets
+    WSADATA wsa_data = {0};
+    WORD version_requested = MAKEWORD(2, 2);
+    const bool ret = (WSAStartup(version_requested, &wsa_data) == 0);
+    return ret;
 }
 
 /** \brief Called before application start */

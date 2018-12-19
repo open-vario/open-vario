@@ -24,22 +24,26 @@ namespace open_vario
 
 
 /** \brief Constructor */
-OpenVarioBoard::OpenVarioBoard()
-: m_cpu()
+OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
+: m_config_manager(config_manager)
+, m_simulator(config_manager)
+
+, m_cpu()
 , m_rtc_driver()
 , m_rtc(m_rtc_driver)
 , m_activity_led("activity_led", ILed::OFF)
 , m_debug_uart("debug_uart")
 , m_crc32()
 , m_config_eeprom("config_eeprom.bin", 32768u) // 32kB
-{
-
-}
+{}
 
 /** \brief Configure the board peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
+
+    // Simulator
+    ret = ret && m_simulator.configure();
     
     // RTC
     ret = ret && m_rtc.configure();
@@ -56,6 +60,17 @@ bool OpenVarioBoard::configure()
     // EEPROM
     ret = ret && m_config_eeprom.configure();
    
+
+    return ret;
+}
+
+/** \brief Start the board peripherals */
+bool OpenVarioBoard::start()
+{
+    bool ret = true;
+
+    // Simulator
+    ret = ret && m_simulator.start();
 
     return ret;
 }

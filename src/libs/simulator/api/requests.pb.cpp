@@ -9,10 +9,7 @@
 #include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/generated_message_reflection.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 // This is a temporary google only hack
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
 #include "third_party/protobuf/version.h"
@@ -190,140 +187,6 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_SimuRequest.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[7];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ConnectRequest_NotificationEndpoint, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ConnectRequest_NotificationEndpoint, ip_address_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ConnectRequest_NotificationEndpoint, port_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ConnectRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ConnectRequest, notification_endpoint_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::DisconnectRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::ListSensorsRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::UpdateSensorRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::UpdateSensorRequest, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::UpdateSensorRequest, id_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, uint_value_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, int_value_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, float_value_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, double_value_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, string_value_),
-  offsetof(::open_vario::UpdateSensorRequestDefaultTypeInternal, bool_value_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::UpdateSensorRequest, Values_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::PingRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::PingRequest, number_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuRequest, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  offsetof(::open_vario::SimuRequestDefaultTypeInternal, connect_),
-  offsetof(::open_vario::SimuRequestDefaultTypeInternal, disconnect_),
-  offsetof(::open_vario::SimuRequestDefaultTypeInternal, list_sensors_),
-  offsetof(::open_vario::SimuRequestDefaultTypeInternal, update_sensor_),
-  offsetof(::open_vario::SimuRequestDefaultTypeInternal, ping_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::open_vario::SimuRequest, Requests_),
-};
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::open_vario::ConnectRequest_NotificationEndpoint)},
-  { 7, -1, sizeof(::open_vario::ConnectRequest)},
-  { 13, -1, sizeof(::open_vario::DisconnectRequest)},
-  { 18, -1, sizeof(::open_vario::ListSensorsRequest)},
-  { 23, -1, sizeof(::open_vario::UpdateSensorRequest)},
-  { 36, -1, sizeof(::open_vario::PingRequest)},
-  { 42, -1, sizeof(::open_vario::SimuRequest)},
-};
-
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_ConnectRequest_NotificationEndpoint_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_ConnectRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_DisconnectRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_ListSensorsRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_UpdateSensorRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_PingRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::open_vario::_SimuRequest_default_instance_),
-};
-
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "requests.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 7);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016requests.proto\022\nopen_vario\"\232\001\n\016Connect"
-      "Request\022N\n\025notification_endpoint\030\001 \001(\0132/"
-      ".open_vario.ConnectRequest.NotificationE"
-      "ndpoint\0328\n\024NotificationEndpoint\022\022\n\nip_ad"
-      "dress\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\"\023\n\021DisconnectR"
-      "equest\"\024\n\022ListSensorsRequest\"\263\001\n\023UpdateS"
-      "ensorRequest\022\n\n\002id\030\001 \001(\r\022\024\n\nuint_value\030\002"
-      " \001(\rH\000\022\023\n\tint_value\030\003 \001(\021H\000\022\025\n\013float_val"
-      "ue\030\004 \001(\002H\000\022\026\n\014double_value\030\005 \001(\001H\000\022\026\n\014st"
-      "ring_value\030\006 \001(\tH\000\022\024\n\nbool_value\030\007 \001(\010H\000"
-      "B\010\n\006Values\"\035\n\013PingRequest\022\016\n\006number\030\001 \001("
-      "\r\"\230\002\n\013SimuRequest\022-\n\007connect\030\001 \001(\0132\032.ope"
-      "n_vario.ConnectRequestH\000\0223\n\ndisconnect\030\002"
-      " \001(\0132\035.open_vario.DisconnectRequestH\000\0226\n"
-      "\014list_sensors\030\003 \001(\0132\036.open_vario.ListSen"
-      "sorsRequestH\000\0228\n\rupdate_sensor\030\004 \001(\0132\037.o"
-      "pen_vario.UpdateSensorRequestH\000\022\'\n\004ping\030"
-      "\005 \001(\0132\027.open_vario.PingRequestH\000B\n\n\010Requ"
-      "estsb\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 732);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "requests.proto", &protobuf_RegisterTypes);
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
 }  // namespace protobuf_requests_2eproto
 namespace open_vario {
 
@@ -337,14 +200,14 @@ const int ConnectRequest_NotificationEndpoint::kPortFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ConnectRequest_NotificationEndpoint::ConnectRequest_NotificationEndpoint()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_ConnectRequest_NotificationEndpoint.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.ConnectRequest.NotificationEndpoint)
 }
 ConnectRequest_NotificationEndpoint::ConnectRequest_NotificationEndpoint(const ConnectRequest_NotificationEndpoint& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ip_address_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -372,11 +235,6 @@ void ConnectRequest_NotificationEndpoint::SharedDtor() {
 void ConnectRequest_NotificationEndpoint::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ConnectRequest_NotificationEndpoint::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const ConnectRequest_NotificationEndpoint& ConnectRequest_NotificationEndpoint::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_ConnectRequest_NotificationEndpoint.base);
   return *internal_default_instance();
@@ -398,6 +256,12 @@ bool ConnectRequest_NotificationEndpoint::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.ConnectRequest.NotificationEndpoint)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -439,8 +303,8 @@ bool ConnectRequest_NotificationEndpoint::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -475,53 +339,17 @@ void ConnectRequest_NotificationEndpoint::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->port(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.ConnectRequest.NotificationEndpoint)
-}
-
-::google::protobuf::uint8* ConnectRequest_NotificationEndpoint::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.ConnectRequest.NotificationEndpoint)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string ip_address = 1;
-  if (this->ip_address().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->ip_address().data(), static_cast<int>(this->ip_address().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "open_vario.ConnectRequest.NotificationEndpoint.ip_address");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->ip_address(), target);
-  }
-
-  // uint32 port = 2;
-  if (this->port() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->port(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.ConnectRequest.NotificationEndpoint)
-  return target;
 }
 
 size_t ConnectRequest_NotificationEndpoint::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.ConnectRequest.NotificationEndpoint)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // string ip_address = 1;
   if (this->ip_address().size() > 0) {
     total_size += 1 +
@@ -541,19 +369,9 @@ size_t ConnectRequest_NotificationEndpoint::ByteSizeLong() const {
   return total_size;
 }
 
-void ConnectRequest_NotificationEndpoint::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.ConnectRequest.NotificationEndpoint)
-  GOOGLE_DCHECK_NE(&from, this);
-  const ConnectRequest_NotificationEndpoint* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ConnectRequest_NotificationEndpoint>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.ConnectRequest.NotificationEndpoint)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.ConnectRequest.NotificationEndpoint)
-    MergeFrom(*source);
-  }
+void ConnectRequest_NotificationEndpoint::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const ConnectRequest_NotificationEndpoint*>(&from));
 }
 
 void ConnectRequest_NotificationEndpoint::MergeFrom(const ConnectRequest_NotificationEndpoint& from) {
@@ -570,13 +388,6 @@ void ConnectRequest_NotificationEndpoint::MergeFrom(const ConnectRequest_Notific
   if (from.port() != 0) {
     set_port(from.port());
   }
-}
-
-void ConnectRequest_NotificationEndpoint::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.ConnectRequest.NotificationEndpoint)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void ConnectRequest_NotificationEndpoint::CopyFrom(const ConnectRequest_NotificationEndpoint& from) {
@@ -602,9 +413,8 @@ void ConnectRequest_NotificationEndpoint::InternalSwap(ConnectRequest_Notificati
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ConnectRequest_NotificationEndpoint::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string ConnectRequest_NotificationEndpoint::GetTypeName() const {
+  return "open_vario.ConnectRequest.NotificationEndpoint";
 }
 
 
@@ -619,14 +429,14 @@ const int ConnectRequest::kNotificationEndpointFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ConnectRequest::ConnectRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_ConnectRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.ConnectRequest)
 }
 ConnectRequest::ConnectRequest(const ConnectRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_notification_endpoint()) {
@@ -653,11 +463,6 @@ void ConnectRequest::SharedDtor() {
 void ConnectRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ConnectRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const ConnectRequest& ConnectRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_ConnectRequest.base);
   return *internal_default_instance();
@@ -681,6 +486,12 @@ bool ConnectRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.ConnectRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -704,8 +515,8 @@ bool ConnectRequest::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -727,48 +538,21 @@ void ConnectRequest::SerializeWithCachedSizes(
 
   // .open_vario.ConnectRequest.NotificationEndpoint notification_endpoint = 1;
   if (this->has_notification_endpoint()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->_internal_notification_endpoint(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.ConnectRequest)
-}
-
-::google::protobuf::uint8* ConnectRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.ConnectRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .open_vario.ConnectRequest.NotificationEndpoint notification_endpoint = 1;
-  if (this->has_notification_endpoint()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_notification_endpoint(), deterministic, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.ConnectRequest)
-  return target;
 }
 
 size_t ConnectRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.ConnectRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // .open_vario.ConnectRequest.NotificationEndpoint notification_endpoint = 1;
   if (this->has_notification_endpoint()) {
     total_size += 1 +
@@ -781,19 +565,9 @@ size_t ConnectRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void ConnectRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.ConnectRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const ConnectRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ConnectRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.ConnectRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.ConnectRequest)
-    MergeFrom(*source);
-  }
+void ConnectRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const ConnectRequest*>(&from));
 }
 
 void ConnectRequest::MergeFrom(const ConnectRequest& from) {
@@ -806,13 +580,6 @@ void ConnectRequest::MergeFrom(const ConnectRequest& from) {
   if (from.has_notification_endpoint()) {
     mutable_notification_endpoint()->::open_vario::ConnectRequest_NotificationEndpoint::MergeFrom(from.notification_endpoint());
   }
-}
-
-void ConnectRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.ConnectRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void ConnectRequest::CopyFrom(const ConnectRequest& from) {
@@ -836,9 +603,8 @@ void ConnectRequest::InternalSwap(ConnectRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ConnectRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string ConnectRequest::GetTypeName() const {
+  return "open_vario.ConnectRequest";
 }
 
 
@@ -850,14 +616,14 @@ void DisconnectRequest::InitAsDefaultInstance() {
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 DisconnectRequest::DisconnectRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_DisconnectRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.DisconnectRequest)
 }
 DisconnectRequest::DisconnectRequest(const DisconnectRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:open_vario.DisconnectRequest)
@@ -877,11 +643,6 @@ void DisconnectRequest::SharedDtor() {
 void DisconnectRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* DisconnectRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const DisconnectRequest& DisconnectRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_DisconnectRequest.base);
   return *internal_default_instance();
@@ -901,6 +662,12 @@ bool DisconnectRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.DisconnectRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -910,8 +677,8 @@ bool DisconnectRequest::MergePartialFromCodedStream(
     if (tag == 0) {
       goto success;
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
+    DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+        input, tag, &unknown_fields_stream));
   }
 success:
   // @@protoc_insertion_point(parse_success:open_vario.DisconnectRequest)
@@ -928,55 +695,25 @@ void DisconnectRequest::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.DisconnectRequest)
-}
-
-::google::protobuf::uint8* DisconnectRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.DisconnectRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.DisconnectRequest)
-  return target;
 }
 
 size_t DisconnectRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.DisconnectRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void DisconnectRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.DisconnectRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const DisconnectRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const DisconnectRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.DisconnectRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.DisconnectRequest)
-    MergeFrom(*source);
-  }
+void DisconnectRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const DisconnectRequest*>(&from));
 }
 
 void DisconnectRequest::MergeFrom(const DisconnectRequest& from) {
@@ -986,13 +723,6 @@ void DisconnectRequest::MergeFrom(const DisconnectRequest& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-}
-
-void DisconnectRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.DisconnectRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void DisconnectRequest::CopyFrom(const DisconnectRequest& from) {
@@ -1015,9 +745,8 @@ void DisconnectRequest::InternalSwap(DisconnectRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata DisconnectRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string DisconnectRequest::GetTypeName() const {
+  return "open_vario.DisconnectRequest";
 }
 
 
@@ -1029,14 +758,14 @@ void ListSensorsRequest::InitAsDefaultInstance() {
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ListSensorsRequest::ListSensorsRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_ListSensorsRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.ListSensorsRequest)
 }
 ListSensorsRequest::ListSensorsRequest(const ListSensorsRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:open_vario.ListSensorsRequest)
@@ -1056,11 +785,6 @@ void ListSensorsRequest::SharedDtor() {
 void ListSensorsRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ListSensorsRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const ListSensorsRequest& ListSensorsRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_ListSensorsRequest.base);
   return *internal_default_instance();
@@ -1080,6 +804,12 @@ bool ListSensorsRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.ListSensorsRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1089,8 +819,8 @@ bool ListSensorsRequest::MergePartialFromCodedStream(
     if (tag == 0) {
       goto success;
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
+    DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+        input, tag, &unknown_fields_stream));
   }
 success:
   // @@protoc_insertion_point(parse_success:open_vario.ListSensorsRequest)
@@ -1107,55 +837,25 @@ void ListSensorsRequest::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.ListSensorsRequest)
-}
-
-::google::protobuf::uint8* ListSensorsRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.ListSensorsRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.ListSensorsRequest)
-  return target;
 }
 
 size_t ListSensorsRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.ListSensorsRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void ListSensorsRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.ListSensorsRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const ListSensorsRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ListSensorsRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.ListSensorsRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.ListSensorsRequest)
-    MergeFrom(*source);
-  }
+void ListSensorsRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const ListSensorsRequest*>(&from));
 }
 
 void ListSensorsRequest::MergeFrom(const ListSensorsRequest& from) {
@@ -1165,13 +865,6 @@ void ListSensorsRequest::MergeFrom(const ListSensorsRequest& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-}
-
-void ListSensorsRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.ListSensorsRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void ListSensorsRequest::CopyFrom(const ListSensorsRequest& from) {
@@ -1194,22 +887,14 @@ void ListSensorsRequest::InternalSwap(ListSensorsRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ListSensorsRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string ListSensorsRequest::GetTypeName() const {
+  return "open_vario.ListSensorsRequest";
 }
 
 
 // ===================================================================
 
 void UpdateSensorRequest::InitAsDefaultInstance() {
-  ::open_vario::_UpdateSensorRequest_default_instance_.uint_value_ = 0u;
-  ::open_vario::_UpdateSensorRequest_default_instance_.int_value_ = 0;
-  ::open_vario::_UpdateSensorRequest_default_instance_.float_value_ = 0;
-  ::open_vario::_UpdateSensorRequest_default_instance_.double_value_ = 0;
-  ::open_vario::_UpdateSensorRequest_default_instance_.string_value_.UnsafeSetDefault(
-      &::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::open_vario::_UpdateSensorRequest_default_instance_.bool_value_ = false;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int UpdateSensorRequest::kIdFieldNumber;
@@ -1222,14 +907,14 @@ const int UpdateSensorRequest::kBoolValueFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UpdateSensorRequest::UpdateSensorRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_UpdateSensorRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.UpdateSensorRequest)
 }
 UpdateSensorRequest::UpdateSensorRequest(const UpdateSensorRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   id_ = from.id_;
@@ -1285,11 +970,6 @@ void UpdateSensorRequest::SharedDtor() {
 void UpdateSensorRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* UpdateSensorRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const UpdateSensorRequest& UpdateSensorRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_UpdateSensorRequest.base);
   return *internal_default_instance();
@@ -1346,6 +1026,12 @@ bool UpdateSensorRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.UpdateSensorRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1462,8 +1148,8 @@ bool UpdateSensorRequest::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1523,78 +1209,17 @@ void UpdateSensorRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->bool_value(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.UpdateSensorRequest)
-}
-
-::google::protobuf::uint8* UpdateSensorRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.UpdateSensorRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 id = 1;
-  if (this->id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->id(), target);
-  }
-
-  // uint32 uint_value = 2;
-  if (has_uint_value()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->uint_value(), target);
-  }
-
-  // sint32 int_value = 3;
-  if (has_int_value()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteSInt32ToArray(3, this->int_value(), target);
-  }
-
-  // float float_value = 4;
-  if (has_float_value()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->float_value(), target);
-  }
-
-  // double double_value = 5;
-  if (has_double_value()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->double_value(), target);
-  }
-
-  // string string_value = 6;
-  if (has_string_value()) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->string_value().data(), static_cast<int>(this->string_value().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "open_vario.UpdateSensorRequest.string_value");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        6, this->string_value(), target);
-  }
-
-  // bool bool_value = 7;
-  if (has_bool_value()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(7, this->bool_value(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.UpdateSensorRequest)
-  return target;
 }
 
 size_t UpdateSensorRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.UpdateSensorRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // uint32 id = 1;
   if (this->id() != 0) {
     total_size += 1 +
@@ -1648,19 +1273,9 @@ size_t UpdateSensorRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void UpdateSensorRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.UpdateSensorRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const UpdateSensorRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const UpdateSensorRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.UpdateSensorRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.UpdateSensorRequest)
-    MergeFrom(*source);
-  }
+void UpdateSensorRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const UpdateSensorRequest*>(&from));
 }
 
 void UpdateSensorRequest::MergeFrom(const UpdateSensorRequest& from) {
@@ -1704,13 +1319,6 @@ void UpdateSensorRequest::MergeFrom(const UpdateSensorRequest& from) {
   }
 }
 
-void UpdateSensorRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.UpdateSensorRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void UpdateSensorRequest::CopyFrom(const UpdateSensorRequest& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:open_vario.UpdateSensorRequest)
   if (&from == this) return;
@@ -1734,9 +1342,8 @@ void UpdateSensorRequest::InternalSwap(UpdateSensorRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata UpdateSensorRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string UpdateSensorRequest::GetTypeName() const {
+  return "open_vario.UpdateSensorRequest";
 }
 
 
@@ -1749,14 +1356,14 @@ const int PingRequest::kNumberFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PingRequest::PingRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_PingRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.PingRequest)
 }
 PingRequest::PingRequest(const PingRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   number_ = from.number_;
@@ -1778,11 +1385,6 @@ void PingRequest::SharedDtor() {
 void PingRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* PingRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const PingRequest& PingRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_PingRequest.base);
   return *internal_default_instance();
@@ -1803,6 +1405,12 @@ bool PingRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.PingRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1828,8 +1436,8 @@ bool PingRequest::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1854,42 +1462,17 @@ void PingRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->number(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.PingRequest)
-}
-
-::google::protobuf::uint8* PingRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.PingRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint32 number = 1;
-  if (this->number() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->number(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.PingRequest)
-  return target;
 }
 
 size_t PingRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.PingRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // uint32 number = 1;
   if (this->number() != 0) {
     total_size += 1 +
@@ -1902,19 +1485,9 @@ size_t PingRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void PingRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.PingRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const PingRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const PingRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.PingRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.PingRequest)
-    MergeFrom(*source);
-  }
+void PingRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const PingRequest*>(&from));
 }
 
 void PingRequest::MergeFrom(const PingRequest& from) {
@@ -1927,13 +1500,6 @@ void PingRequest::MergeFrom(const PingRequest& from) {
   if (from.number() != 0) {
     set_number(from.number());
   }
-}
-
-void PingRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.PingRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void PingRequest::CopyFrom(const PingRequest& from) {
@@ -1957,25 +1523,14 @@ void PingRequest::InternalSwap(PingRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata PingRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string PingRequest::GetTypeName() const {
+  return "open_vario.PingRequest";
 }
 
 
 // ===================================================================
 
 void SimuRequest::InitAsDefaultInstance() {
-  ::open_vario::_SimuRequest_default_instance_.connect_ = const_cast< ::open_vario::ConnectRequest*>(
-      ::open_vario::ConnectRequest::internal_default_instance());
-  ::open_vario::_SimuRequest_default_instance_.disconnect_ = const_cast< ::open_vario::DisconnectRequest*>(
-      ::open_vario::DisconnectRequest::internal_default_instance());
-  ::open_vario::_SimuRequest_default_instance_.list_sensors_ = const_cast< ::open_vario::ListSensorsRequest*>(
-      ::open_vario::ListSensorsRequest::internal_default_instance());
-  ::open_vario::_SimuRequest_default_instance_.update_sensor_ = const_cast< ::open_vario::UpdateSensorRequest*>(
-      ::open_vario::UpdateSensorRequest::internal_default_instance());
-  ::open_vario::_SimuRequest_default_instance_.ping_ = const_cast< ::open_vario::PingRequest*>(
-      ::open_vario::PingRequest::internal_default_instance());
 }
 void SimuRequest::set_allocated_connect(::open_vario::ConnectRequest* connect) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -2056,14 +1611,14 @@ const int SimuRequest::kPingFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SimuRequest::SimuRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_requests_2eproto::scc_info_SimuRequest.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:open_vario.SimuRequest)
 }
 SimuRequest::SimuRequest(const SimuRequest& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   clear_has_Requests();
@@ -2113,11 +1668,6 @@ void SimuRequest::SharedDtor() {
 void SimuRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SimuRequest::descriptor() {
-  ::protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const SimuRequest& SimuRequest::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_requests_2eproto::scc_info_SimuRequest.base);
   return *internal_default_instance();
@@ -2169,6 +1719,12 @@ bool SimuRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:open_vario.SimuRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -2240,8 +1796,8 @@ bool SimuRequest::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -2263,100 +1819,45 @@ void SimuRequest::SerializeWithCachedSizes(
 
   // .open_vario.ConnectRequest connect = 1;
   if (has_connect()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       1, this->_internal_connect(), output);
   }
 
   // .open_vario.DisconnectRequest disconnect = 2;
   if (has_disconnect()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       2, this->_internal_disconnect(), output);
   }
 
   // .open_vario.ListSensorsRequest list_sensors = 3;
   if (has_list_sensors()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       3, this->_internal_list_sensors(), output);
   }
 
   // .open_vario.UpdateSensorRequest update_sensor = 4;
   if (has_update_sensor()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       4, this->_internal_update_sensor(), output);
   }
 
   // .open_vario.PingRequest ping = 5;
   if (has_ping()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       5, this->_internal_ping(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.SimuRequest)
-}
-
-::google::protobuf::uint8* SimuRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:open_vario.SimuRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .open_vario.ConnectRequest connect = 1;
-  if (has_connect()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        1, this->_internal_connect(), deterministic, target);
-  }
-
-  // .open_vario.DisconnectRequest disconnect = 2;
-  if (has_disconnect()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_disconnect(), deterministic, target);
-  }
-
-  // .open_vario.ListSensorsRequest list_sensors = 3;
-  if (has_list_sensors()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        3, this->_internal_list_sensors(), deterministic, target);
-  }
-
-  // .open_vario.UpdateSensorRequest update_sensor = 4;
-  if (has_update_sensor()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        4, this->_internal_update_sensor(), deterministic, target);
-  }
-
-  // .open_vario.PingRequest ping = 5;
-  if (has_ping()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        5, this->_internal_ping(), deterministic, target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:open_vario.SimuRequest)
-  return target;
 }
 
 size_t SimuRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:open_vario.SimuRequest)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   switch (Requests_case()) {
     // .open_vario.ConnectRequest connect = 1;
     case kConnect: {
@@ -2402,19 +1903,9 @@ size_t SimuRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void SimuRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:open_vario.SimuRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const SimuRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SimuRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:open_vario.SimuRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:open_vario.SimuRequest)
-    MergeFrom(*source);
-  }
+void SimuRequest::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const SimuRequest*>(&from));
 }
 
 void SimuRequest::MergeFrom(const SimuRequest& from) {
@@ -2451,13 +1942,6 @@ void SimuRequest::MergeFrom(const SimuRequest& from) {
   }
 }
 
-void SimuRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:open_vario.SimuRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void SimuRequest::CopyFrom(const SimuRequest& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:open_vario.SimuRequest)
   if (&from == this) return;
@@ -2480,9 +1964,8 @@ void SimuRequest::InternalSwap(SimuRequest* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SimuRequest::GetMetadata() const {
-  protobuf_requests_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_requests_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string SimuRequest::GetTypeName() const {
+  return "open_vario.SimuRequest";
 }
 
 

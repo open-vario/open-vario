@@ -28,7 +28,7 @@ namespace open_vario
 /** \brief Constructor */
 OpenVarioApp::OpenVarioApp()
 : m_os()
-, m_board()
+, m_board(m_config_manager)
 
 , m_boot_config_eeprom_partition(m_board.config_eeprom(), 0u, 1024u)
 , m_app_config_eeprom_partition(m_board.config_eeprom(), 1024u, 16384u)

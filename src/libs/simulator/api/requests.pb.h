@@ -25,11 +25,10 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_requests_2eproto 
 
@@ -43,7 +42,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_requests_2eproto
 namespace open_vario {
 class ConnectRequest;
@@ -83,7 +81,7 @@ namespace open_vario {
 
 // ===================================================================
 
-class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ConnectRequest.NotificationEndpoint) */ {
+class ConnectRequest_NotificationEndpoint : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConnectRequest.NotificationEndpoint) */ {
  public:
   ConnectRequest_NotificationEndpoint();
   virtual ~ConnectRequest_NotificationEndpoint();
@@ -109,7 +107,6 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ConnectRequest_NotificationEndpoint& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -134,8 +131,8 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
   ConnectRequest_NotificationEndpoint* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ConnectRequest_NotificationEndpoint>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ConnectRequest_NotificationEndpoint& from);
   void MergeFrom(const ConnectRequest_NotificationEndpoint& from);
   void Clear() final;
@@ -146,14 +143,13 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ConnectRequest_NotificationEndpoint* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -164,7 +160,7 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -193,7 +189,7 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
   // @@protoc_insertion_point(class_scope:open_vario.ConnectRequest.NotificationEndpoint)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr ip_address_;
   ::google::protobuf::uint32 port_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -201,7 +197,7 @@ class ConnectRequest_NotificationEndpoint : public ::google::protobuf::Message /
 };
 // -------------------------------------------------------------------
 
-class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ConnectRequest) */ {
+class ConnectRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConnectRequest) */ {
  public:
   ConnectRequest();
   virtual ~ConnectRequest();
@@ -227,7 +223,6 @@ class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ConnectRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -252,8 +247,8 @@ class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_
   ConnectRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ConnectRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ConnectRequest& from);
   void MergeFrom(const ConnectRequest& from);
   void Clear() final;
@@ -264,14 +259,13 @@ class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ConnectRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -282,7 +276,7 @@ class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -305,14 +299,14 @@ class ConnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_
   // @@protoc_insertion_point(class_scope:open_vario.ConnectRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::open_vario::ConnectRequest_NotificationEndpoint* notification_endpoint_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_requests_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.DisconnectRequest) */ {
+class DisconnectRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.DisconnectRequest) */ {
  public:
   DisconnectRequest();
   virtual ~DisconnectRequest();
@@ -338,7 +332,6 @@ class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_inserti
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DisconnectRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -363,8 +356,8 @@ class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_inserti
   DisconnectRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<DisconnectRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const DisconnectRequest& from);
   void MergeFrom(const DisconnectRequest& from);
   void Clear() final;
@@ -375,14 +368,13 @@ class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_inserti
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(DisconnectRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -393,7 +385,7 @@ class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_inserti
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -402,13 +394,13 @@ class DisconnectRequest : public ::google::protobuf::Message /* @@protoc_inserti
   // @@protoc_insertion_point(class_scope:open_vario.DisconnectRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_requests_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsRequest) */ {
+class ListSensorsRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsRequest) */ {
  public:
   ListSensorsRequest();
   virtual ~ListSensorsRequest();
@@ -434,7 +426,6 @@ class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insert
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListSensorsRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -459,8 +450,8 @@ class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insert
   ListSensorsRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListSensorsRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListSensorsRequest& from);
   void MergeFrom(const ListSensorsRequest& from);
   void Clear() final;
@@ -471,14 +462,13 @@ class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insert
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListSensorsRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -489,7 +479,7 @@ class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insert
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -498,13 +488,13 @@ class ListSensorsRequest : public ::google::protobuf::Message /* @@protoc_insert
   // @@protoc_insertion_point(class_scope:open_vario.ListSensorsRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_requests_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.UpdateSensorRequest) */ {
+class UpdateSensorRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.UpdateSensorRequest) */ {
  public:
   UpdateSensorRequest();
   virtual ~UpdateSensorRequest();
@@ -530,7 +520,6 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UpdateSensorRequest& default_instance();
 
   enum ValuesCase {
@@ -565,8 +554,8 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
   UpdateSensorRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UpdateSensorRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UpdateSensorRequest& from);
   void MergeFrom(const UpdateSensorRequest& from);
   void Clear() final;
@@ -577,14 +566,13 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UpdateSensorRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -595,7 +583,7 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -683,7 +671,7 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
   inline bool has_Values() const;
   inline void clear_has_Values();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::uint32 id_;
   union ValuesUnion {
     ValuesUnion() {}
@@ -701,7 +689,7 @@ class UpdateSensorRequest : public ::google::protobuf::Message /* @@protoc_inser
 };
 // -------------------------------------------------------------------
 
-class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.PingRequest) */ {
+class PingRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.PingRequest) */ {
  public:
   PingRequest();
   virtual ~PingRequest();
@@ -727,7 +715,6 @@ class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PingRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -752,8 +739,8 @@ class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   PingRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<PingRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const PingRequest& from);
   void MergeFrom(const PingRequest& from);
   void Clear() final;
@@ -764,14 +751,13 @@ class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(PingRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -782,7 +768,7 @@ class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -797,14 +783,14 @@ class PingRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   // @@protoc_insertion_point(class_scope:open_vario.PingRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::uint32 number_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_requests_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.SimuRequest) */ {
+class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.SimuRequest) */ {
  public:
   SimuRequest();
   virtual ~SimuRequest();
@@ -830,7 +816,6 @@ class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SimuRequest& default_instance();
 
   enum RequestsCase {
@@ -864,8 +849,8 @@ class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   SimuRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<SimuRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const SimuRequest& from);
   void MergeFrom(const SimuRequest& from);
   void Clear() final;
@@ -876,14 +861,13 @@ class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(SimuRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -894,7 +878,7 @@ class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -973,7 +957,7 @@ class SimuRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   inline bool has_Requests() const;
   inline void clear_has_Requests();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   union RequestsUnion {
     RequestsUnion() {}
     ::open_vario::ConnectRequest* connect_;

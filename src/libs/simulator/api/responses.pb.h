@@ -25,12 +25,11 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
-#include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/generated_enum_util.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto 
 
@@ -44,7 +43,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_responses_2eproto
 namespace open_vario {
 class ConnectResponse;
@@ -96,16 +94,6 @@ const ListSensorsResponse_SensorType ListSensorsResponse_SensorType_SensorType_M
 const ListSensorsResponse_SensorType ListSensorsResponse_SensorType_SensorType_MAX = ListSensorsResponse_SensorType_ST_GNSS;
 const int ListSensorsResponse_SensorType_SensorType_ARRAYSIZE = ListSensorsResponse_SensorType_SensorType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ListSensorsResponse_SensorType_descriptor();
-inline const ::std::string& ListSensorsResponse_SensorType_Name(ListSensorsResponse_SensorType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ListSensorsResponse_SensorType_descriptor(), value);
-}
-inline bool ListSensorsResponse_SensorType_Parse(
-    const ::std::string& name, ListSensorsResponse_SensorType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ListSensorsResponse_SensorType>(
-    ListSensorsResponse_SensorType_descriptor(), name, value);
-}
 enum ListSensorsResponse_SensorValueType {
   ListSensorsResponse_SensorValueType_SVT_UNKNOWN = 0,
   ListSensorsResponse_SensorValueType_SVT_UINT = 1,
@@ -122,19 +110,9 @@ const ListSensorsResponse_SensorValueType ListSensorsResponse_SensorValueType_Se
 const ListSensorsResponse_SensorValueType ListSensorsResponse_SensorValueType_SensorValueType_MAX = ListSensorsResponse_SensorValueType_SVT_BOOL;
 const int ListSensorsResponse_SensorValueType_SensorValueType_ARRAYSIZE = ListSensorsResponse_SensorValueType_SensorValueType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ListSensorsResponse_SensorValueType_descriptor();
-inline const ::std::string& ListSensorsResponse_SensorValueType_Name(ListSensorsResponse_SensorValueType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ListSensorsResponse_SensorValueType_descriptor(), value);
-}
-inline bool ListSensorsResponse_SensorValueType_Parse(
-    const ::std::string& name, ListSensorsResponse_SensorValueType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ListSensorsResponse_SensorValueType>(
-    ListSensorsResponse_SensorValueType_descriptor(), name, value);
-}
 // ===================================================================
 
-class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ConnectResponse) */ {
+class ConnectResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConnectResponse) */ {
  public:
   ConnectResponse();
   virtual ~ConnectResponse();
@@ -160,7 +138,6 @@ class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ConnectResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -185,8 +162,8 @@ class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion
   ConnectResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ConnectResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ConnectResponse& from);
   void MergeFrom(const ConnectResponse& from);
   void Clear() final;
@@ -197,14 +174,13 @@ class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ConnectResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -215,7 +191,7 @@ class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -230,14 +206,14 @@ class ConnectResponse : public ::google::protobuf::Message /* @@protoc_insertion
   // @@protoc_insertion_point(class_scope:open_vario.ConnectResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   bool accept_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_responses_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.DisconnectResponse) */ {
+class DisconnectResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.DisconnectResponse) */ {
  public:
   DisconnectResponse();
   virtual ~DisconnectResponse();
@@ -263,7 +239,6 @@ class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insert
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DisconnectResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -288,8 +263,8 @@ class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insert
   DisconnectResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<DisconnectResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const DisconnectResponse& from);
   void MergeFrom(const DisconnectResponse& from);
   void Clear() final;
@@ -300,14 +275,13 @@ class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insert
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(DisconnectResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -318,7 +292,7 @@ class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insert
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -327,13 +301,13 @@ class DisconnectResponse : public ::google::protobuf::Message /* @@protoc_insert
   // @@protoc_insertion_point(class_scope:open_vario.DisconnectResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_responses_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsResponse.Sensor) */ {
+class ListSensorsResponse_Sensor : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsResponse.Sensor) */ {
  public:
   ListSensorsResponse_Sensor();
   virtual ~ListSensorsResponse_Sensor();
@@ -359,7 +333,6 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListSensorsResponse_Sensor& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -384,8 +357,8 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
   ListSensorsResponse_Sensor* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListSensorsResponse_Sensor>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListSensorsResponse_Sensor& from);
   void MergeFrom(const ListSensorsResponse_Sensor& from);
   void Clear() final;
@@ -396,14 +369,13 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListSensorsResponse_Sensor* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -414,7 +386,7 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -455,7 +427,7 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
   // @@protoc_insertion_point(class_scope:open_vario.ListSensorsResponse.Sensor)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::uint32 id_;
   int type_;
@@ -465,7 +437,7 @@ class ListSensorsResponse_Sensor : public ::google::protobuf::Message /* @@proto
 };
 // -------------------------------------------------------------------
 
-class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsResponse) */ {
+class ListSensorsResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ListSensorsResponse) */ {
  public:
   ListSensorsResponse();
   virtual ~ListSensorsResponse();
@@ -491,7 +463,6 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListSensorsResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -516,8 +487,8 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
   ListSensorsResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListSensorsResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListSensorsResponse& from);
   void MergeFrom(const ListSensorsResponse& from);
   void Clear() final;
@@ -528,14 +499,13 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListSensorsResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -546,7 +516,7 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -572,17 +542,6 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
     ListSensorsResponse_SensorType_SensorType_MAX;
   static const int SensorType_ARRAYSIZE =
     ListSensorsResponse_SensorType_SensorType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  SensorType_descriptor() {
-    return ListSensorsResponse_SensorType_descriptor();
-  }
-  static inline const ::std::string& SensorType_Name(SensorType value) {
-    return ListSensorsResponse_SensorType_Name(value);
-  }
-  static inline bool SensorType_Parse(const ::std::string& name,
-      SensorType* value) {
-    return ListSensorsResponse_SensorType_Parse(name, value);
-  }
 
   typedef ListSensorsResponse_SensorValueType SensorValueType;
   static const SensorValueType SVT_UNKNOWN =
@@ -608,17 +567,6 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
     ListSensorsResponse_SensorValueType_SensorValueType_MAX;
   static const int SensorValueType_ARRAYSIZE =
     ListSensorsResponse_SensorValueType_SensorValueType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  SensorValueType_descriptor() {
-    return ListSensorsResponse_SensorValueType_descriptor();
-  }
-  static inline const ::std::string& SensorValueType_Name(SensorValueType value) {
-    return ListSensorsResponse_SensorValueType_Name(value);
-  }
-  static inline bool SensorValueType_Parse(const ::std::string& name,
-      SensorValueType* value) {
-    return ListSensorsResponse_SensorValueType_Parse(name, value);
-  }
 
   // accessors -------------------------------------------------------
 
@@ -637,14 +585,14 @@ class ListSensorsResponse : public ::google::protobuf::Message /* @@protoc_inser
   // @@protoc_insertion_point(class_scope:open_vario.ListSensorsResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::open_vario::ListSensorsResponse_Sensor > sensors_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_responses_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.UpdateSensorResponse) */ {
+class UpdateSensorResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.UpdateSensorResponse) */ {
  public:
   UpdateSensorResponse();
   virtual ~UpdateSensorResponse();
@@ -670,7 +618,6 @@ class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_inse
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UpdateSensorResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -695,8 +642,8 @@ class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_inse
   UpdateSensorResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<UpdateSensorResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const UpdateSensorResponse& from);
   void MergeFrom(const UpdateSensorResponse& from);
   void Clear() final;
@@ -707,14 +654,13 @@ class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_inse
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(UpdateSensorResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -725,7 +671,7 @@ class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_inse
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -740,14 +686,14 @@ class UpdateSensorResponse : public ::google::protobuf::Message /* @@protoc_inse
   // @@protoc_insertion_point(class_scope:open_vario.UpdateSensorResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   bool success_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_responses_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.PingResponse) */ {
+class PingResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.PingResponse) */ {
  public:
   PingResponse();
   virtual ~PingResponse();
@@ -773,7 +719,6 @@ class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PingResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -798,8 +743,8 @@ class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   PingResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<PingResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const PingResponse& from);
   void MergeFrom(const PingResponse& from);
   void Clear() final;
@@ -810,14 +755,13 @@ class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(PingResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -828,7 +772,7 @@ class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -843,14 +787,14 @@ class PingResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   // @@protoc_insertion_point(class_scope:open_vario.PingResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::uint32 number_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_responses_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:open_vario.SimuResponse) */ {
+class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.SimuResponse) */ {
  public:
   SimuResponse();
   virtual ~SimuResponse();
@@ -876,7 +820,6 @@ class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SimuResponse& default_instance();
 
   enum ResponsesCase {
@@ -910,8 +853,8 @@ class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   SimuResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<SimuResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const SimuResponse& from);
   void MergeFrom(const SimuResponse& from);
   void Clear() final;
@@ -922,14 +865,13 @@ class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(SimuResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -940,7 +882,7 @@ class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1019,7 +961,7 @@ class SimuResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
   inline bool has_Responses() const;
   inline void clear_has_Responses();
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   union ResponsesUnion {
     ResponsesUnion() {}
     ::open_vario::ConnectResponse* connect_;
@@ -1488,15 +1430,7 @@ namespace google {
 namespace protobuf {
 
 template <> struct is_proto_enum< ::open_vario::ListSensorsResponse_SensorType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::open_vario::ListSensorsResponse_SensorType>() {
-  return ::open_vario::ListSensorsResponse_SensorType_descriptor();
-}
 template <> struct is_proto_enum< ::open_vario::ListSensorsResponse_SensorValueType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::open_vario::ListSensorsResponse_SensorValueType>() {
-  return ::open_vario::ListSensorsResponse_SensorValueType_descriptor();
-}
 
 }  // namespace protobuf
 }  // namespace google

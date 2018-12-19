@@ -42,6 +42,9 @@ class IOpenVarioBoard
         /** \brief Configure the board peripherals */
         virtual bool configure() = 0;
 
+        /** \brief Start the board peripherals */
+        virtual bool start() = 0;
+
         /** \brief Get the board's name */
         virtual const char* name() const = 0;
 

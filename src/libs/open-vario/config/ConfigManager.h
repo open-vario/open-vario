@@ -56,13 +56,77 @@ class ConfigManager
 
 
         /** \brief Get the number of configuration value groups */
-        uint16_t getCount() { return static_cast<uint16_t>(m_config_value_groups.getCount()); }
-
-        /** \brief Look for a configuration value group */
-        bool searchConfigValueGroup(const char* const name, uint16_t& id);
+        uint16_t getConfigValueGroupCount() { return static_cast<uint16_t>(m_config_value_groups.getCount()); }
 
         /** \brief Get a configuration value group */
         bool getConfigValueGroup(const uint16_t id, IConfigValueGroup*& config_value_group);
+
+
+        /** \brief Get a configuration value */
+        template <typename T>
+        bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, T& value)
+        {
+            IConfigValue* config_value = NULL;
+            IConfigValueGroup* config_value_group = NULL;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->get(reinterpret_cast<uint8_t*>(&value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+
+        /** \brief Get a configuration value */
+        bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value)
+        {
+            IConfigValue* config_value = NULL;
+            IConfigValueGroup* config_value_group = NULL;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->get(reinterpret_cast<uint8_t*>(value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+        
+        /** \brief Set a configuration value */
+        template <typename T>
+        bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const T& value)
+        {
+            IConfigValue* config_value = NULL;
+            IConfigValueGroup* config_value_group = NULL;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->set(reinterpret_cast<const uint8_t*>(&value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+
+        /** \brief Set a configuration value */
+        bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value)
+        {
+            IConfigValue* config_value = NULL;
+            IConfigValueGroup* config_value_group = NULL;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->set(reinterpret_cast<const uint8_t*>(value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
 
 
     private:
@@ -75,7 +139,12 @@ class ConfigManager
 
         /** \brief Groups of configuration values */
         nano_stl::StaticArray<IConfigValueGroup*, 100u> m_config_value_groups;
+
+
+        /** \brief Get a configuration value and its group */
+        bool getConfigValueAndGroup(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueGroup*& config_value_group, IConfigValue*& config_value);
 };
+
 
 }
 
