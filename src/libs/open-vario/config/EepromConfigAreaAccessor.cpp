@@ -71,33 +71,40 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
             if (config_value_group_header.id < config_value_groups.getCount())
             {
                 // Read values
-                IConfigValueGroup* config_value_group = config_value_groups[i];
-                for (uint32_t j = 0; (j < config_value_group_header.count) && ret; j++)
+                IConfigValueGroup* config_value_group = config_value_groups[config_value_group_header.id];
+                if (config_value_group != NULL)
                 {
-                    ConfigValueHeader config_value_header;
-                    ret = read(&config_value_header, sizeof(config_value_header), offset);
-                    if (ret)
+                    for (uint32_t j = 0; (j < config_value_group_header.count) && ret; j++)
                     {
-
-                        // Look for corresponding value
-                        IConfigValue* config_value = NULL;
-                        if (config_value_group->getConfigValue(config_value_header.id, config_value) && 
-                            (config_value->size() == config_value_header.size))
+                        ConfigValueHeader config_value_header;
+                        ret = read(&config_value_header, sizeof(config_value_header), offset);
+                        if (ret)
                         {
-                            // Read data
-                            ret = read(temp_buffer, config_value_header.size, offset);
-                            if (ret)
+                            // Look for corresponding value
+                            IConfigValue* config_value = NULL;
+                            if (config_value_group->getConfigValue(config_value_header.id, config_value) && 
+                                (config_value->size() == config_value_header.size))
                             {
-                                config_value->set(temp_buffer);
+                                // Read data
+                                ret = read(temp_buffer, config_value_header.size, offset);
+                                if (ret)
+                                {
+                                    config_value->set(temp_buffer);
+                                }
+                            }
+                            else
+                            {
+                                // Invalid size, skip value
+                                compatibility_mode = true;
+                                ret = read(temp_buffer, config_value_header.size, offset);
                             }
                         }
-                        else
-                        {
-                            // Invalid size, skip value
-                            compatibility_mode = true;
-                            ret = read(temp_buffer, config_value_header.size, offset);
-                        }
                     }
+                }
+                else
+                {
+                    // Invalid group id
+                    ret = false;
                 }
             }
             else

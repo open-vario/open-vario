@@ -53,7 +53,7 @@ class ConfigValue : public IConfigValue
         virtual const char* type() const { return configvalue_type<T>(); }
 
         /** \brief Get the buffer representing the value */
-        virtual const uint8_t* buffer() const { return reinterpret_cast<const uint8_t*>(m_value); }
+        virtual const uint8_t* buffer() const { return reinterpret_cast<const uint8_t*>(&m_value); }
 
         /** \brief Get the size in bytes of the buffer representing the value */
         virtual uint32_t size() const { return configvalue_size<T>(); }

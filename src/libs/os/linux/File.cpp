@@ -80,7 +80,7 @@ bool File::open(const char* file_path, const FileAccess file_access, const FileM
         if (ret)
         {
             // Open the file
-            m_file = ::open(file_path, flags);
+            m_file = ::open(file_path, flags, 0644);
             ret = (m_file >= 0);
         }
     }
