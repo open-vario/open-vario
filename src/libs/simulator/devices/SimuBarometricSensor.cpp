@@ -17,7 +17,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SimuDevice.h"
+#include "SimuBarometricSensor.h"
 
 using namespace std;
 
@@ -26,12 +26,24 @@ namespace open_vario
 
 
 /** \brief Constructor */
-SimuDevice::SimuDevice(ISimulator& simulator, const std::string& type, const std::string& name)
-: m_type(type)
-, m_name(name)
+SimuBarometricSensor::SimuBarometricSensor(ISimulator& simulator, const std::string& name, SimuTemperatureSensor& temperature_sensor)
+: SimuDevice(simulator, type(), name)
+, m_temperature_sensor(temperature_sensor)
+, m_pressure(1024u)
+{}
+
+/** \brief Configure the barometric sensor */
+bool SimuBarometricSensor::configure()
 {
-    // Register device
-    simulator.registerSimuDevice(*this);
+    // Nothing to do
+    return true;
+}
+
+/** \brief Read the pressure (1 = 0.01mbar) */
+bool SimuBarometricSensor::readPressure(uint32_t& pressure)
+{
+    pressure = m_pressure;
+    return true;
 }
 
 

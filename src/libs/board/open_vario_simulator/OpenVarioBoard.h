@@ -32,13 +32,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #endif // OS_LINUX
 
 #include "McuRtc.h"
+#include "SoftCrc32.h"
+
 #include "SimuLed.h"
 #include "SimuUart.h"
 #include "SimuEeprom.h"
-#include "SoftCrc32.h"
-
+#include "SimuBarometricSensor.h"
+#include "SimuTemperatureSensor.h"
 #include "Simulator.h"
 
+#include "BarometricAltimeter.h"
 
 namespace open_vario
 {
@@ -81,6 +84,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's EEPROM */
         virtual IEeprom& config_eeprom() { return m_config_eeprom; }
 
+        /** \brief Get the board's altimeter sensor */
+        virtual IAltimeterSensor& altimeter() { return m_alti_sensor; }
+
 
     private:
 
@@ -120,6 +126,15 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Configuration EEPROM */
         SimuEeprom m_config_eeprom;
+
+        /** \brief Temperature sensor */
+        SimuTemperatureSensor m_temp_sensor;
+
+        /** \brief Barometric sensor */
+        SimuBarometricSensor m_baro_sensor;
+
+        /** \brief Barometric altimeter */
+        BarometricAltimeter m_alti_sensor;
 
 };
 

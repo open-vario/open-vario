@@ -29,7 +29,7 @@ namespace open_vario
 
 
 /** \brief Barometric altimeter sensor */
-class BarometricAltimeter : public IBarometricSensor
+class BarometricAltimeter : public IBarometricSensor, public IAltimeterSensor
 {
     public:
 

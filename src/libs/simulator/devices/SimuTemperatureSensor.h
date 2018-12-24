@@ -17,42 +17,45 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SIMUDEVICE_H
-#define SIMUDEVICE_H
+#ifndef SIMUTEMPERATURESENSOR_H
+#define SIMUTEMPERATURESENSOR_H
 
-#include "ISimuDevice.h"
-#include "ISimulator.h"
+#include "SimuDevice.h"
+#include "ITemperatureSensor.h"
+
 
 namespace open_vario
 {
 
 
-/** \brief Base class for all simulated devices */
-class SimuDevice : public ISimuDevice
+/** \brief Simulated temperature sensor */
+class SimuTemperatureSensor : public SimuDevice, public ITemperatureSensor
 {
     public:
 
         /** \brief Constructor */
-        SimuDevice(ISimulator& simulator, const std::string& type, const std::string& name);
-
+        SimuTemperatureSensor(ISimulator& simulator, const std::string& name);
 
         /** \brief Get the type of the device */
-        virtual const std::string& getType() const { return m_type; }
+        static const std::string type() { return "temp_sensor"; }
 
-        /** \brief Get the name of the device */
-        virtual const std::string& getName() const { return m_name; };
 
+        /** \brief Configure the temperature sensor */
+        virtual bool configure();
+
+        /** \brief Read the temperature (1 = 0.1°C) */
+        virtual bool readTemperature(int16_t& temperature);
+
+
+        /** \brief Set the temperature (1 = 0.1°C) */
+        void setTemperature(const int16_t temperature) {  m_temperature = temperature; }
 
     private:
 
-        /** \brief Type */
-        const std::string m_type;
-
-        /** \brief Name */
-        const std::string m_name;
-
+        /** \brief Current temperature */
+        int16_t m_temperature;
 };
 
 }
 
-#endif // SIMUDEVICE_H
+#endif // SIMUBAROMETRICSENSOR_H

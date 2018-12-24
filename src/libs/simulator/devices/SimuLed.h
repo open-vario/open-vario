@@ -34,7 +34,10 @@ class SimuLed : public SimuDevice, public ILed
     public:
 
         /** \brief Constructor */
-        SimuLed(const std::string& name, const State initial_state);
+        SimuLed(ISimulator& simulator, const std::string& name, const State initial_state);
+
+        /** \brief Get the type of the device */
+        static const std::string type() { return "led"; }
 
 
         /** \brief Configure the LED */

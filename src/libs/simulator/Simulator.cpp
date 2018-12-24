@@ -20,8 +20,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Simulator.h"
 #include "OpenVarioConfig.h"
 #include "LogMacro.h"
+
 #include "requests.pb.h"
 #include "responses.pb.h"
+
+#include "SimuBarometricSensor.h"
+#include "SimuTemperatureSensor.h"
 
 
 namespace open_vario
@@ -100,6 +104,13 @@ bool Simulator::start()
     return ret;
 }
 
+/** \brief Register a simulated device */
+bool Simulator::registerSimuDevice(ISimuDevice& simu_device)
+{
+    const bool ret = m_simulated_devices.pushBack(&simu_device);
+    return ret;
+}
+
 /** \brief Method which will be called at the task's startup */
 void Simulator::taskStart(void* const param)
 {
@@ -154,14 +165,80 @@ void Simulator::taskStart(void* const param)
                             // Sensor list request
                             ListSensorsResponse* list_sensors_response = new ListSensorsResponse();
                             simu_response.set_allocated_list_sensors(list_sensors_response);
+                            for (uint32_t i = 0; i < m_simulated_devices.getCount(); i++)
+                            {
+                                bool add_device = true;
+                                ListSensorsResponse_SensorType sensor_type = ListSensorsResponse_SensorType_ST_UNKNOWN;
+                                ListSensorsResponse_SensorValueType sensor_value_type = ListSensorsResponse_SensorValueType_SVT_UNKNOWN;
+
+                                // Check simulated device type
+                                ISimuDevice* simu_device = m_simulated_devices[i];
+                                if (simu_device->getType() == SimuBarometricSensor::type())
+                                {
+                                    sensor_type = ListSensorsResponse_SensorType_ST_PRESSURE;
+                                    sensor_value_type = ListSensorsResponse_SensorValueType_SVT_UINT;
+                                }
+                                else if (simu_device->getType() == SimuTemperatureSensor::type())
+                                {
+                                    sensor_type = ListSensorsResponse_SensorType_ST_TEMPERATURE;
+                                    sensor_value_type = ListSensorsResponse_SensorValueType_SVT_INT;
+                                }
+                                else
+                                {
+                                    // Unmanaged simulated device type
+                                    add_device = false;
+                                }
+                                if (add_device)
+                                {
+                                    // Add device to the list
+                                    ListSensorsResponse_Sensor* sensor = list_sensors_response->add_sensors();
+                                    sensor->set_id(i);
+                                    sensor->set_name(simu_device->getName());
+                                    sensor->set_type(sensor_type);
+                                    sensor->set_value_type(sensor_value_type);
+                                }
+                            }
                             break;
                         }
 
                         case SimuRequest::kUpdateSensor:
                         {
                             // Update sensor request
+                            bool success = false;
                             UpdateSensorResponse* update_sensor_response = new UpdateSensorResponse();
                             simu_response.set_allocated_update_sensor(update_sensor_response);
+
+                            // Check sensor id and type
+                            const UpdateSensorRequest& req = simu_request.update_sensor();
+                            if (req.id() < m_simulated_devices.getCount())
+                            {
+                                ISimuDevice* simu_device = m_simulated_devices[req.id()];
+                                if (simu_device->getType() == SimuBarometricSensor::type())
+                                {
+                                    SimuBarometricSensor& baro_sensor = *dynamic_cast<SimuBarometricSensor*>(simu_device);
+                                    if (req.Values_case() == UpdateSensorRequest::kUintValue)
+                                    {
+                                        baro_sensor.setPressure(req.uint_value());
+                                        success = true;
+                                    }
+                                }
+                                else if (simu_device->getType() == SimuTemperatureSensor::type())
+                                {
+                                    SimuTemperatureSensor& temp_sensor = *dynamic_cast<SimuTemperatureSensor*>(simu_device);
+                                    if (req.Values_case() == UpdateSensorRequest::kIntValue)
+                                    {
+                                        temp_sensor.setTemperature(req.int_value());
+                                        success = true;
+                                    }
+                                }
+                                else
+                                {
+                                    // Unmanaged simulated device type
+                                }
+                            }
+
+                            // Overall result
+                            update_sensor_response->set_success(success);
                             break;
                         }
 

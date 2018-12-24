@@ -32,6 +32,7 @@ class ILed;
 class IUart;
 class ICrc32;
 class IEeprom;
+class IAltimeterSensor;
 
 /** \brief Interface for all open vario boards implementations */
 class IOpenVarioBoard
@@ -65,6 +66,9 @@ class IOpenVarioBoard
 
         /** \brief Get the board's EEPROM */
         virtual IEeprom& config_eeprom() = 0;
+
+        /** \brief Get the board's altimeter sensor */
+        virtual IAltimeterSensor& altimeter() = 0;
 };
 
 }

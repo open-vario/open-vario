@@ -62,7 +62,7 @@ class OpenVarioBoard : public IOpenVarioBoard
         virtual bool configure();
 
         /** \brief Start the board peripherals */
-        virtual bool start() {}
+        virtual bool start() { return true; }
 
         /** \brief Get the board's name */
         virtual const char* name() const { return "Open Vario 1.0"; }
@@ -84,6 +84,10 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's configuration EEPROM */
         virtual IEeprom& config_eeprom() { return m_config_eeprom; }
+
+        /** \brief Get the board's altimeter sensor */
+        virtual IAltimeterSensor& altimeter() { return m_alti_sensor; }
+        
 
     private:
 

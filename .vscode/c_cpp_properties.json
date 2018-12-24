@@ -31,6 +31,8 @@
                 "${workspaceFolder}/src/libs/peripherals/interfaces",
                 "${workspaceFolder}/src/libs/peripherals/components",
                 "${workspaceFolder}/src/libs/simulator",
+                "${workspaceFolder}/src/libs/simulator/api",
+                "${workspaceFolder}/src/libs/simulator/device",
                 
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os",
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/api",

@@ -20,18 +20,21 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
+#include "ISimulator.h"
+#include "ISimuDevice.h"
 #include "ConfigManager.h"
 #include "ConfigValueGroup.h"
 #include "ConfigValue.h"
 #include "TaskHelper.h"
 #include "UdpSocket.h"
+#include "StaticVector.h"
 
 namespace open_vario
 {
 
 
 /** \brief Simulator */
-class Simulator : public ITaskStart
+class Simulator : public ISimulator, public ITaskStart
 {
     public:
 
@@ -44,6 +47,9 @@ class Simulator : public ITaskStart
 
         /** \brief Start the simulator */
         bool start();
+
+        /** \brief Register a simulated device */
+        virtual bool registerSimuDevice(ISimuDevice& simu_device);
 
 
         /** \brief Method which will be called at the task's startup */
@@ -77,6 +83,9 @@ class Simulator : public ITaskStart
 
         /** \brief Indicate if the simulator is connected */
         bool m_connected;
+
+        /** \brief List of simulated devices */
+        nano_stl::StaticVector<ISimuDevice*, 5u> m_simulated_devices;
       
 };
 

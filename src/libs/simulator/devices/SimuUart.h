@@ -34,7 +34,11 @@ class SimuUart : public SimuDevice, public IUart
     public:
 
         /** \brief Constructor */
-        SimuUart(const std::string& name);
+        SimuUart(ISimulator& simulator, const std::string& name);
+
+        /** \brief Get the type of the device */
+        static const std::string type() { return "uart"; }
+
 
         /** \brief Configure the UART */
         virtual bool configure();

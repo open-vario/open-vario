@@ -17,7 +17,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SimuDevice.h"
+#include "SimuTemperatureSensor.h"
 
 using namespace std;
 
@@ -26,12 +26,24 @@ namespace open_vario
 
 
 /** \brief Constructor */
-SimuDevice::SimuDevice(ISimulator& simulator, const std::string& type, const std::string& name)
-: m_type(type)
-, m_name(name)
+SimuTemperatureSensor::SimuTemperatureSensor(ISimulator& simulator, const std::string& name)
+: SimuDevice(simulator, type(), name)
+, m_temperature(0u)
+{}
+
+
+/** \brief Configure the temperature sensor */
+bool SimuTemperatureSensor::configure()
 {
-    // Register device
-    simulator.registerSimuDevice(*this);
+    // Nothing to do
+    return true;
+}
+
+/** \brief Read the temperature (1 = 0.1°C) */
+bool SimuTemperatureSensor::readTemperature(int16_t& temperature)
+{
+    temperature = m_temperature;
+    return true;
 }
 
 

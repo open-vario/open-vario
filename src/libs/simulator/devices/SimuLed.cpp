@@ -26,8 +26,8 @@ namespace open_vario
 
 
 /** \brief Constructor */
-SimuLed::SimuLed(const std::string& name, const State initial_state)
-: SimuDevice(name)
+SimuLed::SimuLed(ISimulator& simulator, const std::string& name, const State initial_state)
+: SimuDevice(simulator, type(), name)
 , m_initial_state(initial_state)
 , m_state(initial_state)
 {}

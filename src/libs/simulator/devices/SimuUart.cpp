@@ -28,8 +28,8 @@ namespace open_vario
 
 
 /** \brief Constructor */
-SimuUart::SimuUart(const std::string& name)
-: SimuDevice(name)
+SimuUart::SimuUart(ISimulator& simulator, const std::string& name)
+: SimuDevice(simulator, type(), name)
 {}
 
 /** \brief Configure the UART */

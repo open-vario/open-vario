@@ -17,22 +17,29 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SimuDevice.h"
+#ifndef ISIMUDEVICE_H
+#define ISIMUDEVICE_H
 
-using namespace std;
+#include <string>
+#include <cstdint>
 
 namespace open_vario
 {
 
 
-/** \brief Constructor */
-SimuDevice::SimuDevice(ISimulator& simulator, const std::string& type, const std::string& name)
-: m_type(type)
-, m_name(name)
+/** \brief Interface for all simulated devices implementations */
+class ISimuDevice
 {
-    // Register device
-    simulator.registerSimuDevice(*this);
+    public:
+
+        /** \brief Get the type of the device */
+        virtual const std::string& getType() const = 0;
+
+        /** \brief Get the name of the device */
+        virtual const std::string& getName() const = 0;
+
+};
+
 }
 
-
-}
+#endif // ISIMUDEVICE_H
