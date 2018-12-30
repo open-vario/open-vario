@@ -22,6 +22,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ISimulator.h"
 #include "ISimuDevice.h"
+#include "IAltimeter.h"
+#include "IBarometer.h"
+#include "IThermometer.h"
+#include "IVariometer.h"
 #include "ConfigManager.h"
 #include "ConfigValueGroup.h"
 #include "ConfigValue.h"
@@ -34,7 +38,7 @@ namespace open_vario
 
 
 /** \brief Simulator */
-class Simulator : public ISimulator, public ITaskStart
+class Simulator : public ISimulator, public ITaskStart, public IAltimeterListener, public IBarometerListener, public IThermometerListener, public IVariometerListener
 {
     public:
 
@@ -54,6 +58,20 @@ class Simulator : public ISimulator, public ITaskStart
 
         /** \brief Method which will be called at the task's startup */
         virtual void taskStart(void* const param);
+
+
+        /** \brief Called when new altimeter values have been computed */
+        virtual void onAltimeterValues(const AltimeterValues& alti_values);
+
+        /** \brief Called when new barometer values have been computed */
+        virtual void onBarometerValues(const BarometerValues& baro_values);
+
+        /** \brief Called when new thermometer values have been computed */
+        virtual void onThermometerValues(const ThermometerValues& temp_values);
+
+        /** \brief Called when new variometer values have been computed */
+        virtual void onVariometerValues(const VariometerValues& vario_values);
+
 
     private:
 
@@ -87,6 +105,13 @@ class Simulator : public ISimulator, public ITaskStart
         /** \brief List of simulated devices */
         nano_stl::StaticVector<ISimuDevice*, 5u> m_simulated_devices;
       
+
+
+        /** \brief Response frame*/
+        static const uint8_t RESPONSE_FRAME = 0x52u;
+
+        /** \brief Notification frame*/
+        static const uint8_t NOTIFICATION_FRAME = 0x4Eu;
 };
 
 }

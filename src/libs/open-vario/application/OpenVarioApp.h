@@ -31,6 +31,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "TimeManager.h"
+#include "SensorsManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "PowerOffMode.h"
@@ -61,6 +62,18 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Get the logger */
         virtual ILogger& getLogger() { return m_log_manager; }
+
+        /** \brief Get the altimeter */
+        virtual IAltimeter& getAltimeter() { return m_altimeter; }
+
+        /** \brief Get the barometer */
+        virtual IBarometer& getBarometer() { return m_barometer; }
+
+        /** \brief Get the thermometer */
+        virtual IThermometer& getThermometer() { return m_thermometer; }
+
+        /** \brief Get the variometer */
+        virtual IVariometer& getVariometer() { return m_variometer; }
 
 
         /** \brief Initialize the application */
@@ -130,6 +143,21 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Date and time manager */
         TimeManager m_time_manager;
+
+        /** \brief Altimeter */
+        Altimeter m_altimeter;
+
+        /** \brief Barometer */
+        Barometer m_barometer;
+
+        /** \brief Thermometer */
+        Thermometer m_thermometer;
+
+        /** \brief Variometer */
+        Variometer m_variometer;
+
+        /** \brief Sensors manager */
+        SensorsManager m_sensors_manager;
 
 };
 

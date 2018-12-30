@@ -266,11 +266,25 @@ class PressureNotification : public ::google::protobuf::MessageLite /* @@protoc_
   ::google::protobuf::uint32 pressure() const;
   void set_pressure(::google::protobuf::uint32 value);
 
+  // uint32 min_pressure = 2;
+  void clear_min_pressure();
+  static const int kMinPressureFieldNumber = 2;
+  ::google::protobuf::uint32 min_pressure() const;
+  void set_min_pressure(::google::protobuf::uint32 value);
+
+  // uint32 max_pressure = 3;
+  void clear_max_pressure();
+  static const int kMaxPressureFieldNumber = 3;
+  ::google::protobuf::uint32 max_pressure() const;
+  void set_max_pressure(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:open_vario.PressureNotification)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::uint32 pressure_;
+  ::google::protobuf::uint32 min_pressure_;
+  ::google::protobuf::uint32 max_pressure_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_notifications_2eproto::TableStruct;
 };
@@ -993,6 +1007,34 @@ inline void PressureNotification::set_pressure(::google::protobuf::uint32 value)
   
   pressure_ = value;
   // @@protoc_insertion_point(field_set:open_vario.PressureNotification.pressure)
+}
+
+// uint32 min_pressure = 2;
+inline void PressureNotification::clear_min_pressure() {
+  min_pressure_ = 0u;
+}
+inline ::google::protobuf::uint32 PressureNotification::min_pressure() const {
+  // @@protoc_insertion_point(field_get:open_vario.PressureNotification.min_pressure)
+  return min_pressure_;
+}
+inline void PressureNotification::set_min_pressure(::google::protobuf::uint32 value) {
+  
+  min_pressure_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.PressureNotification.min_pressure)
+}
+
+// uint32 max_pressure = 3;
+inline void PressureNotification::clear_max_pressure() {
+  max_pressure_ = 0u;
+}
+inline ::google::protobuf::uint32 PressureNotification::max_pressure() const {
+  // @@protoc_insertion_point(field_get:open_vario.PressureNotification.max_pressure)
+  return max_pressure_;
+}
+inline void PressureNotification::set_max_pressure(::google::protobuf::uint32 value) {
+  
+  max_pressure_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.PressureNotification.max_pressure)
 }
 
 // -------------------------------------------------------------------

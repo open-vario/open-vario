@@ -20,6 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "RunMode.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
+#include "SensorsManager.h"
 #include "LogMacro.h"
 
 namespace open_vario
@@ -27,9 +28,10 @@ namespace open_vario
 
 
 /** \brief Constructor */
-RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager)
+RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
+, m_sensors_manager(sensors_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -40,10 +42,12 @@ void RunMode::enter()
     // Update LED blink
     m_hmi_manager.getActivityLed().update(LedController::SLOW_BLINK);
 
-    IOpenVarioApp::getInstance().getOs().waitMs(5000);
-
-    // Power button pressed, switch to power off mode
-    m_mode_manager.switchToMode(OPMODE_POWEROFF);
+    // Start sensor notifications
+    const bool ret = m_sensors_manager.startNotifications();
+    if (!ret)
+    {
+        LOG_ERROR("Failure during sensors notification startup...");
+    }
 }
 
 /** \brief Leave the operating mode */

@@ -34,6 +34,7 @@ WindowsOpenVarioApp WindowsOpenVarioApp::m_singleton;
 /** \brief Constructor */
 WindowsOpenVarioApp::WindowsOpenVarioApp()
 : OpenVarioApp()
+, m_log_mutex()
 {
     getLogger().registerListener(*this);
 }
@@ -41,7 +42,9 @@ WindowsOpenVarioApp::WindowsOpenVarioApp()
 /** \brief Called when a new log is available */
 void WindowsOpenVarioApp::onNewLog(const Log& log)
 {
+    m_log_mutex.lock();
     std::cout << log.timestamp << " - " << log.getLevelString() << " - " << log.message.cStr() << std::endl; 
+    m_log_mutex.unlock();
 }
 
 /** \brief Called during application initialization */

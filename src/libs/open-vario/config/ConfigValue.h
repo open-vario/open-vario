@@ -82,6 +82,10 @@ class ConfigValue : public IConfigValue
 
     protected:
 
+
+        /** \brief Get the current value */
+        T& value() { return m_value; }
+
         /** \brief Get the defaut value */
         const T& defaultValue() const { return m_default_value; }
 

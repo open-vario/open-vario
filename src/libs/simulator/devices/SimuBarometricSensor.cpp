@@ -29,7 +29,7 @@ namespace open_vario
 SimuBarometricSensor::SimuBarometricSensor(ISimulator& simulator, const std::string& name, SimuTemperatureSensor& temperature_sensor)
 : SimuDevice(simulator, type(), name)
 , m_temperature_sensor(temperature_sensor)
-, m_pressure(1024u)
+, m_pressure(101300u)
 {}
 
 /** \brief Configure the barometric sensor */

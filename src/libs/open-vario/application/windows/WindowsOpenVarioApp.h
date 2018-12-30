@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "OpenVarioApp.h"
 #include "ILogger.h"
+#include "Mutex.h"
 
 namespace open_vario
 {
@@ -55,6 +56,9 @@ class WindowsOpenVarioApp : public OpenVarioApp, public ILogListener
 
     private:
 
+        /** \brief Mutex for log output */
+        Mutex m_log_mutex;
+        
 
         /** \brief Singleton */
         static WindowsOpenVarioApp m_singleton;

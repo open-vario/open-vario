@@ -330,6 +330,8 @@ void PressureNotification::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int PressureNotification::kPressureFieldNumber;
+const int PressureNotification::kMinPressureFieldNumber;
+const int PressureNotification::kMaxPressureFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 PressureNotification::PressureNotification()
@@ -343,12 +345,16 @@ PressureNotification::PressureNotification(const PressureNotification& from)
   : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  pressure_ = from.pressure_;
+  ::memcpy(&pressure_, &from.pressure_,
+    static_cast<size_t>(reinterpret_cast<char*>(&max_pressure_) -
+    reinterpret_cast<char*>(&pressure_)) + sizeof(max_pressure_));
   // @@protoc_insertion_point(copy_constructor:open_vario.PressureNotification)
 }
 
 void PressureNotification::SharedCtor() {
-  pressure_ = 0u;
+  ::memset(&pressure_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&max_pressure_) -
+      reinterpret_cast<char*>(&pressure_)) + sizeof(max_pressure_));
 }
 
 PressureNotification::~PressureNotification() {
@@ -374,7 +380,9 @@ void PressureNotification::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  pressure_ = 0u;
+  ::memset(&pressure_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&max_pressure_) -
+      reinterpret_cast<char*>(&pressure_)) + sizeof(max_pressure_));
   _internal_metadata_.Clear();
 }
 
@@ -402,6 +410,34 @@ bool PressureNotification::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &pressure_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 min_pressure = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &min_pressure_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 max_pressure = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &max_pressure_)));
         } else {
           goto handle_unusual;
         }
@@ -439,6 +475,16 @@ void PressureNotification::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->pressure(), output);
   }
 
+  // uint32 min_pressure = 2;
+  if (this->min_pressure() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->min_pressure(), output);
+  }
+
+  // uint32 max_pressure = 3;
+  if (this->max_pressure() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->max_pressure(), output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.PressureNotification)
@@ -455,6 +501,20 @@ size_t PressureNotification::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->pressure());
+  }
+
+  // uint32 min_pressure = 2;
+  if (this->min_pressure() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->min_pressure());
+  }
+
+  // uint32 max_pressure = 3;
+  if (this->max_pressure() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->max_pressure());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -477,6 +537,12 @@ void PressureNotification::MergeFrom(const PressureNotification& from) {
   if (from.pressure() != 0) {
     set_pressure(from.pressure());
   }
+  if (from.min_pressure() != 0) {
+    set_min_pressure(from.min_pressure());
+  }
+  if (from.max_pressure() != 0) {
+    set_max_pressure(from.max_pressure());
+  }
 }
 
 void PressureNotification::CopyFrom(const PressureNotification& from) {
@@ -497,6 +563,8 @@ void PressureNotification::Swap(PressureNotification* other) {
 void PressureNotification::InternalSwap(PressureNotification* other) {
   using std::swap;
   swap(pressure_, other->pressure_);
+  swap(min_pressure_, other->min_pressure_);
+  swap(max_pressure_, other->max_pressure_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

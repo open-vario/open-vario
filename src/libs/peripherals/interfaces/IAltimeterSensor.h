@@ -36,10 +36,10 @@ class IAltimeterSensor
         virtual bool configure() = 0;
 
         /** \brief Read the altitude (1 = 0.1m) */
-        virtual bool readAltitude(uint32_t& altitude) = 0;
+        virtual bool readAltitude(int32_t& altitude) = 0;
 
         /** \brief Set a reference altitude (1 = 0.1m) */
-        virtual bool setReferenceAltitude(const uint32_t ref_altitude) = 0;
+        virtual bool setReferenceAltitude(const int32_t ref_altitude) = 0;
 };
 
 }

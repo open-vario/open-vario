@@ -27,6 +27,7 @@ namespace open_vario
 
 class ModeManager;
 class HmiManager;
+class SensorsManager;
 
 /** \brief Operating mode : Running */
 class RunMode : public IMode
@@ -34,7 +35,7 @@ class RunMode : public IMode
     public:
 
         /** \brief Constructor */
-        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager);
+        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -54,6 +55,9 @@ class RunMode : public IMode
 
         /** \brief HMI manager */
         HmiManager& m_hmi_manager;
+
+        /** \brief Sensors manager */
+        SensorsManager& m_sensors_manager;
 };
 
 }

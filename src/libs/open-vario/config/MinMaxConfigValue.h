@@ -28,14 +28,14 @@ namespace open_vario
 
 /** \brief Class for all configuration values which have a min and a max value */
 template <typename T>
-class MinMaxConfigValue : public ConfigValue
+class MinMaxConfigValue : public ConfigValue<T>
 {
     public:
 
 
         /** \brief Constructor */
         MinMaxConfigValue(const uint16_t id, const char* const name, const T& default_value, const T& min_value, const T& max_value, const bool reset_only)
-        : ConfigValue(id, name, default_value, reset_only)
+        : ConfigValue<T>(id, name, default_value, reset_only)
         , m_min_value(min_value)
         , m_max_value(max_value)
         {}
@@ -45,10 +45,10 @@ class MinMaxConfigValue : public ConfigValue
         virtual bool set(const uint8_t* const buffer) 
         {
             bool ret = false; 
-            const T& value = *reinterpret_cast<const T*>(value); 
-            if ((value >= min_value) && (value <= max_value))
+            const T& value = *reinterpret_cast<const T*>(buffer); 
+            if ((value >= m_min_value) && (value <= m_max_value))
             {
-                m_value = value;
+                this->value() = value;
                 ret = true; 
             }
             return ret; 

@@ -36,7 +36,7 @@ bool Semaphore::post(const bool from_isr)
 {
     (void)from_isr;
 
-    BOOL ret = ReleaseSemaphore(&m_sem, 1, NULL);
+    BOOL ret = ReleaseSemaphore(m_sem, 1, NULL);
     return (ret != 0); 
 }
 

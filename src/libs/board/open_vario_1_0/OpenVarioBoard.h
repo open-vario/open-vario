@@ -86,7 +86,7 @@ class OpenVarioBoard : public IOpenVarioBoard
         virtual IEeprom& config_eeprom() { return m_config_eeprom; }
 
         /** \brief Get the board's altimeter sensor */
-        virtual IAltimeterSensor& altimeter() { return m_alti_sensor; }
+        virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
         
 
     private:

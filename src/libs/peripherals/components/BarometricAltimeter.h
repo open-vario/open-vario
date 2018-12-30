@@ -20,8 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BAROMETRICALTIMETER_H
 #define BAROMETRICALTIMETER_H
 
-#include "IAltimeterSensor.h"
-#include "IBarometricSensor.h"
+#include "IBarometricAltimeter.h"
 
 namespace open_vario
 {
@@ -29,7 +28,7 @@ namespace open_vario
 
 
 /** \brief Barometric altimeter sensor */
-class BarometricAltimeter : public IBarometricSensor, public IAltimeterSensor
+class BarometricAltimeter : public IBarometricAltimeter
 {
     public:
 
@@ -41,16 +40,30 @@ class BarometricAltimeter : public IBarometricSensor, public IAltimeterSensor
         virtual bool configure();
 
         /** \brief Read the altitude (1 = 0.1m) */
-        virtual bool readAltitude(uint32_t& altitude);
+        virtual bool readAltitude(int32_t& altitude);
 
         /** \brief Set a reference altitude (1 = 0.1m) */
-        virtual bool setReferenceAltitude(const uint32_t ref_altitude);
+        virtual bool setReferenceAltitude(const int32_t ref_altitude);
 
         /** \brief Read the pressure (1 = 0.01mbar) */
         virtual bool readPressure(uint32_t& pressure);
 
         /** \brief Read the temperature (1 = 0.1°C) */
         virtual bool readTemperature(int16_t& temperature);
+
+        /** \brief Set the references for the altitude computation 
+         *         Temperature : 1 = 0.1°C
+         *         Pressure : 1 = 0.01mbar
+         *         Altitude : 1 = 0.1m
+        */
+        virtual void setReferences(const int16_t ref_temperature, const uint32_t ref_pressure, const int32_t ref_altitude);
+
+        /** \brief Get the references used for altitude computation
+         *         Temperature : 1 = 0.1°C
+         *         Pressure : 1 = 0.01mbar
+         *         Altitude : 1 = 0.1m
+        */
+        virtual void getReferences(int16_t& ref_temperature, uint32_t& ref_pressure, int32_t& ref_altitude);
 
 
     private:

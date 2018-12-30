@@ -56,7 +56,7 @@ bool BarometricAltimeter::configure()
 }
 
 /** \brief Read the altitude (1 = 0.1m) */
-bool BarometricAltimeter::readAltitude(uint32_t& altitude)
+bool BarometricAltimeter::readAltitude(int32_t& altitude)
 {
     bool ret;
 
@@ -81,14 +81,14 @@ bool BarometricAltimeter::readAltitude(uint32_t& altitude)
         double A = dA + m_ref_alti;
 
         // Convert computed value
-        altitude = static_cast<uint32_t>(A * 10.);
+        altitude = static_cast<int32_t>(A * 10.);
     }
 
     return ret;
 }
 
 /** \brief Set a reference altitude (1 = 0.1m) */
-bool BarometricAltimeter::setReferenceAltitude(const uint32_t ref_altitude)
+bool BarometricAltimeter::setReferenceAltitude(const int32_t ref_altitude)
 {
     bool ret = true;
 
@@ -113,7 +113,7 @@ bool BarometricAltimeter::setReferenceAltitude(const uint32_t ref_altitude)
 bool BarometricAltimeter::readPressure(uint32_t& pressure)
 {
     // Return previously read pressure
-    m_pressure = m_pressure;
+    pressure = m_pressure;
     return true;
 }
 
@@ -123,6 +123,30 @@ bool BarometricAltimeter::readTemperature(int16_t& temperature)
     // Return previously read temperature
     temperature = m_temperature;
     return true;
+}
+
+/** \brief Set the references for the altitude computation 
+ *         Temperature : 1 = 0.1°C
+ *         Pressure : 1 = 0.01mbar
+ *         Altitude : 1 = 0.1m
+*/
+void BarometricAltimeter::setReferences(const int16_t ref_temperature, const uint32_t ref_pressure, const int32_t ref_altitude)
+{
+    m_ref_alti = static_cast<double>(ref_altitude) / 10.;
+    m_ref_pressure = static_cast<double>(ref_pressure) / 100.;
+    m_ref_temp = 273. + static_cast<double>(ref_temperature) / 10.;
+}
+
+/** \brief Get the references used for altitude computation
+ *         Temperature : 1 = 0.1°C
+ *         Pressure : 1 = 0.01mbar
+ *         Altitude : 1 = 0.1m
+*/
+void BarometricAltimeter::getReferences(int16_t& ref_temperature, uint32_t& ref_pressure, int32_t& ref_altitude)
+{
+    ref_altitude = static_cast<int32_t>(m_ref_alti * 10.);
+    ref_pressure = static_cast<uint32_t>(m_ref_pressure * 100.);
+    ref_temperature = static_cast<int16_t>((m_ref_temp - 273.) * 10.);
 }
 
 

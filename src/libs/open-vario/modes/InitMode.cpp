@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "HmiManager.h"
 #include "TimeManager.h"
 #include "ConfigManager.h"
+#include "SensorsManager.h"
 #include "LogMacro.h"
 #include "ISpi.h"
 
@@ -30,11 +31,12 @@ namespace open_vario
 
 
 /** \brief Constructor */
-InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager)
+InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager, SensorsManager& sensors_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
 , m_config_manager(config_manager)
+, m_sensors_manager(sensors_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -65,16 +67,33 @@ void InitMode::enter()
         ret = board.start();
         if (ret)
         {
-            // Blink a bit :)
-            IOpenVarioApp::getInstance().getOs().waitMs(3000);
 
-            // Init done, switch to run mode
-            m_mode_manager.switchToMode(OPMODE_RUN);
+            // Initialize and start sensor manager
+            ret = m_sensors_manager.init();
+            ret = ret && m_sensors_manager.start();
+            if (ret)
+            {
+                // Blink a bit :)
+                IOpenVarioApp::getInstance().getOs().waitMs(3000);
+            }
+            else
+            {
+                LOG_ERROR("Failure during sensors startup...");
+            }
         }
         else
         {
             LOG_ERROR("Failure during board startup...");
+        }
 
+        // Change mode
+        if (ret)
+        {
+            // Init done, switch to run mode
+            m_mode_manager.switchToMode(OPMODE_RUN);
+        } 
+        else
+        {
             // Init failed, switch to power off mode
             m_mode_manager.switchToMode(OPMODE_POWEROFF);
         }

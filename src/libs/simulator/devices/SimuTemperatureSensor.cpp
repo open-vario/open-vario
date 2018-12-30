@@ -28,7 +28,7 @@ namespace open_vario
 /** \brief Constructor */
 SimuTemperatureSensor::SimuTemperatureSensor(ISimulator& simulator, const std::string& name)
 : SimuDevice(simulator, type(), name)
-, m_temperature(0u)
+, m_temperature(150)
 {}
 
 

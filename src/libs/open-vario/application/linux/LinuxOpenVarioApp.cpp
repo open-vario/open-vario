@@ -33,6 +33,7 @@ LinuxOpenVarioApp LinuxOpenVarioApp::m_singleton;
 /** \brief Constructor */
 LinuxOpenVarioApp::LinuxOpenVarioApp()
 : OpenVarioApp()
+, m_log_mutex()
 {
     getLogger().registerListener(*this);
 }
@@ -40,7 +41,9 @@ LinuxOpenVarioApp::LinuxOpenVarioApp()
 /** \brief Called when a new log is available */
 void LinuxOpenVarioApp::onNewLog(const Log& log)
 {
+    m_log_mutex.lock();
     std::cout << log.timestamp << " - " << log.getLevelString() << " - " << log.message.cStr() << std::endl; 
+    m_log_mutex.unlock();
 }
 
 /** \brief Called during application initialization */

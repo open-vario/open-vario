@@ -18,11 +18,13 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Simulator.h"
+#include "IOpenVarioApp.h"
 #include "OpenVarioConfig.h"
 #include "LogMacro.h"
 
 #include "requests.pb.h"
 #include "responses.pb.h"
+#include "notifications.pb.h"
 
 #include "SimuBarometricSensor.h"
 #include "SimuTemperatureSensor.h"
@@ -57,6 +59,14 @@ bool Simulator::configure()
     ret = ret && m_config_values.registerConfigValue(m_config_simu_ip_address);
     ret = ret && m_config_values.registerConfigValue(m_config_simu_port);
     ret = ret && m_config_manager.registerConfigValueGroup(m_config_values);
+    if (ret)
+    {
+        // Register to altimeter, variometer and accelerometer values
+        ret = IOpenVarioApp::getInstance().getAltimeter().registerListener(*this);
+        ret = ret && IOpenVarioApp::getInstance().getBarometer().registerListener(*this);
+        ret = ret && IOpenVarioApp::getInstance().getThermometer().registerListener(*this);
+        ret = ret && IOpenVarioApp::getInstance().getVariometer().registerListener(*this); 
+    }
 
     return ret;
 }
@@ -313,8 +323,9 @@ void Simulator::taskStart(void* const param)
                 // Send response
                 if (send_response)
                 {
-                    simu_response.SerializeToArray(buffer, sizeof(buffer));
-                    ret = m_socket.sendTo(buffer, simu_response.ByteSizeLong(), simu_endpoint);
+                    buffer[0u] = RESPONSE_FRAME;
+                    simu_response.SerializeToArray(&buffer[1u], sizeof(buffer) - 1u);
+                    ret = m_socket.sendTo(buffer, simu_response.ByteSizeLong() + 1u, simu_endpoint);
                     if (!ret && m_connected)
                     {
                         // Unable to send response => disconnect
@@ -322,6 +333,118 @@ void Simulator::taskStart(void* const param)
                     }
                 }
             }
+        }
+    }
+}
+
+/** \brief Called when new altimeter values have been computed */
+void Simulator::onAltimeterValues(const AltimeterValues& alti_values)
+{
+    static uint8_t buffer[4096u];
+    static SimuNotification simu_notification;
+
+    // Check if connected
+    if (m_connected)
+    {
+        // Prepare altitude notification
+        AltitudeNotification* alti_notification = new AltitudeNotification();
+        alti_notification->set_main_altitude(alti_values.main_alti);
+        alti_notification->set_altitude_1(alti_values.alti_1);
+        alti_notification->set_altitude_2(alti_values.alti_2);
+        alti_notification->set_altitude_3(alti_values.alti_3);
+        alti_notification->set_altitude_4(alti_values.alti_4);
+        alti_notification->set_min_altitude(alti_values.min_alti);
+        alti_notification->set_max_altitude(alti_values.max_alti);
+        simu_notification.set_allocated_altitude(alti_notification);
+
+        // Send altitude notification
+        buffer[0u] = NOTIFICATION_FRAME;
+        simu_notification.SerializeToArray(&buffer[1u], sizeof(buffer) - 1u);
+        const bool ret = m_socket.sendTo(buffer, simu_notification.ByteSizeLong() + 1u, m_notification_endpoint);
+        if (!ret)
+        {
+            m_connected = false;
+        }
+    }
+}
+
+/** \brief Called when new barometer values have been computed */
+void Simulator::onBarometerValues(const BarometerValues& baro_values)
+{
+    static uint8_t buffer[4096u];
+    static SimuNotification simu_notification;
+
+    // Check if connected
+    if (m_connected)
+    {
+        // Prepare pressure notification
+        PressureNotification* pressure_notification = new PressureNotification();
+        pressure_notification->set_pressure(baro_values.pressure);
+        pressure_notification->set_min_pressure(baro_values.min_pressure);
+        pressure_notification->set_max_pressure(baro_values.max_pressure);
+        simu_notification.set_allocated_pressure(pressure_notification);
+
+        // Send vario notification
+        buffer[0u] = NOTIFICATION_FRAME;
+        simu_notification.SerializeToArray(&buffer[1u], sizeof(buffer) - 1u);
+        const bool ret = m_socket.sendTo(buffer, simu_notification.ByteSizeLong() + 1u, m_notification_endpoint);
+        if (!ret)
+        {
+            m_connected = false;
+        }
+    }
+}
+
+/** \brief Called when new thermometer values have been computed */
+void Simulator::onThermometerValues(const ThermometerValues& temp_values)
+{
+    static uint8_t buffer[4096u];
+    static SimuNotification simu_notification;
+
+    // Check if connected
+    if (m_connected)
+    {
+        // Prepare temperature notification
+        TemperatureNotification* temp_notification = new TemperatureNotification();
+        temp_notification->set_temperature(temp_values.temperature);
+        temp_notification->set_min_temperature(temp_values.min_temperature);
+        temp_notification->set_max_temperature(temp_values.max_temperature);
+        simu_notification.set_allocated_temperature(temp_notification);
+
+        // Send temperature notification
+        buffer[0u] = NOTIFICATION_FRAME;
+        simu_notification.SerializeToArray(&buffer[1u], sizeof(buffer) - 1u);
+        const bool ret = m_socket.sendTo(buffer, simu_notification.ByteSizeLong() + 1u, m_notification_endpoint);
+        if (!ret)
+        {
+            m_connected = false;
+        }
+    }
+}
+
+/** \brief Called when new variometer values have been computed */
+void Simulator::onVariometerValues(const VariometerValues& vario_values)
+{
+    static uint8_t buffer[4096u];
+    static SimuNotification simu_notification;
+
+    // Check if connected
+    if (m_connected)
+    {
+        // Prepare vario notification
+        VarioNotification* vario_notification = new VarioNotification();
+        vario_notification->set_vario(vario_values.vario);
+        vario_notification->set_min_vario(vario_values.min_vario);
+        vario_notification->set_max_vario(vario_values.max_vario);
+        simu_notification.set_allocated_vario(vario_notification);
+
+        // Send vario notification
+        buffer[0u] = NOTIFICATION_FRAME;
+        simu_notification.SerializeToArray(&buffer[1u], sizeof(buffer) - 1u);
+        const bool ret = m_socket.sendTo(buffer, simu_notification.ByteSizeLong() + 1u, m_notification_endpoint);
+        if (!ret)
+        {
+            m_connected = false;
         }
     }
 }

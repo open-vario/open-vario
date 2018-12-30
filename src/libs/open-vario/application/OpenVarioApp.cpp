@@ -41,13 +41,19 @@ OpenVarioApp::OpenVarioApp()
 
 , m_mode_manager(m_operating_modes)
 , m_operating_modes()
-, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_config_manager)
-, m_run_mode(m_mode_manager, m_hmi_manager)
+, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_config_manager, m_sensors_manager)
+, m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager)
 , m_power_off_mode(m_mode_manager, m_hmi_manager)
 
 , m_hmi_manager(m_board.activityLed())
 
 , m_time_manager(m_board.rtc())
+
+, m_altimeter(m_config_manager, m_board.altimeter())
+, m_barometer(m_config_manager)
+, m_thermometer(m_config_manager)
+, m_variometer(m_config_manager)
+, m_sensors_manager(m_config_manager, m_altimeter, m_barometer, m_thermometer, m_variometer)
 {
     m_operating_modes.pushBack(&m_init_mode);
     m_operating_modes.pushBack(&m_run_mode);

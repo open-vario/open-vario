@@ -34,6 +34,117 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //////////////////////////////////////////////////
+//                  Global                      //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : global */
+#define OV_CONFIG_GROUP_GLOBAL                 0u
+
+
+
+
+//////////////////////////////////////////////////
+//                  Sensors                     //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : sensors */
+#define OV_CONFIG_GROUP_SENSORS                 1u
+
+/** \brief Configuration value : acquisition period */
+#define OV_CONFIG_VALUE_SENSOR_ACQ_PERIOD       0u
+
+
+
+
+//////////////////////////////////////////////////
+//                  Altimeter                   //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : altimeter */
+#define OV_CONFIG_GROUP_ALTIMETER               2u
+
+/** \brief Configuration value : reference altitude */
+#define OV_CONFIG_VALUE_ALTI_REF_ALTI           0u
+
+/** \brief Configuration value : reference temperature */
+#define OV_CONFIG_VALUE_ALTI_REF_TEMP           1u
+
+/** \brief Configuration value : reference pressure */
+#define OV_CONFIG_VALUE_ALTI_REF_PRES           2u
+
+/** \brief Configuration value : raw value filter depth */
+#define OV_CONFIG_VALUE_ALTI_FILTER_DEPTH       3u
+
+/** \brief Configuration value : offset for alti 1 */
+#define OV_CONFIG_VALUE_ALTI_OFFSET_ALTI1       4u
+
+/** \brief Configuration value : offset for alti 2 */
+#define OV_CONFIG_VALUE_ALTI_OFFSET_ALTI2       5u
+
+/** \brief Configuration value : offset for alti 3 */
+#define OV_CONFIG_VALUE_ALTI_OFFSET_ALTI3       6u
+
+/** \brief Configuration value : offset for alti 4 */
+#define OV_CONFIG_VALUE_ALTI_OFFSET_ALTI4       7u
+
+
+
+
+//////////////////////////////////////////////////
+//                  Barometer                   //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : barometer */
+#define OV_CONFIG_GROUP_BAROMETER               3u
+
+/** \brief Configuration value : raw value filter depth */
+#define OV_CONFIG_VALUE_BARO_FILTER_DEPTH       0u
+
+
+
+
+//////////////////////////////////////////////////
+//                  Thermometer                 //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : thermometer */
+#define OV_CONFIG_GROUP_THERMOMETER            4u
+
+/** \brief Configuration value : raw value filter depth */
+#define OV_CONFIG_VALUE_THERMO_FILTER_DEPTH    0u
+
+
+
+
+//////////////////////////////////////////////////
+//                  Variometer                  //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : variometer */
+#define OV_CONFIG_GROUP_VARIOMETER              5u
+
+/** \brief Configuration value : raw value filter depth */
+#define OV_CONFIG_VALUE_VARIO_FILTER_DEPTH      0u
+
+
+
+
+
+//////////////////////////////////////////////////
+//                  Accelerometer               //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : accelerometer */
+#define OV_CONFIG_GROUP_ACCELEROMETER           6u
+
+/** \brief Configuration value : raw value filter depth */
+#define OV_CONFIG_VALUE_ACCELERO_FILTER_DEPTH   0u
+
+
+
+
+
+//////////////////////////////////////////////////
 //                  Simulator                   //
 //////////////////////////////////////////////////
 

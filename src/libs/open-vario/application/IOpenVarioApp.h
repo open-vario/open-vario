@@ -23,6 +23,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IOs.h"
 #include "IOpenVarioBoard.h"
 #include "ILogger.h"
+#include "IAltimeter.h"
+#include "IBarometer.h"
+#include "IThermometer.h"
+#include "IVariometer.h"
 
 namespace open_vario
 {
@@ -44,6 +48,18 @@ class IOpenVarioApp
 
         /** \brief Get the logger */
         virtual ILogger& getLogger() = 0;
+
+        /** \brief Get the altimeter */
+        virtual IAltimeter& getAltimeter() = 0;
+
+        /** \brief Get the barometer */
+        virtual IBarometer& getBarometer() = 0;
+
+        /** \brief Get the thermometer */
+        virtual IThermometer& getThermometer() = 0;
+
+        /** \brief Get the variometer */
+        virtual IVariometer& getVariometer() = 0;
 
 
         /** \brief Initialize the application */
