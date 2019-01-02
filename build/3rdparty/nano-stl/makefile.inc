@@ -26,14 +26,15 @@ LIBRARY_DIR := $(ROOT_DIR)/3rdparty/nano-stl/src/libs/nano-stl
 
 # Source directories
 SOURCE_DIRS := $(LIBRARY_DIR) \
-               $(LIBRARY_DIR)/conf \
                $(LIBRARY_DIR)/containers \
                $(LIBRARY_DIR)/helpers \
                $(LIBRARY_DIR)/interfaces \
+               $(LIBRARY_DIR)/libc \
                $(LIBRARY_DIR)/memory \
                $(LIBRARY_DIR)/strings \
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \
-                    $(foreach LIB_DIR, $(SOURCE_DIRS), $(LIB_DIR))
+                    $(foreach LIB_DIR, $(SOURCE_DIRS), $(LIB_DIR)) \
+                    $(NANO_STL_CONFIG_FILE_DIR)
 

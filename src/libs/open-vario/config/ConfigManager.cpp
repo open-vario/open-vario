@@ -100,11 +100,12 @@ void ConfigManager::resetToDefault()
 {
     LOG_INFO("Resetting configuration to default values...");
     
-    foreach(config_value_group, m_config_value_groups, IConfigValueGroup*)
+    for (nano_stl::nano_stl_size_t i = 0; i  < m_config_value_groups.getCount(); i++)
     {
+        IConfigValueGroup* config_value_group = m_config_value_groups[i];
         if (config_value_group != NULL)
         {
-            for (uint32_t i = 0; i < config_value_group->getCount(); i++)
+            for (nano_stl::nano_stl_size_t i = 0; i < config_value_group->getCount(); i++)
             {
                 IConfigValue* config_value;
                 if (config_value_group->getConfigValue(i, config_value))

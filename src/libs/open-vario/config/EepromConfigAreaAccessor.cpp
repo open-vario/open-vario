@@ -60,7 +60,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
 
     // Read configuration groups
     uint16_t offset = sizeof(ConfigHeader);
-    for (uint32_t i = 0; (i < config_header.config_value_groups_count) && ret; i++)
+    for (uint16_t i = 0; (i < config_header.config_value_groups_count) && ret; i++)
     {
         // Read header
         ConfigValueGroupHeader config_value_group_header;
@@ -74,7 +74,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
                 IConfigValueGroup* config_value_group = config_value_groups[config_value_group_header.id];
                 if (config_value_group != NULL)
                 {
-                    for (uint32_t j = 0; (j < config_value_group_header.count) && ret; j++)
+                    for (uint16_t j = 0; (j < config_value_group_header.count) && ret; j++)
                     {
                         ConfigValueHeader config_value_header;
                         ret = read(&config_value_header, sizeof(config_value_header), offset);
@@ -111,7 +111,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
             {
                 // Unknown group, skip values
                 compatibility_mode = true;
-                for (uint32_t j = 0; (j < config_value_group_header.count) && ret; j++)
+                for (uint16_t j = 0; (j < config_value_group_header.count) && ret; j++)
                 {
                     ConfigValueHeader config_value_header;
                     ret = read(&config_value_header, sizeof(config_value_header), offset);
@@ -146,7 +146,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
     config_header.magic = ConfigHeader::MAGIC_VALUE;
     config_header.config_version = config_version;
     config_header.config_value_groups_count = 0u;
-    for (uint32_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
+    for (nano_stl::nano_stl_size_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
     {
         IConfigValueGroup* config_value_group = config_value_groups[i];
         if (config_value_group != NULL)
@@ -160,7 +160,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
     
     // Write configuration value groups into Eeprom
     uint16_t offset = sizeof(ConfigHeader);
-    for (uint32_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
+    for (nano_stl::nano_stl_size_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
     {
         IConfigValueGroup* config_value_group = config_value_groups[i];
         if (config_value_group != NULL)
@@ -173,7 +173,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
             if (ret)
             {
                 // Write configuration values into Eeprom
-                for (uint32_t j = 0; (j < config_value_group->getCount()) && ret; j++)
+                for (nano_stl::nano_stl_size_t j = 0; (j < config_value_group->getCount()) && ret; j++)
                 {
                     IConfigValue* config_value;
                     config_value_group->getConfigValue(j, config_value);

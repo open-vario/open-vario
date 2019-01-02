@@ -18,6 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "UdpSocket.h"
+#include "nano-stl-conf.h"
 
 namespace open_vario
 {
@@ -119,7 +120,7 @@ bool UdpSocket::receiveFrom(void* data, const size_t size, size_t& received, IpE
                 // Data has been received
                 received = static_cast<uint32_t>(call_ret);
                 distant_address.port = ntohs(remoteAddr.sin_port);
-                (void)strncpy(distant_address.address, inet_ntoa(remoteAddr.sin_addr), IpEndPoint::IP_ADDRESS_MAX_SIZE);
+                (void)NANO_STL_STRNCPY(distant_address.address, inet_ntoa(remoteAddr.sin_addr), IpEndPoint::IP_ADDRESS_MAX_SIZE);
                 ret = true;
             }
         }

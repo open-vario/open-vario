@@ -38,7 +38,7 @@ class BleUuid128 : public IBleUuid
         BleUuid128(const uint8_t uuid[])
         : m_uuid()
         {
-            memcpy(&m_uuid[0u], uuid, m_uuid.getCount());
+            NANO_STL_MEMCPY(&m_uuid[0u], uuid, m_uuid.getCount());
         }
 
         /** \brief Get the UUID's as an array of bytes */

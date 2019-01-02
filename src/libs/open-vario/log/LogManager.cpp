@@ -52,8 +52,9 @@ void LogManager::log(const Log::Level log_level, const char* const message, ...)
         va_end(arg_list);
 
         // Dispatch log
-        foreach(listener, m_listeners, ILogListener*)
+        for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
         {
+            ILogListener* listener = m_listeners[i];
             listener->onNewLog(log);
         }
     }

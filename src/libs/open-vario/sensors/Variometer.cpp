@@ -117,7 +117,7 @@ bool Variometer::compute(const int32_t raw_altitude, int16_t& raw_vario)
         // Notify current value
         if (m_started)
         {
-            for (uint32_t i = 0; i < m_listeners.getCount(); i++)
+            for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
             {
                 m_listeners[i]->onVariometerValues(m_vario_values);
             }

@@ -31,7 +31,8 @@ PROJECT_NAME := os
 BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = $(TARGET_DEPENDENCIES)
+PROJECT_DEPENDENCIES = $(TARGET_DEPENDENCIES) \
+                       3rdparty/nano-stl
 
 			  
 # Including common makefile definitions

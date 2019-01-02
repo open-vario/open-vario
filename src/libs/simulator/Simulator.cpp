@@ -92,7 +92,7 @@ bool Simulator::start()
         // Try to bind the socket
         IpEndPoint simu_endpoint;
         simu_endpoint.port = port;
-        strcpy(simu_endpoint.address, ip_address);
+        NANO_STL_STRNCPY(simu_endpoint.address, ip_address, sizeof(ip_address));
 
         ret = m_socket.open();
         ret = ret && m_socket.bindAddr(simu_endpoint);
@@ -175,7 +175,7 @@ void Simulator::taskStart(void* const param)
                             // Sensor list request
                             ListSensorsResponse* list_sensors_response = new ListSensorsResponse();
                             simu_response.set_allocated_list_sensors(list_sensors_response);
-                            for (uint32_t i = 0; i < m_simulated_devices.getCount(); i++)
+                            for (nano_stl::nano_stl_size_t i = 0; i < m_simulated_devices.getCount(); i++)
                             {
                                 bool add_device = true;
                                 ListSensorsResponse_SensorType sensor_type = ListSensorsResponse_SensorType_ST_UNKNOWN;
@@ -281,11 +281,11 @@ void Simulator::taskStart(void* const param)
                                 const ConnectRequest_NotificationEndpoint& notif_ep = simu_request.connect().notification_endpoint();
                                 if (notif_ep.ip_address().empty())
                                 {
-                                    strncpy(m_notification_endpoint.address, simu_endpoint.address, IpEndPoint::IP_ADDRESS_MAX_SIZE);
+                                    NANO_STL_STRNCPY(m_notification_endpoint.address, simu_endpoint.address, IpEndPoint::IP_ADDRESS_MAX_SIZE);
                                 }
                                 else
                                 {
-                                    strncpy(m_notification_endpoint.address, notif_ep.ip_address().c_str(), IpEndPoint::IP_ADDRESS_MAX_SIZE);
+                                    NANO_STL_STRNCPY(m_notification_endpoint.address, notif_ep.ip_address().c_str(), IpEndPoint::IP_ADDRESS_MAX_SIZE);
                                 }
                                 if (notif_ep.port() == 0u)
                                 {

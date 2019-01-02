@@ -47,10 +47,10 @@
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/tools",
 
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl",
-                "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/conf",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/containers",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/helpers",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/interfaces",
+                "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/libc",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/memory",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/strings",
 

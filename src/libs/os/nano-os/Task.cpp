@@ -18,6 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Task.h"
+#include "nano-stl-conf.h"
 
 namespace open_vario
 {
@@ -30,7 +31,7 @@ Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size
 , m_task_start(NULL)
 , m_param(NULL)
 {
-    MEMSET(&m_task_init_data, 0, sizeof(m_task_init_data));
+    NANO_STL_MEMSET(&m_task_init_data, 0, sizeof(m_task_init_data));
     m_task_init_data.name = name;
     m_task_init_data.base_priority = priority;
     m_task_init_data.stack_origin = reinterpret_cast<nano_os_stack_t*>(stack);

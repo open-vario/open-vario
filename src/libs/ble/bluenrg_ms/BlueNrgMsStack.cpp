@@ -52,15 +52,17 @@ bool BlueNrgMsStack::start()
     {
         // Configure the module 
         BlueNrgMs::HwConfig blue_nrg_hwconfig = {0};
-        memcpy(blue_nrg_hwconfig.ble_public_address, m_config.hw_address, sizeof(blue_nrg_hwconfig.ble_public_address));
+        NANO_STL_MEMCPY(blue_nrg_hwconfig.ble_public_address, m_config.hw_address, sizeof(blue_nrg_hwconfig.ble_public_address));
         m_bluenrg_ms.setHwConfig(blue_nrg_hwconfig);
         m_bluenrg_ms.setDeviceName(m_config.name);
         ret = m_bluenrg_ms.configure();
         if (ret)
         {
             // Configure the services
-            foreach(service, (*m_ble_services), IBleService*)
+            for (nano_stl::nano_stl_size_t i = 0; i < m_ble_services->getCount(); i++)
             {
+                IBleService* service = m_ble_services->operator[](i);
+
                 // Add the service
                 uint16_t service_handle = 0u;
                 const IBleUuid& service_uuid = service->uuid();
@@ -72,7 +74,7 @@ bool BlueNrgMsStack::start()
 
                     // Add characteristics
                     const nano_stl::IArray<IBleCharacteristic*>& characteristics = service->characteristics();
-                    for (uint32_t i = 0; i < characteristics.getCount(); i++)
+                    for (nano_stl::nano_stl_size_t i = 0; i < characteristics.getCount(); i++)
                     {
                         uint16_t char_handle = 0u;
                         IBleCharacteristic* characteristic = characteristics[i];
@@ -102,7 +104,7 @@ bool BlueNrgMsStack::start()
             ret = m_bluenrg_ms.getVersion(hw_version, fw_version, fw_subversion);
             if (ret)
             {
-                snprintf(m_version, sizeof(m_version), "%d.%d (Hw %d)", fw_version, fw_subversion, hw_version);
+                NANO_STL_SNPRINTF(m_version, sizeof(m_version), "%d.%d (Hw %d)", fw_version, fw_subversion, hw_version);
             }
         }
 
@@ -138,10 +140,10 @@ void BlueNrgMsStack::attributeModified(const uint16_t handle, const uint8_t size
 {
     // Look for the corresponding characteristic
     bool found = false;
-    for (uint32_t i = 0; (i < m_ble_services->getCount()) && !found; i++)
+    for (nano_stl::nano_stl_size_t i = 0; (i < m_ble_services->getCount()) && !found; i++)
     {
         const nano_stl::IArray<IBleCharacteristic*>& characteristics = (*m_ble_services)[i]->characteristics();
-        for (uint32_t j = 0; (j < characteristics.getCount()) && !found; j++)
+        for (nano_stl::nano_stl_size_t j = 0; (j < characteristics.getCount()) && !found; j++)
         {
             if (characteristics[j]->handle() == handle)
             {

@@ -87,7 +87,7 @@ class BleCharacteristicBase : public IBleCharacteristic
         /** \brief Update the characteristics' value */
         virtual void updateValue(const bool from_stack, const void* new_value, const uint16_t new_value_size)
         {
-            for (uint32_t i = 0; i < m_listeners.getCount(); i++)
+            for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
             {
                 m_listeners[i]->onValueChanged((*this), from_stack, new_value, new_value_size);
             }

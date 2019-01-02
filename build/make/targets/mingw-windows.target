@@ -26,6 +26,9 @@ include $(ROOT_DIR)/build/make/compilers/mingw.compiler
 # Target operating system
 TARGET_OS=windows
 
+# Nano-STL configuration
+NANO_STL_CONFIG_FILE_DIR=$(ROOT_DIR)/src/libs/os/windows
+
 # Target CPU
 TARGET_CPU=windows
 
@@ -63,7 +66,7 @@ DISABLED_WARNINGS =
 # Toolchain flags
 COMMON_FLAGS = -g -D _WIN32_WINNT=0x0601 -D WINVER=0x0601 -DMINGW32 -DWINDOWS -Wall $(OPTIMIZATION_LEVEL) $(TARGET_PROJECT_DEFINES)
 CFLAGS = $(COMMON_FLAGS) -fsigned-char $(PROJECT_CFLAGS)
-CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17
+CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fno-check-new -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17
 ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
 LDFLAGS = -Wl,-Map=$(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) $(PROJECT_LDFLAGS)
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)

@@ -99,7 +99,7 @@ bool Barometer::compute(const uint32_t raw_pressure)
     // Notify current value
     if (m_started)
     {
-        for (uint32_t i = 0; i < m_listeners.getCount(); i++)
+        for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
         {
             m_listeners[i]->onBarometerValues(m_baro_values);
         }

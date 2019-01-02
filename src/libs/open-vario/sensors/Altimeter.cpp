@@ -150,7 +150,7 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
         // Notify current values
         if (m_started)
         {
-            for (uint32_t i = 0; i < m_listeners.getCount(); i++)
+            for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
             {
                 m_listeners[i]->onAltimeterValues(m_alti_values);
             }

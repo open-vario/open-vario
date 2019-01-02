@@ -123,7 +123,7 @@ class StringConfigValue : public IConfigValue
         , m_default_value(default_value)
         , m_reset_only(reset_only)
         {
-            strncpy(m_value, m_default_value, MAX_STRING_SIZE);
+            NANO_STL_STRNCPY(m_value, m_default_value, MAX_STRING_SIZE);
         }
 
 

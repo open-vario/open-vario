@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IUart.h"
 #include "NmeaGnss.h"
+#include "nano-stl-conf.h"
 
 #include <cstring>
 #include <cstdlib>
@@ -210,14 +211,14 @@ void NmeaGnss::decodeFrame()
 {
     // Decode type
     const char* frametype = m_frame_buffer;
-    const size_t frametype_len = strlen(frametype);
+    const size_t frametype_len = NANO_STL_STRNLEN(frametype, sizeof(m_frame_buffer));
     if (frametype_len > 3u)
     {
         // Extract type (skip receiver type)
         frametype += (frametype_len - 3u);
 
         // Decode data
-        if (strcmp(frametype, "GGA") == 0u)
+        if (NANO_STL_STRNCMP(frametype, "GGA", 4u) == 0u)
         {
             // GGA frame:  $GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47
             // - UTC time
@@ -259,7 +260,7 @@ void NmeaGnss::decodeFrame()
 
             // Extract satellite count
             const char* const satellite_count = getNextFrameParam(fix_quality);
-            m_nav_data.satellite_count = convertNDigitsInt(satellite_count, strlen(satellite_count), 10u);
+            m_nav_data.satellite_count = convertNDigitsInt(satellite_count, NANO_STL_STRNLEN(satellite_count, 10u), 10u);
 
             // Skip horizontal dilution of precision
             skip = getNextFrameParam(satellite_count);
@@ -269,7 +270,7 @@ void NmeaGnss::decodeFrame()
             m_data_valid = m_data_valid && convertAltitude(altitude, m_nav_data.altitude);
 
         }
-        else if (strcmp(frametype, "RMC") == 0u)
+        else if (NANO_STL_STRNCMP(frametype, "RMC", 4u) == 0u)
         {
             // RMC frame : $GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A
             // - UTC time
@@ -360,7 +361,7 @@ uint32_t NmeaGnss::convertNDigitsInt(const char* const number, const uint8_t dig
 bool NmeaGnss::convertTimeParam(const char* time, IRtc::DateTime& date_time)
 {
     bool ret = false;
-    if (strlen(time) == 6)
+    if (NANO_STL_STRNLEN(time, 10u) == 6)
     {
         date_time.hour = convertNDigitsInt(&time[0u], 2u, 10u);
         date_time.minute = convertNDigitsInt(&time[2u], 2u, 10u);
@@ -374,7 +375,7 @@ bool NmeaGnss::convertTimeParam(const char* time, IRtc::DateTime& date_time)
 bool NmeaGnss::convertDateParam(const char* date, IRtc::DateTime& date_time)
 {
     bool ret = false;
-    if (strlen(date) == 6)
+    if (NANO_STL_STRNLEN(date, 10u) == 6)
     {
         date_time.day = convertNDigitsInt(&date[0u], 2u, 10u);
         date_time.month = convertNDigitsInt(&date[2u], 2u, 10u);
@@ -390,7 +391,7 @@ bool NmeaGnss::convertCoordinates(const char* coordinates, double& coordinate)
     bool ret = true;
 
     // Extract coordinates
-    coordinate = atof(coordinates);
+    coordinate = NANO_STL_ATOF(coordinates);
 
     return ret;
 }
@@ -401,7 +402,7 @@ bool NmeaGnss::convertAltitude(const char* altitude, uint32_t& alti)
     bool ret = true;
 
     // Extract altitude
-    double d_alti = atof(altitude);
+    double d_alti = NANO_STL_ATOF(altitude);
 
     // Convert value
     alti = static_cast<uint32_t>(d_alti * 10.);
@@ -415,7 +416,7 @@ bool NmeaGnss::convertSpeed(const char* speed, uint32_t& spd)
     bool ret = true;
 
     // Extract speed
-    double d_speed = atof(speed);
+    double d_speed = NANO_STL_ATOF(speed);
 
     // Convert value
     spd = static_cast<uint32_t>(d_speed * 0.514444);

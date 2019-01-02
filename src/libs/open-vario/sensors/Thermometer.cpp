@@ -99,7 +99,7 @@ bool Thermometer::compute(const int16_t raw_temperature)
     // Notify current value
     if (m_started)
     {
-        for (uint32_t i = 0; i < m_listeners.getCount(); i++)
+        for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
         {
             m_listeners[i]->onThermometerValues(m_temp_values);
         }

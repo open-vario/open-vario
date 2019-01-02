@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "BlueNrgMs.h"
 #include "ISpi.h"
 #include "IOs.h"
-
+#include "nano-stl-conf.h"
 
 #include <cstring>
 
@@ -55,7 +55,7 @@ BlueNrgMs::BlueNrgMs(ISpi& spi, const uint8_t chip_select, IOutputPin& reset_pin
 /** \brief Set the device name */
 void BlueNrgMs::setDeviceName(const char* const name)
 {
-    strncpy(m_device_name, name, sizeof(m_device_name));
+    NANO_STL_STRNCPY(m_device_name, name, sizeof(m_device_name));
 }
 
 /** \brief Configure the module */
@@ -73,7 +73,7 @@ bool BlueNrgMs::configure()
             // Configure public address and role
             m_cmd.hal_write_config_data.offset = 0u;
             m_cmd.hal_write_config_data.length = sizeof(m_cmd.hal_write_config_data.data.public_address);
-            memcpy(m_cmd.hal_write_config_data.data.public_address, m_config.ble_public_address, m_cmd.hal_write_config_data.length);
+            NANO_STL_MEMCPY(m_cmd.hal_write_config_data.data.public_address, m_config.ble_public_address, m_cmd.hal_write_config_data.length);
             ret = hciSendReceive(0xFC0Cu, &m_cmd.hal_write_config_data, 2u + m_cmd.hal_write_config_data.length, &m_resp.status, sizeof(m_resp.status));
             ret = ret && (m_resp.status == 0u);
 
@@ -103,7 +103,7 @@ bool BlueNrgMs::configure()
             };            
             m_cmd.gap_init.role = GAP_ROLE_PERIPHERAL;
             m_cmd.gap_init.privacy = 0u;
-            m_cmd.gap_init.device_name_length = strlen(m_device_name);
+            m_cmd.gap_init.device_name_length = NANO_STL_STRNLEN(m_device_name, sizeof(m_device_name));
             ret = ret && hciSendReceive(0xFC8Au, &m_cmd.gap_init, sizeof(m_cmd.gap_init), &m_resp.gap_init, sizeof(m_resp.gap_init));
             ret = ret && (m_resp.gap_init.status == 0u);
             if (ret)
@@ -210,7 +210,7 @@ void BlueNrgMs::taskStart(void* const param)
                                         if (resp_len <= m_resp_buffer_size)
                                         {
                                             m_resp_buffer_size = resp_len;
-                                            memcpy(m_resp_buffer, &receive_buffer[6u], m_resp_buffer_size);
+                                            NANO_STL_MEMCPY(m_resp_buffer, &receive_buffer[6u], m_resp_buffer_size);
 
                                             // Signal that response is ready
                                             m_data_ready_flag.set(RESP_READY_FLAG, false);
@@ -386,7 +386,7 @@ bool BlueNrgMs::setDiscoverable()
     index++;
 
     // Local_Name_Length
-    m_cmd.buffer[index] = strlen(m_device_name) + 1u;
+    m_cmd.buffer[index] = NANO_STL_STRNLEN(m_device_name, sizeof(m_device_name)) + 1u;
     index++;
 
     // AD_TYPE_COMPLETE_LOCAL_NAME
@@ -394,7 +394,7 @@ bool BlueNrgMs::setDiscoverable()
     index++;
 
     // Local_Name
-    memcpy(&m_cmd.buffer[index], m_device_name, m_cmd.buffer[index - 2u] - 1u);
+    NANO_STL_MEMCPY(&m_cmd.buffer[index], m_device_name, m_cmd.buffer[index - 2u] - 1u);
     index += m_cmd.buffer[index - 2u] - 1u;
 
     // Service_UUID_Length
@@ -432,7 +432,7 @@ bool BlueNrgMs::addBleService(const uint8_t* uuid, const size_t uuid_size, const
     index++;
 
     // Service_UUID
-    memcpy(&m_cmd.buffer[index], uuid, uuid_size);
+    NANO_STL_MEMCPY(&m_cmd.buffer[index], uuid, uuid_size);
     index += uuid_size;
 
     // Service_Type
@@ -463,7 +463,7 @@ bool BlueNrgMs::includeBleService(const uint16_t root_service_handle, const uint
     m_cmd.gatt_include_service.include_start_handle = service_handle;
     m_cmd.gatt_include_service.include_end_handle = service_handle;
     m_cmd.gatt_include_service.uuid_type = ((uuid_size == 2u) ? 1u : 2u);
-    memcpy(&m_cmd.gatt_include_service.uuid, uuid, uuid_size);
+    NANO_STL_MEMCPY(&m_cmd.gatt_include_service.uuid, uuid, uuid_size);
 
     ret = hciSendReceive(0xFD03u, &m_cmd.gatt_include_service, sizeof(m_cmd.gatt_include_service) - ((uuid_size == 2u) ? 14u : 0u), &m_resp.gatt_include_service, sizeof(m_resp.gatt_include_service));        
 
@@ -493,7 +493,7 @@ bool BlueNrgMs::addBleCharacteristic(const uint16_t service_handle, const uint8_
     index++;
 
     // Char_UUID
-    memcpy(&m_cmd.buffer[index], uuid, uuid_size);
+    NANO_STL_MEMCPY(&m_cmd.buffer[index], uuid, uuid_size);
     index += uuid_size;
 
     // Char_Value_Length
@@ -552,7 +552,7 @@ bool BlueNrgMs::addBleCharacteristicDescriptor(const uint16_t service_handle, co
     index++;
 
     // Char_Desc_UUID
-    memcpy(&m_cmd.buffer[index], uuid, uuid_size);
+    NANO_STL_MEMCPY(&m_cmd.buffer[index], uuid, uuid_size);
     index += uuid_size;
 
     // Char_Desc_Value_Max_Length
@@ -564,7 +564,7 @@ bool BlueNrgMs::addBleCharacteristicDescriptor(const uint16_t service_handle, co
     index++;
 
     // Char_Desc_Value
-    memcpy(&m_cmd.buffer[index], value, length);
+    NANO_STL_MEMCPY(&m_cmd.buffer[index], value, length);
     index += length;
 
     // Security_Permissions
@@ -609,7 +609,7 @@ bool BlueNrgMs::updateBleCharacteristicValue(const uint16_t service_handle, cons
         m_cmd.gatt_update_char_value.char_handle = char_handle;
         m_cmd.gatt_update_char_value.val_offset = 0u;
         m_cmd.gatt_update_char_value.char_value_length = length;
-        memcpy(m_cmd.gatt_update_char_value.value, value, length);
+        NANO_STL_MEMCPY(m_cmd.gatt_update_char_value.value, value, length);
 
         ret = hciSendReceive(0xFD06u, &m_cmd.gatt_update_char_value, sizeof(m_cmd.gatt_update_char_value) - (sizeof(m_cmd.gatt_update_char_value.value) - length), &m_resp.status, sizeof(m_resp.status));
         ret = ret && (m_resp.status == 0u);
