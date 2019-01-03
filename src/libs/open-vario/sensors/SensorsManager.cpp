@@ -137,8 +137,6 @@ void SensorsManager::taskStart(void* const param)
                 {
                     LOG_ERROR("Unable to compute vario");    
                 }
-
-                LOG_INFO("Alti : %d, Pressure : %u, Temp : %d, Vario : %d", raw_altitude, raw_pressure, raw_temperature, raw_vario);
             }
             else
             {
