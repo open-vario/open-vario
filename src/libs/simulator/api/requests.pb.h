@@ -37,13 +37,19 @@ namespace protobuf_requests_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[7];
+  static const ::google::protobuf::internal::ParseTable schema[9];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 }  // namespace protobuf_requests_2eproto
 namespace open_vario {
+class ConfigValueReadRequest;
+class ConfigValueReadRequestDefaultTypeInternal;
+extern ConfigValueReadRequestDefaultTypeInternal _ConfigValueReadRequest_default_instance_;
+class ConfigValueWriteRequest;
+class ConfigValueWriteRequestDefaultTypeInternal;
+extern ConfigValueWriteRequestDefaultTypeInternal _ConfigValueWriteRequest_default_instance_;
 class ConnectRequest;
 class ConnectRequestDefaultTypeInternal;
 extern ConnectRequestDefaultTypeInternal _ConnectRequest_default_instance_;
@@ -68,6 +74,8 @@ extern UpdateSensorRequestDefaultTypeInternal _UpdateSensorRequest_default_insta
 }  // namespace open_vario
 namespace google {
 namespace protobuf {
+template<> ::open_vario::ConfigValueReadRequest* Arena::CreateMaybeMessage<::open_vario::ConfigValueReadRequest>(Arena*);
+template<> ::open_vario::ConfigValueWriteRequest* Arena::CreateMaybeMessage<::open_vario::ConfigValueWriteRequest>(Arena*);
 template<> ::open_vario::ConnectRequest* Arena::CreateMaybeMessage<::open_vario::ConnectRequest>(Arena*);
 template<> ::open_vario::ConnectRequest_NotificationEndpoint* Arena::CreateMaybeMessage<::open_vario::ConnectRequest_NotificationEndpoint>(Arena*);
 template<> ::open_vario::DisconnectRequest* Arena::CreateMaybeMessage<::open_vario::DisconnectRequest>(Arena*);
@@ -790,6 +798,316 @@ class PingRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class ConfigValueWriteRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConfigValueWriteRequest) */ {
+ public:
+  ConfigValueWriteRequest();
+  virtual ~ConfigValueWriteRequest();
+
+  ConfigValueWriteRequest(const ConfigValueWriteRequest& from);
+
+  inline ConfigValueWriteRequest& operator=(const ConfigValueWriteRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ConfigValueWriteRequest(ConfigValueWriteRequest&& from) noexcept
+    : ConfigValueWriteRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ConfigValueWriteRequest& operator=(ConfigValueWriteRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ConfigValueWriteRequest& default_instance();
+
+  enum ValuesCase {
+    kUintValue = 3,
+    kIntValue = 4,
+    kFloatValue = 5,
+    kDoubleValue = 6,
+    kStringValue = 7,
+    kBoolValue = 8,
+    VALUES_NOT_SET = 0,
+  };
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ConfigValueWriteRequest* internal_default_instance() {
+    return reinterpret_cast<const ConfigValueWriteRequest*>(
+               &_ConfigValueWriteRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(ConfigValueWriteRequest* other);
+  friend void swap(ConfigValueWriteRequest& a, ConfigValueWriteRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConfigValueWriteRequest* New() const final {
+    return CreateMaybeMessage<ConfigValueWriteRequest>(NULL);
+  }
+
+  ConfigValueWriteRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ConfigValueWriteRequest>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const ConfigValueWriteRequest& from);
+  void MergeFrom(const ConfigValueWriteRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ConfigValueWriteRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 group_id = 1;
+  void clear_group_id();
+  static const int kGroupIdFieldNumber = 1;
+  ::google::protobuf::uint32 group_id() const;
+  void set_group_id(::google::protobuf::uint32 value);
+
+  // uint32 value_id = 2;
+  void clear_value_id();
+  static const int kValueIdFieldNumber = 2;
+  ::google::protobuf::uint32 value_id() const;
+  void set_value_id(::google::protobuf::uint32 value);
+
+  // uint32 uint_value = 3;
+  private:
+  bool has_uint_value() const;
+  public:
+  void clear_uint_value();
+  static const int kUintValueFieldNumber = 3;
+  ::google::protobuf::uint32 uint_value() const;
+  void set_uint_value(::google::protobuf::uint32 value);
+
+  // sint32 int_value = 4;
+  private:
+  bool has_int_value() const;
+  public:
+  void clear_int_value();
+  static const int kIntValueFieldNumber = 4;
+  ::google::protobuf::int32 int_value() const;
+  void set_int_value(::google::protobuf::int32 value);
+
+  // float float_value = 5;
+  private:
+  bool has_float_value() const;
+  public:
+  void clear_float_value();
+  static const int kFloatValueFieldNumber = 5;
+  float float_value() const;
+  void set_float_value(float value);
+
+  // double double_value = 6;
+  private:
+  bool has_double_value() const;
+  public:
+  void clear_double_value();
+  static const int kDoubleValueFieldNumber = 6;
+  double double_value() const;
+  void set_double_value(double value);
+
+  // string string_value = 7;
+  private:
+  bool has_string_value() const;
+  public:
+  void clear_string_value();
+  static const int kStringValueFieldNumber = 7;
+  const ::std::string& string_value() const;
+  void set_string_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_string_value(::std::string&& value);
+  #endif
+  void set_string_value(const char* value);
+  void set_string_value(const char* value, size_t size);
+  ::std::string* mutable_string_value();
+  ::std::string* release_string_value();
+  void set_allocated_string_value(::std::string* string_value);
+
+  // bool bool_value = 8;
+  private:
+  bool has_bool_value() const;
+  public:
+  void clear_bool_value();
+  static const int kBoolValueFieldNumber = 8;
+  bool bool_value() const;
+  void set_bool_value(bool value);
+
+  void clear_Values();
+  ValuesCase Values_case() const;
+  // @@protoc_insertion_point(class_scope:open_vario.ConfigValueWriteRequest)
+ private:
+  void set_has_uint_value();
+  void set_has_int_value();
+  void set_has_float_value();
+  void set_has_double_value();
+  void set_has_string_value();
+  void set_has_bool_value();
+
+  inline bool has_Values() const;
+  inline void clear_has_Values();
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::uint32 group_id_;
+  ::google::protobuf::uint32 value_id_;
+  union ValuesUnion {
+    ValuesUnion() {}
+    ::google::protobuf::uint32 uint_value_;
+    ::google::protobuf::int32 int_value_;
+    float float_value_;
+    double double_value_;
+    ::google::protobuf::internal::ArenaStringPtr string_value_;
+    bool bool_value_;
+  } Values_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[1];
+
+  friend struct ::protobuf_requests_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ConfigValueReadRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConfigValueReadRequest) */ {
+ public:
+  ConfigValueReadRequest();
+  virtual ~ConfigValueReadRequest();
+
+  ConfigValueReadRequest(const ConfigValueReadRequest& from);
+
+  inline ConfigValueReadRequest& operator=(const ConfigValueReadRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ConfigValueReadRequest(ConfigValueReadRequest&& from) noexcept
+    : ConfigValueReadRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ConfigValueReadRequest& operator=(ConfigValueReadRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ConfigValueReadRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ConfigValueReadRequest* internal_default_instance() {
+    return reinterpret_cast<const ConfigValueReadRequest*>(
+               &_ConfigValueReadRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(ConfigValueReadRequest* other);
+  friend void swap(ConfigValueReadRequest& a, ConfigValueReadRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConfigValueReadRequest* New() const final {
+    return CreateMaybeMessage<ConfigValueReadRequest>(NULL);
+  }
+
+  ConfigValueReadRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ConfigValueReadRequest>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const ConfigValueReadRequest& from);
+  void MergeFrom(const ConfigValueReadRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ConfigValueReadRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // uint32 group_id = 1;
+  void clear_group_id();
+  static const int kGroupIdFieldNumber = 1;
+  ::google::protobuf::uint32 group_id() const;
+  void set_group_id(::google::protobuf::uint32 value);
+
+  // uint32 value_id = 2;
+  void clear_value_id();
+  static const int kValueIdFieldNumber = 2;
+  ::google::protobuf::uint32 value_id() const;
+  void set_value_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:open_vario.ConfigValueReadRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::uint32 group_id_;
+  ::google::protobuf::uint32 value_id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_requests_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.SimuRequest) */ {
  public:
   SimuRequest();
@@ -824,6 +1142,8 @@ class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
     kListSensors = 3,
     kUpdateSensor = 4,
     kPing = 5,
+    kConfigWrite = 6,
+    kConfigRead = 7,
     REQUESTS_NOT_SET = 0,
   };
 
@@ -833,7 +1153,7 @@ class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
                &_SimuRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(SimuRequest* other);
   friend void swap(SimuRequest& a, SimuRequest& b) {
@@ -944,6 +1264,30 @@ class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
   ::open_vario::PingRequest* mutable_ping();
   void set_allocated_ping(::open_vario::PingRequest* ping);
 
+  // .open_vario.ConfigValueWriteRequest config_write = 6;
+  bool has_config_write() const;
+  void clear_config_write();
+  static const int kConfigWriteFieldNumber = 6;
+  private:
+  const ::open_vario::ConfigValueWriteRequest& _internal_config_write() const;
+  public:
+  const ::open_vario::ConfigValueWriteRequest& config_write() const;
+  ::open_vario::ConfigValueWriteRequest* release_config_write();
+  ::open_vario::ConfigValueWriteRequest* mutable_config_write();
+  void set_allocated_config_write(::open_vario::ConfigValueWriteRequest* config_write);
+
+  // .open_vario.ConfigValueReadRequest config_read = 7;
+  bool has_config_read() const;
+  void clear_config_read();
+  static const int kConfigReadFieldNumber = 7;
+  private:
+  const ::open_vario::ConfigValueReadRequest& _internal_config_read() const;
+  public:
+  const ::open_vario::ConfigValueReadRequest& config_read() const;
+  ::open_vario::ConfigValueReadRequest* release_config_read();
+  ::open_vario::ConfigValueReadRequest* mutable_config_read();
+  void set_allocated_config_read(::open_vario::ConfigValueReadRequest* config_read);
+
   void clear_Requests();
   RequestsCase Requests_case() const;
   // @@protoc_insertion_point(class_scope:open_vario.SimuRequest)
@@ -953,6 +1297,8 @@ class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
   void set_has_list_sensors();
   void set_has_update_sensor();
   void set_has_ping();
+  void set_has_config_write();
+  void set_has_config_read();
 
   inline bool has_Requests() const;
   inline void clear_has_Requests();
@@ -965,6 +1311,8 @@ class SimuRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion
     ::open_vario::ListSensorsRequest* list_sensors_;
     ::open_vario::UpdateSensorRequest* update_sensor_;
     ::open_vario::PingRequest* ping_;
+    ::open_vario::ConfigValueWriteRequest* config_write_;
+    ::open_vario::ConfigValueReadRequest* config_read_;
   } Requests_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1400,6 +1748,317 @@ inline void PingRequest::set_number(::google::protobuf::uint32 value) {
 
 // -------------------------------------------------------------------
 
+// ConfigValueWriteRequest
+
+// uint32 group_id = 1;
+inline void ConfigValueWriteRequest::clear_group_id() {
+  group_id_ = 0u;
+}
+inline ::google::protobuf::uint32 ConfigValueWriteRequest::group_id() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.group_id)
+  return group_id_;
+}
+inline void ConfigValueWriteRequest::set_group_id(::google::protobuf::uint32 value) {
+  
+  group_id_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.group_id)
+}
+
+// uint32 value_id = 2;
+inline void ConfigValueWriteRequest::clear_value_id() {
+  value_id_ = 0u;
+}
+inline ::google::protobuf::uint32 ConfigValueWriteRequest::value_id() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.value_id)
+  return value_id_;
+}
+inline void ConfigValueWriteRequest::set_value_id(::google::protobuf::uint32 value) {
+  
+  value_id_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.value_id)
+}
+
+// uint32 uint_value = 3;
+inline bool ConfigValueWriteRequest::has_uint_value() const {
+  return Values_case() == kUintValue;
+}
+inline void ConfigValueWriteRequest::set_has_uint_value() {
+  _oneof_case_[0] = kUintValue;
+}
+inline void ConfigValueWriteRequest::clear_uint_value() {
+  if (has_uint_value()) {
+    Values_.uint_value_ = 0u;
+    clear_has_Values();
+  }
+}
+inline ::google::protobuf::uint32 ConfigValueWriteRequest::uint_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.uint_value)
+  if (has_uint_value()) {
+    return Values_.uint_value_;
+  }
+  return 0u;
+}
+inline void ConfigValueWriteRequest::set_uint_value(::google::protobuf::uint32 value) {
+  if (!has_uint_value()) {
+    clear_Values();
+    set_has_uint_value();
+  }
+  Values_.uint_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.uint_value)
+}
+
+// sint32 int_value = 4;
+inline bool ConfigValueWriteRequest::has_int_value() const {
+  return Values_case() == kIntValue;
+}
+inline void ConfigValueWriteRequest::set_has_int_value() {
+  _oneof_case_[0] = kIntValue;
+}
+inline void ConfigValueWriteRequest::clear_int_value() {
+  if (has_int_value()) {
+    Values_.int_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline ::google::protobuf::int32 ConfigValueWriteRequest::int_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.int_value)
+  if (has_int_value()) {
+    return Values_.int_value_;
+  }
+  return 0;
+}
+inline void ConfigValueWriteRequest::set_int_value(::google::protobuf::int32 value) {
+  if (!has_int_value()) {
+    clear_Values();
+    set_has_int_value();
+  }
+  Values_.int_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.int_value)
+}
+
+// float float_value = 5;
+inline bool ConfigValueWriteRequest::has_float_value() const {
+  return Values_case() == kFloatValue;
+}
+inline void ConfigValueWriteRequest::set_has_float_value() {
+  _oneof_case_[0] = kFloatValue;
+}
+inline void ConfigValueWriteRequest::clear_float_value() {
+  if (has_float_value()) {
+    Values_.float_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline float ConfigValueWriteRequest::float_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.float_value)
+  if (has_float_value()) {
+    return Values_.float_value_;
+  }
+  return 0;
+}
+inline void ConfigValueWriteRequest::set_float_value(float value) {
+  if (!has_float_value()) {
+    clear_Values();
+    set_has_float_value();
+  }
+  Values_.float_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.float_value)
+}
+
+// double double_value = 6;
+inline bool ConfigValueWriteRequest::has_double_value() const {
+  return Values_case() == kDoubleValue;
+}
+inline void ConfigValueWriteRequest::set_has_double_value() {
+  _oneof_case_[0] = kDoubleValue;
+}
+inline void ConfigValueWriteRequest::clear_double_value() {
+  if (has_double_value()) {
+    Values_.double_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline double ConfigValueWriteRequest::double_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.double_value)
+  if (has_double_value()) {
+    return Values_.double_value_;
+  }
+  return 0;
+}
+inline void ConfigValueWriteRequest::set_double_value(double value) {
+  if (!has_double_value()) {
+    clear_Values();
+    set_has_double_value();
+  }
+  Values_.double_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.double_value)
+}
+
+// string string_value = 7;
+inline bool ConfigValueWriteRequest::has_string_value() const {
+  return Values_case() == kStringValue;
+}
+inline void ConfigValueWriteRequest::set_has_string_value() {
+  _oneof_case_[0] = kStringValue;
+}
+inline void ConfigValueWriteRequest::clear_string_value() {
+  if (has_string_value()) {
+    Values_.string_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_Values();
+  }
+}
+inline const ::std::string& ConfigValueWriteRequest::string_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.string_value)
+  if (has_string_value()) {
+    return Values_.string_value_.GetNoArena();
+  }
+  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+}
+inline void ConfigValueWriteRequest::set_string_value(const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.string_value)
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.string_value)
+}
+#if LANG_CXX11
+inline void ConfigValueWriteRequest::set_string_value(::std::string&& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.string_value)
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueWriteRequest.string_value)
+}
+#endif
+inline void ConfigValueWriteRequest::set_string_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueWriteRequest.string_value)
+}
+inline void ConfigValueWriteRequest::set_string_value(const char* value, size_t size) {
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueWriteRequest.string_value)
+}
+inline ::std::string* ConfigValueWriteRequest::mutable_string_value() {
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueWriteRequest.string_value)
+  return Values_.string_value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueWriteRequest::release_string_value() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueWriteRequest.string_value)
+  if (has_string_value()) {
+    clear_has_Values();
+    return Values_.string_value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  } else {
+    return NULL;
+  }
+}
+inline void ConfigValueWriteRequest::set_allocated_string_value(::std::string* string_value) {
+  if (!has_string_value()) {
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  clear_Values();
+  if (string_value != NULL) {
+    set_has_string_value();
+    Values_.string_value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string_value);
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueWriteRequest.string_value)
+}
+
+// bool bool_value = 8;
+inline bool ConfigValueWriteRequest::has_bool_value() const {
+  return Values_case() == kBoolValue;
+}
+inline void ConfigValueWriteRequest::set_has_bool_value() {
+  _oneof_case_[0] = kBoolValue;
+}
+inline void ConfigValueWriteRequest::clear_bool_value() {
+  if (has_bool_value()) {
+    Values_.bool_value_ = false;
+    clear_has_Values();
+  }
+}
+inline bool ConfigValueWriteRequest::bool_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteRequest.bool_value)
+  if (has_bool_value()) {
+    return Values_.bool_value_;
+  }
+  return false;
+}
+inline void ConfigValueWriteRequest::set_bool_value(bool value) {
+  if (!has_bool_value()) {
+    clear_Values();
+    set_has_bool_value();
+  }
+  Values_.bool_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteRequest.bool_value)
+}
+
+inline bool ConfigValueWriteRequest::has_Values() const {
+  return Values_case() != VALUES_NOT_SET;
+}
+inline void ConfigValueWriteRequest::clear_has_Values() {
+  _oneof_case_[0] = VALUES_NOT_SET;
+}
+inline ConfigValueWriteRequest::ValuesCase ConfigValueWriteRequest::Values_case() const {
+  return ConfigValueWriteRequest::ValuesCase(_oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
+// ConfigValueReadRequest
+
+// uint32 group_id = 1;
+inline void ConfigValueReadRequest::clear_group_id() {
+  group_id_ = 0u;
+}
+inline ::google::protobuf::uint32 ConfigValueReadRequest::group_id() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadRequest.group_id)
+  return group_id_;
+}
+inline void ConfigValueReadRequest::set_group_id(::google::protobuf::uint32 value) {
+  
+  group_id_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadRequest.group_id)
+}
+
+// uint32 value_id = 2;
+inline void ConfigValueReadRequest::clear_value_id() {
+  value_id_ = 0u;
+}
+inline ::google::protobuf::uint32 ConfigValueReadRequest::value_id() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadRequest.value_id)
+  return value_id_;
+}
+inline void ConfigValueReadRequest::set_value_id(::google::protobuf::uint32 value) {
+  
+  value_id_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadRequest.value_id)
+}
+
+// -------------------------------------------------------------------
+
 // SimuRequest
 
 // .open_vario.ConnectRequest connect = 1;
@@ -1622,6 +2281,94 @@ inline ::open_vario::PingRequest* SimuRequest::mutable_ping() {
   return Requests_.ping_;
 }
 
+// .open_vario.ConfigValueWriteRequest config_write = 6;
+inline bool SimuRequest::has_config_write() const {
+  return Requests_case() == kConfigWrite;
+}
+inline void SimuRequest::set_has_config_write() {
+  _oneof_case_[0] = kConfigWrite;
+}
+inline void SimuRequest::clear_config_write() {
+  if (has_config_write()) {
+    delete Requests_.config_write_;
+    clear_has_Requests();
+  }
+}
+inline const ::open_vario::ConfigValueWriteRequest& SimuRequest::_internal_config_write() const {
+  return *Requests_.config_write_;
+}
+inline ::open_vario::ConfigValueWriteRequest* SimuRequest::release_config_write() {
+  // @@protoc_insertion_point(field_release:open_vario.SimuRequest.config_write)
+  if (has_config_write()) {
+    clear_has_Requests();
+      ::open_vario::ConfigValueWriteRequest* temp = Requests_.config_write_;
+    Requests_.config_write_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::open_vario::ConfigValueWriteRequest& SimuRequest::config_write() const {
+  // @@protoc_insertion_point(field_get:open_vario.SimuRequest.config_write)
+  return has_config_write()
+      ? *Requests_.config_write_
+      : *reinterpret_cast< ::open_vario::ConfigValueWriteRequest*>(&::open_vario::_ConfigValueWriteRequest_default_instance_);
+}
+inline ::open_vario::ConfigValueWriteRequest* SimuRequest::mutable_config_write() {
+  if (!has_config_write()) {
+    clear_Requests();
+    set_has_config_write();
+    Requests_.config_write_ = CreateMaybeMessage< ::open_vario::ConfigValueWriteRequest >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.SimuRequest.config_write)
+  return Requests_.config_write_;
+}
+
+// .open_vario.ConfigValueReadRequest config_read = 7;
+inline bool SimuRequest::has_config_read() const {
+  return Requests_case() == kConfigRead;
+}
+inline void SimuRequest::set_has_config_read() {
+  _oneof_case_[0] = kConfigRead;
+}
+inline void SimuRequest::clear_config_read() {
+  if (has_config_read()) {
+    delete Requests_.config_read_;
+    clear_has_Requests();
+  }
+}
+inline const ::open_vario::ConfigValueReadRequest& SimuRequest::_internal_config_read() const {
+  return *Requests_.config_read_;
+}
+inline ::open_vario::ConfigValueReadRequest* SimuRequest::release_config_read() {
+  // @@protoc_insertion_point(field_release:open_vario.SimuRequest.config_read)
+  if (has_config_read()) {
+    clear_has_Requests();
+      ::open_vario::ConfigValueReadRequest* temp = Requests_.config_read_;
+    Requests_.config_read_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::open_vario::ConfigValueReadRequest& SimuRequest::config_read() const {
+  // @@protoc_insertion_point(field_get:open_vario.SimuRequest.config_read)
+  return has_config_read()
+      ? *Requests_.config_read_
+      : *reinterpret_cast< ::open_vario::ConfigValueReadRequest*>(&::open_vario::_ConfigValueReadRequest_default_instance_);
+}
+inline ::open_vario::ConfigValueReadRequest* SimuRequest::mutable_config_read() {
+  if (!has_config_read()) {
+    clear_Requests();
+    set_has_config_read();
+    Requests_.config_read_ = CreateMaybeMessage< ::open_vario::ConfigValueReadRequest >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.SimuRequest.config_read)
+  return Requests_.config_read_;
+}
+
 inline bool SimuRequest::has_Requests() const {
   return Requests_case() != REQUESTS_NOT_SET;
 }
@@ -1634,6 +2381,10 @@ inline SimuRequest::RequestsCase SimuRequest::Requests_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

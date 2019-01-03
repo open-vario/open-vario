@@ -17,6 +17,8 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_responses_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ConfigValueReadResponse;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ConfigValueWriteResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ConnectResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_DisconnectResponse;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_responses_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ListSensorsResponse_Sensor;
@@ -55,6 +57,34 @@ class PingResponseDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<PingResponse>
       _instance;
 } _PingResponse_default_instance_;
+class ConfigValueWriteResponseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ConfigValueWriteResponse>
+      _instance;
+} _ConfigValueWriteResponse_default_instance_;
+class ConfigValueReadResponseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ConfigValueReadResponse>
+      _instance;
+  ::google::protobuf::uint32 uint_value_;
+  ::google::protobuf::int32 int_value_;
+  float float_value_;
+  double double_value_;
+  ::google::protobuf::internal::ArenaStringPtr string_value_;
+  bool bool_value_;
+  ::google::protobuf::uint32 uint_min_value_;
+  ::google::protobuf::int32 int_min_value_;
+  float float_min_value_;
+  double double_min_value_;
+  ::google::protobuf::internal::ArenaStringPtr string_min_value_;
+  bool bool_min_value_;
+  ::google::protobuf::uint32 uint_max_value_;
+  ::google::protobuf::int32 int_max_value_;
+  float float_max_value_;
+  double double_max_value_;
+  ::google::protobuf::internal::ArenaStringPtr string_max_value_;
+  bool bool_max_value_;
+} _ConfigValueReadResponse_default_instance_;
 class SimuResponseDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<SimuResponse>
@@ -64,6 +94,8 @@ class SimuResponseDefaultTypeInternal {
   const ::open_vario::ListSensorsResponse* list_sensors_;
   const ::open_vario::UpdateSensorResponse* update_sensor_;
   const ::open_vario::PingResponse* ping_;
+  const ::open_vario::ConfigValueWriteResponse* config_write_;
+  const ::open_vario::ConfigValueReadResponse* config_read_;
 } _SimuResponse_default_instance_;
 }  // namespace open_vario
 namespace protobuf_responses_2eproto {
@@ -152,6 +184,34 @@ static void InitDefaultsPingResponse() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_PingResponse =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPingResponse}, {}};
 
+static void InitDefaultsConfigValueWriteResponse() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::open_vario::_ConfigValueWriteResponse_default_instance_;
+    new (ptr) ::open_vario::ConfigValueWriteResponse();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::open_vario::ConfigValueWriteResponse::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_ConfigValueWriteResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsConfigValueWriteResponse}, {}};
+
+static void InitDefaultsConfigValueReadResponse() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::open_vario::_ConfigValueReadResponse_default_instance_;
+    new (ptr) ::open_vario::ConfigValueReadResponse();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::open_vario::ConfigValueReadResponse::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_ConfigValueReadResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsConfigValueReadResponse}, {}};
+
 static void InitDefaultsSimuResponse() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -163,13 +223,15 @@ static void InitDefaultsSimuResponse() {
   ::open_vario::SimuResponse::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<5> scc_info_SimuResponse =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 5, InitDefaultsSimuResponse}, {
+::google::protobuf::internal::SCCInfo<7> scc_info_SimuResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 7, InitDefaultsSimuResponse}, {
       &protobuf_responses_2eproto::scc_info_ConnectResponse.base,
       &protobuf_responses_2eproto::scc_info_DisconnectResponse.base,
       &protobuf_responses_2eproto::scc_info_ListSensorsResponse.base,
       &protobuf_responses_2eproto::scc_info_UpdateSensorResponse.base,
-      &protobuf_responses_2eproto::scc_info_PingResponse.base,}};
+      &protobuf_responses_2eproto::scc_info_PingResponse.base,
+      &protobuf_responses_2eproto::scc_info_ConfigValueWriteResponse.base,
+      &protobuf_responses_2eproto::scc_info_ConfigValueReadResponse.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_ConnectResponse.base);
@@ -178,6 +240,8 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_ListSensorsResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_UpdateSensorResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_PingResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ConfigValueWriteResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ConfigValueReadResponse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_SimuResponse.base);
 }
 
@@ -1399,6 +1463,1420 @@ void PingResponse::InternalSwap(PingResponse* other) {
 
 // ===================================================================
 
+void ConfigValueWriteResponse::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ConfigValueWriteResponse::kSuccessFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ConfigValueWriteResponse::ConfigValueWriteResponse()
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_responses_2eproto::scc_info_ConfigValueWriteResponse.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:open_vario.ConfigValueWriteResponse)
+}
+ConfigValueWriteResponse::ConfigValueWriteResponse(const ConfigValueWriteResponse& from)
+  : ::google::protobuf::MessageLite(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  success_ = from.success_;
+  // @@protoc_insertion_point(copy_constructor:open_vario.ConfigValueWriteResponse)
+}
+
+void ConfigValueWriteResponse::SharedCtor() {
+  success_ = false;
+}
+
+ConfigValueWriteResponse::~ConfigValueWriteResponse() {
+  // @@protoc_insertion_point(destructor:open_vario.ConfigValueWriteResponse)
+  SharedDtor();
+}
+
+void ConfigValueWriteResponse::SharedDtor() {
+}
+
+void ConfigValueWriteResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ConfigValueWriteResponse& ConfigValueWriteResponse::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_responses_2eproto::scc_info_ConfigValueWriteResponse.base);
+  return *internal_default_instance();
+}
+
+
+void ConfigValueWriteResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:open_vario.ConfigValueWriteResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  success_ = false;
+  _internal_metadata_.Clear();
+}
+
+bool ConfigValueWriteResponse::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
+  // @@protoc_insertion_point(parse_start:open_vario.ConfigValueWriteResponse)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // bool success = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &success_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:open_vario.ConfigValueWriteResponse)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:open_vario.ConfigValueWriteResponse)
+  return false;
+#undef DO_
+}
+
+void ConfigValueWriteResponse::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:open_vario.ConfigValueWriteResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->success(), output);
+  }
+
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
+  // @@protoc_insertion_point(serialize_end:open_vario.ConfigValueWriteResponse)
+}
+
+size_t ConfigValueWriteResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:open_vario.ConfigValueWriteResponse)
+  size_t total_size = 0;
+
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ConfigValueWriteResponse::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const ConfigValueWriteResponse*>(&from));
+}
+
+void ConfigValueWriteResponse::MergeFrom(const ConfigValueWriteResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:open_vario.ConfigValueWriteResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.success() != 0) {
+    set_success(from.success());
+  }
+}
+
+void ConfigValueWriteResponse::CopyFrom(const ConfigValueWriteResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:open_vario.ConfigValueWriteResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ConfigValueWriteResponse::IsInitialized() const {
+  return true;
+}
+
+void ConfigValueWriteResponse::Swap(ConfigValueWriteResponse* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ConfigValueWriteResponse::InternalSwap(ConfigValueWriteResponse* other) {
+  using std::swap;
+  swap(success_, other->success_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::std::string ConfigValueWriteResponse::GetTypeName() const {
+  return "open_vario.ConfigValueWriteResponse";
+}
+
+
+// ===================================================================
+
+void ConfigValueReadResponse::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ConfigValueReadResponse::kSuccessFieldNumber;
+const int ConfigValueReadResponse::kValueGroupNameFieldNumber;
+const int ConfigValueReadResponse::kValueNameFieldNumber;
+const int ConfigValueReadResponse::kValueTypeFieldNumber;
+const int ConfigValueReadResponse::kValueSizeFieldNumber;
+const int ConfigValueReadResponse::kHasMinMaxFieldNumber;
+const int ConfigValueReadResponse::kIsResetOnlyFieldNumber;
+const int ConfigValueReadResponse::kUintValueFieldNumber;
+const int ConfigValueReadResponse::kIntValueFieldNumber;
+const int ConfigValueReadResponse::kFloatValueFieldNumber;
+const int ConfigValueReadResponse::kDoubleValueFieldNumber;
+const int ConfigValueReadResponse::kStringValueFieldNumber;
+const int ConfigValueReadResponse::kBoolValueFieldNumber;
+const int ConfigValueReadResponse::kUintMinValueFieldNumber;
+const int ConfigValueReadResponse::kIntMinValueFieldNumber;
+const int ConfigValueReadResponse::kFloatMinValueFieldNumber;
+const int ConfigValueReadResponse::kDoubleMinValueFieldNumber;
+const int ConfigValueReadResponse::kStringMinValueFieldNumber;
+const int ConfigValueReadResponse::kBoolMinValueFieldNumber;
+const int ConfigValueReadResponse::kUintMaxValueFieldNumber;
+const int ConfigValueReadResponse::kIntMaxValueFieldNumber;
+const int ConfigValueReadResponse::kFloatMaxValueFieldNumber;
+const int ConfigValueReadResponse::kDoubleMaxValueFieldNumber;
+const int ConfigValueReadResponse::kStringMaxValueFieldNumber;
+const int ConfigValueReadResponse::kBoolMaxValueFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ConfigValueReadResponse::ConfigValueReadResponse()
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_responses_2eproto::scc_info_ConfigValueReadResponse.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:open_vario.ConfigValueReadResponse)
+}
+ConfigValueReadResponse::ConfigValueReadResponse(const ConfigValueReadResponse& from)
+  : ::google::protobuf::MessageLite(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  value_group_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.value_group_name().size() > 0) {
+    value_group_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_group_name_);
+  }
+  value_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.value_name().size() > 0) {
+    value_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_name_);
+  }
+  value_type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.value_type().size() > 0) {
+    value_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_type_);
+  }
+  ::memcpy(&success_, &from.success_,
+    static_cast<size_t>(reinterpret_cast<char*>(&value_size_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(value_size_));
+  clear_has_Values();
+  switch (from.Values_case()) {
+    case kUintValue: {
+      set_uint_value(from.uint_value());
+      break;
+    }
+    case kIntValue: {
+      set_int_value(from.int_value());
+      break;
+    }
+    case kFloatValue: {
+      set_float_value(from.float_value());
+      break;
+    }
+    case kDoubleValue: {
+      set_double_value(from.double_value());
+      break;
+    }
+    case kStringValue: {
+      set_string_value(from.string_value());
+      break;
+    }
+    case kBoolValue: {
+      set_bool_value(from.bool_value());
+      break;
+    }
+    case VALUES_NOT_SET: {
+      break;
+    }
+  }
+  clear_has_MinValues();
+  switch (from.MinValues_case()) {
+    case kUintMinValue: {
+      set_uint_min_value(from.uint_min_value());
+      break;
+    }
+    case kIntMinValue: {
+      set_int_min_value(from.int_min_value());
+      break;
+    }
+    case kFloatMinValue: {
+      set_float_min_value(from.float_min_value());
+      break;
+    }
+    case kDoubleMinValue: {
+      set_double_min_value(from.double_min_value());
+      break;
+    }
+    case kStringMinValue: {
+      set_string_min_value(from.string_min_value());
+      break;
+    }
+    case kBoolMinValue: {
+      set_bool_min_value(from.bool_min_value());
+      break;
+    }
+    case MINVALUES_NOT_SET: {
+      break;
+    }
+  }
+  clear_has_MaxValues();
+  switch (from.MaxValues_case()) {
+    case kUintMaxValue: {
+      set_uint_max_value(from.uint_max_value());
+      break;
+    }
+    case kIntMaxValue: {
+      set_int_max_value(from.int_max_value());
+      break;
+    }
+    case kFloatMaxValue: {
+      set_float_max_value(from.float_max_value());
+      break;
+    }
+    case kDoubleMaxValue: {
+      set_double_max_value(from.double_max_value());
+      break;
+    }
+    case kStringMaxValue: {
+      set_string_max_value(from.string_max_value());
+      break;
+    }
+    case kBoolMaxValue: {
+      set_bool_max_value(from.bool_max_value());
+      break;
+    }
+    case MAXVALUES_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:open_vario.ConfigValueReadResponse)
+}
+
+void ConfigValueReadResponse::SharedCtor() {
+  value_group_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_size_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(value_size_));
+  clear_has_Values();
+  clear_has_MinValues();
+  clear_has_MaxValues();
+}
+
+ConfigValueReadResponse::~ConfigValueReadResponse() {
+  // @@protoc_insertion_point(destructor:open_vario.ConfigValueReadResponse)
+  SharedDtor();
+}
+
+void ConfigValueReadResponse::SharedDtor() {
+  value_group_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_type_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (has_Values()) {
+    clear_Values();
+  }
+  if (has_MinValues()) {
+    clear_MinValues();
+  }
+  if (has_MaxValues()) {
+    clear_MaxValues();
+  }
+}
+
+void ConfigValueReadResponse::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ConfigValueReadResponse& ConfigValueReadResponse::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_responses_2eproto::scc_info_ConfigValueReadResponse.base);
+  return *internal_default_instance();
+}
+
+
+void ConfigValueReadResponse::clear_Values() {
+// @@protoc_insertion_point(one_of_clear_start:open_vario.ConfigValueReadResponse)
+  switch (Values_case()) {
+    case kUintValue: {
+      // No need to clear
+      break;
+    }
+    case kIntValue: {
+      // No need to clear
+      break;
+    }
+    case kFloatValue: {
+      // No need to clear
+      break;
+    }
+    case kDoubleValue: {
+      // No need to clear
+      break;
+    }
+    case kStringValue: {
+      Values_.string_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+      break;
+    }
+    case kBoolValue: {
+      // No need to clear
+      break;
+    }
+    case VALUES_NOT_SET: {
+      break;
+    }
+  }
+  _oneof_case_[0] = VALUES_NOT_SET;
+}
+
+void ConfigValueReadResponse::clear_MinValues() {
+// @@protoc_insertion_point(one_of_clear_start:open_vario.ConfigValueReadResponse)
+  switch (MinValues_case()) {
+    case kUintMinValue: {
+      // No need to clear
+      break;
+    }
+    case kIntMinValue: {
+      // No need to clear
+      break;
+    }
+    case kFloatMinValue: {
+      // No need to clear
+      break;
+    }
+    case kDoubleMinValue: {
+      // No need to clear
+      break;
+    }
+    case kStringMinValue: {
+      MinValues_.string_min_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+      break;
+    }
+    case kBoolMinValue: {
+      // No need to clear
+      break;
+    }
+    case MINVALUES_NOT_SET: {
+      break;
+    }
+  }
+  _oneof_case_[1] = MINVALUES_NOT_SET;
+}
+
+void ConfigValueReadResponse::clear_MaxValues() {
+// @@protoc_insertion_point(one_of_clear_start:open_vario.ConfigValueReadResponse)
+  switch (MaxValues_case()) {
+    case kUintMaxValue: {
+      // No need to clear
+      break;
+    }
+    case kIntMaxValue: {
+      // No need to clear
+      break;
+    }
+    case kFloatMaxValue: {
+      // No need to clear
+      break;
+    }
+    case kDoubleMaxValue: {
+      // No need to clear
+      break;
+    }
+    case kStringMaxValue: {
+      MaxValues_.string_max_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+      break;
+    }
+    case kBoolMaxValue: {
+      // No need to clear
+      break;
+    }
+    case MAXVALUES_NOT_SET: {
+      break;
+    }
+  }
+  _oneof_case_[2] = MAXVALUES_NOT_SET;
+}
+
+
+void ConfigValueReadResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:open_vario.ConfigValueReadResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  value_group_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&value_size_) -
+      reinterpret_cast<char*>(&success_)) + sizeof(value_size_));
+  clear_Values();
+  clear_MinValues();
+  clear_MaxValues();
+  _internal_metadata_.Clear();
+}
+
+bool ConfigValueReadResponse::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
+  // @@protoc_insertion_point(parse_start:open_vario.ConfigValueReadResponse)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // bool success = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &success_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string value_group_name = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_value_group_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->value_group_name().data(), static_cast<int>(this->value_group_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.value_group_name"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string value_name = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_value_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->value_name().data(), static_cast<int>(this->value_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.value_name"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string value_type = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_value_type()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->value_type().data(), static_cast<int>(this->value_type().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.value_type"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 value_size = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &value_size_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool has_min_max = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &has_min_max_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool is_reset_only = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(56u /* 56 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &is_reset_only_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 uint_value = 10;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
+          clear_Values();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &Values_.uint_value_)));
+          set_has_uint_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // sint32 int_value = 11;
+      case 11: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
+          clear_Values();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &Values_.int_value_)));
+          set_has_int_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float float_value = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(101u /* 101 & 0xFF */)) {
+          clear_Values();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &Values_.float_value_)));
+          set_has_float_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // double double_value = 13;
+      case 13: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(105u /* 105 & 0xFF */)) {
+          clear_Values();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &Values_.double_value_)));
+          set_has_double_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string string_value = 14;
+      case 14: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(114u /* 114 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_string_value()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->string_value().data(), static_cast<int>(this->string_value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.string_value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool bool_value = 15;
+      case 15: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(120u /* 120 & 0xFF */)) {
+          clear_Values();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &Values_.bool_value_)));
+          set_has_bool_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 uint_min_value = 20;
+      case 20: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(160u /* 160 & 0xFF */)) {
+          clear_MinValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &MinValues_.uint_min_value_)));
+          set_has_uint_min_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // sint32 int_min_value = 21;
+      case 21: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(168u /* 168 & 0xFF */)) {
+          clear_MinValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &MinValues_.int_min_value_)));
+          set_has_int_min_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float float_min_value = 22;
+      case 22: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(181u /* 181 & 0xFF */)) {
+          clear_MinValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &MinValues_.float_min_value_)));
+          set_has_float_min_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // double double_min_value = 23;
+      case 23: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(185u /* 185 & 0xFF */)) {
+          clear_MinValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &MinValues_.double_min_value_)));
+          set_has_double_min_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string string_min_value = 24;
+      case 24: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(194u /* 194 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_string_min_value()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->string_min_value().data(), static_cast<int>(this->string_min_value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.string_min_value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool bool_min_value = 25;
+      case 25: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(200u /* 200 & 0xFF */)) {
+          clear_MinValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &MinValues_.bool_min_value_)));
+          set_has_bool_min_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // uint32 uint_max_value = 30;
+      case 30: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(240u /* 240 & 0xFF */)) {
+          clear_MaxValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &MaxValues_.uint_max_value_)));
+          set_has_uint_max_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // sint32 int_max_value = 31;
+      case 31: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(248u /* 248 & 0xFF */)) {
+          clear_MaxValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_SINT32>(
+                 input, &MaxValues_.int_max_value_)));
+          set_has_int_max_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float float_max_value = 32;
+      case 32: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(5u /* 261 & 0xFF */)) {
+          clear_MaxValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &MaxValues_.float_max_value_)));
+          set_has_float_max_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // double double_max_value = 33;
+      case 33: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(9u /* 265 & 0xFF */)) {
+          clear_MaxValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &MaxValues_.double_max_value_)));
+          set_has_double_max_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string string_max_value = 34;
+      case 34: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 274 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_string_max_value()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->string_max_value().data(), static_cast<int>(this->string_max_value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "open_vario.ConfigValueReadResponse.string_max_value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // bool bool_max_value = 35;
+      case 35: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 280 & 0xFF */)) {
+          clear_MaxValues();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &MaxValues_.bool_max_value_)));
+          set_has_bool_max_value();
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:open_vario.ConfigValueReadResponse)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:open_vario.ConfigValueReadResponse)
+  return false;
+#undef DO_
+}
+
+void ConfigValueReadResponse::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:open_vario.ConfigValueReadResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->success(), output);
+  }
+
+  // string value_group_name = 2;
+  if (this->value_group_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->value_group_name().data(), static_cast<int>(this->value_group_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.value_group_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->value_group_name(), output);
+  }
+
+  // string value_name = 3;
+  if (this->value_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->value_name().data(), static_cast<int>(this->value_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.value_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->value_name(), output);
+  }
+
+  // string value_type = 4;
+  if (this->value_type().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->value_type().data(), static_cast<int>(this->value_type().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.value_type");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->value_type(), output);
+  }
+
+  // uint32 value_size = 5;
+  if (this->value_size() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->value_size(), output);
+  }
+
+  // bool has_min_max = 6;
+  if (this->has_min_max() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(6, this->has_min_max(), output);
+  }
+
+  // bool is_reset_only = 7;
+  if (this->is_reset_only() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(7, this->is_reset_only(), output);
+  }
+
+  // uint32 uint_value = 10;
+  if (has_uint_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->uint_value(), output);
+  }
+
+  // sint32 int_value = 11;
+  if (has_int_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(11, this->int_value(), output);
+  }
+
+  // float float_value = 12;
+  if (has_float_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(12, this->float_value(), output);
+  }
+
+  // double double_value = 13;
+  if (has_double_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(13, this->double_value(), output);
+  }
+
+  // string string_value = 14;
+  if (has_string_value()) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->string_value().data(), static_cast<int>(this->string_value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.string_value");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      14, this->string_value(), output);
+  }
+
+  // bool bool_value = 15;
+  if (has_bool_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(15, this->bool_value(), output);
+  }
+
+  // uint32 uint_min_value = 20;
+  if (has_uint_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(20, this->uint_min_value(), output);
+  }
+
+  // sint32 int_min_value = 21;
+  if (has_int_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(21, this->int_min_value(), output);
+  }
+
+  // float float_min_value = 22;
+  if (has_float_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(22, this->float_min_value(), output);
+  }
+
+  // double double_min_value = 23;
+  if (has_double_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(23, this->double_min_value(), output);
+  }
+
+  // string string_min_value = 24;
+  if (has_string_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->string_min_value().data(), static_cast<int>(this->string_min_value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.string_min_value");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      24, this->string_min_value(), output);
+  }
+
+  // bool bool_min_value = 25;
+  if (has_bool_min_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(25, this->bool_min_value(), output);
+  }
+
+  // uint32 uint_max_value = 30;
+  if (has_uint_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(30, this->uint_max_value(), output);
+  }
+
+  // sint32 int_max_value = 31;
+  if (has_int_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteSInt32(31, this->int_max_value(), output);
+  }
+
+  // float float_max_value = 32;
+  if (has_float_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(32, this->float_max_value(), output);
+  }
+
+  // double double_max_value = 33;
+  if (has_double_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(33, this->double_max_value(), output);
+  }
+
+  // string string_max_value = 34;
+  if (has_string_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->string_max_value().data(), static_cast<int>(this->string_max_value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "open_vario.ConfigValueReadResponse.string_max_value");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      34, this->string_max_value(), output);
+  }
+
+  // bool bool_max_value = 35;
+  if (has_bool_max_value()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(35, this->bool_max_value(), output);
+  }
+
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
+  // @@protoc_insertion_point(serialize_end:open_vario.ConfigValueReadResponse)
+}
+
+size_t ConfigValueReadResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:open_vario.ConfigValueReadResponse)
+  size_t total_size = 0;
+
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
+  // string value_group_name = 2;
+  if (this->value_group_name().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->value_group_name());
+  }
+
+  // string value_name = 3;
+  if (this->value_name().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->value_name());
+  }
+
+  // string value_type = 4;
+  if (this->value_type().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->value_type());
+  }
+
+  // bool success = 1;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool has_min_max = 6;
+  if (this->has_min_max() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool is_reset_only = 7;
+  if (this->is_reset_only() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // uint32 value_size = 5;
+  if (this->value_size() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt32Size(
+        this->value_size());
+  }
+
+  switch (Values_case()) {
+    // uint32 uint_value = 10;
+    case kUintValue: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->uint_value());
+      break;
+    }
+    // sint32 int_value = 11;
+    case kIntValue: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::SInt32Size(
+          this->int_value());
+      break;
+    }
+    // float float_value = 12;
+    case kFloatValue: {
+      total_size += 1 + 4;
+      break;
+    }
+    // double double_value = 13;
+    case kDoubleValue: {
+      total_size += 1 + 8;
+      break;
+    }
+    // string string_value = 14;
+    case kStringValue: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->string_value());
+      break;
+    }
+    // bool bool_value = 15;
+    case kBoolValue: {
+      total_size += 1 + 1;
+      break;
+    }
+    case VALUES_NOT_SET: {
+      break;
+    }
+  }
+  switch (MinValues_case()) {
+    // uint32 uint_min_value = 20;
+    case kUintMinValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->uint_min_value());
+      break;
+    }
+    // sint32 int_min_value = 21;
+    case kIntMinValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::SInt32Size(
+          this->int_min_value());
+      break;
+    }
+    // float float_min_value = 22;
+    case kFloatMinValue: {
+      total_size += 2 + 4;
+      break;
+    }
+    // double double_min_value = 23;
+    case kDoubleMinValue: {
+      total_size += 2 + 8;
+      break;
+    }
+    // string string_min_value = 24;
+    case kStringMinValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->string_min_value());
+      break;
+    }
+    // bool bool_min_value = 25;
+    case kBoolMinValue: {
+      total_size += 2 + 1;
+      break;
+    }
+    case MINVALUES_NOT_SET: {
+      break;
+    }
+  }
+  switch (MaxValues_case()) {
+    // uint32 uint_max_value = 30;
+    case kUintMaxValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->uint_max_value());
+      break;
+    }
+    // sint32 int_max_value = 31;
+    case kIntMaxValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::SInt32Size(
+          this->int_max_value());
+      break;
+    }
+    // float float_max_value = 32;
+    case kFloatMaxValue: {
+      total_size += 2 + 4;
+      break;
+    }
+    // double double_max_value = 33;
+    case kDoubleMaxValue: {
+      total_size += 2 + 8;
+      break;
+    }
+    // string string_max_value = 34;
+    case kStringMaxValue: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->string_max_value());
+      break;
+    }
+    // bool bool_max_value = 35;
+    case kBoolMaxValue: {
+      total_size += 2 + 1;
+      break;
+    }
+    case MAXVALUES_NOT_SET: {
+      break;
+    }
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ConfigValueReadResponse::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const ConfigValueReadResponse*>(&from));
+}
+
+void ConfigValueReadResponse::MergeFrom(const ConfigValueReadResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:open_vario.ConfigValueReadResponse)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.value_group_name().size() > 0) {
+
+    value_group_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_group_name_);
+  }
+  if (from.value_name().size() > 0) {
+
+    value_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_name_);
+  }
+  if (from.value_type().size() > 0) {
+
+    value_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.value_type_);
+  }
+  if (from.success() != 0) {
+    set_success(from.success());
+  }
+  if (from.has_min_max() != 0) {
+    set_has_min_max(from.has_min_max());
+  }
+  if (from.is_reset_only() != 0) {
+    set_is_reset_only(from.is_reset_only());
+  }
+  if (from.value_size() != 0) {
+    set_value_size(from.value_size());
+  }
+  switch (from.Values_case()) {
+    case kUintValue: {
+      set_uint_value(from.uint_value());
+      break;
+    }
+    case kIntValue: {
+      set_int_value(from.int_value());
+      break;
+    }
+    case kFloatValue: {
+      set_float_value(from.float_value());
+      break;
+    }
+    case kDoubleValue: {
+      set_double_value(from.double_value());
+      break;
+    }
+    case kStringValue: {
+      set_string_value(from.string_value());
+      break;
+    }
+    case kBoolValue: {
+      set_bool_value(from.bool_value());
+      break;
+    }
+    case VALUES_NOT_SET: {
+      break;
+    }
+  }
+  switch (from.MinValues_case()) {
+    case kUintMinValue: {
+      set_uint_min_value(from.uint_min_value());
+      break;
+    }
+    case kIntMinValue: {
+      set_int_min_value(from.int_min_value());
+      break;
+    }
+    case kFloatMinValue: {
+      set_float_min_value(from.float_min_value());
+      break;
+    }
+    case kDoubleMinValue: {
+      set_double_min_value(from.double_min_value());
+      break;
+    }
+    case kStringMinValue: {
+      set_string_min_value(from.string_min_value());
+      break;
+    }
+    case kBoolMinValue: {
+      set_bool_min_value(from.bool_min_value());
+      break;
+    }
+    case MINVALUES_NOT_SET: {
+      break;
+    }
+  }
+  switch (from.MaxValues_case()) {
+    case kUintMaxValue: {
+      set_uint_max_value(from.uint_max_value());
+      break;
+    }
+    case kIntMaxValue: {
+      set_int_max_value(from.int_max_value());
+      break;
+    }
+    case kFloatMaxValue: {
+      set_float_max_value(from.float_max_value());
+      break;
+    }
+    case kDoubleMaxValue: {
+      set_double_max_value(from.double_max_value());
+      break;
+    }
+    case kStringMaxValue: {
+      set_string_max_value(from.string_max_value());
+      break;
+    }
+    case kBoolMaxValue: {
+      set_bool_max_value(from.bool_max_value());
+      break;
+    }
+    case MAXVALUES_NOT_SET: {
+      break;
+    }
+  }
+}
+
+void ConfigValueReadResponse::CopyFrom(const ConfigValueReadResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:open_vario.ConfigValueReadResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ConfigValueReadResponse::IsInitialized() const {
+  return true;
+}
+
+void ConfigValueReadResponse::Swap(ConfigValueReadResponse* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ConfigValueReadResponse::InternalSwap(ConfigValueReadResponse* other) {
+  using std::swap;
+  value_group_name_.Swap(&other->value_group_name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  value_name_.Swap(&other->value_name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  value_type_.Swap(&other->value_type_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(success_, other->success_);
+  swap(has_min_max_, other->has_min_max_);
+  swap(is_reset_only_, other->is_reset_only_);
+  swap(value_size_, other->value_size_);
+  swap(Values_, other->Values_);
+  swap(_oneof_case_[0], other->_oneof_case_[0]);
+  swap(MinValues_, other->MinValues_);
+  swap(_oneof_case_[1], other->_oneof_case_[1]);
+  swap(MaxValues_, other->MaxValues_);
+  swap(_oneof_case_[2], other->_oneof_case_[2]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::std::string ConfigValueReadResponse::GetTypeName() const {
+  return "open_vario.ConfigValueReadResponse";
+}
+
+
+// ===================================================================
+
 void SimuResponse::InitAsDefaultInstance() {
 }
 void SimuResponse::set_allocated_connect(::open_vario::ConnectResponse* connect) {
@@ -1471,12 +2949,42 @@ void SimuResponse::set_allocated_ping(::open_vario::PingResponse* ping) {
   }
   // @@protoc_insertion_point(field_set_allocated:open_vario.SimuResponse.ping)
 }
+void SimuResponse::set_allocated_config_write(::open_vario::ConfigValueWriteResponse* config_write) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_Responses();
+  if (config_write) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      config_write = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, config_write, submessage_arena);
+    }
+    set_has_config_write();
+    Responses_.config_write_ = config_write;
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.SimuResponse.config_write)
+}
+void SimuResponse::set_allocated_config_read(::open_vario::ConfigValueReadResponse* config_read) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_Responses();
+  if (config_read) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      config_read = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, config_read, submessage_arena);
+    }
+    set_has_config_read();
+    Responses_.config_read_ = config_read;
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.SimuResponse.config_read)
+}
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SimuResponse::kConnectFieldNumber;
 const int SimuResponse::kDisconnectFieldNumber;
 const int SimuResponse::kListSensorsFieldNumber;
 const int SimuResponse::kUpdateSensorFieldNumber;
 const int SimuResponse::kPingFieldNumber;
+const int SimuResponse::kConfigWriteFieldNumber;
+const int SimuResponse::kConfigReadFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SimuResponse::SimuResponse()
@@ -1510,6 +3018,14 @@ SimuResponse::SimuResponse(const SimuResponse& from)
     }
     case kPing: {
       mutable_ping()->::open_vario::PingResponse::MergeFrom(from.ping());
+      break;
+    }
+    case kConfigWrite: {
+      mutable_config_write()->::open_vario::ConfigValueWriteResponse::MergeFrom(from.config_write());
+      break;
+    }
+    case kConfigRead: {
+      mutable_config_read()->::open_vario::ConfigValueReadResponse::MergeFrom(from.config_read());
       break;
     }
     case RESPONSES_NOT_SET: {
@@ -1564,6 +3080,14 @@ void SimuResponse::clear_Responses() {
     }
     case kPing: {
       delete Responses_.ping_;
+      break;
+    }
+    case kConfigWrite: {
+      delete Responses_.config_write_;
+      break;
+    }
+    case kConfigRead: {
+      delete Responses_.config_read_;
       break;
     }
     case RESPONSES_NOT_SET: {
@@ -1660,6 +3184,30 @@ bool SimuResponse::MergePartialFromCodedStream(
         break;
       }
 
+      // .open_vario.ConfigValueWriteResponse config_write = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_config_write()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .open_vario.ConfigValueReadResponse config_read = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_config_read()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1716,6 +3264,18 @@ void SimuResponse::SerializeWithCachedSizes(
       5, this->_internal_ping(), output);
   }
 
+  // .open_vario.ConfigValueWriteResponse config_write = 6;
+  if (has_config_write()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      6, this->_internal_config_write(), output);
+  }
+
+  // .open_vario.ConfigValueReadResponse config_read = 7;
+  if (has_config_read()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      7, this->_internal_config_read(), output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:open_vario.SimuResponse)
@@ -1763,6 +3323,20 @@ size_t SimuResponse::ByteSizeLong() const {
           *Responses_.ping_);
       break;
     }
+    // .open_vario.ConfigValueWriteResponse config_write = 6;
+    case kConfigWrite: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *Responses_.config_write_);
+      break;
+    }
+    // .open_vario.ConfigValueReadResponse config_read = 7;
+    case kConfigRead: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *Responses_.config_read_);
+      break;
+    }
     case RESPONSES_NOT_SET: {
       break;
     }
@@ -1803,6 +3377,14 @@ void SimuResponse::MergeFrom(const SimuResponse& from) {
     }
     case kPing: {
       mutable_ping()->::open_vario::PingResponse::MergeFrom(from.ping());
+      break;
+    }
+    case kConfigWrite: {
+      mutable_config_write()->::open_vario::ConfigValueWriteResponse::MergeFrom(from.config_write());
+      break;
+    }
+    case kConfigRead: {
+      mutable_config_read()->::open_vario::ConfigValueReadResponse::MergeFrom(from.config_read());
       break;
     }
     case RESPONSES_NOT_SET: {
@@ -1859,6 +3441,12 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::open_vario::UpdateSensorResponse
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::open_vario::PingResponse* Arena::CreateMaybeMessage< ::open_vario::PingResponse >(Arena* arena) {
   return Arena::CreateInternal< ::open_vario::PingResponse >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::open_vario::ConfigValueWriteResponse* Arena::CreateMaybeMessage< ::open_vario::ConfigValueWriteResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::open_vario::ConfigValueWriteResponse >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::open_vario::ConfigValueReadResponse* Arena::CreateMaybeMessage< ::open_vario::ConfigValueReadResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::open_vario::ConfigValueReadResponse >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::open_vario::SimuResponse* Arena::CreateMaybeMessage< ::open_vario::SimuResponse >(Arena* arena) {
   return Arena::CreateInternal< ::open_vario::SimuResponse >(arena);

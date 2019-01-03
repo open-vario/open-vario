@@ -38,13 +38,19 @@ namespace protobuf_responses_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[7];
+  static const ::google::protobuf::internal::ParseTable schema[9];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 }  // namespace protobuf_responses_2eproto
 namespace open_vario {
+class ConfigValueReadResponse;
+class ConfigValueReadResponseDefaultTypeInternal;
+extern ConfigValueReadResponseDefaultTypeInternal _ConfigValueReadResponse_default_instance_;
+class ConfigValueWriteResponse;
+class ConfigValueWriteResponseDefaultTypeInternal;
+extern ConfigValueWriteResponseDefaultTypeInternal _ConfigValueWriteResponse_default_instance_;
 class ConnectResponse;
 class ConnectResponseDefaultTypeInternal;
 extern ConnectResponseDefaultTypeInternal _ConnectResponse_default_instance_;
@@ -69,6 +75,8 @@ extern UpdateSensorResponseDefaultTypeInternal _UpdateSensorResponse_default_ins
 }  // namespace open_vario
 namespace google {
 namespace protobuf {
+template<> ::open_vario::ConfigValueReadResponse* Arena::CreateMaybeMessage<::open_vario::ConfigValueReadResponse>(Arena*);
+template<> ::open_vario::ConfigValueWriteResponse* Arena::CreateMaybeMessage<::open_vario::ConfigValueWriteResponse>(Arena*);
 template<> ::open_vario::ConnectResponse* Arena::CreateMaybeMessage<::open_vario::ConnectResponse>(Arena*);
 template<> ::open_vario::DisconnectResponse* Arena::CreateMaybeMessage<::open_vario::DisconnectResponse>(Arena*);
 template<> ::open_vario::ListSensorsResponse* Arena::CreateMaybeMessage<::open_vario::ListSensorsResponse>(Arena*);
@@ -794,6 +802,552 @@ class PingResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
 };
 // -------------------------------------------------------------------
 
+class ConfigValueWriteResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConfigValueWriteResponse) */ {
+ public:
+  ConfigValueWriteResponse();
+  virtual ~ConfigValueWriteResponse();
+
+  ConfigValueWriteResponse(const ConfigValueWriteResponse& from);
+
+  inline ConfigValueWriteResponse& operator=(const ConfigValueWriteResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ConfigValueWriteResponse(ConfigValueWriteResponse&& from) noexcept
+    : ConfigValueWriteResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline ConfigValueWriteResponse& operator=(ConfigValueWriteResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ConfigValueWriteResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ConfigValueWriteResponse* internal_default_instance() {
+    return reinterpret_cast<const ConfigValueWriteResponse*>(
+               &_ConfigValueWriteResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(ConfigValueWriteResponse* other);
+  friend void swap(ConfigValueWriteResponse& a, ConfigValueWriteResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConfigValueWriteResponse* New() const final {
+    return CreateMaybeMessage<ConfigValueWriteResponse>(NULL);
+  }
+
+  ConfigValueWriteResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ConfigValueWriteResponse>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const ConfigValueWriteResponse& from);
+  void MergeFrom(const ConfigValueWriteResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ConfigValueWriteResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bool success = 1;
+  void clear_success();
+  static const int kSuccessFieldNumber = 1;
+  bool success() const;
+  void set_success(bool value);
+
+  // @@protoc_insertion_point(class_scope:open_vario.ConfigValueWriteResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  bool success_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_responses_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ConfigValueReadResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.ConfigValueReadResponse) */ {
+ public:
+  ConfigValueReadResponse();
+  virtual ~ConfigValueReadResponse();
+
+  ConfigValueReadResponse(const ConfigValueReadResponse& from);
+
+  inline ConfigValueReadResponse& operator=(const ConfigValueReadResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ConfigValueReadResponse(ConfigValueReadResponse&& from) noexcept
+    : ConfigValueReadResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline ConfigValueReadResponse& operator=(ConfigValueReadResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ConfigValueReadResponse& default_instance();
+
+  enum ValuesCase {
+    kUintValue = 10,
+    kIntValue = 11,
+    kFloatValue = 12,
+    kDoubleValue = 13,
+    kStringValue = 14,
+    kBoolValue = 15,
+    VALUES_NOT_SET = 0,
+  };
+
+  enum MinValuesCase {
+    kUintMinValue = 20,
+    kIntMinValue = 21,
+    kFloatMinValue = 22,
+    kDoubleMinValue = 23,
+    kStringMinValue = 24,
+    kBoolMinValue = 25,
+    MINVALUES_NOT_SET = 0,
+  };
+
+  enum MaxValuesCase {
+    kUintMaxValue = 30,
+    kIntMaxValue = 31,
+    kFloatMaxValue = 32,
+    kDoubleMaxValue = 33,
+    kStringMaxValue = 34,
+    kBoolMaxValue = 35,
+    MAXVALUES_NOT_SET = 0,
+  };
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ConfigValueReadResponse* internal_default_instance() {
+    return reinterpret_cast<const ConfigValueReadResponse*>(
+               &_ConfigValueReadResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(ConfigValueReadResponse* other);
+  friend void swap(ConfigValueReadResponse& a, ConfigValueReadResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ConfigValueReadResponse* New() const final {
+    return CreateMaybeMessage<ConfigValueReadResponse>(NULL);
+  }
+
+  ConfigValueReadResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ConfigValueReadResponse>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const ConfigValueReadResponse& from);
+  void MergeFrom(const ConfigValueReadResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ConfigValueReadResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string value_group_name = 2;
+  void clear_value_group_name();
+  static const int kValueGroupNameFieldNumber = 2;
+  const ::std::string& value_group_name() const;
+  void set_value_group_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value_group_name(::std::string&& value);
+  #endif
+  void set_value_group_name(const char* value);
+  void set_value_group_name(const char* value, size_t size);
+  ::std::string* mutable_value_group_name();
+  ::std::string* release_value_group_name();
+  void set_allocated_value_group_name(::std::string* value_group_name);
+
+  // string value_name = 3;
+  void clear_value_name();
+  static const int kValueNameFieldNumber = 3;
+  const ::std::string& value_name() const;
+  void set_value_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value_name(::std::string&& value);
+  #endif
+  void set_value_name(const char* value);
+  void set_value_name(const char* value, size_t size);
+  ::std::string* mutable_value_name();
+  ::std::string* release_value_name();
+  void set_allocated_value_name(::std::string* value_name);
+
+  // string value_type = 4;
+  void clear_value_type();
+  static const int kValueTypeFieldNumber = 4;
+  const ::std::string& value_type() const;
+  void set_value_type(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value_type(::std::string&& value);
+  #endif
+  void set_value_type(const char* value);
+  void set_value_type(const char* value, size_t size);
+  ::std::string* mutable_value_type();
+  ::std::string* release_value_type();
+  void set_allocated_value_type(::std::string* value_type);
+
+  // bool success = 1;
+  void clear_success();
+  static const int kSuccessFieldNumber = 1;
+  bool success() const;
+  void set_success(bool value);
+
+  // bool has_min_max = 6;
+  void clear_has_min_max();
+  static const int kHasMinMaxFieldNumber = 6;
+  bool has_min_max() const;
+  void set_has_min_max(bool value);
+
+  // bool is_reset_only = 7;
+  void clear_is_reset_only();
+  static const int kIsResetOnlyFieldNumber = 7;
+  bool is_reset_only() const;
+  void set_is_reset_only(bool value);
+
+  // uint32 value_size = 5;
+  void clear_value_size();
+  static const int kValueSizeFieldNumber = 5;
+  ::google::protobuf::uint32 value_size() const;
+  void set_value_size(::google::protobuf::uint32 value);
+
+  // uint32 uint_value = 10;
+  private:
+  bool has_uint_value() const;
+  public:
+  void clear_uint_value();
+  static const int kUintValueFieldNumber = 10;
+  ::google::protobuf::uint32 uint_value() const;
+  void set_uint_value(::google::protobuf::uint32 value);
+
+  // sint32 int_value = 11;
+  private:
+  bool has_int_value() const;
+  public:
+  void clear_int_value();
+  static const int kIntValueFieldNumber = 11;
+  ::google::protobuf::int32 int_value() const;
+  void set_int_value(::google::protobuf::int32 value);
+
+  // float float_value = 12;
+  private:
+  bool has_float_value() const;
+  public:
+  void clear_float_value();
+  static const int kFloatValueFieldNumber = 12;
+  float float_value() const;
+  void set_float_value(float value);
+
+  // double double_value = 13;
+  private:
+  bool has_double_value() const;
+  public:
+  void clear_double_value();
+  static const int kDoubleValueFieldNumber = 13;
+  double double_value() const;
+  void set_double_value(double value);
+
+  // string string_value = 14;
+  private:
+  bool has_string_value() const;
+  public:
+  void clear_string_value();
+  static const int kStringValueFieldNumber = 14;
+  const ::std::string& string_value() const;
+  void set_string_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_string_value(::std::string&& value);
+  #endif
+  void set_string_value(const char* value);
+  void set_string_value(const char* value, size_t size);
+  ::std::string* mutable_string_value();
+  ::std::string* release_string_value();
+  void set_allocated_string_value(::std::string* string_value);
+
+  // bool bool_value = 15;
+  private:
+  bool has_bool_value() const;
+  public:
+  void clear_bool_value();
+  static const int kBoolValueFieldNumber = 15;
+  bool bool_value() const;
+  void set_bool_value(bool value);
+
+  // uint32 uint_min_value = 20;
+  private:
+  bool has_uint_min_value() const;
+  public:
+  void clear_uint_min_value();
+  static const int kUintMinValueFieldNumber = 20;
+  ::google::protobuf::uint32 uint_min_value() const;
+  void set_uint_min_value(::google::protobuf::uint32 value);
+
+  // sint32 int_min_value = 21;
+  private:
+  bool has_int_min_value() const;
+  public:
+  void clear_int_min_value();
+  static const int kIntMinValueFieldNumber = 21;
+  ::google::protobuf::int32 int_min_value() const;
+  void set_int_min_value(::google::protobuf::int32 value);
+
+  // float float_min_value = 22;
+  private:
+  bool has_float_min_value() const;
+  public:
+  void clear_float_min_value();
+  static const int kFloatMinValueFieldNumber = 22;
+  float float_min_value() const;
+  void set_float_min_value(float value);
+
+  // double double_min_value = 23;
+  private:
+  bool has_double_min_value() const;
+  public:
+  void clear_double_min_value();
+  static const int kDoubleMinValueFieldNumber = 23;
+  double double_min_value() const;
+  void set_double_min_value(double value);
+
+  // string string_min_value = 24;
+  private:
+  bool has_string_min_value() const;
+  public:
+  void clear_string_min_value();
+  static const int kStringMinValueFieldNumber = 24;
+  const ::std::string& string_min_value() const;
+  void set_string_min_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_string_min_value(::std::string&& value);
+  #endif
+  void set_string_min_value(const char* value);
+  void set_string_min_value(const char* value, size_t size);
+  ::std::string* mutable_string_min_value();
+  ::std::string* release_string_min_value();
+  void set_allocated_string_min_value(::std::string* string_min_value);
+
+  // bool bool_min_value = 25;
+  private:
+  bool has_bool_min_value() const;
+  public:
+  void clear_bool_min_value();
+  static const int kBoolMinValueFieldNumber = 25;
+  bool bool_min_value() const;
+  void set_bool_min_value(bool value);
+
+  // uint32 uint_max_value = 30;
+  private:
+  bool has_uint_max_value() const;
+  public:
+  void clear_uint_max_value();
+  static const int kUintMaxValueFieldNumber = 30;
+  ::google::protobuf::uint32 uint_max_value() const;
+  void set_uint_max_value(::google::protobuf::uint32 value);
+
+  // sint32 int_max_value = 31;
+  private:
+  bool has_int_max_value() const;
+  public:
+  void clear_int_max_value();
+  static const int kIntMaxValueFieldNumber = 31;
+  ::google::protobuf::int32 int_max_value() const;
+  void set_int_max_value(::google::protobuf::int32 value);
+
+  // float float_max_value = 32;
+  private:
+  bool has_float_max_value() const;
+  public:
+  void clear_float_max_value();
+  static const int kFloatMaxValueFieldNumber = 32;
+  float float_max_value() const;
+  void set_float_max_value(float value);
+
+  // double double_max_value = 33;
+  private:
+  bool has_double_max_value() const;
+  public:
+  void clear_double_max_value();
+  static const int kDoubleMaxValueFieldNumber = 33;
+  double double_max_value() const;
+  void set_double_max_value(double value);
+
+  // string string_max_value = 34;
+  private:
+  bool has_string_max_value() const;
+  public:
+  void clear_string_max_value();
+  static const int kStringMaxValueFieldNumber = 34;
+  const ::std::string& string_max_value() const;
+  void set_string_max_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_string_max_value(::std::string&& value);
+  #endif
+  void set_string_max_value(const char* value);
+  void set_string_max_value(const char* value, size_t size);
+  ::std::string* mutable_string_max_value();
+  ::std::string* release_string_max_value();
+  void set_allocated_string_max_value(::std::string* string_max_value);
+
+  // bool bool_max_value = 35;
+  private:
+  bool has_bool_max_value() const;
+  public:
+  void clear_bool_max_value();
+  static const int kBoolMaxValueFieldNumber = 35;
+  bool bool_max_value() const;
+  void set_bool_max_value(bool value);
+
+  void clear_Values();
+  ValuesCase Values_case() const;
+  void clear_MinValues();
+  MinValuesCase MinValues_case() const;
+  void clear_MaxValues();
+  MaxValuesCase MaxValues_case() const;
+  // @@protoc_insertion_point(class_scope:open_vario.ConfigValueReadResponse)
+ private:
+  void set_has_uint_value();
+  void set_has_int_value();
+  void set_has_float_value();
+  void set_has_double_value();
+  void set_has_string_value();
+  void set_has_bool_value();
+  void set_has_uint_min_value();
+  void set_has_int_min_value();
+  void set_has_float_min_value();
+  void set_has_double_min_value();
+  void set_has_string_min_value();
+  void set_has_bool_min_value();
+  void set_has_uint_max_value();
+  void set_has_int_max_value();
+  void set_has_float_max_value();
+  void set_has_double_max_value();
+  void set_has_string_max_value();
+  void set_has_bool_max_value();
+
+  inline bool has_Values() const;
+  inline void clear_has_Values();
+
+  inline bool has_MinValues() const;
+  inline void clear_has_MinValues();
+
+  inline bool has_MaxValues() const;
+  inline void clear_has_MaxValues();
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr value_group_name_;
+  ::google::protobuf::internal::ArenaStringPtr value_name_;
+  ::google::protobuf::internal::ArenaStringPtr value_type_;
+  bool success_;
+  bool has_min_max_;
+  bool is_reset_only_;
+  ::google::protobuf::uint32 value_size_;
+  union ValuesUnion {
+    ValuesUnion() {}
+    ::google::protobuf::uint32 uint_value_;
+    ::google::protobuf::int32 int_value_;
+    float float_value_;
+    double double_value_;
+    ::google::protobuf::internal::ArenaStringPtr string_value_;
+    bool bool_value_;
+  } Values_;
+  union MinValuesUnion {
+    MinValuesUnion() {}
+    ::google::protobuf::uint32 uint_min_value_;
+    ::google::protobuf::int32 int_min_value_;
+    float float_min_value_;
+    double double_min_value_;
+    ::google::protobuf::internal::ArenaStringPtr string_min_value_;
+    bool bool_min_value_;
+  } MinValues_;
+  union MaxValuesUnion {
+    MaxValuesUnion() {}
+    ::google::protobuf::uint32 uint_max_value_;
+    ::google::protobuf::int32 int_max_value_;
+    float float_max_value_;
+    double double_max_value_;
+    ::google::protobuf::internal::ArenaStringPtr string_max_value_;
+    bool bool_max_value_;
+  } MaxValues_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[3];
+
+  friend struct ::protobuf_responses_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:open_vario.SimuResponse) */ {
  public:
   SimuResponse();
@@ -828,6 +1382,8 @@ class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
     kListSensors = 3,
     kUpdateSensor = 4,
     kPing = 5,
+    kConfigWrite = 6,
+    kConfigRead = 7,
     RESPONSES_NOT_SET = 0,
   };
 
@@ -837,7 +1393,7 @@ class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
                &_SimuResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   void Swap(SimuResponse* other);
   friend void swap(SimuResponse& a, SimuResponse& b) {
@@ -948,6 +1504,30 @@ class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
   ::open_vario::PingResponse* mutable_ping();
   void set_allocated_ping(::open_vario::PingResponse* ping);
 
+  // .open_vario.ConfigValueWriteResponse config_write = 6;
+  bool has_config_write() const;
+  void clear_config_write();
+  static const int kConfigWriteFieldNumber = 6;
+  private:
+  const ::open_vario::ConfigValueWriteResponse& _internal_config_write() const;
+  public:
+  const ::open_vario::ConfigValueWriteResponse& config_write() const;
+  ::open_vario::ConfigValueWriteResponse* release_config_write();
+  ::open_vario::ConfigValueWriteResponse* mutable_config_write();
+  void set_allocated_config_write(::open_vario::ConfigValueWriteResponse* config_write);
+
+  // .open_vario.ConfigValueReadResponse config_read = 7;
+  bool has_config_read() const;
+  void clear_config_read();
+  static const int kConfigReadFieldNumber = 7;
+  private:
+  const ::open_vario::ConfigValueReadResponse& _internal_config_read() const;
+  public:
+  const ::open_vario::ConfigValueReadResponse& config_read() const;
+  ::open_vario::ConfigValueReadResponse* release_config_read();
+  ::open_vario::ConfigValueReadResponse* mutable_config_read();
+  void set_allocated_config_read(::open_vario::ConfigValueReadResponse* config_read);
+
   void clear_Responses();
   ResponsesCase Responses_case() const;
   // @@protoc_insertion_point(class_scope:open_vario.SimuResponse)
@@ -957,6 +1537,8 @@ class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
   void set_has_list_sensors();
   void set_has_update_sensor();
   void set_has_ping();
+  void set_has_config_write();
+  void set_has_config_read();
 
   inline bool has_Responses() const;
   inline void clear_has_Responses();
@@ -969,6 +1551,8 @@ class SimuResponse : public ::google::protobuf::MessageLite /* @@protoc_insertio
     ::open_vario::ListSensorsResponse* list_sensors_;
     ::open_vario::UpdateSensorResponse* update_sensor_;
     ::open_vario::PingResponse* ping_;
+    ::open_vario::ConfigValueWriteResponse* config_write_;
+    ::open_vario::ConfigValueReadResponse* config_read_;
   } Responses_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1173,6 +1757,984 @@ inline void PingResponse::set_number(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:open_vario.PingResponse.number)
 }
 
+// -------------------------------------------------------------------
+
+// ConfigValueWriteResponse
+
+// bool success = 1;
+inline void ConfigValueWriteResponse::clear_success() {
+  success_ = false;
+}
+inline bool ConfigValueWriteResponse::success() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueWriteResponse.success)
+  return success_;
+}
+inline void ConfigValueWriteResponse::set_success(bool value) {
+  
+  success_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueWriteResponse.success)
+}
+
+// -------------------------------------------------------------------
+
+// ConfigValueReadResponse
+
+// bool success = 1;
+inline void ConfigValueReadResponse::clear_success() {
+  success_ = false;
+}
+inline bool ConfigValueReadResponse::success() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.success)
+  return success_;
+}
+inline void ConfigValueReadResponse::set_success(bool value) {
+  
+  success_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.success)
+}
+
+// string value_group_name = 2;
+inline void ConfigValueReadResponse::clear_value_group_name() {
+  value_group_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ConfigValueReadResponse::value_group_name() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.value_group_name)
+  return value_group_name_.GetNoArena();
+}
+inline void ConfigValueReadResponse::set_value_group_name(const ::std::string& value) {
+  
+  value_group_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.value_group_name)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_value_group_name(::std::string&& value) {
+  
+  value_group_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.value_group_name)
+}
+#endif
+inline void ConfigValueReadResponse::set_value_group_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_group_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.value_group_name)
+}
+inline void ConfigValueReadResponse::set_value_group_name(const char* value, size_t size) {
+  
+  value_group_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.value_group_name)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_value_group_name() {
+  
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.value_group_name)
+  return value_group_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_value_group_name() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.value_group_name)
+  
+  return value_group_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ConfigValueReadResponse::set_allocated_value_group_name(::std::string* value_group_name) {
+  if (value_group_name != NULL) {
+    
+  } else {
+    
+  }
+  value_group_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value_group_name);
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.value_group_name)
+}
+
+// string value_name = 3;
+inline void ConfigValueReadResponse::clear_value_name() {
+  value_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ConfigValueReadResponse::value_name() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.value_name)
+  return value_name_.GetNoArena();
+}
+inline void ConfigValueReadResponse::set_value_name(const ::std::string& value) {
+  
+  value_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.value_name)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_value_name(::std::string&& value) {
+  
+  value_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.value_name)
+}
+#endif
+inline void ConfigValueReadResponse::set_value_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.value_name)
+}
+inline void ConfigValueReadResponse::set_value_name(const char* value, size_t size) {
+  
+  value_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.value_name)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_value_name() {
+  
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.value_name)
+  return value_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_value_name() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.value_name)
+  
+  return value_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ConfigValueReadResponse::set_allocated_value_name(::std::string* value_name) {
+  if (value_name != NULL) {
+    
+  } else {
+    
+  }
+  value_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value_name);
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.value_name)
+}
+
+// string value_type = 4;
+inline void ConfigValueReadResponse::clear_value_type() {
+  value_type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ConfigValueReadResponse::value_type() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.value_type)
+  return value_type_.GetNoArena();
+}
+inline void ConfigValueReadResponse::set_value_type(const ::std::string& value) {
+  
+  value_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.value_type)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_value_type(::std::string&& value) {
+  
+  value_type_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.value_type)
+}
+#endif
+inline void ConfigValueReadResponse::set_value_type(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.value_type)
+}
+inline void ConfigValueReadResponse::set_value_type(const char* value, size_t size) {
+  
+  value_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.value_type)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_value_type() {
+  
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.value_type)
+  return value_type_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_value_type() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.value_type)
+  
+  return value_type_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ConfigValueReadResponse::set_allocated_value_type(::std::string* value_type) {
+  if (value_type != NULL) {
+    
+  } else {
+    
+  }
+  value_type_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value_type);
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.value_type)
+}
+
+// uint32 value_size = 5;
+inline void ConfigValueReadResponse::clear_value_size() {
+  value_size_ = 0u;
+}
+inline ::google::protobuf::uint32 ConfigValueReadResponse::value_size() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.value_size)
+  return value_size_;
+}
+inline void ConfigValueReadResponse::set_value_size(::google::protobuf::uint32 value) {
+  
+  value_size_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.value_size)
+}
+
+// bool has_min_max = 6;
+inline void ConfigValueReadResponse::clear_has_min_max() {
+  has_min_max_ = false;
+}
+inline bool ConfigValueReadResponse::has_min_max() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.has_min_max)
+  return has_min_max_;
+}
+inline void ConfigValueReadResponse::set_has_min_max(bool value) {
+  
+  has_min_max_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.has_min_max)
+}
+
+// bool is_reset_only = 7;
+inline void ConfigValueReadResponse::clear_is_reset_only() {
+  is_reset_only_ = false;
+}
+inline bool ConfigValueReadResponse::is_reset_only() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.is_reset_only)
+  return is_reset_only_;
+}
+inline void ConfigValueReadResponse::set_is_reset_only(bool value) {
+  
+  is_reset_only_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.is_reset_only)
+}
+
+// uint32 uint_value = 10;
+inline bool ConfigValueReadResponse::has_uint_value() const {
+  return Values_case() == kUintValue;
+}
+inline void ConfigValueReadResponse::set_has_uint_value() {
+  _oneof_case_[0] = kUintValue;
+}
+inline void ConfigValueReadResponse::clear_uint_value() {
+  if (has_uint_value()) {
+    Values_.uint_value_ = 0u;
+    clear_has_Values();
+  }
+}
+inline ::google::protobuf::uint32 ConfigValueReadResponse::uint_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.uint_value)
+  if (has_uint_value()) {
+    return Values_.uint_value_;
+  }
+  return 0u;
+}
+inline void ConfigValueReadResponse::set_uint_value(::google::protobuf::uint32 value) {
+  if (!has_uint_value()) {
+    clear_Values();
+    set_has_uint_value();
+  }
+  Values_.uint_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.uint_value)
+}
+
+// sint32 int_value = 11;
+inline bool ConfigValueReadResponse::has_int_value() const {
+  return Values_case() == kIntValue;
+}
+inline void ConfigValueReadResponse::set_has_int_value() {
+  _oneof_case_[0] = kIntValue;
+}
+inline void ConfigValueReadResponse::clear_int_value() {
+  if (has_int_value()) {
+    Values_.int_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline ::google::protobuf::int32 ConfigValueReadResponse::int_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.int_value)
+  if (has_int_value()) {
+    return Values_.int_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_int_value(::google::protobuf::int32 value) {
+  if (!has_int_value()) {
+    clear_Values();
+    set_has_int_value();
+  }
+  Values_.int_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.int_value)
+}
+
+// float float_value = 12;
+inline bool ConfigValueReadResponse::has_float_value() const {
+  return Values_case() == kFloatValue;
+}
+inline void ConfigValueReadResponse::set_has_float_value() {
+  _oneof_case_[0] = kFloatValue;
+}
+inline void ConfigValueReadResponse::clear_float_value() {
+  if (has_float_value()) {
+    Values_.float_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline float ConfigValueReadResponse::float_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.float_value)
+  if (has_float_value()) {
+    return Values_.float_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_float_value(float value) {
+  if (!has_float_value()) {
+    clear_Values();
+    set_has_float_value();
+  }
+  Values_.float_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.float_value)
+}
+
+// double double_value = 13;
+inline bool ConfigValueReadResponse::has_double_value() const {
+  return Values_case() == kDoubleValue;
+}
+inline void ConfigValueReadResponse::set_has_double_value() {
+  _oneof_case_[0] = kDoubleValue;
+}
+inline void ConfigValueReadResponse::clear_double_value() {
+  if (has_double_value()) {
+    Values_.double_value_ = 0;
+    clear_has_Values();
+  }
+}
+inline double ConfigValueReadResponse::double_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.double_value)
+  if (has_double_value()) {
+    return Values_.double_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_double_value(double value) {
+  if (!has_double_value()) {
+    clear_Values();
+    set_has_double_value();
+  }
+  Values_.double_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.double_value)
+}
+
+// string string_value = 14;
+inline bool ConfigValueReadResponse::has_string_value() const {
+  return Values_case() == kStringValue;
+}
+inline void ConfigValueReadResponse::set_has_string_value() {
+  _oneof_case_[0] = kStringValue;
+}
+inline void ConfigValueReadResponse::clear_string_value() {
+  if (has_string_value()) {
+    Values_.string_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_Values();
+  }
+}
+inline const ::std::string& ConfigValueReadResponse::string_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.string_value)
+  if (has_string_value()) {
+    return Values_.string_value_.GetNoArena();
+  }
+  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+}
+inline void ConfigValueReadResponse::set_string_value(const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_value)
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_value)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_string_value(::std::string&& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_value)
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.string_value)
+}
+#endif
+inline void ConfigValueReadResponse::set_string_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.string_value)
+}
+inline void ConfigValueReadResponse::set_string_value(const char* value, size_t size) {
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  Values_.string_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.string_value)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_string_value() {
+  if (!has_string_value()) {
+    clear_Values();
+    set_has_string_value();
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.string_value)
+  return Values_.string_value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_string_value() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.string_value)
+  if (has_string_value()) {
+    clear_has_Values();
+    return Values_.string_value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  } else {
+    return NULL;
+  }
+}
+inline void ConfigValueReadResponse::set_allocated_string_value(::std::string* string_value) {
+  if (!has_string_value()) {
+    Values_.string_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  clear_Values();
+  if (string_value != NULL) {
+    set_has_string_value();
+    Values_.string_value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string_value);
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.string_value)
+}
+
+// bool bool_value = 15;
+inline bool ConfigValueReadResponse::has_bool_value() const {
+  return Values_case() == kBoolValue;
+}
+inline void ConfigValueReadResponse::set_has_bool_value() {
+  _oneof_case_[0] = kBoolValue;
+}
+inline void ConfigValueReadResponse::clear_bool_value() {
+  if (has_bool_value()) {
+    Values_.bool_value_ = false;
+    clear_has_Values();
+  }
+}
+inline bool ConfigValueReadResponse::bool_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.bool_value)
+  if (has_bool_value()) {
+    return Values_.bool_value_;
+  }
+  return false;
+}
+inline void ConfigValueReadResponse::set_bool_value(bool value) {
+  if (!has_bool_value()) {
+    clear_Values();
+    set_has_bool_value();
+  }
+  Values_.bool_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.bool_value)
+}
+
+// uint32 uint_min_value = 20;
+inline bool ConfigValueReadResponse::has_uint_min_value() const {
+  return MinValues_case() == kUintMinValue;
+}
+inline void ConfigValueReadResponse::set_has_uint_min_value() {
+  _oneof_case_[1] = kUintMinValue;
+}
+inline void ConfigValueReadResponse::clear_uint_min_value() {
+  if (has_uint_min_value()) {
+    MinValues_.uint_min_value_ = 0u;
+    clear_has_MinValues();
+  }
+}
+inline ::google::protobuf::uint32 ConfigValueReadResponse::uint_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.uint_min_value)
+  if (has_uint_min_value()) {
+    return MinValues_.uint_min_value_;
+  }
+  return 0u;
+}
+inline void ConfigValueReadResponse::set_uint_min_value(::google::protobuf::uint32 value) {
+  if (!has_uint_min_value()) {
+    clear_MinValues();
+    set_has_uint_min_value();
+  }
+  MinValues_.uint_min_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.uint_min_value)
+}
+
+// sint32 int_min_value = 21;
+inline bool ConfigValueReadResponse::has_int_min_value() const {
+  return MinValues_case() == kIntMinValue;
+}
+inline void ConfigValueReadResponse::set_has_int_min_value() {
+  _oneof_case_[1] = kIntMinValue;
+}
+inline void ConfigValueReadResponse::clear_int_min_value() {
+  if (has_int_min_value()) {
+    MinValues_.int_min_value_ = 0;
+    clear_has_MinValues();
+  }
+}
+inline ::google::protobuf::int32 ConfigValueReadResponse::int_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.int_min_value)
+  if (has_int_min_value()) {
+    return MinValues_.int_min_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_int_min_value(::google::protobuf::int32 value) {
+  if (!has_int_min_value()) {
+    clear_MinValues();
+    set_has_int_min_value();
+  }
+  MinValues_.int_min_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.int_min_value)
+}
+
+// float float_min_value = 22;
+inline bool ConfigValueReadResponse::has_float_min_value() const {
+  return MinValues_case() == kFloatMinValue;
+}
+inline void ConfigValueReadResponse::set_has_float_min_value() {
+  _oneof_case_[1] = kFloatMinValue;
+}
+inline void ConfigValueReadResponse::clear_float_min_value() {
+  if (has_float_min_value()) {
+    MinValues_.float_min_value_ = 0;
+    clear_has_MinValues();
+  }
+}
+inline float ConfigValueReadResponse::float_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.float_min_value)
+  if (has_float_min_value()) {
+    return MinValues_.float_min_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_float_min_value(float value) {
+  if (!has_float_min_value()) {
+    clear_MinValues();
+    set_has_float_min_value();
+  }
+  MinValues_.float_min_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.float_min_value)
+}
+
+// double double_min_value = 23;
+inline bool ConfigValueReadResponse::has_double_min_value() const {
+  return MinValues_case() == kDoubleMinValue;
+}
+inline void ConfigValueReadResponse::set_has_double_min_value() {
+  _oneof_case_[1] = kDoubleMinValue;
+}
+inline void ConfigValueReadResponse::clear_double_min_value() {
+  if (has_double_min_value()) {
+    MinValues_.double_min_value_ = 0;
+    clear_has_MinValues();
+  }
+}
+inline double ConfigValueReadResponse::double_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.double_min_value)
+  if (has_double_min_value()) {
+    return MinValues_.double_min_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_double_min_value(double value) {
+  if (!has_double_min_value()) {
+    clear_MinValues();
+    set_has_double_min_value();
+  }
+  MinValues_.double_min_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.double_min_value)
+}
+
+// string string_min_value = 24;
+inline bool ConfigValueReadResponse::has_string_min_value() const {
+  return MinValues_case() == kStringMinValue;
+}
+inline void ConfigValueReadResponse::set_has_string_min_value() {
+  _oneof_case_[1] = kStringMinValue;
+}
+inline void ConfigValueReadResponse::clear_string_min_value() {
+  if (has_string_min_value()) {
+    MinValues_.string_min_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_MinValues();
+  }
+}
+inline const ::std::string& ConfigValueReadResponse::string_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.string_min_value)
+  if (has_string_min_value()) {
+    return MinValues_.string_min_value_.GetNoArena();
+  }
+  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+}
+inline void ConfigValueReadResponse::set_string_min_value(const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_min_value)
+  if (!has_string_min_value()) {
+    clear_MinValues();
+    set_has_string_min_value();
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MinValues_.string_min_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_min_value)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_string_min_value(::std::string&& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_min_value)
+  if (!has_string_min_value()) {
+    clear_MinValues();
+    set_has_string_min_value();
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MinValues_.string_min_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.string_min_value)
+}
+#endif
+inline void ConfigValueReadResponse::set_string_min_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  if (!has_string_min_value()) {
+    clear_MinValues();
+    set_has_string_min_value();
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MinValues_.string_min_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.string_min_value)
+}
+inline void ConfigValueReadResponse::set_string_min_value(const char* value, size_t size) {
+  if (!has_string_min_value()) {
+    clear_MinValues();
+    set_has_string_min_value();
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MinValues_.string_min_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.string_min_value)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_string_min_value() {
+  if (!has_string_min_value()) {
+    clear_MinValues();
+    set_has_string_min_value();
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.string_min_value)
+  return MinValues_.string_min_value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_string_min_value() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.string_min_value)
+  if (has_string_min_value()) {
+    clear_has_MinValues();
+    return MinValues_.string_min_value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  } else {
+    return NULL;
+  }
+}
+inline void ConfigValueReadResponse::set_allocated_string_min_value(::std::string* string_min_value) {
+  if (!has_string_min_value()) {
+    MinValues_.string_min_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  clear_MinValues();
+  if (string_min_value != NULL) {
+    set_has_string_min_value();
+    MinValues_.string_min_value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string_min_value);
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.string_min_value)
+}
+
+// bool bool_min_value = 25;
+inline bool ConfigValueReadResponse::has_bool_min_value() const {
+  return MinValues_case() == kBoolMinValue;
+}
+inline void ConfigValueReadResponse::set_has_bool_min_value() {
+  _oneof_case_[1] = kBoolMinValue;
+}
+inline void ConfigValueReadResponse::clear_bool_min_value() {
+  if (has_bool_min_value()) {
+    MinValues_.bool_min_value_ = false;
+    clear_has_MinValues();
+  }
+}
+inline bool ConfigValueReadResponse::bool_min_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.bool_min_value)
+  if (has_bool_min_value()) {
+    return MinValues_.bool_min_value_;
+  }
+  return false;
+}
+inline void ConfigValueReadResponse::set_bool_min_value(bool value) {
+  if (!has_bool_min_value()) {
+    clear_MinValues();
+    set_has_bool_min_value();
+  }
+  MinValues_.bool_min_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.bool_min_value)
+}
+
+// uint32 uint_max_value = 30;
+inline bool ConfigValueReadResponse::has_uint_max_value() const {
+  return MaxValues_case() == kUintMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_uint_max_value() {
+  _oneof_case_[2] = kUintMaxValue;
+}
+inline void ConfigValueReadResponse::clear_uint_max_value() {
+  if (has_uint_max_value()) {
+    MaxValues_.uint_max_value_ = 0u;
+    clear_has_MaxValues();
+  }
+}
+inline ::google::protobuf::uint32 ConfigValueReadResponse::uint_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.uint_max_value)
+  if (has_uint_max_value()) {
+    return MaxValues_.uint_max_value_;
+  }
+  return 0u;
+}
+inline void ConfigValueReadResponse::set_uint_max_value(::google::protobuf::uint32 value) {
+  if (!has_uint_max_value()) {
+    clear_MaxValues();
+    set_has_uint_max_value();
+  }
+  MaxValues_.uint_max_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.uint_max_value)
+}
+
+// sint32 int_max_value = 31;
+inline bool ConfigValueReadResponse::has_int_max_value() const {
+  return MaxValues_case() == kIntMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_int_max_value() {
+  _oneof_case_[2] = kIntMaxValue;
+}
+inline void ConfigValueReadResponse::clear_int_max_value() {
+  if (has_int_max_value()) {
+    MaxValues_.int_max_value_ = 0;
+    clear_has_MaxValues();
+  }
+}
+inline ::google::protobuf::int32 ConfigValueReadResponse::int_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.int_max_value)
+  if (has_int_max_value()) {
+    return MaxValues_.int_max_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_int_max_value(::google::protobuf::int32 value) {
+  if (!has_int_max_value()) {
+    clear_MaxValues();
+    set_has_int_max_value();
+  }
+  MaxValues_.int_max_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.int_max_value)
+}
+
+// float float_max_value = 32;
+inline bool ConfigValueReadResponse::has_float_max_value() const {
+  return MaxValues_case() == kFloatMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_float_max_value() {
+  _oneof_case_[2] = kFloatMaxValue;
+}
+inline void ConfigValueReadResponse::clear_float_max_value() {
+  if (has_float_max_value()) {
+    MaxValues_.float_max_value_ = 0;
+    clear_has_MaxValues();
+  }
+}
+inline float ConfigValueReadResponse::float_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.float_max_value)
+  if (has_float_max_value()) {
+    return MaxValues_.float_max_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_float_max_value(float value) {
+  if (!has_float_max_value()) {
+    clear_MaxValues();
+    set_has_float_max_value();
+  }
+  MaxValues_.float_max_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.float_max_value)
+}
+
+// double double_max_value = 33;
+inline bool ConfigValueReadResponse::has_double_max_value() const {
+  return MaxValues_case() == kDoubleMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_double_max_value() {
+  _oneof_case_[2] = kDoubleMaxValue;
+}
+inline void ConfigValueReadResponse::clear_double_max_value() {
+  if (has_double_max_value()) {
+    MaxValues_.double_max_value_ = 0;
+    clear_has_MaxValues();
+  }
+}
+inline double ConfigValueReadResponse::double_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.double_max_value)
+  if (has_double_max_value()) {
+    return MaxValues_.double_max_value_;
+  }
+  return 0;
+}
+inline void ConfigValueReadResponse::set_double_max_value(double value) {
+  if (!has_double_max_value()) {
+    clear_MaxValues();
+    set_has_double_max_value();
+  }
+  MaxValues_.double_max_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.double_max_value)
+}
+
+// string string_max_value = 34;
+inline bool ConfigValueReadResponse::has_string_max_value() const {
+  return MaxValues_case() == kStringMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_string_max_value() {
+  _oneof_case_[2] = kStringMaxValue;
+}
+inline void ConfigValueReadResponse::clear_string_max_value() {
+  if (has_string_max_value()) {
+    MaxValues_.string_max_value_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_MaxValues();
+  }
+}
+inline const ::std::string& ConfigValueReadResponse::string_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.string_max_value)
+  if (has_string_max_value()) {
+    return MaxValues_.string_max_value_.GetNoArena();
+  }
+  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+}
+inline void ConfigValueReadResponse::set_string_max_value(const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_max_value)
+  if (!has_string_max_value()) {
+    clear_MaxValues();
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MaxValues_.string_max_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_max_value)
+}
+#if LANG_CXX11
+inline void ConfigValueReadResponse::set_string_max_value(::std::string&& value) {
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.string_max_value)
+  if (!has_string_max_value()) {
+    clear_MaxValues();
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MaxValues_.string_max_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:open_vario.ConfigValueReadResponse.string_max_value)
+}
+#endif
+inline void ConfigValueReadResponse::set_string_max_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  if (!has_string_max_value()) {
+    clear_MaxValues();
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MaxValues_.string_max_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:open_vario.ConfigValueReadResponse.string_max_value)
+}
+inline void ConfigValueReadResponse::set_string_max_value(const char* value, size_t size) {
+  if (!has_string_max_value()) {
+    clear_MaxValues();
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  MaxValues_.string_max_value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:open_vario.ConfigValueReadResponse.string_max_value)
+}
+inline ::std::string* ConfigValueReadResponse::mutable_string_max_value() {
+  if (!has_string_max_value()) {
+    clear_MaxValues();
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.ConfigValueReadResponse.string_max_value)
+  return MaxValues_.string_max_value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ConfigValueReadResponse::release_string_max_value() {
+  // @@protoc_insertion_point(field_release:open_vario.ConfigValueReadResponse.string_max_value)
+  if (has_string_max_value()) {
+    clear_has_MaxValues();
+    return MaxValues_.string_max_value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  } else {
+    return NULL;
+  }
+}
+inline void ConfigValueReadResponse::set_allocated_string_max_value(::std::string* string_max_value) {
+  if (!has_string_max_value()) {
+    MaxValues_.string_max_value_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  clear_MaxValues();
+  if (string_max_value != NULL) {
+    set_has_string_max_value();
+    MaxValues_.string_max_value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string_max_value);
+  }
+  // @@protoc_insertion_point(field_set_allocated:open_vario.ConfigValueReadResponse.string_max_value)
+}
+
+// bool bool_max_value = 35;
+inline bool ConfigValueReadResponse::has_bool_max_value() const {
+  return MaxValues_case() == kBoolMaxValue;
+}
+inline void ConfigValueReadResponse::set_has_bool_max_value() {
+  _oneof_case_[2] = kBoolMaxValue;
+}
+inline void ConfigValueReadResponse::clear_bool_max_value() {
+  if (has_bool_max_value()) {
+    MaxValues_.bool_max_value_ = false;
+    clear_has_MaxValues();
+  }
+}
+inline bool ConfigValueReadResponse::bool_max_value() const {
+  // @@protoc_insertion_point(field_get:open_vario.ConfigValueReadResponse.bool_max_value)
+  if (has_bool_max_value()) {
+    return MaxValues_.bool_max_value_;
+  }
+  return false;
+}
+inline void ConfigValueReadResponse::set_bool_max_value(bool value) {
+  if (!has_bool_max_value()) {
+    clear_MaxValues();
+    set_has_bool_max_value();
+  }
+  MaxValues_.bool_max_value_ = value;
+  // @@protoc_insertion_point(field_set:open_vario.ConfigValueReadResponse.bool_max_value)
+}
+
+inline bool ConfigValueReadResponse::has_Values() const {
+  return Values_case() != VALUES_NOT_SET;
+}
+inline void ConfigValueReadResponse::clear_has_Values() {
+  _oneof_case_[0] = VALUES_NOT_SET;
+}
+inline bool ConfigValueReadResponse::has_MinValues() const {
+  return MinValues_case() != MINVALUES_NOT_SET;
+}
+inline void ConfigValueReadResponse::clear_has_MinValues() {
+  _oneof_case_[1] = MINVALUES_NOT_SET;
+}
+inline bool ConfigValueReadResponse::has_MaxValues() const {
+  return MaxValues_case() != MAXVALUES_NOT_SET;
+}
+inline void ConfigValueReadResponse::clear_has_MaxValues() {
+  _oneof_case_[2] = MAXVALUES_NOT_SET;
+}
+inline ConfigValueReadResponse::ValuesCase ConfigValueReadResponse::Values_case() const {
+  return ConfigValueReadResponse::ValuesCase(_oneof_case_[0]);
+}
+inline ConfigValueReadResponse::MinValuesCase ConfigValueReadResponse::MinValues_case() const {
+  return ConfigValueReadResponse::MinValuesCase(_oneof_case_[1]);
+}
+inline ConfigValueReadResponse::MaxValuesCase ConfigValueReadResponse::MaxValues_case() const {
+  return ConfigValueReadResponse::MaxValuesCase(_oneof_case_[2]);
+}
 // -------------------------------------------------------------------
 
 // SimuResponse
@@ -1397,6 +2959,94 @@ inline ::open_vario::PingResponse* SimuResponse::mutable_ping() {
   return Responses_.ping_;
 }
 
+// .open_vario.ConfigValueWriteResponse config_write = 6;
+inline bool SimuResponse::has_config_write() const {
+  return Responses_case() == kConfigWrite;
+}
+inline void SimuResponse::set_has_config_write() {
+  _oneof_case_[0] = kConfigWrite;
+}
+inline void SimuResponse::clear_config_write() {
+  if (has_config_write()) {
+    delete Responses_.config_write_;
+    clear_has_Responses();
+  }
+}
+inline const ::open_vario::ConfigValueWriteResponse& SimuResponse::_internal_config_write() const {
+  return *Responses_.config_write_;
+}
+inline ::open_vario::ConfigValueWriteResponse* SimuResponse::release_config_write() {
+  // @@protoc_insertion_point(field_release:open_vario.SimuResponse.config_write)
+  if (has_config_write()) {
+    clear_has_Responses();
+      ::open_vario::ConfigValueWriteResponse* temp = Responses_.config_write_;
+    Responses_.config_write_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::open_vario::ConfigValueWriteResponse& SimuResponse::config_write() const {
+  // @@protoc_insertion_point(field_get:open_vario.SimuResponse.config_write)
+  return has_config_write()
+      ? *Responses_.config_write_
+      : *reinterpret_cast< ::open_vario::ConfigValueWriteResponse*>(&::open_vario::_ConfigValueWriteResponse_default_instance_);
+}
+inline ::open_vario::ConfigValueWriteResponse* SimuResponse::mutable_config_write() {
+  if (!has_config_write()) {
+    clear_Responses();
+    set_has_config_write();
+    Responses_.config_write_ = CreateMaybeMessage< ::open_vario::ConfigValueWriteResponse >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.SimuResponse.config_write)
+  return Responses_.config_write_;
+}
+
+// .open_vario.ConfigValueReadResponse config_read = 7;
+inline bool SimuResponse::has_config_read() const {
+  return Responses_case() == kConfigRead;
+}
+inline void SimuResponse::set_has_config_read() {
+  _oneof_case_[0] = kConfigRead;
+}
+inline void SimuResponse::clear_config_read() {
+  if (has_config_read()) {
+    delete Responses_.config_read_;
+    clear_has_Responses();
+  }
+}
+inline const ::open_vario::ConfigValueReadResponse& SimuResponse::_internal_config_read() const {
+  return *Responses_.config_read_;
+}
+inline ::open_vario::ConfigValueReadResponse* SimuResponse::release_config_read() {
+  // @@protoc_insertion_point(field_release:open_vario.SimuResponse.config_read)
+  if (has_config_read()) {
+    clear_has_Responses();
+      ::open_vario::ConfigValueReadResponse* temp = Responses_.config_read_;
+    Responses_.config_read_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::open_vario::ConfigValueReadResponse& SimuResponse::config_read() const {
+  // @@protoc_insertion_point(field_get:open_vario.SimuResponse.config_read)
+  return has_config_read()
+      ? *Responses_.config_read_
+      : *reinterpret_cast< ::open_vario::ConfigValueReadResponse*>(&::open_vario::_ConfigValueReadResponse_default_instance_);
+}
+inline ::open_vario::ConfigValueReadResponse* SimuResponse::mutable_config_read() {
+  if (!has_config_read()) {
+    clear_Responses();
+    set_has_config_read();
+    Responses_.config_read_ = CreateMaybeMessage< ::open_vario::ConfigValueReadResponse >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:open_vario.SimuResponse.config_read)
+  return Responses_.config_read_;
+}
+
 inline bool SimuResponse::has_Responses() const {
   return Responses_case() != RESPONSES_NOT_SET;
 }
@@ -1409,6 +3059,10 @@ inline SimuResponse::ResponsesCase SimuResponse::Responses_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

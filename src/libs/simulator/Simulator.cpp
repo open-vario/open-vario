@@ -261,6 +261,103 @@ void Simulator::taskStart(void* const param)
                             break;
                         }
 
+                        case SimuRequest::kConfigWrite:
+                        {
+                            // Configuration value write request
+                            bool ret = false;
+
+                            // Get group, id and data
+                            uint32_t uint_value;
+                            int32_t int_value;
+                            float float_value;
+                            double double_value;
+                            bool bool_value;
+                            const uint16_t group_id = static_cast<uint16_t>(simu_request.config_write().group_id());
+                            const uint16_t value_id = static_cast<uint16_t>(simu_request.config_write().value_id());
+                            const char* data = NULL;
+                            switch (simu_request.config_write().Values_case())
+                            {
+                                case ConfigValueWriteRequest::kUintValue:
+                                {
+                                    uint_value = simu_request.config_write().uint_value();
+                                    data = reinterpret_cast<char*>(&uint_value);
+                                    break;
+                                }
+                                case ConfigValueWriteRequest::kIntValue:
+                                {
+                                    int_value = simu_request.config_write().int_value();
+                                    data = reinterpret_cast<char*>(&int_value);
+                                    break;
+                                }
+                                case ConfigValueWriteRequest::kFloatValue:
+                                {
+                                    float_value = simu_request.config_write().float_value();
+                                    data = reinterpret_cast<char*>(&float_value);
+                                    break;
+                                }
+                                case ConfigValueWriteRequest::kDoubleValue:
+                                {
+                                    double_value = simu_request.config_write().double_value();
+                                    data = reinterpret_cast<char*>(&double_value);
+                                    break;
+                                }
+                                case ConfigValueWriteRequest::kStringValue:
+                                {
+                                    data = simu_request.config_write().string_value().c_str();
+                                    break;
+                                }
+                                case ConfigValueWriteRequest::kBoolValue:
+                                {
+                                    bool_value = simu_request.config_write().bool_value();
+                                    data = reinterpret_cast<char*>(&bool_value);
+                                    break;
+                                }
+                                default:
+                                {
+                                    // Unknown type
+                                    break;
+                                }
+                            }
+                            if (data != NULL)
+                            {
+                                // Write configuration value
+                                ret = m_config_manager.setConfigValue(group_id, value_id, data);
+                            }
+
+                            // Prepare response
+                            ConfigValueWriteResponse* config_write_response = new ConfigValueWriteResponse();
+                            config_write_response->set_success(ret);
+                            simu_response.set_allocated_config_write(config_write_response);
+                            break;
+                        }
+
+                        case SimuRequest::kConfigRead:
+                        {
+                            // Configuration value write request
+                            bool ret = false;
+
+                            // Get group and id
+                            uint32_t uint_value;
+                            int32_t int_value;
+                            float float_value;
+                            double double_value;
+                            bool bool_value;
+                            const uint16_t group_id = static_cast<uint16_t>(simu_request.config_read().group_id());
+                            const uint16_t value_id = static_cast<uint16_t>(simu_request.config_read().value_id());
+                            
+                            // Read value type
+                            char value_type[256u];
+                            ret = m_config_manager.;
+
+                            // Read value
+
+                            // Prepare response
+                            ConfigValueReadResponse* config_read_response = new ConfigValueReadResponse();
+                            config_read_response->set_success(ret);
+                            simu_response.set_allocated_config_read(config_read_response);
+                            break;
+                        }
+
                         default:
                         {
                             // Unknown request => ignore request
