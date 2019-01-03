@@ -29,11 +29,11 @@ namespace open_vario
 Thermometer::Thermometer(ConfigManager& config_manager)
 : m_config_manager(config_manager)
 
-, m_temp_filter()
 , m_temp_values()
+, m_temp_filter(m_config_manager, OV_CONFIG_GROUP_THERMOMETER, OV_CONFIG_VALUE_THERMO_FILTER_DEPTH, SensorFilter<int16_t, THERMO_FILTER_MAX_DEPTH>::SensorValues(m_temp_values.temperature, m_temp_values.min_temperature, m_temp_values.max_temperature))
 
 , m_config_values(OV_CONFIG_GROUP_THERMOMETER, "Thermometer")
-, m_config_filter_depth(OV_CONFIG_VALUE_THERMO_FILTER_DEPTH, "Raw value filter depth", 5u, 1u, m_temp_filter.getMaxFilterDepth(), false)
+, m_config_filter_depth(OV_CONFIG_VALUE_THERMO_FILTER_DEPTH, "Raw value filter depth", 5u, 1u, THERMO_FILTER_MAX_DEPTH, false)
 
 , m_started(false)
 
@@ -48,19 +48,8 @@ Thermometer::Thermometer(ConfigManager& config_manager)
 /** \brief Initialize the thermometer */
 bool Thermometer::init()
 {
-    // Load configuration values
-    uint8_t filter_depth = 0u;
-    const bool ret = m_config_manager.getConfigValue<uint8_t>(OV_CONFIG_GROUP_THERMOMETER, OV_CONFIG_VALUE_THERMO_FILTER_DEPTH, filter_depth);
-    if (ret)
-    {
-        // Configure the filter
-        m_temp_filter.setFilterDepth(filter_depth);
-
-        // Initialize min and max values
-        m_temp_values.min_temperature = 32767;
-        m_temp_values.max_temperature = -32768;
-    }
-
+    // Initialize filter
+    const bool ret = m_temp_filter.init();
     return ret;
 }
 
@@ -84,17 +73,7 @@ bool Thermometer::compute(const int16_t raw_temperature)
     const bool ret = true;
 
     // Compute filtered value
-    m_temp_values.temperature = m_temp_filter.compute(raw_temperature);
-
-    // Update min and max values
-    if (m_temp_values.temperature < m_temp_values.min_temperature)
-    {
-        m_temp_values.min_temperature = m_temp_values.temperature;
-    }
-    if (m_temp_values.temperature > m_temp_values.max_temperature)
-    {
-        m_temp_values.max_temperature = m_temp_values.temperature;
-    }
+    m_temp_filter.compute(raw_temperature);
 
     // Notify current value
     if (m_started)

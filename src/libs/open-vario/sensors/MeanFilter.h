@@ -40,9 +40,6 @@ class MeanFilter
         , m_current_raw_value(0u)
         {}
 
-        /** \brief Get the maximum filter depth */
-        uint8_t getMaxFilterDepth() const { return MAX_RAW_VALUES_COUNT; }
-
         /** \brief Set the filter depth */
         void setFilterDepth(const uint8_t filter_depth)
         {
@@ -57,6 +54,12 @@ class MeanFilter
                 m_filter_depth = filter_depth;
             }
         }
+
+        /** \brief Get the filter depth */
+        uint8_t getFilterDepth() const { return m_filter_depth; }
+
+        /** \brief Get the maximum filter depth */
+        uint8_t getMaxFilterDepth() const { return MAX_RAW_VALUES_COUNT; }
 
         /** \brief Add a new raw value and compute the filtered value */
         ValueType compute(const ValueType raw_value)

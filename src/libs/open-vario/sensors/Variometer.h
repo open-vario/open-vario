@@ -23,7 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IVariometer.h"
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
-#include "MeanFilter.h"
+#include "SensorFilter.h"
 
 namespace open_vario
 {
@@ -57,11 +57,14 @@ class Variometer : public IVariometer
         ConfigManager& m_config_manager;
 
 
-        /** \brief Filter to compute variometer value */
-        MeanFilter<int16_t, 50u> m_vario_filter;
-
         /** \brief Variometer values */
         VariometerValues m_vario_values;
+
+        /** \brief Filter max depth */
+        #define VARIO_FILTER_MAX_DEPTH 50u
+
+        /** \brief Filter to compute variometer value */
+        SensorFilter<int16_t, VARIO_FILTER_MAX_DEPTH> m_vario_filter;
 
 
         /** \brief Configuration values */
@@ -78,7 +81,6 @@ class Variometer : public IVariometer
         int32_t m_previous_raw_altitude;
         /** \brief Previous timestamp */
         uint32_t m_previous_timestamp;
-
 
 
         /** \brief Listeners */

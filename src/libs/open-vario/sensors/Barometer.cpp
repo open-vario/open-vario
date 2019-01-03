@@ -29,11 +29,11 @@ namespace open_vario
 Barometer::Barometer(ConfigManager& config_manager)
 : m_config_manager(config_manager)
 
-, m_baro_filter()
 , m_baro_values()
+, m_baro_filter(config_manager, OV_CONFIG_GROUP_BAROMETER, OV_CONFIG_VALUE_BARO_FILTER_DEPTH, SensorFilter<uint32_t, BARO_FILTER_MAX_DEPTH>::SensorValues(m_baro_values.pressure, m_baro_values.min_pressure, m_baro_values.max_pressure))
 
 , m_config_values(OV_CONFIG_GROUP_BAROMETER, "Barometer")
-, m_config_filter_depth(OV_CONFIG_VALUE_BARO_FILTER_DEPTH, "Raw value filter depth", 5u, 1u, m_baro_filter.getMaxFilterDepth(), false)
+, m_config_filter_depth(OV_CONFIG_VALUE_BARO_FILTER_DEPTH, "Raw value filter depth", 5u, 1u, BARO_FILTER_MAX_DEPTH, false)
 
 , m_started(false)
 
@@ -48,19 +48,8 @@ Barometer::Barometer(ConfigManager& config_manager)
 /** \brief Initialize the barometer */
 bool Barometer::init()
 {
-    // Load configuration values
-    uint8_t filter_depth = 0u;
-    const bool ret = m_config_manager.getConfigValue<uint8_t>(OV_CONFIG_GROUP_BAROMETER, OV_CONFIG_VALUE_BARO_FILTER_DEPTH, filter_depth);
-    if (ret)
-    {
-        // Configure the filter
-        m_baro_filter.setFilterDepth(filter_depth);
-
-        // Initialize min and max values
-        m_baro_values.min_pressure = 0xFFFFFFFFu;
-        m_baro_values.max_pressure = 0;
-    }
-
+    // Initialize filter
+    const bool ret = m_baro_filter.init();
     return ret;
 }
 
@@ -84,17 +73,7 @@ bool Barometer::compute(const uint32_t raw_pressure)
     const bool ret = true;
 
     // Compute filtered value
-    m_baro_values.pressure = m_baro_filter.compute(raw_pressure);
-
-    // Update min and max values
-    if (m_baro_values.pressure < m_baro_values.min_pressure)
-    {
-        m_baro_values.min_pressure = m_baro_values.pressure;
-    }
-    if (m_baro_values.pressure > m_baro_values.max_pressure)
-    {
-        m_baro_values.max_pressure = m_baro_values.pressure;
-    }
+    m_baro_filter.compute(raw_pressure);
 
     // Notify current value
     if (m_started)
@@ -114,5 +93,6 @@ bool Barometer::registerListener(IBarometerListener& listener)
     const bool ret = m_listeners.pushBack(&listener);
     return ret;
 }
+
 
 }

@@ -25,6 +25,17 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+class IConfigValue;
+
+/** \brief Interface for all configuration values listeners implementations */
+class IConfigValueListener
+{
+    public:
+
+        /** \brief Called when a configuration value has been modified */
+        virtual void onConfigValueChange(const IConfigValue& config_value) = 0;
+};
+
 
 /** \brief Interface for all configuration values implementations */
 class IConfigValue
@@ -67,6 +78,13 @@ class IConfigValue
         /** \brief Indicate if the value will be taken into account only after a reset */
         virtual bool onResetOnly() const = 0;
 
+        /** \brief Register a listener to a configuration value change event */
+        virtual bool registerListener(IConfigValueListener& listener) = 0;
+
+        
+        /** \brief Generic accessor to the value */
+        template <typename T>
+        const T& value() const { return (*reinterpret_cast<const T*>(this->buffer())); }
 };
 
 

@@ -128,6 +128,22 @@ class ConfigManager
             return ret;
         }
 
+        /** \brief Register a listener to a configuration value */
+        bool registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener)
+        {
+            IConfigValue* config_value = NULL;
+            IConfigValueGroup* config_value_group = NULL;
+            bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                ret = config_value->registerListener(listener);
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+
 
     private:
 

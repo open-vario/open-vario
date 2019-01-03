@@ -23,7 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IThermometer.h"
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
-#include "MeanFilter.h"
+#include "SensorFilter.h"
 
 namespace open_vario
 {
@@ -57,11 +57,14 @@ class Thermometer : public IThermometer
         ConfigManager& m_config_manager;
 
 
-        /** \brief Filter to compute thermometer value */
-        MeanFilter<int16_t, 10u> m_temp_filter;
-
         /** \brief Thermometer values */
         ThermometerValues m_temp_values;
+
+        /** \brief Filter max depth */
+        #define THERMO_FILTER_MAX_DEPTH 10u
+
+        /** \brief Filter to compute thermometer value */
+        SensorFilter<int16_t, THERMO_FILTER_MAX_DEPTH> m_temp_filter;
 
 
         /** \brief Configuration values */

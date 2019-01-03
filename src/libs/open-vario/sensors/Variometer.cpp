@@ -33,11 +33,11 @@ namespace open_vario
 Variometer::Variometer(ConfigManager& config_manager)
 : m_config_manager(config_manager)
 
-, m_vario_filter()
 , m_vario_values()
+, m_vario_filter(config_manager, OV_CONFIG_GROUP_VARIOMETER, OV_CONFIG_VALUE_VARIO_FILTER_DEPTH, SensorFilter<int16_t, VARIO_FILTER_MAX_DEPTH>::SensorValues(m_vario_values.vario, m_vario_values.min_vario, m_vario_values.max_vario))
 
 , m_config_values(OV_CONFIG_GROUP_VARIOMETER, "Variometer")
-, m_config_filter_depth(OV_CONFIG_VALUE_VARIO_FILTER_DEPTH, "Raw value filter depth", 10u, 1u, m_vario_filter.getMaxFilterDepth(), false)
+, m_config_filter_depth(OV_CONFIG_VALUE_VARIO_FILTER_DEPTH, "Raw value filter depth", 10u, 1u, VARIO_FILTER_MAX_DEPTH, false)
 
 , m_started(false)
 
@@ -55,19 +55,8 @@ Variometer::Variometer(ConfigManager& config_manager)
 /** \brief Initialize the variometer */
 bool Variometer::init()
 {
-    // Load configuration values
-    uint8_t filter_depth = 0u;
-    const bool ret = m_config_manager.getConfigValue<uint8_t>(OV_CONFIG_GROUP_VARIOMETER, OV_CONFIG_VALUE_VARIO_FILTER_DEPTH, filter_depth);
-    if (ret)
-    {
-        // Configure the filter
-        m_vario_filter.setFilterDepth(filter_depth);
-
-        // Initialize min and max values
-        m_vario_values.min_vario = 32767;
-        m_vario_values.max_vario = -32768;
-    }
-
+    // Initialize filter
+    const bool ret = m_vario_filter.init();
     return ret;
 }
 
@@ -97,29 +86,27 @@ bool Variometer::compute(const int32_t raw_altitude, int16_t& raw_vario)
     if (m_previous_raw_altitude != INVALID_ALTITUDE_VALUE)
     { 
         // Compute raw value
-        int32_t alti_diff = raw_altitude - m_previous_raw_altitude;
-        uint32_t time_diff = timestamp - m_previous_timestamp;
-        raw_vario = static_cast<int16_t>((alti_diff * 1000) / static_cast<int32_t>(time_diff));     
-
-        // Compute filtered value
-        m_vario_values.vario = m_vario_filter.compute(raw_vario);
-
-        // Update min and max values
-        if (m_vario_values.vario < m_vario_values.min_vario)
+        const int32_t alti_diff = raw_altitude - m_previous_raw_altitude;
+        const uint32_t time_diff = timestamp - m_previous_timestamp;
+        if (time_diff != 0u)
         {
-            m_vario_values.min_vario = m_vario_values.vario;
-        }
-        if (m_vario_values.vario > m_vario_values.max_vario)
-        {
-            m_vario_values.max_vario = m_vario_values.vario;
-        }
-
-        // Notify current value
-        if (m_started)
-        {
-            for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
+            raw_vario = static_cast<int16_t>((alti_diff * 1000) / static_cast<int32_t>(time_diff));    
+            if (raw_vario != 0)
             {
-                m_listeners[i]->onVariometerValues(m_vario_values);
+                raw_vario++;
+                raw_vario--;
+            } 
+
+            // Compute filtered value
+            m_vario_filter.compute(raw_vario);
+
+            // Notify current value
+            if (m_started)
+            {
+                for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
+                {
+                    m_listeners[i]->onVariometerValues(m_vario_values);
+                }
             }
         }
     }

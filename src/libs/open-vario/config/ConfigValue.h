@@ -40,6 +40,7 @@ class ConfigValue : public IConfigValue
         , m_value(default_value)
         , m_default_value(default_value)
         , m_reset_only(reset_only)
+        , m_listener(NULL)
         {}
 
 
@@ -59,7 +60,16 @@ class ConfigValue : public IConfigValue
         virtual uint32_t size() const { return configvalue_size<T>(); }
 
         /** \brief Set the value from a buffer */
-        virtual bool set(const uint8_t* const buffer) { const T& value = *reinterpret_cast<const T*>(buffer); m_value = value; return true; }
+        virtual bool set(const uint8_t* const buffer) 
+        { 
+            const T& value = *reinterpret_cast<const T*>(buffer); 
+            m_value = value; 
+            if (m_listener != NULL)
+            {
+                m_listener->onConfigValueChange(*this);
+            }
+            return true; 
+        }
 
         /** \brief Copy the value to a buffer */
         virtual bool get(uint8_t* const buffer) const { T& value = *reinterpret_cast<T*>(buffer); value = m_value; return true; }
@@ -79,6 +89,18 @@ class ConfigValue : public IConfigValue
         /** \brief Indicate if the value will be taken into account only after a reset */
         virtual bool onResetOnly() const { return m_reset_only; }
 
+        /** \brief Register a listener to a configuration value change event */
+        virtual bool registerListener(IConfigValueListener& listener) 
+        { 
+            bool ret = false;
+            if (m_listener == NULL)
+            {
+                m_listener = &listener;
+                ret = true;
+            }
+            return ret;
+        }
+
 
     protected:
 
@@ -88,6 +110,9 @@ class ConfigValue : public IConfigValue
 
         /** \brief Get the defaut value */
         const T& defaultValue() const { return m_default_value; }
+
+        /** \brief Get the listener */
+        IConfigValueListener* listener() { return m_listener; }
 
 
     private:
@@ -106,6 +131,9 @@ class ConfigValue : public IConfigValue
 
         /** \brief Indicate if the value will be taken into account only after a reset */
         const bool m_reset_only;
+
+        /** \brief Listener */
+        IConfigValueListener* m_listener;
 };
 
 
@@ -122,6 +150,7 @@ class StringConfigValue : public IConfigValue
         , m_value()
         , m_default_value(default_value)
         , m_reset_only(reset_only)
+        , m_listener(NULL)
         {
             NANO_STL_STRNCPY(m_value, m_default_value, MAX_STRING_SIZE);
         }
@@ -143,7 +172,15 @@ class StringConfigValue : public IConfigValue
         virtual uint32_t size() const { return MAX_STRING_SIZE; }
 
         /** \brief Set the value from a buffer */
-        virtual bool set(const uint8_t* const buffer) { strncpy(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); return true; }
+        virtual bool set(const uint8_t* const buffer) 
+        { 
+            strncpy(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); 
+            if (m_listener != NULL)
+            {
+                m_listener->onConfigValueChange(*this);
+            }
+            return true; 
+        }
 
         /** \brief Copy the value to a buffer */
         virtual bool get(uint8_t* const buffer) const { strncpy(reinterpret_cast<char*>(buffer), m_value, MAX_STRING_SIZE); return true; }
@@ -163,6 +200,18 @@ class StringConfigValue : public IConfigValue
         /** \brief Indicate if the value will be taken into account only after a reset */
         virtual bool onResetOnly() const { return m_reset_only; }
 
+        /** \brief Register a listener to a configuration value change event */
+        virtual bool registerListener(IConfigValueListener& listener) 
+        { 
+            bool ret = false;
+            if (m_listener == NULL)
+            {
+                m_listener = &listener;
+                ret = true;
+            }
+            return ret;
+        }
+
 
     private:
 
@@ -180,6 +229,9 @@ class StringConfigValue : public IConfigValue
 
         /** \brief Indicate if the value will be taken into account only after a reset */
         const bool m_reset_only;
+
+        /** \brief Listener */
+        IConfigValueListener* m_listener;
 };
 
 

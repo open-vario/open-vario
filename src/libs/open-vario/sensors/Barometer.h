@@ -23,7 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IBarometer.h"
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
-#include "MeanFilter.h"
+#include "SensorFilter.h"
 
 namespace open_vario
 {
@@ -57,11 +57,14 @@ class Barometer : public IBarometer
         ConfigManager& m_config_manager;
 
 
-        /** \brief Filter to compute barometer value */
-        MeanFilter<uint32_t, 10u> m_baro_filter;
-
         /** \brief Barometer values */
         BarometerValues m_baro_values;
+
+        /** \brief Filter max depth */
+        #define BARO_FILTER_MAX_DEPTH 10u
+
+        /** \brief Filter to compute barometer values */
+        SensorFilter<uint32_t, BARO_FILTER_MAX_DEPTH> m_baro_filter;
 
 
         /** \brief Configuration values */
@@ -73,7 +76,7 @@ class Barometer : public IBarometer
         /** \brief Indicate if the barometer is started */
         bool m_started;
 
-
+        
         /** \brief Listeners */
         nano_stl::StaticVector<IBarometerListener*, 3u> m_listeners;
 };

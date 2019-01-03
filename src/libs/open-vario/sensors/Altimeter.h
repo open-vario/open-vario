@@ -23,7 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IAltimeter.h"
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
-#include "MeanFilter.h"
+#include "SensorFilter.h"
 #include "IBarometricAltimeter.h"
 
 namespace open_vario
@@ -64,11 +64,14 @@ class Altimeter : public IAltimeter
         IBarometricAltimeter& m_barometric_altimeter;
 
         
-        /** \brief Filter to compute altimeter value */
-        MeanFilter<int32_t, 10u> m_alti_filter;
-
         /** \brief Altimeter output values */
         AltimeterValues m_alti_values;
+
+        /** \brief Filter max depth */
+        #define ALTI_FILTER_MAX_DEPTH 10u
+
+        /** \brief Filter to compute altimeter value */
+        SensorFilter<int32_t, ALTI_FILTER_MAX_DEPTH> m_alti_filter;
 
 
         /** \brief Configuration values */
