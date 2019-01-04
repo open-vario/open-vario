@@ -87,7 +87,7 @@ class ConfigValue : public IConfigValue
         virtual const uint8_t* max() const { return NULL; }
 
         /** \brief Indicate if the value will be taken into account only after a reset */
-        virtual bool onResetOnly() const { return m_reset_only; }
+        virtual bool isResetOnly() const { return m_reset_only; }
 
         /** \brief Register a listener to a configuration value change event */
         virtual bool registerListener(IConfigValueListener& listener) 
@@ -151,6 +151,8 @@ class StringConfigValue : public IConfigValue
         , m_default_value(default_value)
         , m_reset_only(reset_only)
         , m_listener(NULL)
+        , m_min_size(0u)
+        , m_max_size(MAX_STRING_SIZE)
         {
             NANO_STL_STRNCPY(m_value, m_default_value, MAX_STRING_SIZE);
         }
@@ -192,13 +194,13 @@ class StringConfigValue : public IConfigValue
         virtual bool hasMinMax() const { return ((min() != NULL) && (max() != NULL)); }
 
         /** \brief Get the buffer representing the min value */
-        virtual const uint8_t* min() const { return NULL; }
+        virtual const uint8_t* min() const { return reinterpret_cast<const uint8_t*>(&m_min_size); }
 
         /** \brief Get the buffer representing the max value */
-        virtual const uint8_t* max() const { return NULL; }
+        virtual const uint8_t* max() const { return reinterpret_cast<const uint8_t*>(&m_max_size); }
 
         /** \brief Indicate if the value will be taken into account only after a reset */
-        virtual bool onResetOnly() const { return m_reset_only; }
+        virtual bool isResetOnly() const { return m_reset_only; }
 
         /** \brief Register a listener to a configuration value change event */
         virtual bool registerListener(IConfigValueListener& listener) 
@@ -232,6 +234,12 @@ class StringConfigValue : public IConfigValue
 
         /** \brief Listener */
         IConfigValueListener* m_listener;
+
+        /** \brief Minimum string size */
+        const uint32_t m_min_size;
+
+        /** \brief Maximum string size */
+        const uint32_t m_max_size; 
 };
 
 

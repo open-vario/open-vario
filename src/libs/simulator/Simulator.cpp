@@ -264,7 +264,6 @@ void Simulator::taskStart(void* const param)
                         case SimuRequest::kConfigWrite:
                         {
                             // Configuration value write request
-                            bool ret = false;
 
                             // Get group, id and data
                             uint32_t uint_value;
@@ -315,6 +314,7 @@ void Simulator::taskStart(void* const param)
                                 default:
                                 {
                                     // Unknown type
+                                    ret = false;
                                     break;
                                 }
                             }
@@ -333,26 +333,100 @@ void Simulator::taskStart(void* const param)
 
                         case SimuRequest::kConfigRead:
                         {
-                            // Configuration value write request
-                            bool ret = false;
+                            // Configuration value read request
+                            ConfigValueReadResponse* config_read_response = new ConfigValueReadResponse();
 
                             // Get group and id
-                            uint32_t uint_value;
-                            int32_t int_value;
-                            float float_value;
-                            double double_value;
-                            bool bool_value;
                             const uint16_t group_id = static_cast<uint16_t>(simu_request.config_read().group_id());
                             const uint16_t value_id = static_cast<uint16_t>(simu_request.config_read().value_id());
                             
-                            // Read value type
-                            char value_type[256u];
-                            ret = m_config_manager.;
+                            // Get group
+                            IConfigValueGroup* config_group;
+                            ret = m_config_manager.getConfigValueGroup(group_id, config_group);
+                            if (ret)
+                            {
+                                // Get config value infos
+                                ConfigManager::ConfigValueInfos config_value_infos;
+                                ret = m_config_manager.getConfigValueInfos(group_id, value_id, config_value_infos);
+                                if (ret)
+                                {
+                                    // Fill response with informations
+                                    config_read_response->set_value_group_name(std::string(config_group->name()));
+                                    config_read_response->set_value_name(std::string(config_value_infos.name));
+                                    config_read_response->set_value_type(std::string(config_value_infos.type));
+                                    config_read_response->set_value_size(config_value_infos.size);
+                                    config_read_response->set_has_min_max(config_value_infos.has_min_max);
+                                    config_read_response->set_is_reset_only(config_value_infos.is_reset_only);
 
-                            // Read value
-
-                            // Prepare response
-                            ConfigValueReadResponse* config_read_response = new ConfigValueReadResponse();
+                                    // Get value
+                                    char buffer[512] = { 0 };
+                                    ret = m_config_manager.getConfigValue(group_id, value_id, buffer);
+                                    if (ret)
+                                    {
+                                        if (NANO_STL_STRNCMP(config_value_infos.type, "uint", 4u) == 0)
+                                        {
+                                            config_read_response->set_uint_value(*reinterpret_cast<uint32_t*>(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_uint_min_value(*reinterpret_cast<const uint32_t*>(config_value_infos.min_value));
+                                                config_read_response->set_uint_max_value(*reinterpret_cast<const uint32_t*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else if (NANO_STL_STRNCMP(config_value_infos.type, "int", 3u) == 0)
+                                        {
+                                            config_read_response->set_int_value(*reinterpret_cast<int32_t*>(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_int_min_value(*reinterpret_cast<const int32_t*>(config_value_infos.min_value));
+                                                config_read_response->set_int_max_value(*reinterpret_cast<const int32_t*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else if (NANO_STL_STRNCMP(config_value_infos.type, "float", 5u) == 0)
+                                        {
+                                            config_read_response->set_float_value(*reinterpret_cast<float*>(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_float_min_value(*reinterpret_cast<const float*>(config_value_infos.min_value));
+                                                config_read_response->set_float_max_value(*reinterpret_cast<const float*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else if (NANO_STL_STRNCMP(config_value_infos.type, "double", 6u) == 0)
+                                        {
+                                            config_read_response->set_double_value(*reinterpret_cast<double*>(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_double_min_value(*reinterpret_cast<const double*>(config_value_infos.min_value));
+                                                config_read_response->set_double_max_value(*reinterpret_cast<const double*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else if (NANO_STL_STRNCMP(config_value_infos.type, "string", 6u) == 0)
+                                        {
+                                            config_read_response->set_string_value(std::string(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_uint_min_value(*reinterpret_cast<const uint32_t*>(config_value_infos.min_value));
+                                                config_read_response->set_uint_max_value(*reinterpret_cast<const uint32_t*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else if (NANO_STL_STRNCMP(config_value_infos.type, "bool", 4u) == 0)
+                                        {
+                                            config_read_response->set_bool_value(*reinterpret_cast<bool*>(buffer));
+                                            if (config_value_infos.has_min_max)
+                                            {
+                                                config_read_response->set_bool_min_value(*reinterpret_cast<const bool*>(config_value_infos.min_value));
+                                                config_read_response->set_bool_max_value(*reinterpret_cast<const bool*>(config_value_infos.max_value));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Unknown data type
+                                            ret = false;
+                                        }
+                                    }
+                                }
+                            }
+       
+                            // Finalize response
                             config_read_response->set_success(ret);
                             simu_response.set_allocated_config_read(config_read_response);
                             break;

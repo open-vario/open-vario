@@ -33,6 +33,27 @@ class ConfigManager
 {
     public:
 
+
+        /** \brief Configuration value informations */
+        struct ConfigValueInfos
+        {
+            /** \brief Name */
+            const char* name;
+            /** \brief Type */
+            const char* type;
+            /** \brief Size in bytes */
+            uint32_t size;
+            /** \brief Indicate if the value has a min and max value */
+            bool has_min_max;
+            /** \brief Indicate if the value will be taken into account only after a reset */
+            bool is_reset_only;
+            /** \brief Buffer representing the min value */
+            const uint8_t* min_value;
+            /** \brief Buffer representing the max value */
+            const uint8_t* max_value;
+        };
+
+
         /** \brief Constructor */
         ConfigManager(const uint16_t config_version, IConfigAreaAccessor& config_area_accessor);
 
@@ -53,13 +74,14 @@ class ConfigManager
 
         
 
-
-
         /** \brief Get the number of configuration value groups */
         uint16_t getConfigValueGroupCount() { return static_cast<uint16_t>(m_config_value_groups.getCount()); }
 
         /** \brief Get a configuration value group */
         bool getConfigValueGroup(const uint16_t id, IConfigValueGroup*& config_value_group);
+
+        /** \brief Get informations on a configuration value */
+        bool getConfigValueInfos(const uint16_t config_value_group_id, const uint16_t config_value_id, ConfigValueInfos& config_value_infos);
 
 
         /** \brief Get a configuration value */
@@ -80,20 +102,7 @@ class ConfigManager
         }
 
         /** \brief Get a configuration value */
-        bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value)
-        {
-            IConfigValue* config_value = NULL;
-            IConfigValueGroup* config_value_group = NULL;
-            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
-            if (ret)
-            {
-                config_value_group->lock();
-                config_value->get(reinterpret_cast<uint8_t*>(value));
-                config_value_group->unlock();
-            }
-
-            return ret;
-        }
+        bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value);
         
         /** \brief Set a configuration value */
         template <typename T>
@@ -113,36 +122,10 @@ class ConfigManager
         }
 
         /** \brief Set a configuration value */
-        bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value)
-        {
-            IConfigValue* config_value = NULL;
-            IConfigValueGroup* config_value_group = NULL;
-            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
-            if (ret)
-            {
-                config_value_group->lock();
-                config_value->set(reinterpret_cast<const uint8_t*>(value));
-                config_value_group->unlock();
-            }
-
-            return ret;
-        }
+        bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value);
 
         /** \brief Register a listener to a configuration value */
-        bool registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener)
-        {
-            IConfigValue* config_value = NULL;
-            IConfigValueGroup* config_value_group = NULL;
-            bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
-            if (ret)
-            {
-                config_value_group->lock();
-                ret = config_value->registerListener(listener);
-                config_value_group->unlock();
-            }
-
-            return ret;
-        }
+        bool registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener);
 
 
     private:

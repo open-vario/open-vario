@@ -130,6 +130,76 @@ bool ConfigManager::getConfigValueGroup(const uint16_t id, IConfigValueGroup*& c
     return ret;
 }
 
+/** \brief Get informations on a configuration value */
+bool ConfigManager::getConfigValueInfos(const uint16_t config_value_group_id, const uint16_t config_value_id, ConfigValueInfos& config_value_infos)
+{
+    IConfigValue* config_value = NULL;
+    IConfigValueGroup* config_value_group = NULL;
+    const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+    if (ret)
+    {
+        config_value_infos.name = config_value->name();
+        config_value_infos.type = config_value->type();
+        config_value_infos.size = config_value->size();
+        config_value_infos.has_min_max = config_value->hasMinMax();
+        config_value_infos.is_reset_only = config_value->isResetOnly();
+        config_value_infos.min_value = config_value->min();
+        config_value_infos.max_value = config_value->max();
+    }
+
+    return ret;
+}
+
+
+/** \brief Get a configuration value */
+bool ConfigManager::getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value)
+{
+    IConfigValue* config_value = NULL;
+    IConfigValueGroup* config_value_group = NULL;
+    const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+    if (ret)
+    {
+        config_value_group->lock();
+        config_value->get(reinterpret_cast<uint8_t*>(value));
+        config_value_group->unlock();
+    }
+
+    return ret;
+}
+
+/** \brief Set a configuration value */
+bool ConfigManager::setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value)
+{
+    IConfigValue* config_value = NULL;
+    IConfigValueGroup* config_value_group = NULL;
+    const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+    if (ret)
+    {
+        config_value_group->lock();
+        config_value->set(reinterpret_cast<const uint8_t*>(value));
+        config_value_group->unlock();
+    }
+
+    return ret;
+}
+
+/** \brief Register a listener to a configuration value */
+bool ConfigManager::registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener)
+{
+    IConfigValue* config_value = NULL;
+    IConfigValueGroup* config_value_group = NULL;
+    bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+    if (ret)
+    {
+        config_value_group->lock();
+        ret = config_value->registerListener(listener);
+        config_value_group->unlock();
+    }
+
+    return ret;
+}
+
+
 /** \brief Get a configuration value and its group */
 bool ConfigManager::getConfigValueAndGroup(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueGroup*& config_value_group, IConfigValue*& config_value)
 {

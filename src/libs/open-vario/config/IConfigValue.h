@@ -76,7 +76,7 @@ class IConfigValue
         virtual const uint8_t* max() const = 0;
 
         /** \brief Indicate if the value will be taken into account only after a reset */
-        virtual bool onResetOnly() const = 0;
+        virtual bool isResetOnly() const = 0;
 
         /** \brief Register a listener to a configuration value change event */
         virtual bool registerListener(IConfigValueListener& listener) = 0;
