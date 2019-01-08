@@ -26,7 +26,7 @@ namespace open_vario
 /** \brief Constructor */
 Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size_t stack_size)
 : m_task(nullptr)
-, m_task_start(nullptr)
+, m_task_method()
 , m_param(nullptr)
 {
     (void)name;
@@ -36,13 +36,13 @@ Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size
 }
 
 /** \brief Start the task */
-bool Task::start(ITaskStart& task_start, void* const param)
+bool Task::start(const TaskMethod& task_method, void* const param)
 {
     bool ret = false;
 
     if (m_task == nullptr)
     {
-        m_task_start = &task_start;
+        m_task_method = task_method;
         m_param = param;
         m_task = CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(Task::taskEntry), this, 0, nullptr);
         ret = (m_task != INVALID_HANDLE_VALUE);
@@ -55,7 +55,7 @@ bool Task::start(ITaskStart& task_start, void* const param)
 DWORD Task::taskEntry(void* const param)
 {
     Task& task = *reinterpret_cast<Task*>(param);
-    task.m_task_start->taskStart(task.m_param);
+    task.m_task_method.invoke(static_cast<void*>(task.m_param));
     return 0;
 }
 

@@ -103,7 +103,8 @@ bool Simulator::start()
         else
         {
             // Start the simulator task
-            ret = m_task.start(*this, nullptr);
+            ITask::TaskMethod task_method = TASK_METHOD(Simulator, task);
+            ret = m_task.start(task_method, nullptr);
             if (!ret)
             {
                 LOG_ERROR("[Simulator] : Unable to start the task");
@@ -121,8 +122,8 @@ bool Simulator::registerSimuDevice(ISimuDevice& simu_device)
     return ret;
 }
 
-/** \brief Method which will be called at the task's startup */
-void Simulator::taskStart(void* const param)
+/** \brief Simulator task's method */
+void Simulator::task(void* const param)
 {
     (void)param;
 

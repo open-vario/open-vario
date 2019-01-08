@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SensorsManager.h"
 #include "OpenVarioConfig.h"
+#include "OpenVarioTasks.h"
 #include "IOpenVarioApp.h"
 #include "LogMacro.h"
 
@@ -39,7 +40,7 @@ SensorsManager::SensorsManager(ConfigManager& config_manager, Altimeter& altimet
 , m_config_acq_period(OV_CONFIG_VALUE_SENSOR_ACQ_PERIOD, "Acquisition period", 250u, 50u, 2000u, true)
 
 , m_acq_period(0u)
-, m_task("Sensors task", 5u)
+, m_task("Sensors task", OV_TASK_PRIO_SENSOR_MANAGER)
 , m_acq_timer()
 , m_acq_trigger_sem(0u, 1u)
 {
@@ -80,7 +81,8 @@ bool SensorsManager::start()
     ret = m_acq_timer.start(*this, m_acq_period);
 
     // Start the task
-    ret = ret && m_task.start(*this, nullptr);
+    ITask::TaskMethod task_method = TASK_METHOD(SensorsManager, task);
+    ret = ret && m_task.start(task_method, nullptr);
 
     return ret;
 }
@@ -101,8 +103,8 @@ bool SensorsManager::startNotifications()
     return ret;
 }
 
-/** \brief Method which will be called at the task's startup */
-void SensorsManager::taskStart(void* const param)
+/** \brief Sensors manager's task method */
+void SensorsManager::task(void* const param)
 {
     (void)param;
 

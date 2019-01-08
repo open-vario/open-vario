@@ -38,7 +38,7 @@ namespace open_vario
 
 
 /** \brief Simulator */
-class Simulator : public ISimulator, public ITaskStart, public IAltimeterListener, public IBarometerListener, public IThermometerListener, public IVariometerListener
+class Simulator : public ISimulator, public IAltimeterListener, public IBarometerListener, public IThermometerListener, public IVariometerListener
 {
     public:
 
@@ -55,9 +55,6 @@ class Simulator : public ISimulator, public ITaskStart, public IAltimeterListene
         /** \brief Register a simulated device */
         virtual bool registerSimuDevice(ISimuDevice& simu_device);
 
-
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
 
 
         /** \brief Called when new altimeter values have been computed */
@@ -112,6 +109,11 @@ class Simulator : public ISimulator, public ITaskStart, public IAltimeterListene
 
         /** \brief Notification frame*/
         static const uint8_t NOTIFICATION_FRAME = 0x4Eu;
+
+
+
+        /** \brief Simulator task's method */
+        void task(void* const param);
 };
 
 }

@@ -38,7 +38,7 @@ class Task : public ITask
 
 
         /** \brief Start the task */
-        virtual bool start(ITaskStart& task_start, void* const param);
+        virtual bool start(const TaskMethod& task_method, void* const param);
 
 
     private:
@@ -47,7 +47,7 @@ class Task : public ITask
         pthread_t m_task;
 
         /** \brief Task method */
-        ITaskStart* m_task_start;
+        TaskMethod m_task_method;
 
         /** \bruef Task param */
         void* m_param;

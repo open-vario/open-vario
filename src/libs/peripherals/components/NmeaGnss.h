@@ -30,7 +30,7 @@ namespace open_vario
 class IUart;
 
 /** \brief Base class for all global navigation satellite systems implementations using NMEA frames to provide navigation data */
-class NmeaGnss : public IGnss, public ITaskStart
+class NmeaGnss : public IGnss
 {
     public:
 
@@ -40,10 +40,6 @@ class NmeaGnss : public IGnss, public ITaskStart
         
         /** \brief Read the current navigation data */
         virtual bool readData(NavigationData& nav_data);
-
-
-        /** \brief Method which will be called at the receive task's startup */
-        virtual void taskStart(void* const param);
 
 
     protected:
@@ -104,6 +100,9 @@ class NmeaGnss : public IGnss, public ITaskStart
 
         /** \brief Decode the received frame */
         void decodeFrame();
+
+        /** \brief Receive task method */
+        void receiveTask(void* const param);
 
 
         

@@ -32,7 +32,7 @@ namespace open_vario
 class HmiManager;
 
 /** \brief Mode manager */
-class ModeManager : public ITaskStart
+class ModeManager
 {
     public:
 
@@ -46,8 +46,6 @@ class ModeManager : public ITaskStart
         /** \brief Switch to the requested mode */
         virtual void switchToMode(const OperatingMode mode);
         
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
 
     private:
 
@@ -59,6 +57,10 @@ class ModeManager : public ITaskStart
 
         /** \brief Message queue for change of operating mode */
         MessageQueue<OperatingMode, 1u> m_mode_change_queue;
+
+
+        /** \brief Mode manager's task method */
+        void task(void* const param);
 };
 
 }

@@ -50,7 +50,7 @@ class Task : public ITask
         nano_os_task_init_data_t m_task_init_data;
 
         /** \brief Task method */
-        ITaskStart* m_task_start;
+        TaskMethod m_task_method;
 
         /** \bruef Task param */
         void* m_param;

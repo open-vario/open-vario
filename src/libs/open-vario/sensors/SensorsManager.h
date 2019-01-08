@@ -35,7 +35,7 @@ namespace open_vario
 
 
 /** \brief Sensors manager */
-class SensorsManager : public ITaskStart, public ITimerListener
+class SensorsManager : public ITimerListener
 {
     public:
 
@@ -52,9 +52,6 @@ class SensorsManager : public ITaskStart, public ITimerListener
         /** \brief Start the sensors notifications */
         bool startNotifications();
 
-
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
 
         /** \brief Method which will be called when the timer elapsed */
         virtual void timerElapsed(ITimer& timer);
@@ -94,6 +91,11 @@ class SensorsManager : public ITaskStart, public ITimerListener
 
         /** \brief Semaphore to trigger the start of sensor acquisitions */
         Semaphore m_acq_trigger_sem;
+
+
+
+        /** \brief Sensors manager's task method */
+        void task(void* const param);
 };
 
 }

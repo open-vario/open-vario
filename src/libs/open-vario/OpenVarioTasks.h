@@ -17,34 +17,21 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITASK_H
-#define ITASK_H
-
-#include "Delegate.h"
-
-namespace open_vario
-{
-
-/** \brief Macro to create a class method delegate from a private class method */
-#define TASK_METHOD(class_name, method) ITask::TaskMethod::create<class_name, &class_name::method>(*this)
+#ifndef OPENVARIOTASKS_H
+#define OPENVARIOTASKS_H
 
 
-
-/** \brief Interface for all tasks implementations */
-class ITask
-{
-    public:
-
-        /** \brief Task method */
-        typedef nano_stl::Delegate<void, void*> TaskMethod;
+//////////////////////////////////////////////////
+//                  Open Vario                  //
+//          Tasks priorities (0 = lowest)       //
+//////////////////////////////////////////////////
 
 
-        /** \brief Start the task */
-        virtual bool start(const TaskMethod& task_method, void* const param) = 0;
+/** \brief Priority of the sensors manager's task */
+#define OV_TASK_PRIO_SENSOR_MANAGER         5u
 
-};
+/** \brief Priority of the mode manager's task */
+#define OV_TASK_PRIO_MODE_MANAGER           10u
 
 
-}
-
-#endif // ITASK_H
+#endif // OPENVARIOTASKS_H

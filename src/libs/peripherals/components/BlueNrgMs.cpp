@@ -67,7 +67,8 @@ bool BlueNrgMs::configure()
     if (probe())
     {
         // Start the rx task
-        ret = m_rx_task.start(*this, nullptr);
+        ITask::TaskMethod task_method = TASK_METHOD(BlueNrgMs, receiveTask);
+        ret = m_rx_task.start(task_method, nullptr);
         if (ret)
         {
             // Configure public address and role
@@ -144,8 +145,8 @@ bool BlueNrgMs::configure()
     return ret;
 }
 
-/** \brief Method which will be called at the task's startup */
-void BlueNrgMs::taskStart(void* const param)
+/** \brief Receive task method */
+void BlueNrgMs::receiveTask(void* const param)
 {
     uint8_t receive_buffer[128u];
 

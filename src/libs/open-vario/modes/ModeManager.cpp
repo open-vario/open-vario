@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ModeManager.h"
 #include "IOpenVarioApp.h"
+#include "OpenVarioTasks.h"
 #include "HmiManager.h"
 #include "LogMacro.h"
 
@@ -28,7 +29,7 @@ namespace open_vario
 
 /** \brief Constructor */
 ModeManager::ModeManager(nano_stl::IArray<IMode*>& operating_modes)
-: m_task("Mode manager", 10u)
+: m_task("Mode manager", OV_TASK_PRIO_MODE_MANAGER)
 , m_operating_modes(operating_modes)
 , m_mode_change_queue()
 {}
@@ -36,7 +37,8 @@ ModeManager::ModeManager(nano_stl::IArray<IMode*>& operating_modes)
 /** \brief Start the mode manager */
 bool ModeManager::start()
 {
-    return m_task.start(*this, nullptr);
+    ITask::TaskMethod task_method = TASK_METHOD(ModeManager, task);
+    return m_task.start(task_method, nullptr);
 }
 
 /** \brief Switch to the requested mode */
@@ -45,8 +47,8 @@ void ModeManager::switchToMode(const OperatingMode mode)
     m_mode_change_queue.post(mode, false);
 }
 
-/** \brief Method which will be called at the task's startup */
-void ModeManager::taskStart(void* const param)
+/** \brief Mode manager's task method */
+void ModeManager::task(void* const param)
 {
     (void)param;
 

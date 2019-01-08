@@ -49,7 +49,7 @@ class IBlueNrgMsListener
 
 
 /** \brief ST BlueNRG-MS bluetooth module */
-class BlueNrgMs : public IInterruptPinListener, public ITaskStart
+class BlueNrgMs : public IInterruptPinListener
 {
     public:
 
@@ -134,9 +134,6 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
         /** \brief Update the value of a BLE characteristic */
         bool updateBleCharacteristicValue(const uint16_t service_handle, const uint16_t char_handle, const void* value, const uint8_t length);
 
-
-        /** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param);
 
         /** \brief Called when the interrupt on the pin is triggered */
         virtual void onPinInterrupt(const IIoPin::Level level);
@@ -345,6 +342,9 @@ class BlueNrgMs : public IInterruptPinListener, public ITaskStart
         static const uint32_t PKT_TYPE_HCI_VENDOR = 0xFFu;
 
 
+        
+        /** \brief Receive task method */
+        void receiveTask(void* const param);
 
         /** \brief Send a HCI command to the module and wait for its response */
         bool hciSendReceive(const uint16_t opcode, const void* params, const uint8_t size, void* resp_params, uint8_t resp_size);

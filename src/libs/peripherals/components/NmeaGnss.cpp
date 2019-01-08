@@ -59,8 +59,8 @@ bool NmeaGnss::readData(NavigationData& nav_data)
     return ret;
 }
 
-/** \brief Method which will be called at the receive task's startup */
-void NmeaGnss::taskStart(void* const param)
+/** \brief Receive task method */
+void NmeaGnss::receiveTask(void* const param)
 {
     char cs[2u];
     uint8_t byte;
@@ -203,7 +203,8 @@ void NmeaGnss::taskStart(void* const param)
 bool NmeaGnss::startRx()
 {
     // Start receive task
-    return m_rx_task.start(*this, nullptr);
+    ITask::TaskMethod task_method = TASK_METHOD(NmeaGnss, receiveTask);
+    return m_rx_task.start(task_method, nullptr);
 }
 
 /** \brief Decode the received frame */
