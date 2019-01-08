@@ -48,6 +48,8 @@
 
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/containers",
+                "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/error",
+                "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/events",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/helpers",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/interfaces",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/libc",

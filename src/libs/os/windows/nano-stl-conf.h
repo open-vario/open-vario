@@ -26,10 +26,11 @@ along with Nano-STL.  If not, see <http://www.gnu.org/licenses/>.
 #include <stddef.h>
 #include <stdarg.h>
 
-#ifndef NULL
-#define NULL 0
-#endif // NULL
-#define nullptr NULL
+#ifndef nullptr
+#define nullptr 0
+#endif // nullptr
+#define nullptr nullptr
+#define override
 
 #else // __cplusplus
 #include <cstdint>
@@ -49,10 +50,22 @@ typedef uint32_t nano_stl_size_t;
 //////////////////////////////// Options /////////////////////////////////
 
 
+/* Error handler options */
+
+/** \brief Maximum number of listeners to the critical error event */
+#define NANO_STL_MAX_ERROR_HANDLER_LISTENERS            2
+
+
+
+
+
 /* Containers configuration options */
 
 /** \brief Enable the use of iterators (increase code size) */
 #define NANO_STL_ITERATORS_ENABLED                      0
+
+/** \brief Enable item access checking (prevent segfault when wrongly access container item but increase code size and decrease performances) */
+#define NANO_STL_ITEM_ACCESS_CHECK_ENABLE               1
 
 
 
@@ -74,6 +87,7 @@ typedef uint32_t nano_stl_size_t;
  *         NANO_STL_DYNAMIC_MEMORY_ALLOCATION_STANDARD
  */
 #define NANO_STL_DYNAMIC_MEMORY_ALLOCATION      NANO_STL_DYNAMIC_MEMORY_ALLOCATION_STANDARD
+
 
 
 

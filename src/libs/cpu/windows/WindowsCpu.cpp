@@ -34,14 +34,14 @@ bool WindowsCpu::reset()
 {
     // Restart a new instance of the application
     char filename[512u];
-    GetModuleFileNameA(NULL, filename, sizeof(filename));
+    GetModuleFileNameA(nullptr, filename, sizeof(filename));
 
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     ZeroMemory( &si, sizeof(si) );
     si.cb = sizeof(si);
     ZeroMemory( &pi, sizeof(pi) );
-    CreateProcess(filename, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    CreateProcess(filename, nullptr, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
 
     // Exit the current instance of the application
     exit(EXIT_SUCCESS);

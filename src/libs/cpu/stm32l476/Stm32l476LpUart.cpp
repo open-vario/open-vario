@@ -37,7 +37,7 @@ static const uint32_t UART_TX_READY_FLAG_MASK = 2u;
 
 
 /** \brief LPUART instance */
-static Stm32l476LpUart* lpuart = NULL;
+static Stm32l476LpUart* lpuart = nullptr;
 
 
 

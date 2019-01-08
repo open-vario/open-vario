@@ -49,7 +49,7 @@ class MinMaxConfigValue : public ConfigValue<T>
             if ((value >= m_min_value) && (value <= m_max_value))
             {
                 this->value() = value;
-                if (this->listener() != NULL)
+                if (this->listener() != nullptr)
                 {
                     this->listener()->onConfigValueChange(*this);
                 }

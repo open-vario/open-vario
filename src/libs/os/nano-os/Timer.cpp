@@ -26,8 +26,8 @@ namespace open_vario
 /** \brief Constructor */
 Timer::Timer()
 : m_timer()
-, m_listener(NULL)
-, m_data(NULL)
+, m_listener(nullptr)
+, m_data(nullptr)
 {
     NANO_OS_TIMER_Create(&m_timer, &Timer::timerCallback, this);
 }

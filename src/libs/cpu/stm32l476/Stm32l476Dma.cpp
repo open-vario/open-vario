@@ -85,7 +85,7 @@ static const IRQn_Type dma_irqs[Stm32l476Dma::DMA_MAX][Stm32l476Dma::MAX_DMA_CHA
                                                             };
 
 /** \brief DMA instances */
-static Stm32l476Dma* dmas[Stm32l476Dma::DMA_MAX] = {NULL, NULL};
+static Stm32l476Dma* dmas[Stm32l476Dma::DMA_MAX] = {nullptr, nullptr};
 
 
 

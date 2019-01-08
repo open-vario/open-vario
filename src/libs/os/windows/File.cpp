@@ -34,7 +34,7 @@ bool File::open(const char* file_path, const FileAccess file_access, const FileM
     bool ret = true;
 
     // Prepare parameters
-    if (file_path != NULL)
+    if (file_path != nullptr)
     {
         DWORD access = 0;
         switch (file_access)
@@ -78,7 +78,7 @@ bool File::open(const char* file_path, const FileAccess file_access, const FileM
         if (ret)
         {
             // Open the file
-            m_file = CreateFileA(file_path, access, FILE_SHARE_READ, NULL, mode, FILE_ATTRIBUTE_NORMAL, NULL);
+            m_file = CreateFileA(file_path, access, FILE_SHARE_READ, nullptr, mode, FILE_ATTRIBUTE_NORMAL, nullptr);
             ret = (m_file != INVALID_HANDLE_VALUE);
         }
     }
@@ -103,7 +103,7 @@ bool File::setFileSize(const size_t new_size)
     bool ret;
 
     // Move the file pointer to the desired size
-    ret = (SetFilePointer(m_file, static_cast<DWORD>(new_size), NULL, FILE_BEGIN) != INVALID_SET_FILE_POINTER);
+    ret = (SetFilePointer(m_file, static_cast<DWORD>(new_size), nullptr, FILE_BEGIN) != INVALID_SET_FILE_POINTER);
     if (ret)
     {
         // Set the file size
@@ -117,14 +117,14 @@ bool File::setFileSize(const size_t new_size)
 bool File::write(const void* data, const size_t size)
 {
     DWORD written = 0;
-    const bool ret = (WriteFile(m_file, data, static_cast<DWORD>(size), &written, NULL) != 0);
+    const bool ret = (WriteFile(m_file, data, static_cast<DWORD>(size), &written, nullptr) != 0);
     return ret;
 }
 
 /** \brief Read data from the file */
 bool File::read(void* data, const size_t size, size_t& read)
 {
-    const bool ret = (ReadFile(m_file, data, static_cast<DWORD>(size), reinterpret_cast<DWORD*>(&read), NULL) != 0);
+    const bool ret = (ReadFile(m_file, data, static_cast<DWORD>(size), reinterpret_cast<DWORD*>(&read), nullptr) != 0);
     return ret;
 }
 
@@ -161,7 +161,7 @@ bool File::seek(const SeekOffset offset, const int32_t position, int32_t& new_po
     if (ret)
     {
         // Move file pointer
-        DWORD pos = SetFilePointer(m_file, position, NULL, move_method);
+        DWORD pos = SetFilePointer(m_file, position, nullptr, move_method);
         ret = (pos != INVALID_SET_FILE_POINTER);
         if (ret)
         {

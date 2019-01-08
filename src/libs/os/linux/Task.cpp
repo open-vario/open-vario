@@ -26,8 +26,8 @@ namespace open_vario
 /** \brief Constructor */
 Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size_t stack_size)
 : m_task()
-, m_task_start(NULL)
-, m_param(NULL)
+, m_task_start(nullptr)
+, m_param(nullptr)
 {
     (void)name;
     (void)priority;
@@ -42,7 +42,7 @@ bool Task::start(ITaskStart& task_start, void* const param)
 
     m_task_start = &task_start;
     m_param = param;
-    ret = (pthread_create(&m_task, NULL, &Task::taskEntry, this) == 0);
+    ret = (pthread_create(&m_task, nullptr, &Task::taskEntry, this) == 0);
 
     return ret;
 }
@@ -52,7 +52,7 @@ void* Task::taskEntry(void* const param)
 {
     Task& task = *reinterpret_cast<Task*>(param);
     task.m_task_start->taskStart(task.m_param);
-    return NULL;
+    return nullptr;
 }
 
 

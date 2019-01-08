@@ -203,7 +203,7 @@ void NmeaGnss::taskStart(void* const param)
 bool NmeaGnss::startRx()
 {
     // Start receive task
-    return m_rx_task.start(*this, NULL);
+    return m_rx_task.start(*this, nullptr);
 }
 
 /** \brief Decode the received frame */

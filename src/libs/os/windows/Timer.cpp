@@ -25,11 +25,11 @@ namespace open_vario
 
 /** \brief Constructor */
 Timer::Timer()
-: m_timer(NULL)
-, m_listener(NULL)
-, m_data(NULL)
+: m_timer(nullptr)
+, m_listener(nullptr)
+, m_data(nullptr)
 {
-    m_timer = CreateThreadpoolTimer(&Timer::timerCallback, this, NULL);
+    m_timer = CreateThreadpoolTimer(&Timer::timerCallback, this, nullptr);
 }
 
 /** \brief Start the timer */
@@ -37,7 +37,7 @@ bool Timer::start(ITimerListener& timer_listener, const uint32_t period)
 {
     bool ret = false;
 
-    if (m_timer != NULL)
+    if (m_timer != nullptr)
     {
         m_listener = &timer_listener;
         LONGLONG due_time_long = -10000 * static_cast<LONGLONG>(period);
@@ -54,9 +54,9 @@ bool Timer::stop()
 {
     bool ret = false;
     
-    if (m_timer != NULL)
+    if (m_timer != nullptr)
     {
-        SetThreadpoolTimer(m_timer, NULL, 0, 0);
+        SetThreadpoolTimer(m_timer, nullptr, 0, 0);
 
         ret = true;
     }

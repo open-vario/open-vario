@@ -25,9 +25,9 @@ namespace open_vario
 
 /** \brief Constructor */
 Semaphore::Semaphore(const uint32_t init_count, const uint32_t max_count)
-: m_sem(NULL)
+: m_sem(nullptr)
 {
-    m_sem = CreateSemaphore(NULL, static_cast<LONG>(init_count), static_cast<LONG>(max_count), NULL);
+    m_sem = CreateSemaphore(nullptr, static_cast<LONG>(init_count), static_cast<LONG>(max_count), nullptr);
 }
 
 
@@ -36,7 +36,7 @@ bool Semaphore::post(const bool from_isr)
 {
     (void)from_isr;
 
-    BOOL ret = ReleaseSemaphore(m_sem, 1, NULL);
+    BOOL ret = ReleaseSemaphore(m_sem, 1, nullptr);
     return (ret != 0); 
 }
 

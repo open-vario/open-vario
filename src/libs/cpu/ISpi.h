@@ -70,12 +70,12 @@ class ISpi
         {
             /** \brief Constructor */
             XFer()
-            : write_data(NULL)
-            , read_data(NULL)
+            : write_data(nullptr)
+            , read_data(nullptr)
             , size(0u)
             , cs(0u)
             , keep_cs_active(false)
-            , next(NULL)
+            , next(nullptr)
             {}
 
             /** \brief Buffer to write */

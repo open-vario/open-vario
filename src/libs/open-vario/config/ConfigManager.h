@@ -88,8 +88,8 @@ class ConfigManager
         template <typename T>
         bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, T& value)
         {
-            IConfigValue* config_value = NULL;
-            IConfigValueGroup* config_value_group = NULL;
+            IConfigValue* config_value = nullptr;
+            IConfigValueGroup* config_value_group = nullptr;
             const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
             if (ret)
             {
@@ -108,8 +108,8 @@ class ConfigManager
         template <typename T>
         bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const T& value)
         {
-            IConfigValue* config_value = NULL;
-            IConfigValueGroup* config_value_group = NULL;
+            IConfigValue* config_value = nullptr;
+            IConfigValueGroup* config_value_group = nullptr;
             const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
             if (ret)
             {

@@ -28,8 +28,8 @@ namespace open_vario
 Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size_t stack_size)
 : m_task()
 , m_task_init_data()
-, m_task_start(NULL)
-, m_param(NULL)
+, m_task_start(nullptr)
+, m_param(nullptr)
 {
     NANO_STL_MEMSET(&m_task_init_data, 0, sizeof(m_task_init_data));
     m_task_init_data.name = name;
@@ -57,7 +57,7 @@ void* Task::taskEntry(void* const param)
 {
     Task& task = *reinterpret_cast<Task*>(param);
     task.m_task_start->taskStart(task.m_param);
-    return NULL;
+    return nullptr;
 }
 
 

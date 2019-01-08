@@ -38,10 +38,10 @@ BlueNrgMs::BlueNrgMs(ISpi& spi, const uint8_t chip_select, IOutputPin& reset_pin
 , m_data_ready_flag(0u)
 , m_mutex()
 , m_resp_opcode(0u)
-, m_resp_buffer(NULL)
+, m_resp_buffer(nullptr)
 , m_resp_buffer_size(0u)
 , m_config()
-, m_listener(NULL)
+, m_listener(nullptr)
 , m_device_name()
 , m_gap_service_handle(0u)
 , m_gap_device_name_handle(0u)
@@ -67,7 +67,7 @@ bool BlueNrgMs::configure()
     if (probe())
     {
         // Start the rx task
-        ret = m_rx_task.start(*this, NULL);
+        ret = m_rx_task.start(*this, nullptr);
         if (ret)
         {
             // Configure public address and role
@@ -90,7 +90,7 @@ bool BlueNrgMs::configure()
             ret = ret && (m_resp.status == 0u);
 
             // Initialize GATT
-            ret = ret && hciSendReceive(0xFD01u, NULL, 0u, &m_resp.status, sizeof(m_resp.status));
+            ret = ret && hciSendReceive(0xFD01u, nullptr, 0u, &m_resp.status, sizeof(m_resp.status));
             ret = ret && (m_resp.status == 0u);
 
             // Initialize GAP
@@ -179,7 +179,7 @@ void BlueNrgMs::taskStart(void* const param)
                 if (ret)
                 {
                     // Receive all the available data
-                    spi_xfer.write_data = NULL;
+                    spi_xfer.write_data = nullptr;
                     spi_xfer.read_data = receive_buffer;
                     spi_xfer.size = data[3u];
                     spi_xfer.keep_cs_active = false;
@@ -342,7 +342,7 @@ bool BlueNrgMs::getVersion(uint8_t& hw_version, uint8_t& fw_version, uint8_t& fw
 {
     bool ret;
     
-    ret  = hciSendReceive(0x1001u, NULL, 0u, &m_resp.read_local_version_information, sizeof(m_resp.read_local_version_information));
+    ret  = hciSendReceive(0x1001u, nullptr, 0u, &m_resp.read_local_version_information, sizeof(m_resp.read_local_version_information));
     if (ret && (m_resp.read_local_version_information.status == 0u))
     {
         hw_version = (m_resp.read_local_version_information.hci_revision >> 8u);

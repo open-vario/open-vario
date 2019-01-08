@@ -29,7 +29,7 @@ namespace open_vario
 
 /** \brief Constructor */
 SpiChipSelectDriver::SpiChipSelectDriver(const Stm32l476Gpio::Port port)
-: m_cs_gpio_reg(NULL)
+: m_cs_gpio_reg(nullptr)
 {
     GPIO_TypeDef* const gpio_regs[] = { GPIOA, GPIOB, GPIOC, GPIOD };
     if (port < Stm32l476Gpio::PORT_MAX)

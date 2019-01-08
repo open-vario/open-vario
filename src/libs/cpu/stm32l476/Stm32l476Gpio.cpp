@@ -34,7 +34,7 @@ namespace open_vario
 static GPIO_TypeDef* const gpio_regs[] = { GPIOA, GPIOB, GPIOC, GPIOD };
 
 /** \brief Interrupt pins */
-static Stm32l476Gpio* it_pins[Stm32l476Gpio::MAX_PIN_PER_PORT] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+static Stm32l476Gpio* it_pins[Stm32l476Gpio::MAX_PIN_PER_PORT] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 
 /** \brief Constructor */
@@ -46,7 +46,7 @@ Stm32l476Gpio::Stm32l476Gpio(const Port port, const uint8_t pin, const Mode mode
 , m_it(it)
 , m_configuration(configuration)
 , m_speed(speed)
-, m_it_listener(NULL)
+, m_it_listener(nullptr)
 {}
 
 /** \brief Configure the pin */
@@ -162,7 +162,7 @@ bool Stm32l476Gpio::configure()
             }
 
             /* Save pin for interrupt handler */
-            if (it_pins[m_pin] == NULL)
+            if (it_pins[m_pin] == nullptr)
             {
                 it_pins[m_pin] = this;
             }
@@ -244,7 +244,7 @@ bool Stm32l476Gpio::registerListener(IInterruptPinListener& listener)
 {
     bool ret = false;
 
-    if (m_it_listener == NULL)
+    if (m_it_listener == nullptr)
     {
         m_it_listener = &listener;
         ret = true;

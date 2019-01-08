@@ -41,7 +41,7 @@ bool File::open(const char* file_path, const FileAccess file_access, const FileM
     bool ret = true;
 
     // Prepare parameters
-    if (file_path != NULL)
+    if (file_path != nullptr)
     {
         int flags = 0;
         switch (file_access)

@@ -144,7 +144,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
                     spi_xfer_cmd.size = sizeof(read_sr);
                     spi_xfer_cmd.cs = m_chip_select;
                     spi_xfer_cmd.keep_cs_active = false;
-                    spi_xfer_cmd.next = NULL;
+                    spi_xfer_cmd.next = nullptr;
                     ret = m_spi.xfer(spi_xfer_cmd);
                     if (ret)
                     {

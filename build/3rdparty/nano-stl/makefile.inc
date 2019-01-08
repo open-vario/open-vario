@@ -27,6 +27,8 @@ LIBRARY_DIR := $(ROOT_DIR)/3rdparty/nano-stl/src/libs/nano-stl
 # Source directories
 SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/containers \
+               $(LIBRARY_DIR)/error \
+               $(LIBRARY_DIR)/events \
                $(LIBRARY_DIR)/helpers \
                $(LIBRARY_DIR)/interfaces \
                $(LIBRARY_DIR)/libc \

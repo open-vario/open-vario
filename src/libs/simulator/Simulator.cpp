@@ -103,7 +103,7 @@ bool Simulator::start()
         else
         {
             // Start the simulator task
-            ret = m_task.start(*this, NULL);
+            ret = m_task.start(*this, nullptr);
             if (!ret)
             {
                 LOG_ERROR("[Simulator] : Unable to start the task");
@@ -273,7 +273,7 @@ void Simulator::taskStart(void* const param)
                             bool bool_value;
                             const uint16_t group_id = static_cast<uint16_t>(simu_request.config_write().group_id());
                             const uint16_t value_id = static_cast<uint16_t>(simu_request.config_write().value_id());
-                            const char* data = NULL;
+                            const char* data = nullptr;
                             switch (simu_request.config_write().Values_case())
                             {
                                 case ConfigValueWriteRequest::kUintValue:
@@ -318,7 +318,7 @@ void Simulator::taskStart(void* const param)
                                     break;
                                 }
                             }
-                            if (data != NULL)
+                            if (data != nullptr)
                             {
                                 // Write configuration value
                                 ret = m_config_manager.setConfigValue(group_id, value_id, data);

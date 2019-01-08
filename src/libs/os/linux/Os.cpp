@@ -27,7 +27,7 @@ namespace open_vario
 
 
 /** \brief Singleton */
-Os* Os::m_singleton = NULL;
+Os* Os::m_singleton = nullptr;
 
 
 /** \brief Constructor */

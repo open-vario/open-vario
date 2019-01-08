@@ -33,7 +33,7 @@ EepromTest::EepromTest(IEeprom& eeprom)
 /** \brief Start the task */
 bool EepromTest::start()
 {
-    return m_task.start(*this, NULL);
+    return m_task.start(*this, nullptr);
 }
 
 

@@ -98,7 +98,7 @@ bool UdpSocket::receiveFrom(void* data, const size_t size, size_t& received, IpE
     bool ret = false;
 
     if ((m_socket != INVALID_SOCKET) &&
-        (data != NULL) &&
+        (data != nullptr) &&
         (size != 0))
     {
         fd_set readfds;
@@ -108,7 +108,7 @@ bool UdpSocket::receiveFrom(void* data, const size_t size, size_t& received, IpE
         tv.tv_sec = timeout / 1000u;
         tv.tv_usec = (timeout - 1000u * tv.tv_sec) * 1000u;
 
-        int call_ret = select(1, &readfds, NULL, NULL, &tv);
+        int call_ret = select(1, &readfds, nullptr, nullptr, &tv);
         if( call_ret > 0)
         {
             struct sockaddr_in remoteAddr;
@@ -135,7 +135,7 @@ bool UdpSocket::sendTo(const void* data, const size_t size, const IpEndPoint& di
     bool ret = false;
 
     if ((m_socket != INVALID_SOCKET) &&
-        (data != NULL) &&
+        (data != nullptr) &&
         (size != 0))
     {
         struct sockaddr_in remoteAddr;

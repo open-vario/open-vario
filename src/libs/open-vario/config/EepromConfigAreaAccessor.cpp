@@ -72,7 +72,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
             {
                 // Read values
                 IConfigValueGroup* config_value_group = config_value_groups[config_value_group_header.id];
-                if (config_value_group != NULL)
+                if (config_value_group != nullptr)
                 {
                     for (uint16_t j = 0; (j < config_value_group_header.count) && ret; j++)
                     {
@@ -81,7 +81,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
                         if (ret)
                         {
                             // Look for corresponding value
-                            IConfigValue* config_value = NULL;
+                            IConfigValue* config_value = nullptr;
                             if (config_value_group->getConfigValue(config_value_header.id, config_value) && 
                                 (config_value->size() == config_value_header.size))
                             {
@@ -149,7 +149,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
     for (nano_stl::nano_stl_size_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
     {
         IConfigValueGroup* config_value_group = config_value_groups[i];
-        if (config_value_group != NULL)
+        if (config_value_group != nullptr)
         {
             config_header.config_value_groups_count++;
         }
@@ -163,7 +163,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
     for (nano_stl::nano_stl_size_t i = 0; (i < config_value_groups.getCount()) && ret; i++)
     {
         IConfigValueGroup* config_value_group = config_value_groups[i];
-        if (config_value_group != NULL)
+        if (config_value_group != nullptr)
         {
             // Write header
             ConfigValueGroupHeader config_value_group_header;

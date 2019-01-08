@@ -36,7 +36,7 @@ ModeManager::ModeManager(nano_stl::IArray<IMode*>& operating_modes)
 /** \brief Start the mode manager */
 bool ModeManager::start()
 {
-    return m_task.start(*this, NULL);
+    return m_task.start(*this, nullptr);
 }
 
 /** \brief Switch to the requested mode */

@@ -40,7 +40,7 @@ class ConfigValue : public IConfigValue
         , m_value(default_value)
         , m_default_value(default_value)
         , m_reset_only(reset_only)
-        , m_listener(NULL)
+        , m_listener(nullptr)
         {}
 
 
@@ -64,7 +64,7 @@ class ConfigValue : public IConfigValue
         { 
             const T& value = *reinterpret_cast<const T*>(buffer); 
             m_value = value; 
-            if (m_listener != NULL)
+            if (m_listener != nullptr)
             {
                 m_listener->onConfigValueChange(*this);
             }
@@ -78,13 +78,13 @@ class ConfigValue : public IConfigValue
         virtual void reset() { m_value = m_default_value; }
 
         /** \brief Indicate if the value has a min and max value */
-        virtual bool hasMinMax() const { return ((min() != NULL) && (max() != NULL)); }
+        virtual bool hasMinMax() const { return ((min() != nullptr) && (max() != nullptr)); }
 
         /** \brief Get the buffer representing the min value */
-        virtual const uint8_t* min() const { return NULL; }
+        virtual const uint8_t* min() const { return nullptr; }
 
         /** \brief Get the buffer representing the max value */
-        virtual const uint8_t* max() const { return NULL; }
+        virtual const uint8_t* max() const { return nullptr; }
 
         /** \brief Indicate if the value will be taken into account only after a reset */
         virtual bool isResetOnly() const { return m_reset_only; }
@@ -93,7 +93,7 @@ class ConfigValue : public IConfigValue
         virtual bool registerListener(IConfigValueListener& listener) 
         { 
             bool ret = false;
-            if (m_listener == NULL)
+            if (m_listener == nullptr)
             {
                 m_listener = &listener;
                 ret = true;
@@ -150,7 +150,7 @@ class StringConfigValue : public IConfigValue
         , m_value()
         , m_default_value(default_value)
         , m_reset_only(reset_only)
-        , m_listener(NULL)
+        , m_listener(nullptr)
         , m_min_size(0u)
         , m_max_size(MAX_STRING_SIZE)
         {
@@ -177,7 +177,7 @@ class StringConfigValue : public IConfigValue
         virtual bool set(const uint8_t* const buffer) 
         { 
             strncpy(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); 
-            if (m_listener != NULL)
+            if (m_listener != nullptr)
             {
                 m_listener->onConfigValueChange(*this);
             }
@@ -191,7 +191,7 @@ class StringConfigValue : public IConfigValue
         virtual void reset() { strncpy(m_value, m_default_value, MAX_STRING_SIZE); }
 
         /** \brief Indicate if the value has a min and max value */
-        virtual bool hasMinMax() const { return ((min() != NULL) && (max() != NULL)); }
+        virtual bool hasMinMax() const { return ((min() != nullptr) && (max() != nullptr)); }
 
         /** \brief Get the buffer representing the min value */
         virtual const uint8_t* min() const { return reinterpret_cast<const uint8_t*>(&m_min_size); }
@@ -206,7 +206,7 @@ class StringConfigValue : public IConfigValue
         virtual bool registerListener(IConfigValueListener& listener) 
         { 
             bool ret = false;
-            if (m_listener == NULL)
+            if (m_listener == nullptr)
             {
                 m_listener = &listener;
                 ret = true;

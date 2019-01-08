@@ -80,7 +80,7 @@ bool SensorsManager::start()
     ret = m_acq_timer.start(*this, m_acq_period);
 
     // Start the task
-    ret = ret && m_task.start(*this, NULL);
+    ret = ret && m_task.start(*this, nullptr);
 
     return ret;
 }

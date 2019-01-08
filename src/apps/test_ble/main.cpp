@@ -54,7 +54,7 @@ class TestApp : public ITaskStart
 			{
 				// Start main task
 				m_nano_os_console.init();
-				m_led_task.start(*this, NULL);					
+				m_led_task.start(*this, nullptr);					
 
 				// Start operating system
 				m_os.start();

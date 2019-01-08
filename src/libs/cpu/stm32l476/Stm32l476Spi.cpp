@@ -56,7 +56,7 @@ Stm32l476Spi::Stm32l476Spi(const Stm32l476Cpu& cpu, const Spi spi, const uint32_
 , m_phase(phase)
 , m_cs(cs)
 , m_dma(dma)
-, m_xfer(NULL)
+, m_xfer(nullptr)
 , m_end_of_xfer(0u, 1u)
 , m_mutex()
 , m_cs_active(false)
@@ -187,12 +187,12 @@ bool Stm32l476Spi::xfer(const XFer& xfer)
 
         // Configure DMA
         SPI_TypeDef* const spi = spi_regs[m_spi];
-        if (m_xfer->read_data != NULL)
+        if (m_xfer->read_data != nullptr)
         {
             spi->CR2 |= (1u << 0u);
             m_dma.startXfer(RX_DMA_CHANNEL[m_spi], m_xfer->read_data, &spi->DR, m_xfer->size);
         }
-        if (m_xfer->write_data != NULL)
+        if (m_xfer->write_data != nullptr)
         {
             m_dma.startXfer(TX_DMA_CHANNEL[m_spi], m_xfer->write_data, &spi->DR, m_xfer->size);
         }        
@@ -237,7 +237,7 @@ bool Stm32l476Spi::xfer(const XFer& xfer)
         // Next transfer
         m_xfer = m_xfer->next;
     }
-    while (m_xfer != NULL);
+    while (m_xfer != nullptr);
 
     // Unlock SPI bus only if chip select is not active
     if (!m_cs_active)
@@ -273,7 +273,7 @@ void Stm32l476Spi::onDmaComplete(const uint8_t channel, const bool success)
     // - End of RX DMA request
     // or
     // - If write only, end of TX DMA request
-    if (m_xfer->read_data == NULL)
+    if (m_xfer->read_data == nullptr)
     {
         m_end_of_xfer.post(true);
     }

@@ -43,7 +43,7 @@ static USART_TypeDef* const usart_regs[Stm32l476Usart::USART_MAX] = { USART1, US
 static const IRQn_Type usart_irqs[Stm32l476Usart::USART_MAX] = {USART1_IRQn, USART2_IRQn, USART3_IRQn};
 
 /** \brief USART instances */
-static Stm32l476Usart* usarts[Stm32l476Usart::USART_MAX] = {NULL, NULL, NULL};
+static Stm32l476Usart* usarts[Stm32l476Usart::USART_MAX] = {nullptr, nullptr, nullptr};
 
 
 

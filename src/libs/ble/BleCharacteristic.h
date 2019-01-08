@@ -43,7 +43,7 @@ class BleCharacteristicBase : public IBleCharacteristic
         : m_name(name)
         , m_uuid(uuid)
         , m_handle(0x0000u)
-        , m_service(NULL)
+        , m_service(nullptr)
         , m_value_length(value_length)
         , m_is_fixed_length(is_fixed_length)
         , m_properties(properties)

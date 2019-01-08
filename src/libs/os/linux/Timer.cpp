@@ -26,8 +26,8 @@ namespace open_vario
 /** \brief Constructor */
 Timer::Timer()
 : m_timer()
-, m_listener(NULL)
-, m_data(NULL)
+, m_listener(nullptr)
+, m_data(nullptr)
 {
     struct sigevent sigev = {0};
     sigev.sigev_notify = SIGEV_THREAD;
@@ -42,7 +42,7 @@ bool Timer::start(ITimerListener& timer_listener, const uint32_t period)
 {
     bool ret = false;
 
-    if (m_timer != NULL)
+    if (m_timer != nullptr)
     {
         m_listener = &timer_listener;
 
@@ -52,7 +52,7 @@ bool Timer::start(ITimerListener& timer_listener, const uint32_t period)
     	timerspec.it_interval.tv_sec = timerspec.it_value.tv_sec;
     	timerspec.it_interval.tv_nsec = timerspec.it_value.tv_nsec;
 
-        ret = (timer_settime(m_timer, 0, &timerspec, NULL) == 0);
+        ret = (timer_settime(m_timer, 0, &timerspec, nullptr) == 0);
     }
 
     return ret;
@@ -63,11 +63,11 @@ bool Timer::stop()
 {
     bool ret = false;
     
-    if (m_timer != NULL)
+    if (m_timer != nullptr)
     {
         struct itimerspec timerspec = {0};
         
-        ret = (timer_settime(m_timer, 0, &timerspec, NULL) == 0);
+        ret = (timer_settime(m_timer, 0, &timerspec, nullptr) == 0);
     }
 
     return ret;

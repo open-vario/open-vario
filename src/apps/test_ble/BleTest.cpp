@@ -45,7 +45,7 @@ BleTest::BleTest(BlueNrgMs& blue_nrg)
 /** \brief Start the task */
 bool BleTest::start()
 {
-    return m_task.start(*this, NULL);
+    return m_task.start(*this, nullptr);
 }
 
 /** \brief Method which will be called at the task's startup */

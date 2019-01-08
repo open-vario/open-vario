@@ -38,7 +38,7 @@ bool ConfigManager::registerConfigValueGroup(IConfigValueGroup& config_value_gro
     bool ret = false;
 
     if ((config_value_group.id() < m_config_value_groups.getCount()) &&
-        (m_config_value_groups[config_value_group.id()] == NULL))
+        (m_config_value_groups[config_value_group.id()] == nullptr))
     {
         m_config_value_groups[config_value_group.id()] = &config_value_group;
         ret = true;
@@ -103,7 +103,7 @@ void ConfigManager::resetToDefault()
     for (nano_stl::nano_stl_size_t i = 0; i  < m_config_value_groups.getCount(); i++)
     {
         IConfigValueGroup* config_value_group = m_config_value_groups[i];
-        if (config_value_group != NULL)
+        if (config_value_group != nullptr)
         {
             for (nano_stl::nano_stl_size_t i = 0; i < config_value_group->getCount(); i++)
             {
@@ -133,8 +133,8 @@ bool ConfigManager::getConfigValueGroup(const uint16_t id, IConfigValueGroup*& c
 /** \brief Get informations on a configuration value */
 bool ConfigManager::getConfigValueInfos(const uint16_t config_value_group_id, const uint16_t config_value_id, ConfigValueInfos& config_value_infos)
 {
-    IConfigValue* config_value = NULL;
-    IConfigValueGroup* config_value_group = NULL;
+    IConfigValue* config_value = nullptr;
+    IConfigValueGroup* config_value_group = nullptr;
     const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
     if (ret)
     {
@@ -154,8 +154,8 @@ bool ConfigManager::getConfigValueInfos(const uint16_t config_value_group_id, co
 /** \brief Get a configuration value */
 bool ConfigManager::getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value)
 {
-    IConfigValue* config_value = NULL;
-    IConfigValueGroup* config_value_group = NULL;
+    IConfigValue* config_value = nullptr;
+    IConfigValueGroup* config_value_group = nullptr;
     const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
     if (ret)
     {
@@ -170,8 +170,8 @@ bool ConfigManager::getConfigValue(const uint16_t config_value_group_id, const u
 /** \brief Set a configuration value */
 bool ConfigManager::setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value)
 {
-    IConfigValue* config_value = NULL;
-    IConfigValueGroup* config_value_group = NULL;
+    IConfigValue* config_value = nullptr;
+    IConfigValueGroup* config_value_group = nullptr;
     const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
     if (ret)
     {
@@ -186,8 +186,8 @@ bool ConfigManager::setConfigValue(const uint16_t config_value_group_id, const u
 /** \brief Register a listener to a configuration value */
 bool ConfigManager::registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener)
 {
-    IConfigValue* config_value = NULL;
-    IConfigValueGroup* config_value_group = NULL;
+    IConfigValue* config_value = nullptr;
+    IConfigValueGroup* config_value_group = nullptr;
     bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
     if (ret)
     {
@@ -206,7 +206,7 @@ bool ConfigManager::getConfigValueAndGroup(const uint16_t config_value_group_id,
     bool ret = false;
 
     if ((config_value_group_id < m_config_value_groups.getCount()) &&
-        (m_config_value_groups[config_value_group_id] != NULL))
+        (m_config_value_groups[config_value_group_id] != nullptr))
     {
         config_value_group = m_config_value_groups[config_value_group_id];
         if (config_value_id < config_value_group->getCount())

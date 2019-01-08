@@ -32,7 +32,7 @@ const nano_os_console_cmd_desc_t NanoOsConsole::m_console_commands[] =
 
 
 /** \brief Uart driver to use for Nano-OS console */
-static IUart* nano_os_console_uart = NULL;
+static IUart* nano_os_console_uart = nullptr;
 
 
 /** \brief Constructor */

@@ -35,8 +35,8 @@ namespace open_vario
 BlueNrgMsStack::BlueNrgMsStack(BlueNrgMs& bluenrg_ms)
 : m_bluenrg_ms(bluenrg_ms)
 , m_config()
-, m_ble_services(NULL)
-, m_listener(NULL)
+, m_ble_services(nullptr)
+, m_listener(nullptr)
 , m_version()
 {
     m_bluenrg_ms.setListener(*this);
@@ -48,7 +48,7 @@ bool BlueNrgMsStack::start()
     bool ret = false;
 
     // Check configuration
-    if ((m_ble_services != NULL) && (m_listener != NULL))
+    if ((m_ble_services != nullptr) && (m_listener != nullptr))
     {
         // Configure the module 
         BlueNrgMs::HwConfig blue_nrg_hwconfig = {0};

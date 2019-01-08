@@ -44,8 +44,8 @@ class MessageQueue : public IMessageQueue<MsgType>
         , m_cond()
         , m_queue()
         {
-            pthread_mutex_init(&m_cs, NULL);
-            pthread_cond_init(&m_cond, NULL);
+            pthread_mutex_init(&m_cs, nullptr);
+            pthread_cond_init(&m_cond, nullptr);
         }
 
 

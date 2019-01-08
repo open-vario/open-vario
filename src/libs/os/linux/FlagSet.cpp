@@ -31,8 +31,8 @@ FlagSet::FlagSet(const uint32_t initial_mask)
 , m_cond()
 , m_flags(initial_mask)
 {
-    pthread_mutex_init(&m_cs, NULL);
-    pthread_cond_init(&m_cond, NULL);
+    pthread_mutex_init(&m_cs, nullptr);
+    pthread_cond_init(&m_cond, nullptr);
 }
 
 
