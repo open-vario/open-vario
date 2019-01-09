@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IBAROMETER_H
 #define IBAROMETER_H
 
-#include <cstdint>
+#include "IEvent.h"
 
 namespace open_vario
 {
@@ -38,23 +38,13 @@ struct BarometerValues
 };
 
 
-/** \brief Interface for all barometers listeners implementations */
-class IBarometerListener
-{
-    public:
-
-        /** \brief Called when new barometer values have been computed */
-        virtual void onBarometerValues(const BarometerValues& baro_values) = 0;
-};
-
-
 /** \brief Interface for all barometers implementations */
 class IBarometer
 {
     public:
 
-        /** \brief Register a listener for the barometer values */
-        virtual bool registerListener(IBarometerListener& listener) = 0;
+        /** \brief Event triggered on new barometer values */
+        virtual nano_stl::IEvent<const BarometerValues&>& barometerValuesEvent() = 0;
 
 };
 

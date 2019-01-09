@@ -51,7 +51,7 @@ Altimeter::Altimeter(ConfigManager& config_manager, IBarometricAltimeter& barome
 , m_offset_alti_3(0)
 , m_offset_alti_4(0)
 
-, m_listeners()
+, m_altimeter_values_event()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_ref_alti);
@@ -136,10 +136,7 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
         // Notify current values
         if (m_started)
         {
-            for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
-            {
-                m_listeners[i]->onAltimeterValues(m_alti_values);
-            }
+            m_altimeter_values_event.trigger(m_alti_values);
         }
     }
 
@@ -156,13 +153,6 @@ bool Altimeter::setReferenceAltitude(const int32_t ref_altitude)
         m_alti_values.min_alti = ref_altitude;
         m_alti_values.max_alti = ref_altitude;
     }
-    return ret;
-}
-
-/** \brief Register a listener for the altimeter values */
-bool Altimeter::registerListener(IAltimeterListener& listener)
-{
-    const bool ret = m_listeners.pushBack(&listener);
     return ret;
 }
 

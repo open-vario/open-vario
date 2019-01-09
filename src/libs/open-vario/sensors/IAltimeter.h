@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IALTIMETER_H
 #define IALTIMETER_H
 
-#include <cstdint>
+#include "IEvent.h"
 
 namespace open_vario
 {
@@ -45,16 +45,6 @@ struct AltimeterValues
 };
 
 
-/** \brief Interface for all altimeters listeners implementations */
-class IAltimeterListener
-{
-    public:
-
-        /** \brief Called when new altimeter values have been computed */
-        virtual void onAltimeterValues(const AltimeterValues& alti_values) = 0;
-};
-
-
 /** \brief Interface for all altimeters implementations */
 class IAltimeter
 {
@@ -63,8 +53,8 @@ class IAltimeter
         /** \brief Set a reference altitude (1 = 0.1m) */
         virtual bool setReferenceAltitude(const int32_t ref_altitude) = 0;
 
-        /** \brief Register a listener for the altimeter values */
-        virtual bool registerListener(IAltimeterListener& listener) = 0;
+        /** \brief Event triggered on new atimeter values */
+        virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() = 0;
 
 };
 

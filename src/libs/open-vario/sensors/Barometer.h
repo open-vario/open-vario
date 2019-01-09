@@ -24,6 +24,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
 #include "SensorFilter.h"
+#include "EventHelper.h"
 
 namespace open_vario
 {
@@ -47,8 +48,8 @@ class Barometer : public IBarometer
         /** \brief Compute pressure value from raw pressure value */
         bool compute(const uint32_t raw_pressure); 
 
-        /** \brief Register a listener for the barometer values */
-        virtual bool registerListener(IBarometerListener& listener);
+        /** \brief Event triggered on new barometer values */
+        virtual nano_stl::IEvent<const BarometerValues&>& barometerValuesEvent() { return m_barometer_values_event; }
 
 
     private:
@@ -77,8 +78,8 @@ class Barometer : public IBarometer
         bool m_started;
 
         
-        /** \brief Listeners */
-        nano_stl::StaticVector<IBarometerListener*, 3u> m_listeners;
+        /** \brief Event triggered on new barometer values */
+        nano_stl::EventHelper<3u, const BarometerValues&> m_barometer_values_event;
 };
 
 }

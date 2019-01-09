@@ -37,7 +37,7 @@ Barometer::Barometer(ConfigManager& config_manager)
 
 , m_started(false)
 
-, m_listeners()
+, m_barometer_values_event()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_filter_depth);
@@ -78,19 +78,9 @@ bool Barometer::compute(const uint32_t raw_pressure)
     // Notify current value
     if (m_started)
     {
-        for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
-        {
-            m_listeners[i]->onBarometerValues(m_baro_values);
-        }
+        m_barometer_values_event.trigger(m_baro_values);
     }
 
-    return ret;
-}
-
-/** \brief Register a listener for the barometer values */
-bool Barometer::registerListener(IBarometerListener& listener)
-{
-    const bool ret = m_listeners.pushBack(&listener);
     return ret;
 }
 

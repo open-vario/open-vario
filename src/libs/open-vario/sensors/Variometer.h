@@ -24,6 +24,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
 #include "SensorFilter.h"
+#include "EventHelper.h"
 
 namespace open_vario
 {
@@ -47,8 +48,8 @@ class Variometer : public IVariometer
         /** \brief Compute vario value from raw altitude value */
         bool compute(const int32_t raw_altitude, int16_t& raw_vario); 
 
-        /** \brief Register a listener for the variometer values */
-        virtual bool registerListener(IVariometerListener& listener);
+        /** \brief Event triggered on new variometer values */
+        virtual nano_stl::IEvent<const VariometerValues&>& variometerValuesEvent() { return m_variometer_values_event; }
 
 
     private:
@@ -83,8 +84,8 @@ class Variometer : public IVariometer
         uint32_t m_previous_timestamp;
 
 
-        /** \brief Listeners */
-        nano_stl::StaticVector<IVariometerListener*, 3u> m_listeners;
+        /** \brief Event triggered on new variometer values */
+        nano_stl::EventHelper<3u, const VariometerValues&> m_variometer_values_event;
 
 };
 

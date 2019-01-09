@@ -24,6 +24,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
 #include "SensorFilter.h"
+#include "EventHelper.h"
 
 namespace open_vario
 {
@@ -47,8 +48,8 @@ class Thermometer : public IThermometer
         /** \brief Compute temperature value from raw temperature value */
         bool compute(const int16_t raw_temperature); 
 
-        /** \brief Register a listener for the thermometer values */
-        virtual bool registerListener(IThermometerListener& listener);
+        /** \brief Event triggered on new thermometer values */
+        virtual nano_stl::IEvent<const ThermometerValues&>& thermometerValuesEvent() { return m_thermometer_values_event; }
 
 
     private:
@@ -77,8 +78,8 @@ class Thermometer : public IThermometer
         bool m_started;
 
 
-        /** \brief Listeners */
-        nano_stl::StaticVector<IThermometerListener*, 3u> m_listeners;
+        /** \brief Event triggered on new thermometer values */
+        nano_stl::EventHelper<3u, const ThermometerValues&> m_thermometer_values_event;
 };
 
 }

@@ -47,6 +47,12 @@ Simulator::Simulator(ConfigManager& config_manager)
 , m_task("Simulator task", 0u)
 , m_notification_endpoint()
 , m_connected(false)
+, m_simulated_devices()
+
+, m_altimeter_evt_handler()
+, m_barometer_evt_handler()
+, m_thermometer_evt_handler()
+, m_variometer_evt_handler()
 {}
 
 /** \brief Configure the simulator */
@@ -62,10 +68,18 @@ bool Simulator::configure()
     if (ret)
     {
         // Register to altimeter, variometer and accelerometer values
-        ret = IOpenVarioApp::getInstance().getAltimeter().registerListener(*this);
-        ret = ret && IOpenVarioApp::getInstance().getBarometer().registerListener(*this);
-        ret = ret && IOpenVarioApp::getInstance().getThermometer().registerListener(*this);
-        ret = ret && IOpenVarioApp::getInstance().getVariometer().registerListener(*this); 
+        
+        m_altimeter_evt_handler = NANO_STL_EVENT_HANDLER_M(Simulator, onAltimeterValues, const AltimeterValues&);
+        ret = ret && IOpenVarioApp::getInstance().getAltimeter().altimeterValuesEvent().bind(m_altimeter_evt_handler);
+        
+        m_barometer_evt_handler = NANO_STL_EVENT_HANDLER_M(Simulator, onBarometerValues, const BarometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getBarometer().barometerValuesEvent().bind(m_barometer_evt_handler);
+
+        m_thermometer_evt_handler = NANO_STL_EVENT_HANDLER_M(Simulator, onThermometerValues, const ThermometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getThermometer().thermometerValuesEvent().bind(m_thermometer_evt_handler);
+        
+        m_variometer_evt_handler = NANO_STL_EVENT_HANDLER_M(Simulator, onVariometerValues, const VariometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getVariometer().variometerValuesEvent().bind(m_variometer_evt_handler);
     }
 
     return ret;

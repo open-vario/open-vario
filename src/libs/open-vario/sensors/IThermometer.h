@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ITHERMOMETER_H
 #define ITHERMOMETER_H
 
-#include <cstdint>
+#include "IEvent.h"
 
 namespace open_vario
 {
@@ -38,23 +38,13 @@ struct ThermometerValues
 };
 
 
-/** \brief Interface for all thermometers listeners implementations */
-class IThermometerListener
-{
-    public:
-
-        /** \brief Called when new thermometer values have been computed */
-        virtual void onThermometerValues(const ThermometerValues& temp_values) = 0;
-};
-
-
 /** \brief Interface for all thermometers implementations */
 class IThermometer
 {
     public:
 
-        /** \brief Register a listener for the thermometer values */
-        virtual bool registerListener(IThermometerListener& listener) = 0;
+        /** \brief Event triggered on new thermometer values */
+        virtual nano_stl::IEvent<const ThermometerValues&>& thermometerValuesEvent() = 0;
 
 };
 

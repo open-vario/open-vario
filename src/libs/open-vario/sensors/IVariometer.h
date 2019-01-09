@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IVARIOMETER_H
 #define IVARIOMETER_H
 
-#include <cstdint>
+#include "IEvent.h"
 
 namespace open_vario
 {
@@ -38,23 +38,13 @@ struct VariometerValues
 };
 
 
-/** \brief Interface for all variometers listeners implementations */
-class IVariometerListener
-{
-    public:
-
-        /** \brief Called when new variometer values have been computed */
-        virtual void onVariometerValues(const VariometerValues& vario_values) = 0;
-};
-
-
 /** \brief Interface for all variometers implementations */
 class IVariometer
 {
     public:
 
-        /** \brief Register a listener for the variometer values */
-        virtual bool registerListener(IVariometerListener& listener) = 0;
+        /** \brief Event triggered on new variometer values */
+        virtual nano_stl::IEvent<const VariometerValues&>& variometerValuesEvent() = 0;
 
 };
 

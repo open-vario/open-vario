@@ -38,7 +38,7 @@ namespace open_vario
 
 
 /** \brief Simulator */
-class Simulator : public ISimulator, public IAltimeterListener, public IBarometerListener, public IThermometerListener, public IVariometerListener
+class Simulator : public ISimulator
 {
     public:
 
@@ -54,20 +54,6 @@ class Simulator : public ISimulator, public IAltimeterListener, public IBaromete
 
         /** \brief Register a simulated device */
         virtual bool registerSimuDevice(ISimuDevice& simu_device);
-
-
-
-        /** \brief Called when new altimeter values have been computed */
-        virtual void onAltimeterValues(const AltimeterValues& alti_values);
-
-        /** \brief Called when new barometer values have been computed */
-        virtual void onBarometerValues(const BarometerValues& baro_values);
-
-        /** \brief Called when new thermometer values have been computed */
-        virtual void onThermometerValues(const ThermometerValues& temp_values);
-
-        /** \brief Called when new variometer values have been computed */
-        virtual void onVariometerValues(const VariometerValues& vario_values);
 
 
     private:
@@ -101,6 +87,20 @@ class Simulator : public ISimulator, public IAltimeterListener, public IBaromete
 
         /** \brief List of simulated devices */
         nano_stl::StaticVector<ISimuDevice*, 5u> m_simulated_devices;
+
+
+
+        /** \brief Event handler to receive altimeter notifications */
+        nano_stl::IEvent<const AltimeterValues&>::EventHandlerM m_altimeter_evt_handler;
+
+        /** \brief Event handler to receive barometer notifications */
+        nano_stl::IEvent<const BarometerValues&>::EventHandlerM m_barometer_evt_handler;
+
+        /** \brief Event handler to receive thermometer notifications */
+        nano_stl::IEvent<const ThermometerValues&>::EventHandlerM m_thermometer_evt_handler;
+
+        /** \brief Event handler to receive variometer notifications */
+        nano_stl::IEvent<const VariometerValues&>::EventHandlerM m_variometer_evt_handler;
       
 
 
@@ -114,6 +114,18 @@ class Simulator : public ISimulator, public IAltimeterListener, public IBaromete
 
         /** \brief Simulator task's method */
         void task(void* const param);
+
+        /** \brief Called when new altimeter values have been computed */
+        void onAltimeterValues(const AltimeterValues& alti_values);
+
+        /** \brief Called when new barometer values have been computed */
+        void onBarometerValues(const BarometerValues& baro_values);
+
+        /** \brief Called when new thermometer values have been computed */
+        void onThermometerValues(const ThermometerValues& temp_values);
+
+        /** \brief Called when new variometer values have been computed */
+        void onVariometerValues(const VariometerValues& vario_values);
 };
 
 }

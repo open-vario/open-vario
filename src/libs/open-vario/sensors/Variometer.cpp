@@ -44,7 +44,7 @@ Variometer::Variometer(ConfigManager& config_manager)
 , m_previous_raw_altitude(INVALID_ALTITUDE_VALUE)
 , m_previous_timestamp(0u)
 
-, m_listeners()
+, m_variometer_values_event()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_filter_depth);
@@ -103,10 +103,7 @@ bool Variometer::compute(const int32_t raw_altitude, int16_t& raw_vario)
             // Notify current value
             if (m_started)
             {
-                for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
-                {
-                    m_listeners[i]->onVariometerValues(m_vario_values);
-                }
+                m_variometer_values_event.trigger(m_vario_values);
             }
         }
     }
@@ -118,11 +115,5 @@ bool Variometer::compute(const int32_t raw_altitude, int16_t& raw_vario)
     return ret;
 }
 
-/** \brief Register a listener for the variometer values */
-bool Variometer::registerListener(IVariometerListener& listener)
-{
-    const bool ret = m_listeners.pushBack(&listener);
-    return ret;
-}
 
 }

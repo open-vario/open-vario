@@ -37,7 +37,7 @@ Thermometer::Thermometer(ConfigManager& config_manager)
 
 , m_started(false)
 
-, m_listeners()
+, m_thermometer_values_event()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_filter_depth);
@@ -78,20 +78,11 @@ bool Thermometer::compute(const int16_t raw_temperature)
     // Notify current value
     if (m_started)
     {
-        for (nano_stl::nano_stl_size_t i = 0; i < m_listeners.getCount(); i++)
-        {
-            m_listeners[i]->onThermometerValues(m_temp_values);
-        }
+        m_thermometer_values_event.trigger(m_temp_values);
     }
 
     return ret;
 }
 
-/** \brief Register a listener for the thermometer values */
-bool Thermometer::registerListener(IThermometerListener& listener)
-{
-    const bool ret = m_listeners.pushBack(&listener);
-    return ret;
-}
 
 }

@@ -25,6 +25,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "MinMaxConfigValue.h"
 #include "SensorFilter.h"
 #include "IBarometricAltimeter.h"
+#include "EventHelper.h"
 
 namespace open_vario
 {
@@ -51,8 +52,8 @@ class Altimeter : public IAltimeter
         /** \brief Set a reference altitude (1 = 0.1m) */
         virtual bool setReferenceAltitude(const int32_t ref_altitude);
 
-        /** \brief Register a listener for the altimeter values */
-        virtual bool registerListener(IAltimeterListener& listener);
+        /** \brief Event triggered on new atimeter values */
+        virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() { return m_altimeter_values_event; }
 
 
     private:
@@ -111,8 +112,8 @@ class Altimeter : public IAltimeter
         int32_t m_offset_alti_4;
 
 
-        /** \brief Listeners */
-        nano_stl::StaticVector<IAltimeterListener*, 3u> m_listeners;
+        /** \brief Event triggered on new atimeter values */
+        nano_stl::EventHelper<3u, const AltimeterValues&> m_altimeter_values_event;
 
 
 };
