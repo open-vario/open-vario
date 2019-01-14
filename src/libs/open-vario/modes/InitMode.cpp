@@ -26,6 +26,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogMacro.h"
 #include "ISpi.h"
 
+#include "NorFlashPartition.h"
+#include "NorFlashFs.h"
+
 namespace open_vario
 {
 
@@ -73,6 +76,24 @@ void InitMode::enter()
             ret = ret && m_sensors_manager.start();
             if (ret)
             {
+
+            /*    NorFlashPartition nor_flash_partition(IOpenVarioApp::getInstance().getBoard().flight_data_norflash(), 0, 1000);
+                NorFlashFs nor_flash_fs(nor_flash_partition);
+                nor_flash_fs.init();
+                //nor_flash_fs.format();
+                for (uint32_t j = 0; j < 2; j++)
+                {
+                    nor_flash_fs.createFile("Flight 1");
+
+                    uint8_t data[1024u];
+                    for (uint32_t i = 0; i < 10; i++)
+                    {
+                        nor_flash_fs.writeToFile(data, sizeof(data));
+                    }
+
+                    nor_flash_fs.closeWrittenFile();
+                }
+*/
                 // Blink a bit :)
                 IOpenVarioApp::getInstance().getOs().waitMs(3000);
             }

@@ -32,6 +32,7 @@ class ILed;
 class IUart;
 class ICrc32;
 class IEeprom;
+class INorFlash;
 class IBarometricAltimeter;
 
 /** \brief Interface for all open vario boards implementations */
@@ -66,6 +67,9 @@ class IOpenVarioBoard
 
         /** \brief Get the board's EEPROM */
         virtual IEeprom& config_eeprom() = 0;
+
+        /** \brief Get the board's flight data NOR flash */
+        virtual INorFlash& flight_data_norflash() = 0;
 
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() = 0;

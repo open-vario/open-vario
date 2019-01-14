@@ -39,17 +39,20 @@ class NorFlashPartition
         /** \brief Get the size of the NOR flash partition in bytes */
         virtual uint32_t getSize() const { return m_size; }
 
-        /** \brief Get the size of a sector of the NOR flash in bytes */
+        /** \brief Get the size of a sector of the NOR flash partition in bytes */
         virtual uint32_t getSectorSize() const { return m_nor_flash.getSectorSize(); }
+
+        /** \brief Get the number of sectors in the NOR flash partition */
+        virtual uint32_t getSectorCount() const { return m_sector_count; }
 
         /** \brief Configure the NOR flash partition */
         virtual bool configure();
 
         /** \brief Read data from the NOR flash partition */
-        virtual bool read(const uint32_t address, uint8_t data[], const uint32_t size);
+        virtual bool read(const uint32_t address, void* const data, const uint32_t size);
 
         /** \brief Write data to the NOR flash partition */
-        virtual bool write(const uint32_t address, const uint8_t data[], const uint32_t size);
+        virtual bool write(const uint32_t address, const void* const data, const uint32_t size);
 
         /** \brief Erase a sector of the NOR flash partition */
         virtual bool sectorErase(const uint32_t address);

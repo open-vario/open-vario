@@ -41,7 +41,7 @@ bool NorFlashPartition::configure()
 }
 
 /** \brief Read data from the NOR flash partition */
-bool NorFlashPartition::read(const uint32_t address, uint8_t data[], const uint32_t size)
+bool NorFlashPartition::read(const uint32_t address, void* const data, const uint32_t size)
 {
     bool ret = false;
 
@@ -56,7 +56,7 @@ bool NorFlashPartition::read(const uint32_t address, uint8_t data[], const uint3
 }
 
 /** \brief Write data to the NOR flash partition */
-bool NorFlashPartition::write(const uint32_t address, const uint8_t data[], const uint32_t size)
+bool NorFlashPartition::write(const uint32_t address, const void* const data, const uint32_t size)
 {
     bool ret = false;
 

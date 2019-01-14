@@ -84,7 +84,7 @@ class SensorsManager : public ITimerListener
         uint16_t m_acq_period;
 
         /** \brief Sensor task */
-        TaskHelper<1024u> m_task;
+        TaskHelper<2048u> m_task;
 
         /** \brief Timer to start periodic sensor acquisitions */
         Timer m_acq_timer;

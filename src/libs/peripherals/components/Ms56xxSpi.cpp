@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Ms56xxSpi.h"
 #include "ISpi.h"
+#include "IOs.h"
 
 namespace open_vario
 {
@@ -44,7 +45,7 @@ bool Ms56xxSpi::reset()
     if (ret)
     {
         // Wait end of reset (~2.8ms)
-
+        IOs::getInstance().waitMs(20u);
     }
 
     return ret;
@@ -62,7 +63,7 @@ bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
         // Calibration data
         ISpi::XFer spi_xfer_data;
         spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(&prom[i]);
-        spi_xfer_data.size = sizeof(calib_data);
+        spi_xfer_data.size = sizeof(uint16_t);
         spi_xfer_data.cs = m_chip_select;
 
         // Command
@@ -112,6 +113,7 @@ bool Ms56xxSpi::readConvertedValue(const uint8_t cmd, uint32_t& value)
     if (ret)
     {
         // Wait end of conversion (~2.1ms)
+        IOs::getInstance().waitMs(20u);
 
         // Adc value
         ISpi::XFer spi_xfer_data;

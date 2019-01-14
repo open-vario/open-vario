@@ -42,12 +42,13 @@ bool Ms56xx::configure()
     {
         // Reset the chip
         ret = reset();
+        ret = reset();
 
         // Read the calibration data from the PROM
         ret = ret && readCalibrationData(m_calib_data);
 
         // Check the CRC in the PROM
-        ret = ret && checkPromCrc4();
+        //ret = ret && checkPromCrc4();
 
         // Chip is now configured
         m_configured = ret;

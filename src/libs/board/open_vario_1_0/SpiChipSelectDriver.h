@@ -29,6 +29,38 @@ namespace open_vario
 /** \brief SPI chip select driver */
 class SpiChipSelectDriver : public ISpiChipSelect
 {
+    #define NUCLEOBOARD
+    #ifdef NUCLEOBOARD
+
+    public:
+
+        /** \brief Constructor */
+        SpiChipSelectDriver(IOutputPin& cs_pin_0, IOutputPin& cs_pin_1, IOutputPin& cs_pin_2)
+        : m_cs_pins()
+        {
+            m_cs_pins[0u] = &cs_pin_0;
+            m_cs_pins[1u] = &cs_pin_1;
+            m_cs_pins[2u] = &cs_pin_2;
+            m_cs_pins[3u] = &cs_pin_2;
+        }
+
+        /** \brief Configure the SPI chip select driver */
+        virtual bool configure() { m_cs_pins[0u]->setHigh(); m_cs_pins[1u]->setHigh(); m_cs_pins[2u]->setHigh(); return true; }
+
+        /** \brief Enable the selected peripheral */
+        virtual void enable(const uint8_t peripheral) { m_cs_pins[peripheral]->setLow(); }
+
+        /** \brief Disable the selected peripheral */
+        virtual void disable(const uint8_t peripheral) { m_cs_pins[peripheral]->setHigh(); }
+
+
+    private:
+
+        /** \brief CS pins */
+        IOutputPin* m_cs_pins[4u];
+
+    #else
+
     public:
 
         /** \brief Constructor */
@@ -50,6 +82,7 @@ class SpiChipSelectDriver : public ISpiChipSelect
         /** \brief GPIO register to driver the chip select lines */
         volatile uint32_t* m_cs_gpio_reg;
 
+    #endif // NUCLEOBOARD
 };
 
 }

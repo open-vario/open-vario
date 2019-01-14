@@ -37,6 +37,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SimuLed.h"
 #include "SimuUart.h"
 #include "SimuEeprom.h"
+#include "SimuNorFlash.h"
 #include "SimuBarometricSensor.h"
 #include "SimuTemperatureSensor.h"
 #include "Simulator.h"
@@ -84,6 +85,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's EEPROM */
         virtual IEeprom& config_eeprom() { return m_config_eeprom; }
 
+        /** \brief Get the board's flight data NOR flash */
+        virtual INorFlash& flight_data_norflash() { return m_flight_data_flash; }
+
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
 
@@ -126,6 +130,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Configuration EEPROM */
         SimuEeprom m_config_eeprom;
+
+        /** \brief Flight data NOR flash */
+        SimuNorFlash m_flight_data_flash;
 
         /** \brief Temperature sensor */
         SimuTemperatureSensor m_temp_sensor;

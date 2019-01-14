@@ -35,6 +35,7 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_debug_uart(m_simulator, "debug_uart")
 , m_crc32()
 , m_config_eeprom("config_eeprom.bin", 32768u) // 32kB
+, m_flight_data_flash("flight_data_norflash.bin", 8388608u, 4096u) // 8MB - 4kB
 
 , m_temp_sensor(m_simulator, "temp_sensor")
 , m_baro_sensor(m_simulator, "baro_sensor", m_temp_sensor)
@@ -64,6 +65,9 @@ bool OpenVarioBoard::configure()
 
     // EEPROM
     ret = ret && m_config_eeprom.configure();
+
+    // NOR Flash
+    ret = ret && m_flight_data_flash.configure();
    
     // Barometric sensor
     ret = ret && m_baro_sensor.configure();

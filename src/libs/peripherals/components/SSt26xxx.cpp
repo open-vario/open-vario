@@ -52,7 +52,7 @@ bool SSt26xxx::configure()
 }
 
 /** \brief Read data from the NOR flash */
-bool SSt26xxx::read(const uint32_t address, uint8_t data[], const uint32_t size)
+bool SSt26xxx::read(const uint32_t address, void* const data, const uint32_t size)
 {
     bool ret = false;
 
@@ -61,7 +61,7 @@ bool SSt26xxx::read(const uint32_t address, uint8_t data[], const uint32_t size)
     {
         // Prepare SPI transfer for the read data
         ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = data;
+        spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(data);
         spi_xfer_data.size = size;
         spi_xfer_data.cs = m_chip_select;
 
@@ -86,7 +86,7 @@ bool SSt26xxx::read(const uint32_t address, uint8_t data[], const uint32_t size)
 }
 
 /** \brief Write data to the NOR flash */
-bool SSt26xxx::write(const uint32_t address, const uint8_t data[], const uint32_t size)
+bool SSt26xxx::write(const uint32_t address, const void* const data, const uint32_t size)
 {
     bool ret = false;
 
@@ -101,6 +101,7 @@ bool SSt26xxx::write(const uint32_t address, const uint8_t data[], const uint32_
         uint16_t index = 0u;
         uint16_t left = size;
         uint32_t current_address = address;
+        const uint8_t* const u8_data = reinterpret_cast<const uint8_t*>(data);
         while (ret && (left != 0u))
         {
             // Check programming page alignment
@@ -124,7 +125,7 @@ bool SSt26xxx::write(const uint32_t address, const uint8_t data[], const uint32_
             }
 
             // Program data
-            spi_xfer_data.write_data = &data[index];
+            spi_xfer_data.write_data = &u8_data[index];
             spi_xfer_data.size = program_size;
             spi_xfer_data.cs = m_chip_select;
 

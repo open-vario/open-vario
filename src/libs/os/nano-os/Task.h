@@ -38,7 +38,7 @@ class Task : public ITask
 
 
         /** \brief Start the task */
-        virtual bool start(ITaskStart& task_start, void* const param);
+        virtual bool start(const TaskMethod& task_method, void* const param);
 
 
     private:

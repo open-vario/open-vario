@@ -42,7 +42,7 @@ Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size
 }
 
 /** \brief Start the task */
-bool Task::start(ITaskStart& task_start, void* const param)
+bool Task::start(const TaskMethod& task_method, void* const param)
 {
     m_task_method = task_method;
     m_param = param;

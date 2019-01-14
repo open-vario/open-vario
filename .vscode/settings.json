@@ -1,5 +1,5 @@
 {
-    "cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink_V632c\\JLinkGDBServerCL.exe",
+    "cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink_V640\\JLinkGDBServerCL.exe",
     "cortex-debug.armToolchainPath": "C:\\gcc_arm_cortex_m_7.3\\bin",
     //"cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-5_4-2016q3/bin",
     //"cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe",
@@ -45,6 +45,23 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "*.inc": "cpp",
+        "atomic": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "chrono": "cpp",
+        "cmath": "cpp",
+        "condition_variable": "cpp",
+        "ctime": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "functional": "cpp",
+        "iomanip": "cpp",
+        "memory": "cpp",
+        "mutex": "cpp",
+        "ratio": "cpp",
+        "thread": "cpp"
     }
 }

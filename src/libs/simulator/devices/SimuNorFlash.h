@@ -17,24 +17,25 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SST26XXX_H
-#define SST26XXX_H
+#ifndef SIMUNORFLASH_H
+#define SIMUNORFLASH_H
 
 #include "INorFlash.h"
+#include "File.h"
+
+#include <string>
 
 namespace open_vario
 {
 
-class ISpi;
 
-
-/** \brief Base class for SST26 NOR flash implementations */
-class SSt26xxx : public INorFlash
+/** \brief Simulated NOR flash */
+class SimuNorFlash : public INorFlash
 {
     public:
 
-        /** \brief Constructor */
-        SSt26xxx(ISpi& spi, const uint8_t chip_select, const uint32_t size, const uint32_t sector_size, const uint32_t page_size);
+        /** \brief Contructor */
+        SimuNorFlash(const std::string& binfile_path, const uint32_t size, const uint32_t sector_size);
 
 
         /** \brief Get the size of the NOR flash in bytes */
@@ -67,61 +68,26 @@ class SSt26xxx : public INorFlash
 
     private:
 
-        /** \brief SPI bus */
-        ISpi& m_spi;
+        /** \brief NOR flash's binary file path */
+        const std::string m_binfile_path;
 
-        /** \brief Chip select */
-        const uint8_t m_chip_select;
-
-        /** \brief NOR flash size in bytes */
+        /** \brief NOR flash's size */
         const uint32_t m_size;
 
-        /** \brief Size of a sector of the NOR flash in bytes */
+        /** \brief NOR flash's sector size */
         const uint32_t m_sector_size;
 
-        /** \brief Size of a programming page of the NOR flash in bytes */
-        const uint32_t m_page_size;
-
-        /** \brief Number of sectors in the NOR flash */
+        /** \brief NOR flash's numbere of sectors */
         const uint32_t m_sector_count;
 
+        /** \brief NOR flash's binary file */
+        File m_file;
 
-        /** \brief Send a command to the NOR flash */
-        bool sendCommand(const uint8_t cmd);
-
-        /** \brief Send a command with parameters and completion to the NOR flash */
-        bool sendCommand(const uint8_t cmd, const uint8_t params[], const uint32_t length);
-
-        /** \brief Wait for the NOR flash to be ready */
-        bool waitReady();
-
-
-        /** \brief Reset enable command */
-        static const uint8_t RSTEN = 0x66u;
-
-        /** \brief Reset command */
-        static const uint8_t RST = 0x99u;
-
-        /** \brief Read command */
-        static const uint8_t READ = 0x03u;
-
-        /** \brief Page program command */
-        static const uint8_t PP = 0x02u;
-
-        /** \brief Write enable command */
-        static const uint8_t WREN = 0x06u;
-
-        /** \brief Sector erase command */
-        static const uint8_t SE = 0x20u;
-
-        /** \brief Chip erase command */
-        static const uint8_t CE = 0xC7u;
-
-        /** \brief Read status register command */
-        static const uint8_t RDSR = 0x05u;
-
+        /** \brief Erase buffer */
+        uint8_t m_erase_buffer[65536u];
+        
 };
 
 }
 
-#endif // SST26XXX_H
+#endif // SIMUNORFLASH_H

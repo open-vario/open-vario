@@ -85,6 +85,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's configuration EEPROM */
         virtual IEeprom& config_eeprom() { return m_config_eeprom; }
 
+        /** \brief Get the board's flight data NOR flash */
+        virtual INorFlash& flight_data_norflash() { return m_flight_data_flash; }
+
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
         

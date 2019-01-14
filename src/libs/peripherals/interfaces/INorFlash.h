@@ -38,14 +38,17 @@ class INorFlash
         /** \brief Get the size of a sector of the NOR flash in bytes */
         virtual uint32_t getSectorSize() const = 0;
 
+        /** \brief Get the number of sectors in the NOR flash */
+        virtual uint32_t getSectorCount() const = 0;
+
         /** \brief Configure the NOR flash */
         virtual bool configure() = 0;
 
         /** \brief Read data from the NOR flash */
-        virtual bool read(const uint32_t address, uint8_t data[], const uint32_t size) = 0;
+        virtual bool read(const uint32_t address, void* const data, const uint32_t size) = 0;
 
         /** \brief Write data to the NOR flash */
-        virtual bool write(const uint32_t address, const uint8_t data[], const uint32_t size) = 0;
+        virtual bool write(const uint32_t address, const void* const data, const uint32_t size) = 0;
 
         /** \brief Erase a sector of the NOR flash */
         virtual bool sectorErase(const uint32_t address) = 0;

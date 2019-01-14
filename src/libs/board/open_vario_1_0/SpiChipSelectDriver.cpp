@@ -26,6 +26,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+#ifndef NUCLEOBOARD
 
 /** \brief Constructor */
 SpiChipSelectDriver::SpiChipSelectDriver(const Stm32l476Gpio::Port port)
@@ -57,5 +58,6 @@ void SpiChipSelectDriver::disable(const uint8_t peripheral)
     (*m_cs_gpio_reg) = (7u << 16u);
 }
 
+#endif // NUCLEOBOARD
 
 }

@@ -40,14 +40,19 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 2u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_1 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
-, m_spi_1_sck_pin(Stm32l476Gpio::PORT_A, 4u /* 5u */, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_spi_1_sck_pin(Stm32l476Gpio::PORT_B /* PORT_A */, 3u /* 5u */, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_1_mosi_pin(Stm32l476Gpio::PORT_A, 7u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_1_miso_pin(Stm32l476Gpio::PORT_A, 6u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
-, m_spi_1_cs0_pin(Stm32l476Gpio::PORT_A, 0u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_spi_1_cs1_pin(Stm32l476Gpio::PORT_A, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_spi_1_cs2_pin(Stm32l476Gpio::PORT_A, 15u /* 2u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_1_cs0_pin(Stm32l476Gpio::PORT_A, 1u /* 0u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_1_cs1_pin(Stm32l476Gpio::PORT_A, 9u /* 1u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_spi_1_cs2_pin(Stm32l476Gpio::PORT_B /* PORT_A */, 6u /* 2u */, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+
+#ifdef NUCLEOBOARD
+, m_cs_driver_1(m_spi_1_cs0_pin, m_spi_1_cs1_pin, m_spi_1_cs2_pin)
+#else
 , m_cs_driver_1(Stm32l476Gpio::PORT_A)
-, m_spi_1(m_cpu, Stm32l476Spi::SPI_1, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_1, m_dma1)
+#endif // NUCLEOBOARD
+, m_spi_1(m_cpu, Stm32l476Spi::SPI_1, 2000000u, ISpi::POL_LOW, ISpi::PHA_FIRST, m_cs_driver_1, m_dma1)
 
 , m_spi_2_sck_pin(Stm32l476Gpio::PORT_B, 13u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_2_mosi_pin(Stm32l476Gpio::PORT_B, 15u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
@@ -55,7 +60,11 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_spi_2_cs0_pin(Stm32l476Gpio::PORT_B, 0u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_spi_2_cs1_pin(Stm32l476Gpio::PORT_B, 1u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_spi_2_cs2_pin(Stm32l476Gpio::PORT_B, 2u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+#ifdef NUCLEOBOARD
+, m_cs_driver_2(m_spi_2_cs0_pin, m_spi_2_cs1_pin, m_spi_2_cs2_pin)
+#else
 , m_cs_driver_2(Stm32l476Gpio::PORT_B)
+#endif // NUCLEOBOARD
 , m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 2000000u, ISpi::POL_HIGH, ISpi::PHA_FIRST, m_cs_driver_2, m_dma1)
 
 , m_io_expander(m_spi_2, 4u)
@@ -68,14 +77,14 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 
-, m_config_eeprom(m_spi_2, 1u, 32768u, 64u) // 32kB - 64B
+, m_config_eeprom(m_spi_1 /* m_spi_2 */, 1u, 8096u /* 32768u */, 32u /* 64u */) // 32kB - 64B
 , m_flight_data_flash(m_spi_2, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
 
 , m_exp_uart_rx_pin(Stm32l476Gpio::PORT_C, 11u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_exp_uart_tx_pin(Stm32l476Gpio::PORT_C, 10u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_exp_uart(m_cpu, Stm32l476Usart::USART_3, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
-, m_baro_sensor(m_spi_1, 0u)
+, m_baro_sensor(m_spi_1, 2u /* 0u */)
 , m_alti_sensor(m_baro_sensor)
 
 , m_gnss_uart_rx_pin(Stm32l476Gpio::PORT_C, 0u, Stm32l476Gpio::MODE_AF, 8u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -127,23 +136,23 @@ bool OpenVarioBoard::configure()
     ret = ret && m_spi_2.configure();
 
     // I/O expander
-    ret = ret && m_io_expander.configure();
+    /*ret = ret && m_io_expander.configure();
     ret = ret && m_plus_button_pin.configure();
     ret = ret && m_minus_button_pin.configure();
     ret = ret && m_enter_button_pin.configure();
-
+*/
     // LEDs
     ret = ret && m_activity_led.configure();
-    ret = ret && m_low_bat_led.configure();
+ //   ret = ret && m_low_bat_led.configure();
 
     // EEPROM
     ret = ret && m_config_eeprom.configure();
 
     // NOR flash
-    ret = ret && m_flight_data_flash.configure();
+   // ret = ret && m_flight_data_flash.configure();
 
     // Barometric altimeter sensor
-    //ret = ret && m_alti_sensor.configure();
+    ret = ret && m_alti_sensor.configure();
 
     // GNSS
     ret = ret && m_gnss_uart_rx_pin.configure();

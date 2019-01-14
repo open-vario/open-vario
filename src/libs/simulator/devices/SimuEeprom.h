@@ -29,7 +29,7 @@ namespace open_vario
 {
 
 
-/** \brief Simulated UART */
+/** \brief Simulated EEPROM */
 class SimuEeprom : public IEeprom
 {
     public:
