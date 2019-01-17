@@ -136,20 +136,20 @@ bool OpenVarioBoard::configure()
     ret = ret && m_spi_2.configure();
 
     // I/O expander
-    /*ret = ret && m_io_expander.configure();
+    ret = ret && m_io_expander.configure();
     ret = ret && m_plus_button_pin.configure();
     ret = ret && m_minus_button_pin.configure();
     ret = ret && m_enter_button_pin.configure();
-*/
+
     // LEDs
     ret = ret && m_activity_led.configure();
- //   ret = ret && m_low_bat_led.configure();
+    ret = ret && m_low_bat_led.configure();
 
     // EEPROM
     ret = ret && m_config_eeprom.configure();
 
     // NOR flash
-   // ret = ret && m_flight_data_flash.configure();
+    ret = ret && m_flight_data_flash.configure();
 
     // Barometric altimeter sensor
     ret = ret && m_alti_sensor.configure();

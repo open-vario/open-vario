@@ -20,6 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SSt26xxx.h"
 #include "ISpi.h"
+#include "IOs.h"
 
 
 namespace open_vario
@@ -255,6 +256,7 @@ bool SSt26xxx::waitReady()
     bool ret = false;
     bool ready = false;
     ISpi::XFer spi_xfer;
+    const uint32_t timeout = IOs::getInstance().getMsTimestamp() + READY_TIMEOUT;
     do
     {
         // Read status register
@@ -269,7 +271,7 @@ bool SSt26xxx::waitReady()
             ready = ((read_sr[1u] & (1u << 0u)) == 0u);
         }
     }
-    while (ret && !ready);
+    while (ret && !ready && (IOs::getInstance().getMsTimestamp() < timeout));
 
     return ready;
 }

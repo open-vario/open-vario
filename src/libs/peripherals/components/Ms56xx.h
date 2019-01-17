@@ -88,10 +88,10 @@ class Ms56xx : public IBarometricSensor
         static const uint8_t RESET_CMD = 0x1Eu;
 
         /** \brief Convert D1 command */
-        static const uint8_t CONVERT_D1 = 0x44u;
+        static const uint8_t CONVERT_D1 = 0x48u;
 
         /** \brief Convert D2 command */
-        static const uint8_t CONVERT_D2 = 0x54u;
+        static const uint8_t CONVERT_D2 = 0x58u;
 
         /** \brief ADC read command */
         static const uint8_t ADC_READ = 0x00u;

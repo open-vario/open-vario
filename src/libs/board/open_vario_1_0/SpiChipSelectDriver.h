@@ -42,6 +42,7 @@ class SpiChipSelectDriver : public ISpiChipSelect
             m_cs_pins[1u] = &cs_pin_1;
             m_cs_pins[2u] = &cs_pin_2;
             m_cs_pins[3u] = &cs_pin_2;
+            m_cs_pins[4u] = &cs_pin_2;
         }
 
         /** \brief Configure the SPI chip select driver */
@@ -57,7 +58,7 @@ class SpiChipSelectDriver : public ISpiChipSelect
     private:
 
         /** \brief CS pins */
-        IOutputPin* m_cs_pins[4u];
+        IOutputPin* m_cs_pins[5u];
 
     #else
 

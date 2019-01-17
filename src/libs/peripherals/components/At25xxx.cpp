@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "At25xxx.h"
 #include "ISpi.h"
+#include "IOs.h"
 
 
 namespace open_vario
@@ -135,6 +136,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
             {
                 // Wait for end of write
                 bool ready = false;
+                const uint32_t timeout = IOs::getInstance().getMsTimestamp() + WRITE_TIMEOUT;
                 do
                 {
                     // Read status register
@@ -151,7 +153,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
                         ready = ((read_sr[1u] & (1u << 0u)) == 0u);
                     }
                 }
-                while (ret && !ready);
+                while (ret && !ready && (IOs::getInstance().getMsTimestamp() < timeout));
 
                 // Next transfer
                 index += program_size;

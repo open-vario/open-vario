@@ -40,12 +40,14 @@ bool Ms56xxSpi::reset()
     spi_xfer.write_data = &reset_cmd;
     spi_xfer.size = sizeof(reset_cmd);
     spi_xfer.cs = m_chip_select;
+    spi_xfer.keep_cs_active = true;
 
     const bool ret = m_spi.xfer(spi_xfer);
     if (ret)
     {
         // Wait end of reset (~2.8ms)
         IOs::getInstance().waitMs(20u);
+        m_spi.releaseCs();
     }
 
     return ret;
@@ -62,12 +64,13 @@ bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
     {
         // Calibration data
         ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(&prom[i]);
+        uint8_t read_data[2u];
+        spi_xfer_data.read_data = read_data;
         spi_xfer_data.size = sizeof(uint16_t);
         spi_xfer_data.cs = m_chip_select;
 
         // Command
-        const uint8_t read_calib_cmd = Ms56xx::PROM_READ + (i * 2u);
+        const uint8_t read_calib_cmd = Ms56xx::PROM_READ + (i << 1);
         ISpi::XFer spi_xfer_cmd;
         spi_xfer_cmd.write_data = &read_calib_cmd;
         spi_xfer_cmd.size = sizeof(read_calib_cmd);
@@ -79,8 +82,7 @@ bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
         if (ret)
         {
             // Decode received data (MSB is received first)
-            const uint16_t rx_value = (spi_xfer_data.read_data[0u] << 8u) + spi_xfer_data.read_data[1u];
-            prom[i] = rx_value;
+            prom[i] = (read_data[0u] << 8u) + read_data[1u];
         }
     }
 
@@ -109,16 +111,19 @@ bool Ms56xxSpi::readConvertedValue(const uint8_t cmd, uint32_t& value)
     spi_xfer.write_data = &cmd;
     spi_xfer.size = sizeof(cmd);
     spi_xfer.cs = m_chip_select;
+    spi_xfer.keep_cs_active = true;
     ret = m_spi.xfer(spi_xfer);
     if (ret)
     {
-        // Wait end of conversion (~2.1ms)
+        // Wait end of conversion (~8.22ms)
         IOs::getInstance().waitMs(20u);
+        m_spi.releaseCs();
 
         // Adc value
         ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(&value);
-        spi_xfer_data.size = sizeof(value);
+        uint8_t read_data[3u];
+        spi_xfer_data.read_data = read_data;
+        spi_xfer_data.size = sizeof(read_data);
         spi_xfer_data.cs = m_chip_select;
 
         // Command
@@ -133,11 +138,9 @@ bool Ms56xxSpi::readConvertedValue(const uint8_t cmd, uint32_t& value)
         if (ret)
         {
             // Decode received data (MSB is received first)
-            const uint32_t rx_value = (spi_xfer_data.read_data[0u] << 24u) +
-                                      (spi_xfer_data.read_data[1u] << 16u) +
-                                      (spi_xfer_data.read_data[2u] << 8u) + 
-                                      spi_xfer_data.read_data[3u];
-            value = rx_value;
+            value = (read_data[0u] << 16u) +
+                    (read_data[1u] << 8u) +
+                    (read_data[2u] << 0u);
         }
     }
 

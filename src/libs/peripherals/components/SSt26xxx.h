@@ -120,6 +120,9 @@ class SSt26xxx : public INorFlash
         /** \brief Read status register command */
         static const uint8_t RDSR = 0x05u;
 
+        /** \brief Ready timeout in milliseconds */
+        static const uint32_t READY_TIMEOUT = 100u;
+
 };
 
 }

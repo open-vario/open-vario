@@ -67,6 +67,10 @@ class At25xxx : public IEeprom
 
         /** \brief Send the write enable command */
         bool sendWriteEnableCmd();
+
+
+        /** \brief Write timeout in milliseconds */
+        static const uint32_t WRITE_TIMEOUT = 10u;
 };
 
 }
