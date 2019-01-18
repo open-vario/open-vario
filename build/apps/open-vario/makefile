@@ -38,6 +38,7 @@ PROJECT_LIBS = libs/open-vario \
                libs/cpu \
                libs/board \
                libs/peripherals \
+               libs/storage \
                libs/ble \
                3rdparty/nano-stl \
                $(TARGET_BSP) \

@@ -20,18 +20,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef NORFLASHFS_H
 #define NORFLASHFS_H
 
-#include <cstdint>
+#include "IFileSystem.h"
+#include "Mutex.h"
 
 namespace open_vario
 {
 
 class NorFlashPartition;
 
-
-
-
 /** \brief NOR flash file system */
-class NorFlashFs
+class NorFlashFs : public IFileSystem
 {
     public:
 
@@ -40,7 +38,7 @@ class NorFlashFs
 
 
         /** \brief Get the file system version */
-        virtual uint32_t getVersion() const { return NORFLASHFS_VERSION; }
+        virtual const char* getVersionString() const { return "NOR Flash file system v1.0.0"; }
 
         /** \brief Initialize the file system */
         virtual bool init();
@@ -51,14 +49,25 @@ class NorFlashFs
         /** \brief Get the number of files in the file system */
         virtual uint32_t getFileCount() const { return m_file_count; }
 
+
         /** \brief Create a file in the filesystem */
-        virtual bool createFile(const char* name);
+        virtual bool createFile(const char name[]);
 
         /** \brief Write data to the file */
         virtual bool writeToFile(const void* const data, const uint32_t size);
 
         /** \brief Close the written file */
         virtual bool closeWrittenFile();
+
+
+        /** \brief Open a file in the filesystem */
+        virtual bool openFile(const uint32_t file_number, FileInfo& file_info);
+
+        /** \brief Read data from the file */
+        virtual bool readFromFile(void* const data, const uint32_t size, uint32_t& read);
+
+        /** \brief Close the read file */
+        virtual bool closeReadFile();
 
 
     private:
@@ -170,6 +179,9 @@ class NorFlashFs
         /** \brief NOR flash partition */
         NorFlashPartition& m_nor_flash;
 
+        /** \brief Mutex */
+        Mutex m_mutex;
+
         /** \brief Number of files */
         uint32_t m_file_count;
 
@@ -208,7 +220,7 @@ class NorFlashFs
         bool walkThroughInit(const uint32_t file_sector, bool& format_needed);
 
         /** \brief Go to the end of the current file by going through the data sectors */
-        bool goToEndOfFileByDataSector(const uint32_t current_sector, uint32_t& end_sector);
+        bool goToEndOfFileByDataSector(const uint32_t current_sector, uint32_t& end_sector, uint8_t& end_sector_type);
 
         /** \brief Close the sector currently being written */
         bool closeWrittenSector();

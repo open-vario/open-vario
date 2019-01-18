@@ -1,6 +1,6 @@
 ####################################################################################################
 # \file makefile
-# \brief  Makefile for the include files of open-vario library
+# \brief  Makefile for the include files of storage library
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -25,18 +25,15 @@
 ROOT_DIR := ../../..
 
 # Project name
-PROJECT_NAME := open-vario
+PROJECT_NAME := storage
 
 # Build type
 BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = libs/board \
-                       libs/cpu \
-                       libs/peripherals \
-					   libs/storage \
-					   libs/ble \
-					   libs/os \
+PROJECT_DEPENDENCIES = libs/cpu \
+                       libs/os \
+					   libs/peripherals \
 					   3rdparty/nano-stl \
                        $(TARGET_BSP) \
 					   $(TARGET_DEPENDENCIES)
