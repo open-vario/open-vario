@@ -176,7 +176,7 @@ class StringConfigValue : public IConfigValue
         /** \brief Set the value from a buffer */
         virtual bool set(const uint8_t* const buffer) 
         { 
-            strncpy(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); 
+            NANO_STL_STRNCPY(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); 
             if (m_listener != nullptr)
             {
                 m_listener->onConfigValueChange(*this);
@@ -185,10 +185,10 @@ class StringConfigValue : public IConfigValue
         }
 
         /** \brief Copy the value to a buffer */
-        virtual bool get(uint8_t* const buffer) const { strncpy(reinterpret_cast<char*>(buffer), m_value, MAX_STRING_SIZE); return true; }
+        virtual bool get(uint8_t* const buffer) const { NANO_STL_STRNCPY(reinterpret_cast<char*>(buffer), m_value, MAX_STRING_SIZE); return true; }
 
         /** \brief Reset the value to its default value */
-        virtual void reset() { strncpy(m_value, m_default_value, MAX_STRING_SIZE); }
+        virtual void reset() { NANO_STL_STRNCPY(m_value, m_default_value, MAX_STRING_SIZE); }
 
         /** \brief Indicate if the value has a min and max value */
         virtual bool hasMinMax() const { return ((min() != nullptr) && (max() != nullptr)); }
