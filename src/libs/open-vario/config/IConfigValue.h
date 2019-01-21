@@ -43,7 +43,7 @@ class IConfigValue
     public:
 
         /** \brief Get the value id */
-        virtual uint16_t id() = 0;
+        virtual uint16_t id() const = 0;
         
         /** \brief Get the value name */
         virtual const char* name() const = 0; 

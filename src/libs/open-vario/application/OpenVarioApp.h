@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "HmiManager.h"
 #include "TimeManager.h"
 #include "SensorsManager.h"
+#include "ProfileManager.h"
 #include "NorFlashPartition.h"
 #include "NorFlashFs.h"
 #include "FlightRecorder.h"
@@ -161,6 +162,10 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Sensors manager */
         SensorsManager m_sensors_manager;
+
+
+        /** \brief Profile manager */
+        ProfileManager m_profile_manager;
 
         
         /** \brief NOR Flash partition to store flight data */

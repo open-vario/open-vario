@@ -45,7 +45,7 @@ class ConfigValue : public IConfigValue
 
 
         /** \brief Get the value id */
-        virtual uint16_t id() { return m_id; }
+        virtual uint16_t id() const { return m_id; }
 
         /** \brief Get the value name */
         virtual const char* name() const { return m_name; }
@@ -159,7 +159,7 @@ class StringConfigValue : public IConfigValue
 
 
                 /** \brief Get the value id */
-        virtual uint16_t id() { return m_id; }
+        virtual uint16_t id() const { return m_id; }
 
         /** \brief Get the value name */
         virtual const char* name() const { return m_name; }

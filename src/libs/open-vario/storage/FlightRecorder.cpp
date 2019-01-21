@@ -29,9 +29,10 @@ namespace open_vario
 
 
 /** \brief Constructor */
-FlightRecorder::FlightRecorder(ConfigManager& config_manager, TimeManager& time_manager, IFileSystem& file_system)
+FlightRecorder::FlightRecorder(ConfigManager& config_manager, TimeManager& time_manager, ProfileManager& profile_manager, IFileSystem& file_system)
 : m_config_manager(config_manager)
 , m_time_manager(time_manager)
+, m_profile_manager(profile_manager)
 , m_file_system(file_system)
 
 , m_config_values(OV_CONFIG_GROUP_FLIGHT_RECORDER, "Flight recorder")
@@ -310,6 +311,8 @@ void FlightRecorder::task(void* const param)
                         file_header.temperature_available = m_temperature_recording_enabled;
                         file_header.accel_available = m_acceleration_recording_enabled;
                         file_header.gnss_available = m_gnss_recording_enabled;
+                        file_header.pilot = m_profile_manager.getPilot();
+                        file_header.glider = m_profile_manager.getGlider();
                         m_time_manager.getDateTime(file_header.date_time);
                         if (!m_file_system.writeToFile(&file_header, sizeof(FlightFileHeader)))
                         {

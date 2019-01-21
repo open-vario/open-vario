@@ -40,6 +40,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Configuration value group : global */
 #define OV_CONFIG_GROUP_GLOBAL                 0u
 
+/** \brief Configuration value : device name */
+#define OV_CONFIG_VALUE_GLOBAL_DEVICE_NAME     1u
+
 
 
 
@@ -129,7 +132,6 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-
 //////////////////////////////////////////////////
 //                  Accelerometer               //
 //////////////////////////////////////////////////
@@ -139,7 +141,6 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 /** \brief Configuration value : raw value filter depth */
 #define OV_CONFIG_VALUE_ACCELERO_FILTER_DEPTH   0u
-
 
 
 
@@ -169,6 +170,45 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Configuration value : GNSS recording enabled flag */
 #define OV_CONFIG_VALUE_FR_GNSS_REC_EN          5u
 
+
+
+
+//////////////////////////////////////////////////
+//                  Profile                     //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : profile */
+#define OV_CONFIG_GROUP_PROFILE                8u
+
+/** \brief Configuration value : selected pilot */
+#define OV_CONFIG_VALUE_PROFILE_PILOT          0u
+
+/** \brief Configuration value : selected glider */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER         1u
+
+/** \brief Configuration value : pilot 1 name */
+#define OV_CONFIG_VALUE_PROFILE_PILOT1_NAME    2u
+
+/** \brief Configuration value : pilot 2 name */
+#define OV_CONFIG_VALUE_PROFILE_PILOT2_NAME    3u
+
+/** \brief Configuration value : pilot 3 name */
+#define OV_CONFIG_VALUE_PROFILE_PILOT3_NAME    4u
+
+/** \brief Configuration value : glider 1 name */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER1_NAME   5u
+
+/** \brief Configuration value : glider 2 name */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER2_NAME   6u
+
+/** \brief Configuration value : glider 3 name */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER3_NAME   7u
+
+/** \brief Configuration value : glider 4 name */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER4_NAME   8u
+
+/** \brief Configuration value : glider 5 name */
+#define OV_CONFIG_VALUE_PROFILE_GLIDER5_NAME   9u
 
 
 

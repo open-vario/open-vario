@@ -137,7 +137,7 @@ class ConfigManager
         IConfigAreaAccessor& m_config_area_accessor;
 
         /** \brief Groups of configuration values */
-        nano_stl::StaticArray<IConfigValueGroup*, 100u> m_config_value_groups;
+        nano_stl::StaticArray<IConfigValueGroup*, 15u> m_config_value_groups;
 
 
         /** \brief Get a configuration value and its group */

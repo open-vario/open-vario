@@ -33,6 +33,7 @@
                 "${workspaceFolder}/src/libs/open-vario/hmi",
                 "${workspaceFolder}/src/libs/open-vario/log",
                 "${workspaceFolder}/src/libs/open-vario/modes",
+                "${workspaceFolder}/src/libs/open-vario/profile",
                 "${workspaceFolder}/src/libs/open-vario/sensors",
                 "${workspaceFolder}/src/libs/open-vario/storage",
                 "${workspaceFolder}/src/libs/open-vario/time",

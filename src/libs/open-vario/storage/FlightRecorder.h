@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "MinMaxConfigValue.h"
 #include "TimeManager.h"
+#include "ProfileManager.h"
 #include "IFileSystem.h"
 #include "IAltimeter.h"
 #include "IBarometer.h"
@@ -56,6 +57,10 @@ struct FlightFileHeader
     bool accel_available;
     /** \brief Indicate if the GNSS data has been recorded */
     bool gnss_available;
+    /** \brief Selected pilot */
+    uint8_t pilot;
+    /** \brief Selected glider */
+    uint8_t glider;
     /** \brief Number of flight data acquisitions */
     uint32_t flight_data_count;
 };
@@ -67,7 +72,7 @@ class FlightRecorder : public ITimerListener
     public:
 
         /** \brief Constructor */
-        FlightRecorder(ConfigManager& config_manager, TimeManager& time_manager, IFileSystem& file_system);
+        FlightRecorder(ConfigManager& config_manager, TimeManager& time_manager, ProfileManager& profile_manager, IFileSystem& file_system);
 
 
         /** \brief Initialize the flight recorder */
@@ -109,11 +114,14 @@ class FlightRecorder : public ITimerListener
         /** \brief Time manager */
         TimeManager& m_time_manager;
 
+        /** \brief Profile manager */
+        ProfileManager& m_profile_manager;
+
         /** \brief File system */
         IFileSystem& m_file_system;
 
 
-       /** \brief Configuration values */
+        /** \brief Configuration values */
         ConfigValueGroup<6u> m_config_values;
         /** \brief Configuration value : recording period of flight data */
         MinMaxConfigValue<uint16_t> m_config_record_period;
