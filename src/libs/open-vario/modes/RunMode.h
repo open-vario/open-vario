@@ -28,6 +28,7 @@ namespace open_vario
 class ModeManager;
 class HmiManager;
 class SensorsManager;
+class FlightRecorder;
 
 /** \brief Operating mode : Running */
 class RunMode : public IMode
@@ -35,7 +36,7 @@ class RunMode : public IMode
     public:
 
         /** \brief Constructor */
-        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager);
+        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder);
 
 
         ////// Implementation of IMode interface //////
@@ -58,6 +59,9 @@ class RunMode : public IMode
 
         /** \brief Sensors manager */
         SensorsManager& m_sensors_manager;
+
+        /** \brief Flight recorder */
+        FlightRecorder& m_flight_recorder;
 };
 
 }

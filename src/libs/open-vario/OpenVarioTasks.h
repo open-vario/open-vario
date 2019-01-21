@@ -27,6 +27,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////
 
 
+/** \brief Priority of the flight recorder's task */
+#define OV_TASK_PRIO_FLIGHT_RECORDER        2u
+
 /** \brief Priority of the sensors manager's task */
 #define OV_TASK_PRIO_SENSOR_MANAGER         5u
 

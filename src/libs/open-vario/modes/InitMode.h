@@ -30,6 +30,7 @@ class HmiManager;
 class TimeManager;
 class ConfigManager;
 class SensorsManager;
+class FlightRecorder;
 
 /** \brief Operating mode : Initialization */
 class InitMode : public IMode
@@ -37,7 +38,7 @@ class InitMode : public IMode
     public:
 
         /** \brief Constructor */
-        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager, SensorsManager& sensors_manager);
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder);
 
 
         ////// Implementation of IMode interface //////
@@ -66,6 +67,9 @@ class InitMode : public IMode
 
         /** \brief Sensors manager */
         SensorsManager& m_sensors_manager;
+
+        /** \brief Flight recorder */
+        FlightRecorder& m_flight_recorder;
 };
 
 }

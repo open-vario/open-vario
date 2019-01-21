@@ -23,6 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "TimeManager.h"
 #include "ConfigManager.h"
 #include "SensorsManager.h"
+#include "FlightRecorder.h"
 #include "LogMacro.h"
 #include "ISpi.h"
 
@@ -32,12 +33,13 @@ namespace open_vario
 
 
 /** \brief Constructor */
-InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager, SensorsManager& sensors_manager)
+InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, ConfigManager& config_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
 , m_config_manager(config_manager)
 , m_sensors_manager(sensors_manager)
+, m_flight_recorder(flight_recorder)
 {}
 
 /** \brief Enter into the operating mode */
@@ -73,17 +75,26 @@ void InitMode::enter()
             ret = ret && m_sensors_manager.start();
             if (ret)
             {
-                // Blink a bit :)
-                IOpenVarioApp::getInstance().getOs().waitMs(2000u);
+                // Initialize flight recorder
+                ret = m_flight_recorder.init();
+                if (ret)
+                {
+                    // Blink a bit :)
+                    IOpenVarioApp::getInstance().getOs().waitMs(2000u);
+                }
+                else
+                {
+                    LOG_ERROR("Failed to start flight recorder");
+                }
             }
             else
             {
-                LOG_ERROR("Failure during sensors startup...");
+                LOG_ERROR("Failure during sensors startup");
             }
         }
         else
         {
-            LOG_ERROR("Failure during board startup...");
+            LOG_ERROR("Failure during board startup");
         }
 
         // Change mode

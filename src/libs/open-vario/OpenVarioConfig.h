@@ -145,6 +145,23 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //////////////////////////////////////////////////
+//               Flight recorder                //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : flight recorder */
+#define OV_CONFIG_GROUP_FLIGHT_RECORDER         7u
+
+/** \brief Configuration value : recording period of flight data */
+#define OV_CONFIG_VALUE_FR_RECORD_PERIOD        0u
+
+/** \brief Configuration value : flight detector enabled flag */
+#define OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN   1u
+
+
+
+
+
+//////////////////////////////////////////////////
 //                  Simulator                   //
 //////////////////////////////////////////////////
 
