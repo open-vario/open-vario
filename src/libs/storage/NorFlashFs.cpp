@@ -673,7 +673,6 @@ bool NorFlashFs::walkThroughInit(const uint32_t file_sector, bool& format_needed
 {
     bool ret = false;
 
-    FileHeader file_header;
     NorFlashSectorHeader sector_header;
 
     uint32_t first_file_id = 0u;
@@ -687,6 +686,7 @@ bool NorFlashFs::walkThroughInit(const uint32_t file_sector, bool& format_needed
     uint32_t sector = file_sector;
     bool last_file_reached = false;
     format_needed = false;
+    m_write_context.is_in_use = true;
     do
     {
         // Read sector header
@@ -715,11 +715,13 @@ bool NorFlashFs::walkThroughInit(const uint32_t file_sector, bool& format_needed
                     if (sector_type == NorFlashSectorHeader::START_OF_FILE)
                     {
                         // Start of file, read header
-                        ret = m_nor_flash.read(read_address, &file_header, sizeof(FileHeader));
+                        m_write_context.file_sector = sector;
+                        m_write_context.current_sector = sector;
+                        ret = m_nor_flash.read(read_address, &m_write_context.file_header, sizeof(FileHeader));
                         if (ret)
                         {
                             // Check if the file as already been processed
-                            if (file_header.id == first_file_id)
+                            if (m_write_context.file_header.id == first_file_id)
                             {
                                 // Last file reached
                                 last_file_reached = true;
@@ -729,36 +731,49 @@ bool NorFlashFs::walkThroughInit(const uint32_t file_sector, bool& format_needed
                                 // Save first file id
                                 if (first_file_id == 0u)
                                 {
-                                    first_file_id = file_header.id;
+                                    first_file_id = m_write_context.file_header.id;
                                 }
 
                                 // Update file ids and count
-                                if (file_header.id > m_current_file_id)
+                                if (m_write_context.file_header.id > m_current_file_id)
                                 {
-                                    m_current_file_id = file_header.id;
+                                    m_current_file_id = m_write_context.file_header.id;
                                     m_newest_file_sector = sector;
                                 }
-                                if (file_header.id < oldest_file_id)
+                                if (m_write_context.file_header.id < oldest_file_id)
                                 {
-                                    oldest_file_id = file_header.id;
+                                    oldest_file_id = m_write_context.file_header.id;
                                     m_oldest_file_sector = sector;
                                 }
-                                m_file_count++;
 
                                 // Jump to next file
-                                if (file_header.next_file_sector == FileHeader::NO_SECTOR)
+                                if (m_write_context.file_header.next_file_sector == FileHeader::NO_SECTOR)
                                 {
-                                    // Invalid file header => File system corrupted
-                                    format_needed = true;
+                                    // Invalid file header => File file has not been closed properly
+                                    
+                                    // Try to find the end of the file
+                                    uint32_t end_sector = 0u;
+                                    uint8_t end_sector_type = 0u;
+                                    m_write_context.file_header.size = 0u;
+                                    ret = goToEndOfFileByDataSector(sector, end_sector, end_sector_type);
+                                    if (ret)
+                                    {
+                                        // Close file properly
+                                        m_write_context.current_sector = end_sector;
+                                        closeWrittenFile();
+                                    }
                                 }
                                 else
                                 {
-                                    if (sector == m_newest_file_sector)
-                                    {
-                                        m_write_context.file_sector = file_header.next_file_sector;
-                                    }
-                                    sector = file_header.next_file_sector;
+                                    m_file_count++;
                                 }
+
+                                // Next sector
+                                if (sector == m_newest_file_sector)
+                                {
+                                    m_write_context.file_sector = m_write_context.file_header.next_file_sector;
+                                }
+                                sector = m_write_context.file_header.next_file_sector;
                             }
                         }
                     }
@@ -802,7 +817,12 @@ bool NorFlashFs::walkThroughInit(const uint32_t file_sector, bool& format_needed
         {
             format_needed = true;
         }
+        else
+        {
+            m_current_file_id++;
+        }
     }
+    m_write_context.is_in_use = false;
 
     return ret;
 }
@@ -814,6 +834,7 @@ bool NorFlashFs::goToEndOfFileByDataSector(const uint32_t current_sector, uint32
 
     bool eof = false;
     uint32_t sector = current_sector;
+    end_sector = sector;
     do
     {
         // Read sector header
@@ -824,23 +845,55 @@ bool NorFlashFs::goToEndOfFileByDataSector(const uint32_t current_sector, uint32
         {
             // Check sector type
             uint8_t sector_type = sector_header.sector_type; 
+            m_write_context.current_address = toAddress(sector) + sizeof(NorFlashSectorHeader);
             if (sector_header.sector_type == NorFlashSectorHeader::START_OF_FS)
             {
                 // Read file system header
                 StartFsHeader start_fs_header;
-                ret = m_nor_flash.read(toAddress(sector) + sizeof(NorFlashSectorHeader), &start_fs_header, sizeof(StartFsHeader));
+                ret = m_nor_flash.read(m_write_context.current_address, &start_fs_header, sizeof(StartFsHeader));
                 if (ret)
                 {
                     sector_type = start_fs_header.sector_type;
+                    m_write_context.current_address += sizeof(StartFsHeader);
                 }
             }
             if (ret)
             {
-                if (sector_type == NorFlashSectorHeader::FILE_DATA)
+                if ((sector_type == NorFlashSectorHeader::FILE_DATA) ||
+                    ((sector == current_sector) && (sector_type == NorFlashSectorHeader::START_OF_FILE)))
                 {
-                    // Data sector => still in current file
-                    end_sector = sector;
-                    sector++;
+                    // Data sector or sart of file sector => still in current file
+                    if (sector_type == NorFlashSectorHeader::START_OF_FILE)
+                    {
+                        m_write_context.current_address += sizeof(FileHeader);
+                    }
+                    ret = m_nor_flash.read(m_write_context.current_address, &m_write_context.file_data_header, sizeof(FileDataHeader));
+                    if (ret)
+                    {
+                        m_write_context.current_address += sizeof(FileDataHeader);
+                        if (m_write_context.file_data_header.data_size == FileHeader::NO_SIZE)
+                        {
+                            // Try to compute written data size
+                            uint32_t file_data = 0u;
+                            const uint32_t max_data_size = m_nor_flash.getSectorSize() - m_write_context.current_address;
+                            m_write_context.file_data_header.data_size = 0u;
+                            do
+                            {
+                                ret = m_nor_flash.read(m_write_context.current_address, &file_data, sizeof(file_data));
+                                if (ret && (file_data != FileHeader::NO_SIZE))
+                                {
+                                    m_write_context.file_data_header.data_size += sizeof(file_data);
+                                    m_write_context.current_address += sizeof(file_data);
+                                }
+                            }
+                            while (ret &&
+                                   (m_write_context.file_data_header.data_size != max_data_size) && 
+                                   (file_data != FileHeader::NO_SIZE));
+                        }
+                        m_write_context.file_header.size += m_write_context.file_data_header.data_size;
+                        end_sector = sector;
+                        sector++;
+                    }
                 }
                 else
                 {
