@@ -157,6 +157,18 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Configuration value : flight detector enabled flag */
 #define OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN   1u
 
+/** \brief Configuration value : pressure recording enabled flag */
+#define OV_CONFIG_VALUE_FR_PRESSURE_REC_EN      2u
+
+/** \brief Configuration value : temperature recording enabled flag */
+#define OV_CONFIG_VALUE_FR_TEMPERATURE_REC_EN   3u
+
+/** \brief Configuration value : acceleration recording enabled flag */
+#define OV_CONFIG_VALUE_FR_ACCELERATION_REC_EN  4u
+
+/** \brief Configuration value : GNSS recording enabled flag */
+#define OV_CONFIG_VALUE_FR_GNSS_REC_EN          5u
+
 
 
 

@@ -29,13 +29,18 @@ namespace open_vario
 
 
 /** \brief Constructor */
-FlightRecorder::FlightRecorder(ConfigManager& config_manager, IFileSystem& file_system)
+FlightRecorder::FlightRecorder(ConfigManager& config_manager, TimeManager& time_manager, IFileSystem& file_system)
 : m_config_manager(config_manager)
+, m_time_manager(time_manager)
 , m_file_system(file_system)
 
 , m_config_values(OV_CONFIG_GROUP_FLIGHT_RECORDER, "Flight recorder")
 , m_config_record_period(OV_CONFIG_VALUE_FR_RECORD_PERIOD, "Recording period", 1000u, 250u, 30000u, true)
-, m_config_fligh_detector_enabled(OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN, "Flight detector enabled", false, true)
+, m_config_flight_detector_enabled(OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN, "Flight detector enabled", false, true)
+, m_config_pressure_recording_enabled(OV_CONFIG_VALUE_FR_PRESSURE_REC_EN, "Pressure recording enabled", false, true)
+, m_config_temperature_recording_enabled(OV_CONFIG_VALUE_FR_TEMPERATURE_REC_EN, "Temperature recording enabled", false, true)
+, m_config_acceleration_recording_enabled(OV_CONFIG_VALUE_FR_ACCELERATION_REC_EN, "Acceleration recording enabled", false, true)
+, m_config_gnss_recording_enabled(OV_CONFIG_VALUE_FR_GNSS_REC_EN, "GNSS recording enabled", true, true)
 
 , m_record_period(0u)
 , m_task("Flight recorder task", OV_TASK_PRIO_FLIGHT_RECORDER)
@@ -43,6 +48,12 @@ FlightRecorder::FlightRecorder(ConfigManager& config_manager, IFileSystem& file_
 , m_record_trigger_sem(0u, 1u)
 , m_is_recording(false)
 , m_flight_detector_enabled(false)
+
+
+, m_pressure_recording_enabled(false)
+, m_temperature_recording_enabled(false)
+, m_acceleration_recording_enabled(false)
+, m_gnss_recording_enabled(false)
 
 , m_altimeter_evt_handler()
 , m_barometer_evt_handler()
@@ -52,10 +63,16 @@ FlightRecorder::FlightRecorder(ConfigManager& config_manager, IFileSystem& file_
 , m_flight_data()
 , m_flight_data_mutex()
 , m_flight_data_buffer()
+
+, m_flight_data_adapter()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_record_period);
-    m_config_values.registerConfigValue(m_config_fligh_detector_enabled);
+    m_config_values.registerConfigValue(m_config_flight_detector_enabled);
+    m_config_values.registerConfigValue(m_config_pressure_recording_enabled);
+    m_config_values.registerConfigValue(m_config_temperature_recording_enabled);
+    m_config_values.registerConfigValue(m_config_acceleration_recording_enabled);
+    m_config_values.registerConfigValue(m_config_gnss_recording_enabled);
     m_config_manager.registerConfigValueGroup(m_config_values);
 }
 
@@ -75,6 +92,10 @@ bool FlightRecorder::init()
         // Load configuration values
         ret = m_config_manager.getConfigValue<uint16_t>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_RECORD_PERIOD, m_record_period);
         ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN, m_flight_detector_enabled);
+        ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_PRESSURE_REC_EN, m_pressure_recording_enabled);
+        ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_TEMPERATURE_REC_EN, m_temperature_recording_enabled);
+        ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_ACCELERATION_REC_EN, m_acceleration_recording_enabled);
+        ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_FLIGHT_RECORDER, OV_CONFIG_VALUE_FR_GNSS_REC_EN, m_gnss_recording_enabled);
         if (ret)
         {
             // Register to sensor events
@@ -167,7 +188,7 @@ uint32_t FlightRecorder::getNumberOfFlights() const
 }
 
 /** \brief Open a flight file */
-bool FlightRecorder::openFlightFile(const uint32_t file_number)
+bool FlightRecorder::openFlightFile(const uint32_t file_number, FlightFileHeader& file_header)
 {
     bool ret;
 
@@ -177,6 +198,22 @@ bool FlightRecorder::openFlightFile(const uint32_t file_number)
     if (ret)
     {
         // Read header
+        uint32_t read;
+        ret = m_file_system.readFromFile(&file_header, sizeof(FlightFileHeader), read);
+        if (read == sizeof(file_header))
+        {
+            // Compute number of flight data acquisitions
+            file_header.flight_data_count = (file_info.size - sizeof(FlightFileHeader)) / sizeof(FlightData); 
+
+            // Configure flight data adpater
+            m_flight_data_adapter.configure(file_header.pressure_available, file_header.temperature_available, file_header.accel_available, file_header.gnss_available);
+        }
+        else
+        {
+            // File too short
+            m_file_system.closeReadFile();
+            ret = false;
+        }
     }
 
     return ret;
@@ -187,13 +224,19 @@ bool FlightRecorder::readFlightData(FlightData& flight_data)
 {
     bool ret;
     uint32_t read = 0;
+    uint8_t flight_data_buffer[sizeof(FlightData)];
 
     // Read data from file
-    ret = m_file_system.readFromFile(&flight_data, sizeof(flight_data), read);
+    ret = m_file_system.readFromFile(flight_data_buffer, m_flight_data_adapter.size(), read);
     if (ret)
     {
         // Check data size
         ret = (read == sizeof(flight_data));
+        if (ret)
+        {
+            // Deserialize data
+            m_flight_data_adapter.deserialize(flight_data, flight_data_buffer);
+        }
     }
 
     return ret;
@@ -232,6 +275,10 @@ void FlightRecorder::task(void* const param)
     (void)param;
     bool is_recording = false;
 
+    // Initialize the data adpater
+    uint8_t flight_data_buffer[sizeof(FlightData)];
+    FlightDataAdapter flight_data_adapter(m_pressure_recording_enabled, m_temperature_recording_enabled, m_acceleration_recording_enabled, m_gnss_recording_enabled);
+
     // Task loop
     while (true)
     {
@@ -255,6 +302,19 @@ void FlightRecorder::task(void* const param)
                     if (m_file_system.createFile(temp))
                     {
                         LOG_INFO("New flight file : %s", temp);
+
+                        // Write header
+                        FlightFileHeader file_header = {0};
+                        file_header.period = m_record_period;
+                        file_header.pressure_available = m_pressure_recording_enabled;
+                        file_header.temperature_available = m_temperature_recording_enabled;
+                        file_header.accel_available = m_acceleration_recording_enabled;
+                        file_header.gnss_available = m_gnss_recording_enabled;
+                        m_time_manager.getDateTime(file_header.date_time);
+                        if (!m_file_system.writeToFile(&file_header, sizeof(FlightFileHeader)))
+                        {
+                            LOG_ERROR("Unable to write flight file header");
+                        }
                     }
                     else
                     {
@@ -264,7 +324,8 @@ void FlightRecorder::task(void* const param)
                     // Write flight data buffer into file
                     while (m_flight_data_buffer.read(flight_data))
                     {
-                        if (!m_file_system.writeToFile(&flight_data, sizeof(flight_data)))
+                        flight_data_adapter.serialize(flight_data, flight_data_buffer);
+                        if (!m_file_system.writeToFile(flight_data_buffer, flight_data_adapter.size()))
                         {
                             LOG_ERROR("Unable to write data into flight file");
                         }
@@ -275,7 +336,8 @@ void FlightRecorder::task(void* const param)
                 else
                 {
                     // Store data into the file
-                    if (!m_file_system.writeToFile(&flight_data, sizeof(flight_data)))
+                    flight_data_adapter.serialize(flight_data, flight_data_buffer);
+                    if (!m_file_system.writeToFile(flight_data_buffer, flight_data_adapter.size()))
                     {
                         LOG_ERROR("Unable to write data into flight file");
                     }

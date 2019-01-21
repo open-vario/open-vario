@@ -57,7 +57,7 @@ OpenVarioApp::OpenVarioApp()
 
 , m_flight_data_partition(m_board.flight_data_norflash(), 0u, (3u * m_board.flight_data_norflash().getSectorCount() / 4u))
 , m_flight_data_fs(m_flight_data_partition)
-, m_flight_recorder(m_config_manager, m_flight_data_fs)
+, m_flight_recorder(m_config_manager, m_time_manager, m_flight_data_fs)
 {
     m_operating_modes.pushBack(&m_init_mode);
     m_operating_modes.pushBack(&m_run_mode);
