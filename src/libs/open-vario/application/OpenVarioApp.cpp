@@ -30,18 +30,21 @@ OpenVarioApp::OpenVarioApp()
 : m_os()
 , m_board(m_config_manager)
 
-, m_boot_config_eeprom_partition(m_board.config_eeprom(), 0u, 1024u)
-, m_app_config_eeprom_partition(m_board.config_eeprom(), 1024u, 16384u)
-
+, m_electronic_stamp_partition(m_board.config_eeprom(), 0u, 128u)       // 128 bytes
+, m_boot_config_eeprom_partition(m_board.config_eeprom(), 128u, 128u)   // 128 bytes
+, m_app_config_eeprom_partition(m_board.config_eeprom(), 256u, 3840u)   // 3840 bytes
+                                                                        // => 4096 bytes used
 , m_config_area_accessor(m_app_config_eeprom_partition, m_board.crc32())
 , m_config_manager(OPEN_VARIO_CONFIG_VERSION, m_config_area_accessor)
+
+, m_device_manager(m_config_manager, m_electronic_stamp_partition, m_board.crc32())
 
 , m_log_manager(Log::LL_INFO, m_os)
 , m_log_history(m_log_manager)
 
 , m_mode_manager(m_operating_modes)
 , m_operating_modes()
-, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder)
+, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_device_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder)
 , m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager, m_flight_recorder)
 , m_power_off_mode(m_mode_manager, m_hmi_manager)
 

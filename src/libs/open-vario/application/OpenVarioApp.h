@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "LogHistory.h"
 #include "EepromPartition.h"
 #include "EepromConfigAreaAccessor.h"
+#include "DeviceManager.h"
 #include "ConfigManager.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
@@ -108,6 +109,9 @@ class OpenVarioApp : public IOpenVarioApp
         OpenVarioBoard m_board;
 
 
+        /** \brief Eeprom partition for electronic stamp */
+        EepromPartition m_electronic_stamp_partition;
+
         /** \brief Eeprom partition for bootloader configuration */
         EepromPartition m_boot_config_eeprom_partition;
 
@@ -120,6 +124,9 @@ class OpenVarioApp : public IOpenVarioApp
         
         /** \brief Configuration manager */
         ConfigManager m_config_manager;
+
+        /** \brief Device manager */
+        DeviceManager m_device_manager;
         
         /** \brief Log manager */
         LogManager m_log_manager;

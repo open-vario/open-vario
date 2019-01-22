@@ -29,6 +29,7 @@
                 "${workspaceFolder}/src/libs/open-vario/application",
                 "${workspaceFolder}/src/libs/open-vario/application/nano-os",
                 "${workspaceFolder}/src/libs/open-vario/config",
+                "${workspaceFolder}/src/libs/open-vario/device",
                 "${workspaceFolder}/src/libs/open-vario/flight",
                 "${workspaceFolder}/src/libs/open-vario/hmi",
                 "${workspaceFolder}/src/libs/open-vario/log",

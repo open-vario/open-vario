@@ -34,14 +34,14 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //////////////////////////////////////////////////
-//                  Global                      //
+//                  Device                      //
 //////////////////////////////////////////////////
 
-/** \brief Configuration value group : global */
-#define OV_CONFIG_GROUP_GLOBAL                 0u
+/** \brief Configuration value group : device */
+#define OV_CONFIG_GROUP_DEVICE                 0u
 
-/** \brief Configuration value : device name */
-#define OV_CONFIG_VALUE_GLOBAL_DEVICE_NAME     1u
+/** \brief Configuration value : device's name */
+#define OV_CONFIG_VALUE_DEVICE_NAME            0u
 
 
 
