@@ -40,6 +40,9 @@ class IOpenVarioApp
         /** \brief Get the version string */
         virtual const char* getVersion() = 0;
 
+        /** \brief Get the software manufacturer string */
+        virtual const char* getSwManufacturer() = 0;
+
         /** \brief Get the Operating System */
         virtual IOs& getOs() = 0;
 

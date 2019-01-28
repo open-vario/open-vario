@@ -32,7 +32,7 @@ using namespace open_vario;
 
 
 /** \brief Test application */
-class TestApp : public ITaskStart
+class TestApp
 {
 	public:
 
@@ -54,7 +54,9 @@ class TestApp : public ITaskStart
 			{
 				// Start main task
 				m_nano_os_console.init();
-				m_led_task.start(*this, nullptr);					
+
+				ITask::TaskMethod task_method = TASK_METHOD(TestApp, taskStart);
+				m_led_task.start(task_method, nullptr);					
 
 				// Start operating system
 				m_os.start();
@@ -62,7 +64,7 @@ class TestApp : public ITaskStart
 		}
 
 		/** \brief Method which will be called at the task's startup */
-        virtual void taskStart(void* const param)
+        virtual void taskStart(void* param)
 		{
 			(void) param;
 

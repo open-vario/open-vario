@@ -34,6 +34,7 @@ BUILD_TYPE := LIB
 PROJECT_DEPENDENCIES = libs/cpu \
                        libs/board \
 					   libs/peripherals \
+					   libs/ble \
 					   libs/os \
 					   libs/open-vario \
 					   3rdparty/nano-stl \

@@ -17,27 +17,34 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPENVARIOTASKS_H
-#define OPENVARIOTASKS_H
+#ifndef IOPENVARIOBLESERVICE_H
+#define IOPENVARIOBLESERVICE_H
 
 
-//////////////////////////////////////////////////
-//                  Open Vario                  //
-//          Tasks priorities (0 = lowest)       //
-//////////////////////////////////////////////////
+namespace open_vario
+{
+
+class IBleService;
+
+/** \brief Interface for all Open Vario BLE service implementations */
+class IOpenVarioBleService
+{
+    public:
 
 
-/** \brief Priority of the flight recorder's task */
-#define OV_TASK_PRIO_FLIGHT_RECORDER        2u
+        /** \brief Initialize the BLE service */
+        virtual bool init() = 0;
 
-/** \brief Priority of the BLE manager's task */
-#define OV_TASK_PRIO_BLE_MANAGER            3u
+        /** \brief Start the BLE service */
+        virtual bool start() = 0;
 
-/** \brief Priority of the sensors manager's task */
-#define OV_TASK_PRIO_SENSOR_MANAGER         5u
+        /** \brief Update the BLE service characteristics values */
+        virtual void updateCharacteristicsValues() = 0;
 
-/** \brief Priority of the mode manager's task */
-#define OV_TASK_PRIO_MODE_MANAGER           10u
+        /** \brief Get the BLE service */
+        virtual IBleService& getService() = 0;
+};
 
+}
 
-#endif // OPENVARIOTASKS_H
+#endif // IOPENVARIOBLESERVICE_H

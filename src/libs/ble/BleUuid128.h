@@ -24,6 +24,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "StaticArray.h"
 
 #include <cstring>
+#include <initializer_list>
 
 namespace open_vario
 {
@@ -33,6 +34,17 @@ namespace open_vario
 class BleUuid128 : public IBleUuid
 {
     public:
+
+
+        /** \brief Constructor */
+        BleUuid128(const std::initializer_list<uint8_t>& l)
+        : m_uuid()
+        {
+            if (l.size() == m_uuid.getCount())
+            {
+                NANO_STL_MEMCPY(&m_uuid[0u], l.begin(), m_uuid.getCount());
+            }
+        }
 
         /** \brief Constructor */
         BleUuid128(const uint8_t uuid[])

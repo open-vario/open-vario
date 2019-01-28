@@ -20,12 +20,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BLECHARACTERISTIC_H
 #define BLECHARACTERISTIC_H
 
-#include "IBleUuid.h"
 #include "IBleCharacteristic.h"
 #include "IBleCharacteristicDescriptor.h"
 #include "StaticVector.h"
 #include "ZeroSizeVector.h"
-#include "ForEach.h"
+#include "BleUuid16.h"
+#include "BleUuid128.h"
 
 using namespace nano_stl;
 
@@ -141,7 +141,7 @@ class BleCharacteristicBase : public IBleCharacteristic
 
 
 
-/** \brief Bluetooth Low Energy characteristics implementations (with descriptors) */
+/** \brief Bluetooth Low Energy characteristic (with descriptors) */
 template <typename T, uint8_t DESCRIPTORS_COUNT>
 class BleCharacteristic : public BleCharacteristicBase
 {
@@ -176,7 +176,7 @@ class BleCharacteristic : public BleCharacteristicBase
 };
 
 
-/** \brief Bluetooth Low Energy characteristics implementations (with descriptors) */
+/** \brief Bluetooth Low Energy characteristic (with descriptors) */
 template <typename T>
 class BleCharacteristic<T, 0u> : public BleCharacteristicBase
 
@@ -212,6 +212,181 @@ class BleCharacteristic<T, 0u> : public BleCharacteristicBase
 
 };
 
+
+/** \brief Bluetooth Low Energy characteristic (with descriptors) */
+template <uint8_t DESCRIPTORS_COUNT>
+class BleCharacteristic<char*, DESCRIPTORS_COUNT> : public BleCharacteristicBase
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic(const char* const name, const IBleUuid& uuid, const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristicBase(name, uuid, max_length, false, properties)
+        , m_descriptors()
+        {}
+
+        /** \brief Update the characteristics' value */
+        virtual void update(const char new_value[])
+        {
+            BleCharacteristicBase::updateValue(false, new_value, NANO_STL_STRNLEN(new_value, this->valueLength()));
+        }
+
+
+    protected:
+
+        /** \brief Get the characteristic's descriptors vector */
+        virtual nano_stl::IVector<IBleCharacteristicDescriptor*>& descriptorsVect() { return m_descriptors; }
+
+        /** \brief Get the characteristic's descriptors vector */
+        virtual const nano_stl::IVector<IBleCharacteristicDescriptor*>& descriptorsVect() const { return m_descriptors; }
+
+
+    private:
+
+        /** \brief Descriptors */
+        nano_stl::StaticVector<IBleCharacteristicDescriptor*, DESCRIPTORS_COUNT> m_descriptors;
+};
+
+
+/** \brief Bluetooth Low Energy characteristic (with descriptors) */
+template <>
+class BleCharacteristic<char*, 0u> : public BleCharacteristicBase
+
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic(const char* const name, const IBleUuid& uuid, const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristicBase(name, uuid, max_length, false, properties)
+        , m_descriptors()
+        {}
+
+        /** \brief Update the characteristics' value */
+        virtual void update(const char new_value[])
+        {
+            BleCharacteristicBase::updateValue(false, new_value, NANO_STL_STRNLEN(new_value, this->valueLength()));
+        }
+
+
+    protected:
+
+        /** \brief Get the characteristic's descriptors vector */
+        virtual nano_stl::IVector<IBleCharacteristicDescriptor*>& descriptorsVect() { return m_descriptors; }
+
+        /** \brief Get the characteristic's descriptors vector */
+        virtual const nano_stl::IVector<IBleCharacteristicDescriptor*>& descriptorsVect() const { return m_descriptors; }
+
+
+    private:
+
+        /** \brief Descriptors */
+        nano_stl::ZeroSizeVector<IBleCharacteristicDescriptor*> m_descriptors;
+
+};
+
+
+/** \brief Bluetooth Low Energy characteristic with 16 bits UUID */
+template <typename T, uint8_t DESCRIPTORS_COUNT>
+class BleCharacteristic16 : public BleCharacteristic<T, DESCRIPTORS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic16(const char* const name, const std::initializer_list<uint8_t>& uuid, const bool is_fixed_length, const uint8_t properties)
+        : BleCharacteristic<T, DESCRIPTORS_COUNT>(name, m_uuid, is_fixed_length, properties)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleCharacteristic16(const char* const name, const uint16_t uuid, const bool is_fixed_length, const uint8_t properties)
+        : BleCharacteristic<T, DESCRIPTORS_COUNT>(name, m_uuid, is_fixed_length, properties)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 16 bits UUID */
+        BleUuid16 m_uuid;
+};
+
+
+/** \brief Bluetooth Low Energy characteristic with 16 bits UUID */
+template <uint8_t DESCRIPTORS_COUNT>
+class BleCharacteristic16<char*, DESCRIPTORS_COUNT> : public BleCharacteristic<char*, DESCRIPTORS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic16(const char* const name, const std::initializer_list<uint8_t>& uuid, const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristic<char*, DESCRIPTORS_COUNT>(name, m_uuid, max_length, properties)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleCharacteristic16(const char* const name, const uint16_t uuid, const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristic<char*, DESCRIPTORS_COUNT>(name, m_uuid, max_length, properties)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 16 bits UUID */
+        BleUuid16 m_uuid;
+};
+
+
+/** \brief Bluetooth Low Energy characteristic with 128 bits UUID */
+template <typename T, uint8_t DESCRIPTORS_COUNT>
+class BleCharacteristic128 : public BleCharacteristic<T, DESCRIPTORS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic128(const char* const name, const std::initializer_list<uint8_t>& uuid, const bool is_fixed_length, const uint8_t properties)
+        : BleCharacteristic<T, DESCRIPTORS_COUNT>(name, m_uuid, is_fixed_length, properties)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleCharacteristic128(const char* const name, const uint8_t uuid[], const bool is_fixed_length, const uint8_t properties)
+        : BleCharacteristic<T, DESCRIPTORS_COUNT>(name, m_uuid, is_fixed_length, properties)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 128 bits UUID */
+        BleUuid128 m_uuid;
+};
+
+
+/** \brief Bluetooth Low Energy characteristic with 128 bits UUID */
+template <uint8_t DESCRIPTORS_COUNT>
+class BleCharacteristic128<char*, DESCRIPTORS_COUNT> : public BleCharacteristic<char*, DESCRIPTORS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleCharacteristic128(const char* const name, const std::initializer_list<uint8_t>& uuid, const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristic<char*, DESCRIPTORS_COUNT>(name, m_uuid, max_length, properties)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleCharacteristic128(const char* const name, const uint8_t uuid[], const uint8_t max_length, const uint8_t properties)
+        : BleCharacteristic<char*, DESCRIPTORS_COUNT>(name, m_uuid, max_length, properties)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 128 bits UUID */
+        BleUuid128 m_uuid;
+};
 
 }
 

@@ -26,6 +26,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SensorsManager.h"
 #include "ProfileManager.h"
 #include "FlightRecorder.h"
+#include "BleManager.h"
 #include "LogMacro.h"
 #include "ISpi.h"
 
@@ -36,7 +37,8 @@ namespace open_vario
 
 /** \brief Constructor */
 InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, DeviceManager& device_manager,
-                   ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder)
+                   ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
+                   BleManager& ble_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
@@ -45,6 +47,7 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManag
 , m_sensors_manager(sensors_manager)
 , m_profile_manager(profile_manager)
 , m_flight_recorder(flight_recorder)
+, m_ble_manager(ble_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -89,15 +92,22 @@ void InitMode::enter()
                 {
                     // Initialize flight recorder
                     ret = m_flight_recorder.init();
-                    if (ret)
+                    if (!ret)
                     {
-                        // Blink a bit :)
-                        IOpenVarioApp::getInstance().getOs().waitMs(2000u);
+                        LOG_ERROR("Failed to initialize flight recorder");
                     }
-                    else
+                    
+                    // Initialize BLE
+                    ret = m_ble_manager.init();
+                    if (!ret)
                     {
-                        LOG_ERROR("Failed to start flight recorder");
+                        LOG_ERROR("Failed to initialize BLE");
                     }
+                    
+                    // Blink a bit :)
+                    IOpenVarioApp::getInstance().getOs().waitMs(2000u);
+
+                    ret = true;
                 }
                 else
                 {

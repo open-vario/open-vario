@@ -101,8 +101,28 @@ class ConfigManager
             return ret;
         }
 
-        /** \brief Get a configuration value */
-        bool getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value);
+        /** \brief Get an array configuration value */
+        template <typename T>
+        bool getArrayConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, T value[])
+        {
+            IConfigValue* config_value = nullptr;
+            IConfigValueGroup* config_value_group = nullptr;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->get(reinterpret_cast<uint8_t*>(value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+
+        /** \brief Get a string configuration value */
+        bool getStringConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char value[])
+        {
+            return getArrayConfigValue<char>(config_value_group_id, config_value_id, value);
+        }
         
         /** \brief Set a configuration value */
         template <typename T>
@@ -121,8 +141,29 @@ class ConfigManager
             return ret;
         }
 
-        /** \brief Set a configuration value */
-        bool setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value);
+        /** \brief Set an array configuration value */
+        template <typename T>
+        bool setArrayConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const T value[])
+        {
+            IConfigValue* config_value = nullptr;
+            IConfigValueGroup* config_value_group = nullptr;
+            const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
+            if (ret)
+            {
+                config_value_group->lock();
+                config_value->set(reinterpret_cast<const uint8_t*>(value));
+                config_value_group->unlock();
+            }
+
+            return ret;
+        }
+
+        /** \brief Set a string configuration value */
+        bool setStringConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char value[])
+        {
+            return setArrayConfigValue<char>(config_value_group_id, config_value_id, value);
+        }
+
 
         /** \brief Register a listener to a configuration value */
         bool registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener);

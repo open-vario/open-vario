@@ -33,6 +33,7 @@ class ConfigManager;
 class SensorsManager;
 class ProfileManager;
 class FlightRecorder;
+class BleManager;
 
 /** \brief Operating mode : Initialization */
 class InitMode : public IMode
@@ -41,7 +42,8 @@ class InitMode : public IMode
 
         /** \brief Constructor */
         InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, DeviceManager& device_manager, 
-                 ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder);
+                 ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
+                 BleManager& ble_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -79,6 +81,9 @@ class InitMode : public IMode
 
         /** \brief Flight recorder */
         FlightRecorder& m_flight_recorder;
+
+        /** \brief BLE manager */
+        BleManager& m_ble_manager;
 };
 
 }

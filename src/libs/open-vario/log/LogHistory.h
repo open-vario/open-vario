@@ -63,7 +63,7 @@ class LogHistory : public ILogHistory, public ILogListener
 
 
         /** \brief Log history */
-        nano_stl::StaticRingBuffer<Log, 20u> m_logs;
+        nano_stl::StaticRingBuffer<Log, 30u> m_logs;
 
 };
 

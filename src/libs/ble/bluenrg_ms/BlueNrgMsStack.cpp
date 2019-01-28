@@ -59,43 +59,17 @@ bool BlueNrgMsStack::start()
         if (ret)
         {
             // Configure the services
-            for (nano_stl::nano_stl_size_t i = 0; i < m_ble_services->getCount(); i++)
+            for (nano_stl::nano_stl_size_t i = 0; (i < m_ble_services->getCount()) && ret; i++)
             {
                 IBleService* service = m_ble_services->operator[](i);
 
                 // Add the service
-                uint16_t service_handle = 0u;
-                const IBleUuid& service_uuid = service->uuid();
-                ret = ret && m_bluenrg_ms.addBleService(&service_uuid.value()[0u], service_uuid.value().getCount(), true, service->characteristics().getCount(), service_handle);
-                if (ret)
-                {
-                    // Save service handle
-                    service->setHandle(service_handle);
-
-                    // Add characteristics
-                    const nano_stl::IArray<IBleCharacteristic*>& characteristics = service->characteristics();
-                    for (nano_stl::nano_stl_size_t i = 0; i < characteristics.getCount(); i++)
-                    {
-                        uint16_t char_handle = 0u;
-                        IBleCharacteristic* characteristic = characteristics[i];
-                        const IBleUuid& char_uuid = characteristic->uuid();
-                        characteristic->setService(*service);
-                        ret = ret && m_bluenrg_ms.addBleCharacteristic(service_handle, &char_uuid.value()[0u], char_uuid.value().getCount(), characteristic->valueLength(), 
-                                                                    characteristic->isFixedLength(), characteristic->properties(), BlueNrgMs::SP_NONE, char_handle);
-                        if (ret)
-                        {
-                            // Save characteristic handle
-                            characteristic->setHandle(char_handle);
-
-                            // Register to characteristic changes notifications
-                            characteristic->registerListener(*this);
-                        }
-                    }
-                }
+                ret = addService(*service);
             }
         }
 
         // Get the module's version
+        ret = true;
         if (ret)
         {
             uint8_t hw_version = 0; 
@@ -142,16 +116,7 @@ void BlueNrgMsStack::attributeModified(const uint16_t handle, const uint8_t size
     bool found = false;
     for (nano_stl::nano_stl_size_t i = 0; (i < m_ble_services->getCount()) && !found; i++)
     {
-        const nano_stl::IArray<IBleCharacteristic*>& characteristics = (*m_ble_services)[i]->characteristics();
-        for (nano_stl::nano_stl_size_t j = 0; (j < characteristics.getCount()) && !found; j++)
-        {
-            if (characteristics[j]->handle() == handle)
-            {
-                // Notify listeners
-                characteristics[j]->updateValue(true, data, size);
-                found = true;
-            }
-        }
+        found = notifyCharacteristicModified(*(*m_ble_services)[i], handle, size, data);
     }
 }
 
@@ -163,6 +128,91 @@ void BlueNrgMsStack::onValueChanged(IBleCharacteristic& characteristic, const bo
     {
         m_bluenrg_ms.updateBleCharacteristicValue(characteristic.service().handle(), characteristic.handle(), new_value, new_value_size);
     }
+}
+
+/** \brief Add a service to the stack */
+bool BlueNrgMsStack::addService(IBleService& service)
+{
+    uint16_t service_handle = 0u;
+    const IBleUuid& service_uuid = service.uuid();
+    bool ret = m_bluenrg_ms.addBleService(&service_uuid.value()[0u], service_uuid.value().getCount(), true, service.characteristics().getCount(), service_handle);
+    if (ret)
+    {
+        // Save service handle
+        service.setHandle(service_handle);
+
+        // Add characteristics
+        ret = addCharacteristics(service);
+        if (ret)
+        {
+            // Add included services
+            const nano_stl::IArray<IBleService*>& included_services = service.services();
+            for (nano_stl::nano_stl_size_t i = 0; (i < included_services.getCount()) && ret; i++)
+            {
+                IBleService* included_service = included_services[i];
+                ret = addService(*included_service);
+            }
+        }
+    }
+
+    return ret;
+}
+
+/** \brief Add characteristics of a service to the stack */
+bool BlueNrgMsStack::addCharacteristics(IBleService& service)
+{
+    bool ret = true;
+
+    const nano_stl::IArray<IBleCharacteristic*>& characteristics = service.characteristics();
+    for (nano_stl::nano_stl_size_t i = 0; (i < characteristics.getCount()) && ret; i++)
+    {
+        uint16_t char_handle = 0u;
+        IBleCharacteristic* characteristic = characteristics[i];
+        const IBleUuid& char_uuid = characteristic->uuid();
+        characteristic->setService(service);
+        ret = ret && m_bluenrg_ms.addBleCharacteristic(service.handle(), &char_uuid.value()[0u], char_uuid.value().getCount(), characteristic->valueLength(), 
+                                                       characteristic->isFixedLength(), characteristic->properties(), BlueNrgMs::SP_NONE, char_handle);
+        if (ret)
+        {
+            // Save characteristic handle
+            characteristic->setHandle(char_handle);
+
+            // Register to characteristic changes notifications
+            characteristic->registerListener(*this);
+        }
+    }
+
+    return ret;
+}
+
+/** \brief Notify a value modification in a characteristic of a service */
+bool BlueNrgMsStack::notifyCharacteristicModified(IBleService& service, const uint16_t char_handle, const uint8_t size, const uint8_t* const data)
+{
+    bool found = false;
+
+    // Look into characteristics
+    const nano_stl::IArray<IBleCharacteristic*>& characteristics = service.characteristics();
+    for (nano_stl::nano_stl_size_t i = 0; (i < characteristics.getCount()) && !found; i++)
+    {
+        if (characteristics[i]->handle() == char_handle)
+        {
+            // Notify listeners
+            characteristics[i]->updateValue(true, data, size);
+            found = true;
+        }
+    }
+    if (!found)
+    {
+        // Look into included services
+        const nano_stl::IArray<IBleService*>& included_services = service.services();
+        for (nano_stl::nano_stl_size_t i = 0; (i < included_services.getCount()) && !found; i++)
+        {
+            IBleService* included_service = included_services[i];
+            found = notifyCharacteristicModified(*included_service, char_handle, size, data);
+        }
+    }
+
+    return found;
 }
 
 }

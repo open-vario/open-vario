@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "HmiManager.h"
 #include "SensorsManager.h"
 #include "FlightRecorder.h"
+#include "BleManager.h"
 #include "LogMacro.h"
 
 namespace open_vario
@@ -29,11 +30,13 @@ namespace open_vario
 
 
 /** \brief Constructor */
-RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder)
+RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder,
+                 BleManager& ble_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_sensors_manager(sensors_manager)
 , m_flight_recorder(flight_recorder)
+, m_ble_manager(ble_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -45,6 +48,13 @@ void RunMode::enter()
 
     // Update LED blink
     m_hmi_manager.getActivityLed().update(LedController::SLOW_BLINK);
+
+    // Start BLE
+    ret = m_ble_manager.start();
+    if (!ret)
+    {
+        LOG_ERROR("Failed to start BLE");
+    }
 
     // Start sensor notifications
     ret = m_sensors_manager.startNotifications();

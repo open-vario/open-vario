@@ -214,6 +214,25 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //////////////////////////////////////////////////
+//                 Bluetooth                    //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : bluetooth low energy */
+#define OV_CONFIG_GROUP_BLE                     9u
+
+/** \brief Configuration value : BLE enabled flag */
+#define OV_CONFIG_VALUE_BLE_ENABLED             0u
+
+/** \brief Configuration value : BLE hardware address */
+#define OV_CONFIG_VALUE_BLE_HW_ADDRESS          1u
+
+/** \brief Configuration value : BLE update period */
+#define OV_CONFIG_VALUE_BLE_UPDATE_PERIOD       2u
+
+
+
+
+//////////////////////////////////////////////////
 //                  Simulator                   //
 //////////////////////////////////////////////////
 

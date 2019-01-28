@@ -43,6 +43,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Ms56xxSpi.h"
 #include "BarometricAltimeter.h"
 #include "UBloxM8.h"
+#include "BlueNrgMs.h"
+#include "BlueNrgMsStack.h"
 
 namespace open_vario
 {
@@ -90,6 +92,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
+
+        /** \brief Get the board's Bluetooth Low Energy stack */
+        virtual IBlePeripheralStack& ble_stack() { return m_bluenrgms_stack; }
         
 
     private:
@@ -111,10 +116,10 @@ class OpenVarioBoard : public IOpenVarioBoard
         McuRtc m_rtc;
 
 
-
-        /** \brief Pin to drive the activity LED (eval board) */
-        Stm32l476Gpio m_activity_led_eval_pin;
-
+        #ifdef NUCLEOBOARD
+        /** \brief Pin to drive the activity LED */
+        Stm32l476Gpio m_activity_led_pin;
+        #endif // NUCLEOBOARD
 
 
         /** \brief Debug UART Rx pin */
@@ -190,12 +195,18 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Pin to read ENTER button state */
         IoExpanderPin m_enter_button_pin;
 
+        #ifndef NUCLEOBOARD
         /** \brief Pin to drive the activity LED */
         IoExpanderPin m_activity_led_pin;
+        #endif // NUCLEOBOARD
 
         /** \brief Pin to drive the low battery LED */
         IoExpanderPin m_low_bat_led_pin;
 
+        #ifndef NUCLEOBOARD
+        /** \brief Pin to drive the BLE chip reset */
+        IoExpanderPin m_ble_reset_pin;
+        #endif // NUCLEOBOARD
 
         /** \brief Activity LED */
         IoLed m_activity_led;
@@ -242,6 +253,24 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief U-Blox M8 GNSS */
         UBloxM8 m_gnss;
+
+
+        #ifdef NUCLEOBOARD
+        /** \brief Pin to drive the BLE chip reset */
+        Stm32l476Gpio m_ble_reset_pin;
+        #endif // NUCLEOBOARD
+
+        /** \brief BLE interrupt pin */
+        Stm32l476Gpio m_ble_irq_pin;
+
+        /** \brief BLE taskk */
+        TaskHelper<2048u> m_ble_rx_task;
+
+        /** \brief BLE chip */
+        BlueNrgMs m_bluenrgms;
+
+        /** \brief BLE stack */
+        BlueNrgMsStack m_bluenrgms_stack;
 
 };
 

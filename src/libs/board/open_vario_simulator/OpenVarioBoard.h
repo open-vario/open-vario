@@ -40,6 +40,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SimuNorFlash.h"
 #include "SimuBarometricSensor.h"
 #include "SimuTemperatureSensor.h"
+#include "SimuBlePeripheralStack.h"
 #include "Simulator.h"
 
 #include "BarometricAltimeter.h"
@@ -90,6 +91,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
+
+        /** \brief Get the board's Bluetooth Low Energy stack */
+        virtual IBlePeripheralStack& ble_stack() { return m_ble_stack; }
 
 
     private:
@@ -142,6 +146,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Barometric altimeter */
         BarometricAltimeter m_alti_sensor;
+
+        /** \brief BLE stack */
+        SimuBlePeripheralStack m_ble_stack;
 
 };
 

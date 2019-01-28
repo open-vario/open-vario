@@ -53,7 +53,7 @@ void ModeManager::task(void* const param)
     (void)param;
 
     LOG_INFO("----------------------------------------");
-    LOG_INFO("Starting %s", IOpenVarioApp::getInstance().getVersion());
+    LOG_INFO("Starting Open Vario v%s", IOpenVarioApp::getInstance().getVersion());
     LOG_INFO("----------------------------------------");
 
     // Enter first mode

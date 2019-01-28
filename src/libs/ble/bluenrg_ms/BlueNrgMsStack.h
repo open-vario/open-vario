@@ -99,6 +99,17 @@ class BlueNrgMsStack : public IBlePeripheralStack, public IBlueNrgMsListener, pu
         /** \brief Stack's version string */
         char m_version[32u];
 
+
+
+        /** \brief Add a service to the stack */
+        bool addService(IBleService& service);
+
+        /** \brief Add characteristics of a service to the stack */
+        bool addCharacteristics(IBleService& service);
+
+        /** \brief Notify a value modification in a characteristic of a service */
+        bool notifyCharacteristicModified(IBleService& service, const uint16_t char_handle, const uint8_t size, const uint8_t* const data);
+
 };
 
 }

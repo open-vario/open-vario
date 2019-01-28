@@ -21,10 +21,11 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define BLESERVICE_H
 
 #include "IBleService.h"
-#include "IBleUuid.h"
 #include "IBleCharacteristic.h"
 #include "StaticVector.h"
 #include "ZeroSizeVector.h"
+#include "BleUuid16.h"
+#include "BleUuid128.h"
 
 namespace open_vario
 {
@@ -105,7 +106,7 @@ class BleServiceBase : public IBleService
 
 
 
-/** \brief Bluetooth Low Energy service implementations (with included services) */
+/** \brief Bluetooth Low Energy service (with included services) */
 template <uint8_t INCLUDED_SERVICES_COUNT, uint8_t CHARACTERISTICS_COUNT>
 class BleService : public BleServiceBase
 {
@@ -144,7 +145,7 @@ class BleService : public BleServiceBase
 };
 
 
-/** \brief Bluetooth Low Energy service implementations (without included service) */
+/** \brief Bluetooth Low Energy service (without included service) */
 template <uint8_t CHARACTERISTICS_COUNT>
 class BleService<0u, CHARACTERISTICS_COUNT> : public BleServiceBase
 {
@@ -180,6 +181,58 @@ class BleService<0u, CHARACTERISTICS_COUNT> : public BleServiceBase
 
         /** \brief Characteristics */
         nano_stl::StaticVector<IBleCharacteristic*, CHARACTERISTICS_COUNT> m_characteristics;
+};
+
+
+/** \brief Bluetooth Low Energy service with 16 bits UUID */
+template <uint8_t INCLUDED_SERVICES_COUNT, uint8_t CHARACTERISTICS_COUNT>
+class BleService16 : public BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleService16(const char* const name, const std::initializer_list<uint8_t>& uuid)
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleService16(const char* const name, const uint16_t& uuid)
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 16 bits UUID */
+        BleUuid16 m_uuid;
+};
+
+
+/** \brief Bluetooth Low Energy service with 128 bits UUID */
+template <uint8_t INCLUDED_SERVICES_COUNT, uint8_t CHARACTERISTICS_COUNT>
+class BleService128 : public BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>
+{
+    public:
+
+        /** \brief Constructor */
+        BleService128(const char* const name, const std::initializer_list<uint8_t>& uuid)
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleService128(const char* const name, const uint8_t uuid[])
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+
+    private:
+
+        /** \brief 128 bits UUID */
+        BleUuid128 m_uuid;
 };
 
 

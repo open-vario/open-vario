@@ -132,7 +132,7 @@ void ProfileManager::onConfigValueChange(const IConfigValue& config_value)
 /** \brief Update the pilot's name */
 bool ProfileManager::updatePilotName()
 {
-    const bool ret = m_config_manager.getConfigValue(OV_CONFIG_GROUP_PROFILE, OV_CONFIG_VALUE_PROFILE_PILOT1_NAME + m_pilot, m_pilot_name);
+    const bool ret = m_config_manager.getStringConfigValue(OV_CONFIG_GROUP_PROFILE, OV_CONFIG_VALUE_PROFILE_PILOT1_NAME + m_pilot, m_pilot_name);
     LOG_INFO("Selected pilot : %s", m_pilot_name);
     return ret;
 }
@@ -140,7 +140,7 @@ bool ProfileManager::updatePilotName()
 /** \brief Update the glider's name */
 bool ProfileManager::updateGliderName()
 {
-    const bool ret = m_config_manager.getConfigValue(OV_CONFIG_GROUP_PROFILE, OV_CONFIG_VALUE_PROFILE_GLIDER1_NAME + m_glider, m_glider_name);
+    const bool ret = m_config_manager.getStringConfigValue(OV_CONFIG_GROUP_PROFILE, OV_CONFIG_VALUE_PROFILE_GLIDER1_NAME + m_glider, m_glider_name);
     LOG_INFO("Selected glider : %s", m_glider_name);
     return ret;
 }

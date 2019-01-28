@@ -37,6 +37,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "NorFlashPartition.h"
 #include "NorFlashFs.h"
 #include "FlightRecorder.h"
+#include "BleManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "PowerOffMode.h"
@@ -57,7 +58,10 @@ class OpenVarioApp : public IOpenVarioApp
 
 
         /** \brief Get the version string */
-        virtual const char* getVersion() { return "Open Vario v0.1"; }
+        virtual const char* getVersion() { return "0.1"; }
+
+        /** \brief Get the software manufacturer string */
+        virtual const char* getSwManufacturer() { return "Open Vario"; }
 
         /** \brief Get the operating system */
         virtual IOs& getOs() { return m_os; }
@@ -183,6 +187,10 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Flight recorder */
         FlightRecorder m_flight_recorder;
+
+
+        /** \brief Bluetooth Low Energy manager */
+        BleManager m_ble_manager;
 };
 
 }

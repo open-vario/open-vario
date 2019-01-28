@@ -441,7 +441,7 @@ bool BlueNrgMs::addBleService(const uint8_t* uuid, const size_t uuid_size, const
     index++;
 
     // Max_Attribute_ Records
-    m_cmd.buffer[index] = 3 * max_attr_count + 1;
+    m_cmd.buffer[index] = 3u * max_attr_count + 1u;
     index++;
 
     ret = hciSendReceive(0xFD02u, &m_cmd.buffer[0u], index, &m_resp.gatt_add_serv, sizeof(m_resp.gatt_add_serv));        

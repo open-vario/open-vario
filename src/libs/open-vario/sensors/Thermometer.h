@@ -48,6 +48,9 @@ class Thermometer : public IThermometer
         /** \brief Compute temperature value from raw temperature value */
         bool compute(const int16_t raw_temperature); 
 
+        /** \brief Reset the min and max values */
+        virtual void resetMinMax();
+
         /** \brief Event triggered on new thermometer values */
         virtual nano_stl::IEvent<const ThermometerValues&>& thermometerValuesEvent() { return m_thermometer_values_event; }
 

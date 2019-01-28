@@ -84,5 +84,12 @@ bool Thermometer::compute(const int16_t raw_temperature)
     return ret;
 }
 
+/** \brief Reset the min and max values */
+void Thermometer::resetMinMax()
+{
+    m_temp_values.min_temperature = m_temp_values.temperature;
+    m_temp_values.max_temperature = m_temp_values.temperature;
+}
+
 
 }

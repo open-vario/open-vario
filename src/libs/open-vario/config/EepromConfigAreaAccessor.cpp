@@ -117,7 +117,15 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
                     ret = read(&config_value_header, sizeof(config_value_header), offset);
                     if (ret)
                     {
-                        ret = read(temp_buffer, config_value_header.size, offset);
+                        if (config_value_header.size <= sizeof(temp_buffer))
+                        {
+                            ret = read(temp_buffer, config_value_header.size, offset);
+                        }
+                        else
+                        {
+                            ret = false;
+                        }
+                        
                     }
                 }
             }

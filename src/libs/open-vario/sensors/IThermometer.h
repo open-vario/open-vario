@@ -43,6 +43,9 @@ class IThermometer
 {
     public:
 
+        /** \brief Reset the min and max values */
+        virtual void resetMinMax() = 0;
+
         /** \brief Event triggered on new thermometer values */
         virtual nano_stl::IEvent<const ThermometerValues&>& thermometerValuesEvent() = 0;
 

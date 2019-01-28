@@ -34,7 +34,9 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_rtc_driver()
 , m_rtc(m_rtc_driver)
 
-, m_activity_led_eval_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
+#ifdef NUCLEOBOARD
+, m_activity_led_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
+#endif // NUCLEOBOARD
 
 , m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 3u /* 7u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 2u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -71,10 +73,15 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_plus_button_pin(m_io_expander, 0u, true)
 , m_minus_button_pin(m_io_expander, 1u, true)
 , m_enter_button_pin(m_io_expander, 2u, true)
+#ifndef NUCLEOBOARD
 , m_activity_led_pin(m_io_expander, 6u, false)
+#endif // NUCLEOBOARD
 , m_low_bat_led_pin(m_io_expander, 7u, false)
+#ifndef NUCLEOBOARD
+, m_ble_reset_pin(m_io_expander, 8u, false)
+#endif // NUCLEOBOARD
 
-, m_activity_led(m_activity_led_eval_pin /* m_activity_led_pin */, IIoPin::HIGH)
+, m_activity_led(m_activity_led_pin, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 
 , m_config_eeprom(m_spi_1 /* m_spi_2 */, 1u, 8096u /* 32768u */, 32u /* 64u */) // 32kB - 64B
@@ -92,6 +99,14 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_gnss_uart(m_cpu, 9600u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 , m_gnss_thread("GNSS Thread", 10u)
 , m_gnss(m_gnss_uart, m_gnss_thread)
+
+#ifdef NUCLEOBOARD
+, m_ble_reset_pin(Stm32l476Gpio::PORT_A, 8u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
+#endif // NUCLEOBOARD
+, m_ble_irq_pin(Stm32l476Gpio::PORT_A /* PORT_C */, 0u /* 8u */, Stm32l476Gpio::MODE_INPUT, 0u, Stm32l476Gpio::IT_RAISING, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
+, m_ble_rx_task("BlueNrgMs Rx task", 11u)
+, m_bluenrgms(m_spi_1, 0u /* 3u */, m_ble_reset_pin, m_ble_irq_pin, m_ble_rx_task)
+, m_bluenrgms_stack(m_bluenrgms)
 {
     (void)config_manager;
 }
@@ -159,6 +174,10 @@ bool OpenVarioBoard::configure()
     ret = ret && m_gnss_uart_tx_pin.configure();
     ret = ret && m_gnss_uart.configure();
     ret = ret && m_gnss.configure();
+
+    // BLE
+    ret = ret && m_ble_reset_pin.configure();
+    ret = ret && m_ble_irq_pin.configure();
     
     return ret;
 }

@@ -46,14 +46,19 @@ class IBlePeripheralStack
 {
     public:
 
+        /** \brief Bluetooth device name size in bytes */
+        static const uint8_t DEVICE_NAME_SIZE = 31u;
+
+        /** \brief Bluetooth hardware address size in bytes */
+        static const uint8_t HW_ADDRESS_SIZE = 6u;
 
         /** \brief BLE device configuration */
         struct DeviceConfiguration
         {
             /** \brief Device's name */
-            char name[32u];
+            char name[DEVICE_NAME_SIZE + 1u];
             /** \brief Hardware address */
-            uint8_t hw_address[6u];
+            uint8_t hw_address[HW_ADDRESS_SIZE];
         };
 
 

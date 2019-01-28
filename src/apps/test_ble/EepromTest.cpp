@@ -33,12 +33,13 @@ EepromTest::EepromTest(IEeprom& eeprom)
 /** \brief Start the task */
 bool EepromTest::start()
 {
-    return m_task.start(*this, nullptr);
+    ITask::TaskMethod task_method = TASK_METHOD(EepromTest, taskStart);
+    return m_task.start(task_method, nullptr);
 }
 
 
 /** \brief Method which will be called at the task's startup */
-void EepromTest::taskStart(void* const param)
+void EepromTest::taskStart(void* param)
 {
     (void)param;
 

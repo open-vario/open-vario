@@ -82,7 +82,7 @@ bool DeviceManager::init()
     }
 
     // Load configuration values
-    ret = m_config_manager.getConfigValue(OV_CONFIG_GROUP_DEVICE, OV_CONFIG_VALUE_DEVICE_NAME, m_device_name);
+    ret = m_config_manager.getStringConfigValue(OV_CONFIG_GROUP_DEVICE, OV_CONFIG_VALUE_DEVICE_NAME, m_device_name);
     if (ret)
     {
         LOG_INFO("Device's name : %s", m_device_name);

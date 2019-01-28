@@ -29,6 +29,7 @@ class ModeManager;
 class HmiManager;
 class SensorsManager;
 class FlightRecorder;
+class BleManager;
 
 /** \brief Operating mode : Running */
 class RunMode : public IMode
@@ -36,7 +37,8 @@ class RunMode : public IMode
     public:
 
         /** \brief Constructor */
-        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder);
+        RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder,
+                BleManager& ble_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -62,6 +64,9 @@ class RunMode : public IMode
 
         /** \brief Flight recorder */
         FlightRecorder& m_flight_recorder;
+
+        /** \brief BLE manager */
+        BleManager& m_ble_manager;
 };
 
 }

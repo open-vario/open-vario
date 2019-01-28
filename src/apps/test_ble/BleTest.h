@@ -29,7 +29,7 @@ namespace open_vario
 
 
 /** \brief BLE test task */
-class BleTest : public ITaskStart, public IBlePeripheralStackListener
+class BleTest : public IBlePeripheralStackListener
 {
     public:
 

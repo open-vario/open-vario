@@ -41,6 +41,8 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_baro_sensor(m_simulator, "baro_sensor", m_temp_sensor)
 
 , m_alti_sensor(m_baro_sensor)
+
+, m_ble_stack(m_simulator, "ble_stack")
 {}
 
 /** \brief Configure the board peripherals */

@@ -17,27 +17,34 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPENVARIOTASKS_H
-#define OPENVARIOTASKS_H
+#include "SimuBlePeripheralStack.h"
+
+using namespace std;
+
+namespace open_vario
+{
 
 
-//////////////////////////////////////////////////
-//                  Open Vario                  //
-//          Tasks priorities (0 = lowest)       //
-//////////////////////////////////////////////////
+/** \brief Constructor */
+SimuBlePeripheralStack::SimuBlePeripheralStack(ISimulator& simulator, const std::string& name)
+: SimuDevice(simulator, type(), name)
+, m_device_config()
+, m_ble_services(nullptr)
+, m_listener(nullptr)
+{}
 
 
-/** \brief Priority of the flight recorder's task */
-#define OV_TASK_PRIO_FLIGHT_RECORDER        2u
+/** \brief Start the BLE stack */
+bool SimuBlePeripheralStack::start()
+{
+    return true;
+}
 
-/** \brief Priority of the BLE manager's task */
-#define OV_TASK_PRIO_BLE_MANAGER            3u
-
-/** \brief Priority of the sensors manager's task */
-#define OV_TASK_PRIO_SENSOR_MANAGER         5u
-
-/** \brief Priority of the mode manager's task */
-#define OV_TASK_PRIO_MODE_MANAGER           10u
+/** \brief Stop the BLE stack */
+bool SimuBlePeripheralStack::stop()
+{
+    return true;
+}
 
 
-#endif // OPENVARIOTASKS_H
+}

@@ -23,6 +23,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IBleUuid.h"
 #include "StaticArray.h"
 
+#include <initializer_list>
+
 namespace open_vario
 {
 
@@ -31,6 +33,18 @@ namespace open_vario
 class BleUuid16 : public IBleUuid
 {
     public:
+
+        /** \brief Constructor */
+        BleUuid16(const std::initializer_list<uint8_t>& l)
+        : m_uuid()
+        {
+            if (l.size() == 2u)
+            {
+                const uint8_t* uuid = l.begin();
+                m_uuid[0u] = uuid[0u];
+                m_uuid[1u] = uuid[1u];
+            }
+        }
 
         /** \brief Constructor */
         BleUuid16(const uint16_t uuid)

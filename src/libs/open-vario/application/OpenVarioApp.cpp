@@ -44,8 +44,8 @@ OpenVarioApp::OpenVarioApp()
 
 , m_mode_manager(m_operating_modes)
 , m_operating_modes()
-, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_device_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder)
-, m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager, m_flight_recorder)
+, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_device_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder, m_ble_manager)
+, m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager, m_flight_recorder, m_ble_manager)
 , m_power_off_mode(m_mode_manager, m_hmi_manager)
 
 , m_hmi_manager(m_board.activityLed())
@@ -63,6 +63,8 @@ OpenVarioApp::OpenVarioApp()
 , m_flight_data_partition(m_board.flight_data_norflash(), 0u, (3u * m_board.flight_data_norflash().getSectorCount() / 4u))
 , m_flight_data_fs(m_flight_data_partition)
 , m_flight_recorder(m_config_manager, m_time_manager, m_profile_manager, m_flight_data_fs)
+
+, m_ble_manager(m_config_manager, m_board.ble_stack(), m_device_manager)
 {
     m_operating_modes.pushBack(&m_init_mode);
     m_operating_modes.pushBack(&m_run_mode);

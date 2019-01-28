@@ -150,39 +150,6 @@ bool ConfigManager::getConfigValueInfos(const uint16_t config_value_group_id, co
     return ret;
 }
 
-
-/** \brief Get a configuration value */
-bool ConfigManager::getConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, char* value)
-{
-    IConfigValue* config_value = nullptr;
-    IConfigValueGroup* config_value_group = nullptr;
-    const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
-    if (ret)
-    {
-        config_value_group->lock();
-        config_value->get(reinterpret_cast<uint8_t*>(value));
-        config_value_group->unlock();
-    }
-
-    return ret;
-}
-
-/** \brief Set a configuration value */
-bool ConfigManager::setConfigValue(const uint16_t config_value_group_id, const uint16_t config_value_id, const char* value)
-{
-    IConfigValue* config_value = nullptr;
-    IConfigValueGroup* config_value_group = nullptr;
-    const bool ret = getConfigValueAndGroup(config_value_group_id, config_value_id, config_value_group, config_value);
-    if (ret)
-    {
-        config_value_group->lock();
-        config_value->set(reinterpret_cast<const uint8_t*>(value));
-        config_value_group->unlock();
-    }
-
-    return ret;
-}
-
 /** \brief Register a listener to a configuration value */
 bool ConfigManager::registerConfigValueListener(const uint16_t config_value_group_id, const uint16_t config_value_id, IConfigValueListener& listener)
 {

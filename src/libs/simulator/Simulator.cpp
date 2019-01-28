@@ -95,7 +95,7 @@ bool Simulator::start()
     ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_SIMULATOR, OV_CONFIG_VALUE_SIMU_ENABLED, simu_enabled);
 
     char ip_address[IpEndPoint::IP_ADDRESS_MAX_SIZE + 1u] = {};
-    ret = ret && m_config_manager.getConfigValue(OV_CONFIG_GROUP_SIMULATOR, OV_CONFIG_VALUE_SIMU_IP_ADDRESS, ip_address);
+    ret = ret && m_config_manager.getStringConfigValue(OV_CONFIG_GROUP_SIMULATOR, OV_CONFIG_VALUE_SIMU_IP_ADDRESS, ip_address);
 
     uint16_t port = 0u;
     ret = ret && m_config_manager.getConfigValue<uint16_t>(OV_CONFIG_GROUP_SIMULATOR, OV_CONFIG_VALUE_SIMU_PORT, port);
@@ -336,7 +336,7 @@ void Simulator::task(void* const param)
                             if (data != nullptr)
                             {
                                 // Write configuration value
-                                ret = m_config_manager.setConfigValue(group_id, value_id, data);
+                                ret = m_config_manager.setArrayConfigValue<char>(group_id, value_id, data);
                             }
 
                             // Prepare response

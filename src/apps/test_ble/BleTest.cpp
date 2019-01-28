@@ -45,7 +45,8 @@ BleTest::BleTest(BlueNrgMs& blue_nrg)
 /** \brief Start the task */
 bool BleTest::start()
 {
-    return m_task.start(*this, nullptr);
+    ITask::TaskMethod task_method = TASK_METHOD(BleTest, taskStart);
+    return m_task.start(task_method, nullptr);
 }
 
 /** \brief Method which will be called at the task's startup */
@@ -98,7 +99,7 @@ void BleTest::taskStart(void* const param)
     device_config.hw_address[2u] = 0x00u;
     device_config.hw_address[3u] = 0xE1u;
     device_config.hw_address[4u] = 0x80u;
-    device_config.hw_address[5u] = 0x03u;
+    device_config.hw_address[5u] = 0x04u;
     strcpy(device_config.name, "OpenVario");
     m_blue_nrg_stack.setDeviceConfiguration(device_config);
 

@@ -28,7 +28,7 @@ namespace open_vario
 
 
 /** \brief EEPROM test task */
-class EepromTest : public ITaskStart
+class EepromTest
 {
     public:
 
