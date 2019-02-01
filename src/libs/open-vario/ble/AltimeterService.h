@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ALTIMETERSERVICE_H
 #define ALTIMETERSERVICE_H
 
-#include "IOpenVarioBleService.h"
+#include "OpenVarioBleServiceBase.h"
 
 #include "BleService.h"
 #include "BleCharacteristic.h"
@@ -34,7 +34,7 @@ namespace open_vario
 
 
 /** \brief BLE altimeter service */
-class AltimeterService : public IOpenVarioBleService
+class AltimeterService : public OpenVarioBleServiceBase
 {
     public:
 
@@ -59,16 +59,10 @@ class AltimeterService : public IOpenVarioBleService
 
 
         /** \brief Altimeter service */
-        BleService128<0u, 7u> m_altimeter_service;
+        BleService128<0u, 5u> m_altimeter_service;
 
         /** \brief Main altitude */
         BleCharacteristic128<int16_t, 0u> m_main_alti;
-
-        /** \brief Min altitude */
-        BleCharacteristic128<int16_t, 0u> m_min_alti;
-
-        /** \brief Max altitude */
-        BleCharacteristic128<int16_t, 0u> m_max_alti;
 
         /** \brief Altitude 1 */
         BleCharacteristic128<int16_t, 0u> m_alti_1;

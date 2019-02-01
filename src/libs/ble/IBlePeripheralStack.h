@@ -88,8 +88,11 @@ class IBlePeripheralStack
         /** \brief Start the BLE stack */
         virtual bool start() = 0;
 
-        /** \brief Stop the BLE stack */
-        virtual bool stop() = 0;
+        /** \brief Do actions needed when a new client is connected */
+        virtual void doConnectActions() = 0;
+
+        /** \brief Do actions needed when a client is disconnected */
+        virtual void doDisconnectActions() = 0;
 
 };
 

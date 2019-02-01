@@ -52,18 +52,18 @@ class NanoOsConsole
         static const nano_os_console_cmd_desc_t m_console_commands[];
 
         /** \brief Console command handler prototype */
-        typedef void (NanoOsConsole::*CmdHandler)(const char* const params);
+        typedef void (NanoOsConsole::*CmdHandler)(const char params[]);
 
         /** \brief Console command handlers */
         nano_stl::StaticVector<CmdHandler, 2u> m_console_command_handlers;
 
 
         /** \brief Handle the 'ov_version' console command */
-        void versionCmdHandler(const char* const params);
+        void versionCmdHandler(const char params[]);
 
 
         /** \brief Generic Nano-OS console command handler */
-        static void cmdHandler(void* const user_data, const uint32_t command_id, const char* const params);
+        static void cmdHandler(void* const user_data, const uint32_t command_id, const char params[]);
 
 
 

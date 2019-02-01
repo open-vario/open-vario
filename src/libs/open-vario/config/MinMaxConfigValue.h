@@ -34,7 +34,7 @@ class MinMaxConfigValue : public ConfigValue<T>
 
 
         /** \brief Constructor */
-        MinMaxConfigValue(const uint16_t id, const char* const name, const T& default_value, const T& min_value, const T& max_value, const bool reset_only)
+        MinMaxConfigValue(const uint16_t id, const char name[], const T& default_value, const T& min_value, const T& max_value, const bool reset_only)
         : ConfigValue<T>(id, name, default_value, reset_only)
         , m_min_value(min_value)
         , m_max_value(max_value)

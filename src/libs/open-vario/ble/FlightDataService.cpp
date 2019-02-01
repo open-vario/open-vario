@@ -25,11 +25,14 @@ namespace open_vario
 
 /** \brief Constructor */
 FlightDataService::FlightDataService()
-: m_flight_data_service("Flight data service", {0x7bu, 0xb0u, 0x55u, 0xf2u, 0xabu, 0x96u, 0x43u, 0xabu, 0x9eu, 0xd4u, 0xf8u, 0xdbu, 0xaeu, 0xc1u, 0xafu, 0x10u})
+: OpenVarioBleServiceBase()
+
+, m_flight_data_service("Flight data service", "7bb055f2-ab96-43ab-9ed4-f8dbaec1af10")
 
 , m_barometer_service()
 , m_altimeter_service()
 , m_variometer_service()
+, m_navigation_service()
 {}
 
 
@@ -42,12 +45,18 @@ bool FlightDataService::init()
     ret = ret && m_flight_data_service.addService(m_barometer_service.getService());
     ret = ret && m_flight_data_service.addService(m_altimeter_service.getService());
     ret = ret && m_flight_data_service.addService(m_variometer_service.getService());
+    ret = ret && m_flight_data_service.addService(m_navigation_service.getService());
     if (ret)
     {
         // Initialize included services
+        ret = ret && m_barometer_service.registerListener(*getListener());
+        ret = ret && m_altimeter_service.registerListener(*getListener());
+        ret = ret && m_variometer_service.registerListener(*getListener());
+        ret = ret && m_navigation_service.registerListener(*getListener());
         ret = ret && m_barometer_service.init();
         ret = ret && m_altimeter_service.init();
         ret = ret && m_variometer_service.init();
+        ret = ret && m_navigation_service.init();
     }
 
     return ret;
@@ -62,6 +71,7 @@ bool FlightDataService::start()
     ret = ret && m_barometer_service.start();
     ret = ret && m_altimeter_service.start();
     ret = ret && m_variometer_service.start();
+    ret = ret && m_navigation_service.start();
     
     return ret;
 }
@@ -73,6 +83,7 @@ void FlightDataService::updateCharacteristicsValues()
     m_barometer_service.updateCharacteristicsValues();
     m_altimeter_service.updateCharacteristicsValues();
     m_variometer_service.updateCharacteristicsValues();
+    m_navigation_service.updateCharacteristicsValues();
 }
 
 

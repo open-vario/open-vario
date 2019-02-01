@@ -34,7 +34,7 @@ class ConfigValue : public IConfigValue
 
 
         /** \brief Constructor */
-        ConfigValue(const uint16_t id, const char* const name, const T& default_value, const bool reset_only)
+        ConfigValue(const uint16_t id, const char name[], const T& default_value, const bool reset_only)
         : m_id(id)
         , m_name(name)
         , m_value(default_value)
@@ -144,7 +144,7 @@ class StringConfigValue : public IConfigValue
     public:
 
         /** \brief Constructor */
-        StringConfigValue(const uint16_t id, const char* const name, const char* default_value, const bool reset_only)
+        StringConfigValue(const uint16_t id, const char name[], const char* default_value, const bool reset_only)
         : m_id(id)
         , m_name(name)
         , m_value()
@@ -176,7 +176,9 @@ class StringConfigValue : public IConfigValue
         /** \brief Set the value from a buffer */
         virtual bool set(const uint8_t* const buffer) 
         { 
-            NANO_STL_STRNCPY(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE); 
+            NANO_STL_STRNCPY(m_value, reinterpret_cast<const char*>(buffer), MAX_STRING_SIZE);
+            const uint32_t value_len = NANO_STL_STRNLEN(m_value, MAX_STRING_SIZE);
+            NANO_STL_MEMSET(&m_value[value_len], 0, MAX_STRING_SIZE - value_len);
             if (m_listener != nullptr)
             {
                 m_listener->onConfigValueChange(*this);
@@ -250,7 +252,7 @@ class ArrayConfigValue : public IConfigValue
     public:
 
         /** \brief Constructor */
-        ArrayConfigValue(const uint16_t id, const char* const name, const T default_value[], const bool reset_only)
+        ArrayConfigValue(const uint16_t id, const char name[], const T default_value[], const bool reset_only)
         : m_id(id)
         , m_name(name)
         , m_value()

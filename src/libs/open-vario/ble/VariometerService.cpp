@@ -26,13 +26,11 @@ namespace open_vario
 
 /** \brief Constructor */
 VariometerService::VariometerService()
-: m_variometer_service("Variometer service", {0xaeu, 0x28u, 0x3au, 0xc8u, 0x78u, 0x6fu, 0x42u, 0xefu, 0xb6u, 0x94u, 0xb7u, 0xfau, 0xf4u, 0x92u, 0xcau, 0xe9u})
+: OpenVarioBleServiceBase()
+, m_variometer_service("Variometer service", "ae283ac8-786f-42ef-b694-b7faf492cae9")
 
-, m_vario("Vario", {0x77u, 0x08u, 0x15u, 0x7cu, 0x13u, 0x2fu, 0x4du, 0x21u, 0xa1u, 0xd9u, 0xc9u, 0x76u, 0x87u, 0x32u, 0xb4u, 0xe9u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_min_vario("Min vario", {0x4eu, 0x14u, 0x92u, 0x74u, 0x22u, 0xf9u, 0x41u, 0x85u, 0xb7u, 0x93u, 0x59u, 0xa7u, 0xb9u, 0xe8u, 0x2du, 0xb8u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_max_vario("Max vario", {0xbdu, 0x98u, 0xcdu, 0x90u, 0x4du, 0x67u, 0x4bu, 0x55u, 0x90u, 0x0au, 0x20u, 0x4au, 0x75u, 0x32u, 0x6bu, 0x01u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_acceleration("Acceleration", {0x9eu, 0x13u, 0xb1, 0x5fu, 0x35u, 0x82u, 0x43u, 0x3bu, 0x90u, 0x34u, 0x55u, 0xacu, 0x88u, 0x81u, 0xeeu, 0x4fu}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_max_acceleration("Max acceleration", {0x12u, 0x03u, 0x8fu, 0xb7u, 0x12u, 0xf6u, 0x49u, 0xc5u, 0x89u, 0x31u, 0xcau, 0xe4u, 0xafu, 0x25u, 0x01u, 0x9cu}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_vario("Vario", "7708157c-132f-4d21-a1d9-c9768732b4e9", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+, m_acceleration("Acceleration", "9e13b15f-3582-433b-9034-55ac8881ee4f", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
 
 , m_variometer_event_handler()
 , m_variometer_values()
@@ -46,10 +44,7 @@ bool VariometerService::init()
 
     // Fill BLE service with characteristics
     ret = ret && m_variometer_service.addCharacteristic(m_vario);
-    ret = ret && m_variometer_service.addCharacteristic(m_min_vario);
-    ret = ret && m_variometer_service.addCharacteristic(m_max_vario);
     ret = ret && m_variometer_service.addCharacteristic(m_acceleration);
-    ret = ret && m_variometer_service.addCharacteristic(m_max_acceleration);
 
     return ret;
 }
@@ -71,10 +66,7 @@ bool VariometerService::start()
 void VariometerService::updateCharacteristicsValues()
 {
     m_vario.update(m_variometer_values.vario);
-    m_min_vario.update(m_variometer_values.min_vario);
-    m_max_vario.update(m_variometer_values.max_vario);
     m_acceleration.update(0u);
-    m_max_acceleration.update(0u);
 }
 
 /** \brief Called when new variometer values have been computed */

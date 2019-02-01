@@ -37,6 +37,31 @@ class BleUuid128 : public IBleUuid
 
 
         /** \brief Constructor */
+        BleUuid128(const char uuid[])
+        : m_uuid()
+        {
+            if (NANO_STL_STRNLEN(uuid, 37u) == 36u)
+            {
+                m_uuid[15u] = NANO_STL_LIBC_Antoi(&uuid[0u], 16, 2u);
+                m_uuid[14u] = NANO_STL_LIBC_Antoi(&uuid[2u], 16, 2u);
+                m_uuid[13u] = NANO_STL_LIBC_Antoi(&uuid[4u], 16, 2u);
+                m_uuid[12u] = NANO_STL_LIBC_Antoi(&uuid[6u], 16, 2u);
+                m_uuid[11u] = NANO_STL_LIBC_Antoi(&uuid[9u], 16, 2u);
+                m_uuid[10u] = NANO_STL_LIBC_Antoi(&uuid[11u], 16, 2u);
+                m_uuid[9u] = NANO_STL_LIBC_Antoi(&uuid[14u], 16, 2u);
+                m_uuid[8u] = NANO_STL_LIBC_Antoi(&uuid[16u], 16, 2u);
+                m_uuid[7u] = NANO_STL_LIBC_Antoi(&uuid[19u], 16, 2u);
+                m_uuid[6u] = NANO_STL_LIBC_Antoi(&uuid[21u], 16, 2u);
+                m_uuid[5u] = NANO_STL_LIBC_Antoi(&uuid[24u], 16, 2u);
+                m_uuid[4u] = NANO_STL_LIBC_Antoi(&uuid[26u], 16, 2u);
+                m_uuid[3u] = NANO_STL_LIBC_Antoi(&uuid[28u], 16, 2u);
+                m_uuid[2u] = NANO_STL_LIBC_Antoi(&uuid[30u], 16, 2u);
+                m_uuid[1u] = NANO_STL_LIBC_Antoi(&uuid[32u], 16, 2u);
+                m_uuid[0u] = NANO_STL_LIBC_Antoi(&uuid[34u], 16, 2u);
+            }
+        }
+
+        /** \brief Constructor */
         BleUuid128(const std::initializer_list<uint8_t>& l)
         : m_uuid()
         {

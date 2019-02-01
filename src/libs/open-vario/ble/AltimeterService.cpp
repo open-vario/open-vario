@@ -26,15 +26,15 @@ namespace open_vario
 
 /** \brief Constructor */
 AltimeterService::AltimeterService()
-: m_altimeter_service("Altimeter service", {0x51u, 0x6cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3bu, 0xbbu, 0x95u, 0xb2u, 0xa1u, 0x6fu, 0x65u, 0x11u, 0x0eu})
+: OpenVarioBleServiceBase()
 
-, m_main_alti("Main altitude", {0xf0u, 0x33u, 0xdeu, 0x08u, 0xedu, 0xa3u, 0x46u, 0xa2u, 0x99u, 0x18u, 0x19u, 0xe1u, 0x23u, 0x29u, 0x71u, 0x52u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_min_alti("Min altitude", {0x87u, 0x65u, 0xecu, 0x19u, 0xd2u, 0xedu, 0x4cu, 0x9eu, 0x8au, 0xc7u, 0x1fu, 0x0cu, 0x51u, 0x6au, 0x2du, 0x6bu}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_max_alti("Max altitude", {0x06u, 0x71u, 0x63u, 0xe5u, 0xb0u, 0x97u, 0x4bu, 0xd5u, 0x81u, 0xa6u, 0x3fu, 0xbfu, 0x4du, 0xbfu, 0xb6u, 0xafu}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_1("Altitude 1", {0xb1u, 0x76u, 0xddu, 0x1bu, 0xd9u, 0x8eu, 0x47u, 0x07u, 0xb5u, 0x1du, 0xd0u, 0xe3u, 0x12u, 0x23u, 0xf7u, 0x76u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_2("Altitude 2", {0xe4u, 0xc5u, 0x4eu, 0xc3u, 0xe4u, 0xb3u, 0x43u, 0xa3u, 0x9eu, 0xb0u, 0x97u, 0x90u, 0x61u, 0x5fu, 0x68u, 0xc3u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_3("Altitude 3", {0x2au, 0x09u, 0x34u, 0xe3u, 0x71u, 0x27u, 0x46u, 0xc0u, 0x90u, 0xa9u, 0xd6u, 0xa5u, 0xcbu, 0xb5u, 0x1fu, 0xa6u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_4("Altitude 4", {0x80u, 0xb8u, 0x1bu, 0x29u, 0x79u, 0x1au, 0x4bu, 0x98u, 0xbcu, 0x76u, 0xc6u, 0xa8u, 0x55u, 0x39u, 0xb8u, 0x44u}, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_altimeter_service("Altimeter service", "516c5737-8250-493b-bb95-b2a16f65110e")
+
+, m_main_alti("Main altitude", "f033de08-eda3-46a2-9918-19e123297152", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_alti_1("Altitude 1", "b176dd1b-d98e-4707-b51d-d0e31223f776", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_alti_2("Altitude 2", "e4c54ec3-e4b3-43a3-9eb0-9790615f68c3", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_alti_3("Altitude 3", "2a0934e3-7127-46c0-90a9-d6a5cbb51fa6", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_alti_4("Altitude 4", "80b81b29-791a-4b98-bc76-c6a85539b844", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
 
 , m_altimeter_event_handler()
 , m_altimeter_values()
@@ -48,8 +48,6 @@ bool AltimeterService::init()
 
     // Fill BLE service with characteristics
     ret = ret && m_altimeter_service.addCharacteristic(m_main_alti);
-    ret = ret && m_altimeter_service.addCharacteristic(m_min_alti);
-    ret = ret && m_altimeter_service.addCharacteristic(m_max_alti);
     ret = ret && m_altimeter_service.addCharacteristic(m_alti_1);
     ret = ret && m_altimeter_service.addCharacteristic(m_alti_2);
     ret = ret && m_altimeter_service.addCharacteristic(m_alti_3);
@@ -75,8 +73,6 @@ bool AltimeterService::start()
 void AltimeterService::updateCharacteristicsValues()
 {
     m_main_alti.update(static_cast<int16_t>(m_altimeter_values.main_alti / 10));
-    m_min_alti.update(static_cast<int16_t>(m_altimeter_values.min_alti / 10));
-    m_max_alti.update(static_cast<int16_t>(m_altimeter_values.max_alti / 10));
     m_alti_1.update(static_cast<int16_t>(m_altimeter_values.alti_1 / 10));
     m_alti_2.update(static_cast<int16_t>(m_altimeter_values.alti_2 / 10));
     m_alti_3.update(static_cast<int16_t>(m_altimeter_values.alti_3 / 10));

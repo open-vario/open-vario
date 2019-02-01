@@ -46,7 +46,7 @@ class LogManager : public ILogger
 
 
         /** \brief Log a message */
-        virtual void log(const Log::Level log_level, const char* const message, ...);
+        virtual void log(const Log::Level log_level, const char message[], ...);
 
         /** \brief Add a listener */
         virtual bool registerListener(ILogListener& listener) { return m_listeners.pushBack(&listener); }

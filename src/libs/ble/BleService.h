@@ -37,7 +37,7 @@ class BleServiceBase : public IBleService
     public:
 
         /** \brief Constructor */
-        BleServiceBase(const char* const name, const IBleUuid& uuid)
+        BleServiceBase(const char name[], const IBleUuid& uuid)
         : m_name(name)
         , m_uuid(uuid)
         , m_handle(0x0000u)
@@ -113,7 +113,7 @@ class BleService : public BleServiceBase
     public:
 
         /** \brief Constructor */
-        BleService(const char* const name, const IBleUuid& uuid)
+        BleService(const char name[], const IBleUuid& uuid)
         : BleServiceBase(name, uuid)
         , m_services()
         , m_characteristics()
@@ -152,7 +152,7 @@ class BleService<0u, CHARACTERISTICS_COUNT> : public BleServiceBase
     public:
 
         /** \brief Constructor */
-        BleService(const char* const name, const IBleUuid& uuid)
+        BleService(const char name[], const IBleUuid& uuid)
         : BleServiceBase(name, uuid)
         , m_services()
         , m_characteristics()
@@ -191,13 +191,19 @@ class BleService16 : public BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_
     public:
 
         /** \brief Constructor */
-        BleService16(const char* const name, const std::initializer_list<uint8_t>& uuid)
+        BleService16(const char name[], const char uuid[])
         : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
         , m_uuid(uuid)
         {}
 
         /** \brief Constructor */
-        BleService16(const char* const name, const uint16_t& uuid)
+        BleService16(const char name[], const std::initializer_list<uint8_t>& uuid)
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleService16(const char name[], const uint16_t& uuid)
         : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
         , m_uuid(uuid)
         {}
@@ -217,13 +223,19 @@ class BleService128 : public BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS
     public:
 
         /** \brief Constructor */
-        BleService128(const char* const name, const std::initializer_list<uint8_t>& uuid)
+        BleService128(const char name[], const char uuid[])
         : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
         , m_uuid(uuid)
         {}
 
         /** \brief Constructor */
-        BleService128(const char* const name, const uint8_t uuid[])
+        BleService128(const char name[], const std::initializer_list<uint8_t>& uuid)
+        : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
+        , m_uuid(uuid)
+        {}
+
+        /** \brief Constructor */
+        BleService128(const char name[], const uint8_t uuid[])
         : BleService<INCLUDED_SERVICES_COUNT, CHARACTERISTICS_COUNT>(name, m_uuid)
         , m_uuid(uuid)
         {}

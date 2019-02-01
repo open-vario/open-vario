@@ -87,10 +87,9 @@ void BleTest::taskStart(void* const param)
     static BleCharacteristic<int16_t, 0u> serv3_char1("Serv3 Char1", serv3_char1_uuid, true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_WRITE);
     service3.addCharacteristic(serv3_char1);
 
-    static StaticVector<IBleService*, 3u> ble_services;
+    static StaticVector<IBleService*, 2u> ble_services;
     ble_services.pushBack(&service1);
     ble_services.pushBack(&service2);
-    ble_services.pushBack(&service3);
     m_blue_nrg_stack.setBleServices(ble_services);
 
     BlueNrgMsStack::DeviceConfiguration device_config;

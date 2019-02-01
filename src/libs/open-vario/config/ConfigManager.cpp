@@ -125,6 +125,7 @@ bool ConfigManager::getConfigValueGroup(const uint16_t id, IConfigValueGroup*& c
     if (id < m_config_value_groups.getCount())
     {
         config_value_group = m_config_value_groups[id];
+        ret = true;
     }
 
     return ret;

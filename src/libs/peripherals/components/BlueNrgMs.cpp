@@ -53,7 +53,7 @@ BlueNrgMs::BlueNrgMs(ISpi& spi, const uint8_t chip_select, IOutputPin& reset_pin
 }
 
 /** \brief Set the device name */
-void BlueNrgMs::setDeviceName(const char* const name)
+void BlueNrgMs::setDeviceName(const char name[])
 {
     NANO_STL_STRNCPY(m_device_name, name, sizeof(m_device_name));
 }
@@ -260,6 +260,7 @@ void BlueNrgMs::receiveTask(void* const param)
                                         {
                                             const uint16_t attribute_handle = receive_buffer[7u] + (receive_buffer[8u] << 8u);
                                             const uint8_t attribute_length = receive_buffer[9u];
+                                            receive_buffer[12u + attribute_length] = 0;
                                             m_listener->attributeModified(attribute_handle - 1u, attribute_length, &receive_buffer[12u]);
                                             break;
                                         }
@@ -441,7 +442,7 @@ bool BlueNrgMs::addBleService(const uint8_t* uuid, const size_t uuid_size, const
     index++;
 
     // Max_Attribute_ Records
-    m_cmd.buffer[index] = 3u * max_attr_count + 1u;
+    m_cmd.buffer[index] = max_attr_count + 1u; // +1 = service attribute
     index++;
 
     ret = hciSendReceive(0xFD02u, &m_cmd.buffer[0u], index, &m_resp.gatt_add_serv, sizeof(m_resp.gatt_add_serv));        
@@ -450,19 +451,19 @@ bool BlueNrgMs::addBleService(const uint8_t* uuid, const size_t uuid_size, const
     if (ret)
     {
         service_handle = m_resp.gatt_add_serv.service_handle;
-    }
+    }    
 
     return ret;
 }
 
 /** \brief Include a BLE service into another BLE service */
-bool BlueNrgMs::includeBleService(const uint16_t root_service_handle, const uint16_t service_handle, const uint8_t* uuid, const size_t uuid_size, uint16_t& included_handle)
+bool BlueNrgMs::includeBleService(const uint16_t root_service_handle, const uint16_t service_handle, const int16_t service_attribute_count, const uint8_t* uuid, const size_t uuid_size, uint16_t& included_handle)
 {
     bool ret;
 
     m_cmd.gatt_include_service.service_handle = root_service_handle;
     m_cmd.gatt_include_service.include_start_handle = service_handle;
-    m_cmd.gatt_include_service.include_end_handle = service_handle;
+    m_cmd.gatt_include_service.include_end_handle = service_handle + service_attribute_count + 1u; // +1 = service attribute
     m_cmd.gatt_include_service.uuid_type = ((uuid_size == 2u) ? 1u : 2u);
     NANO_STL_MEMCPY(&m_cmd.gatt_include_service.uuid, uuid, uuid_size);
 

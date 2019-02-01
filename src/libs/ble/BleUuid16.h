@@ -35,6 +35,17 @@ class BleUuid16 : public IBleUuid
     public:
 
         /** \brief Constructor */
+        BleUuid16(const char uuid[])
+        : m_uuid()
+        {
+            if (NANO_STL_STRNLEN(uuid, 5u) == 4u)
+            {
+                m_uuid[0u] = NANO_STL_LIBC_Antoi(&uuid[0u], 16, 2u);
+                m_uuid[1u] = NANO_STL_LIBC_Antoi(&uuid[2u], 16, 2u);
+            }
+        }
+
+        /** \brief Constructor */
         BleUuid16(const std::initializer_list<uint8_t>& l)
         : m_uuid()
         {

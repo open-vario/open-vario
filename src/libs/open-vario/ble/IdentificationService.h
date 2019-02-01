@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IDENTIFICATIONSERVICE_H
 #define IDENTIFICATIONSERVICE_H
 
-#include "IOpenVarioBleService.h"
+#include "OpenVarioBleServiceBase.h"
 
 #include "BleService.h"
 #include "BleCharacteristic.h"
@@ -33,7 +33,7 @@ class DeviceManager;
 
 
 /** \brief BLE identification service */
-class IdentificationService : public IOpenVarioBleService
+class IdentificationService : public OpenVarioBleServiceBase, public IBleCharacteristicListener
 {
     public:
 
@@ -48,13 +48,40 @@ class IdentificationService : public IOpenVarioBleService
         virtual bool start();
 
         /** \brief Update the BLE service characteristics values */
-        virtual void updateCharacteristicsValues() {}
+        virtual void updateCharacteristicsValues();
 
         /** \brief Get the BLE service */
         virtual IBleService& getService() { return m_identification_service; } 
+
+
+        /** \brief Called when the characteristic's value has changed */
+        virtual void onValueChanged(IBleCharacteristic& characteristic, const bool from_stack, const void* new_value, const uint16_t new_value_size);
    
 
     private:
+
+
+        /** \brief Commands */
+        enum Command
+        {
+            /** \brief Read GATT version */
+            CMD_RD_GATT_VERSION = 0u,
+            /** \brief Read software version */
+            CMD_RD_SOFT_VERSION = 1u,
+            /** \brief Read software manufacturer name */
+            CMD_RD_SOFT_MANUF_NAME = 2u,
+            /** \brief Read hardware version */
+            CMD_RD_HARD_VERSION = 3u,
+            /** \brief Read hardware manufacturer name */
+            CMD_RD_HARD_MANUF_NAME = 4u,
+            /** \brief Read hardware serial number */
+            CMD_RD_HARD_SERIAL_NUMBER = 5u,
+            /** \brief Read hardware manufacturer date */
+            CMD_RD_HARD_MANUF_DATE = 6u,
+
+            /** \brief Max value */
+            CMD_MAX = 7u
+        };
 
 
         /** \brief Device manager */
@@ -63,28 +90,20 @@ class IdentificationService : public IOpenVarioBleService
 
 
         /** \brief Identification service */
-        BleService128<0u, 7u> m_identification_service;
+        BleService128<0u, 2u> m_identification_service;
 
-        /** \brief Software version */
-        BleCharacteristic128<char*, 0u> m_software_version;
+        /** \brief Command */
+        BleCharacteristic128<uint8_t, 0u> m_command;
 
-        /** \brief Software manufacturer name */
-        BleCharacteristic128<char*, 0u> m_software_manufacturer_name;
+        /** \brief Idendification info */
+        BleCharacteristic128<char*, 0u> m_identification_info;
 
-        /** \brief GATT profile version */
-        BleCharacteristic128<char*, 0u> m_gatt_profile_version;
 
-        /** \brief Hardware version */
-        BleCharacteristic128<char*, 0u> m_hardware_version;
+        /** \brief Current command */
+        Command m_cmd;
 
-        /** \brief Hardware manufacturer name */
-        BleCharacteristic128<char*, 0u> m_hardware_manufacturer_name;
-
-        /** \brief Hardware manufacturer name */
-        BleCharacteristic128<char*, 0u> m_hardware_serial_number;
-
-        /** \brief Hardware manufacturing date */
-        BleCharacteristic128<char*, 0u> m_hardware_manufacturing_date;
+        /** \brief Indicate if the command is available to process */
+        bool m_cmd_available;
 
 };
 

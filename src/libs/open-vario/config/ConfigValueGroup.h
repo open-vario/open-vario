@@ -38,7 +38,7 @@ class ConfigValueGroup : public IConfigValueGroup
     public:
 
         /** \brief Constructor */
-        ConfigValueGroup(const uint16_t id, const char* const name)
+        ConfigValueGroup(const uint16_t id, const char name[])
         : m_id(id)
         , m_name(name)
         , m_mutex()

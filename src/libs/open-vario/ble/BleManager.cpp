@@ -45,6 +45,9 @@ BleManager::BleManager(ConfigManager& config_manager, IBlePeripheralStack& ble_s
 
 , m_identification_service(device_manager)
 , m_flight_data_service()
+, m_configuration_service(config_manager)
+
+, m_async_ble_service(nullptr)
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_enabled);
@@ -55,6 +58,7 @@ BleManager::BleManager(ConfigManager& config_manager, IBlePeripheralStack& ble_s
     // Fill BLE services array
     m_ble_services.pushBack(&m_identification_service.getService());
     m_ble_services.pushBack(&m_flight_data_service.getService());
+    m_ble_services.pushBack(&m_configuration_service.getService());
 }
 
 
@@ -74,8 +78,12 @@ bool BleManager::init()
     if (ret && m_enabled)
     {
         // Initialize the services
-        ret = m_identification_service.init();
+        ret = m_identification_service.registerListener(*this);
+        ret = ret && m_flight_data_service.registerListener(*this);
+        ret = ret && m_configuration_service.registerListener(*this);
+        ret = ret && m_identification_service.init();
         ret = ret && m_flight_data_service.init();
+        ret = ret && m_configuration_service.init();
         if (ret)
         {
             device_config.hw_address[0u] = 0x12u;
@@ -116,6 +124,7 @@ bool BleManager::start()
             // Start the services
             ret = m_identification_service.start();
             ret = ret && m_flight_data_service.start();
+            ret = ret && m_configuration_service.start();
             if (ret)
             {
                 // Start the update timer
@@ -152,6 +161,14 @@ void BleManager::bleClientDisconnected()
     m_update_flag_set.set(FLAG_CLIENT_DISCONNECTED, false);
 }
 
+/** \brief Called when a service needs to asynchronously update its characteristics values */
+void BleManager::triggerAsyncUpdate(IOpenVarioBleService& ble_service)
+{
+    // Notify the task
+    m_async_ble_service = &ble_service;
+    m_update_flag_set.set(FLAG_ASYNC_UPDATE, false);
+}
+
 /** \brief BLE manager's task method */
 void BleManager::task(void* const param)
 {
@@ -170,16 +187,28 @@ void BleManager::task(void* const param)
                 // Periodic update
                 m_identification_service.updateCharacteristicsValues();
                 m_flight_data_service.updateCharacteristicsValues();
+                m_configuration_service.updateCharacteristicsValues();
             }
             if ((flag_mask & FLAG_CLIENT_CONNECTED) != 0u)
             {
                 // Client connected
                 LOG_INFO("BLE client connected");
+                m_ble_stack.doConnectActions();
             }
             if ((flag_mask & FLAG_CLIENT_DISCONNECTED) != 0u)
             {
                 // Client disconnected
                 LOG_INFO("BLE client disconnected");
+                m_ble_stack.doDisconnectActions();
+            }
+            if ((flag_mask & FLAG_ASYNC_UPDATE) != 0u)
+            {
+                // Asynchronous update
+                if (m_async_ble_service != nullptr)
+                {
+                    m_async_ble_service->updateCharacteristicsValues();
+                    m_async_ble_service = nullptr;
+                }
             }
         } 
     }

@@ -29,6 +29,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "StaticVector.h"
 #include "IdentificationService.h"
 #include "FlightDataService.h"
+#include "ConfigurationService.h"
 
 
 namespace open_vario
@@ -36,7 +37,7 @@ namespace open_vario
 
 
 /** \brief Bluetooth Low Energy manager */
-class BleManager : public IBlePeripheralStackListener, public ITimerListener
+class BleManager : public IBlePeripheralStackListener, public ITimerListener, public IOpenVarioBleServiceListener
 {
     public:
 
@@ -59,6 +60,9 @@ class BleManager : public IBlePeripheralStackListener, public ITimerListener
 
         /** \brief Called when a client device is connected to the stack */
         virtual void bleClientDisconnected();
+
+        /** \brief Called when a service needs to asynchronously update its characteristics values */
+        virtual void triggerAsyncUpdate(IOpenVarioBleService& ble_service);
         
 
     private:
@@ -104,6 +108,9 @@ class BleManager : public IBlePeripheralStackListener, public ITimerListener
         /** \brief Flag indicating a client device disconnection */
         static const uint32_t FLAG_CLIENT_DISCONNECTED = 4u;
 
+        /** \brief Flag indicating an asynchronous update request */
+        static const uint32_t FLAG_ASYNC_UPDATE = 8u;
+
 
 
 
@@ -116,6 +123,13 @@ class BleManager : public IBlePeripheralStackListener, public ITimerListener
 
         /** \brief Flight data service */
         FlightDataService m_flight_data_service;
+
+        /** \brief Configuration service */
+        ConfigurationService m_configuration_service;
+
+        
+        /** \brief BLE service to update asynchronously */
+        IOpenVarioBleService* m_async_ble_service;
 
 
 

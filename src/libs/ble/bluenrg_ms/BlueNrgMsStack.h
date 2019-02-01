@@ -64,8 +64,11 @@ class BlueNrgMsStack : public IBlePeripheralStack, public IBlueNrgMsListener, pu
         /** \brief Start the BLE stack */
         virtual bool start();
 
-        /** \brief Stop the BLE stack */
-        virtual bool stop();
+        /** \brief Do actions needed when a new client is connected */
+        virtual void doConnectActions();
+
+        /** \brief Do actions needed when a client is disconnected */
+        virtual void doDisconnectActions();
 
 
         /** \brief Called when the module is connected to another device */
@@ -102,7 +105,7 @@ class BlueNrgMsStack : public IBlePeripheralStack, public IBlueNrgMsListener, pu
 
 
         /** \brief Add a service to the stack */
-        bool addService(IBleService& service);
+        bool addService(IBleService& service, const bool primary_service, uint8_t& attribute_count);
 
         /** \brief Add characteristics of a service to the stack */
         bool addCharacteristics(IBleService& service);

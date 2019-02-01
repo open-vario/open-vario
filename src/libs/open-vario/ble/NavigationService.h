@@ -17,31 +17,29 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FLIGHTDATASERVICE_H
-#define FLIGHTDATASERVICE_H
+#ifndef NAVIGATIONSERVICE_H
+#define NAVIGATIONSERVICE_H
 
 #include "OpenVarioBleServiceBase.h"
 
 #include "BleService.h"
 #include "BleCharacteristic.h"
 
-#include "BarometerService.h"
-#include "AltimeterService.h"
-#include "VariometerService.h"
-#include "NavigationService.h"
+#include "Delegate.h"
+
 
 
 namespace open_vario
 {
 
 
-/** \brief BLE flight data service */
-class FlightDataService : public OpenVarioBleServiceBase
+/** \brief BLE navigation service */
+class NavigationService : public OpenVarioBleServiceBase
 {
     public:
 
         /** \brief Constructor */
-        FlightDataService();
+        NavigationService();
 
 
         /** \brief Initialize the BLE service */
@@ -54,29 +52,29 @@ class FlightDataService : public OpenVarioBleServiceBase
         virtual void updateCharacteristicsValues();
 
         /** \brief Get the BLE service */
-        virtual IBleService& getService() { return m_flight_data_service; } 
+        virtual IBleService& getService() { return m_navigation_service; } 
    
 
     private:
 
 
-        /** \brief Flight data service */
-        BleService128<5u, 0u> m_flight_data_service;
-
-        /** \brief Barometer service */
-        BarometerService m_barometer_service;
-
-        /** \brief Altimeter service */
-        AltimeterService m_altimeter_service;
-
-        /** \brief Variometer service */
-        VariometerService m_variometer_service;
-
         /** \brief Navigation service */
-        NavigationService m_navigation_service;
+        BleService128<0u, 4u> m_navigation_service;
+
+        /** \brief Speed */
+        BleCharacteristic128<uint16_t, 0u> m_speed;
+
+        /** \brief Latitude */
+        BleCharacteristic128<double, 0u> m_latitude;
+
+        /** \brief Longitude */
+        BleCharacteristic128<double, 0u> m_longitude;
+
+        /** \brief Track angle */
+        BleCharacteristic128<uint16_t, 0u> m_track_angle;
 
 };
 
 }
 
-#endif // FLIGHTDATASERVICE_H
+#endif // NAVIGATIONSERVICE_H

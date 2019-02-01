@@ -49,14 +49,14 @@ class NmeaGnss : public IGnss
         bool startRx();
 
         /** \brief Handle a received NMEA frame (must be implemented in child classes if needed) */
-        virtual void handleRxFrame(const char* const frame_type, const char* frame_params) {}
+        virtual void handleRxFrame(const char frame_type[], const char* frame_params) {}
 
 
         /** \brief Get the next parameter in a NMEA frame */
         const char* getNextFrameParam(const char* frame);
 
         /** \brief Convert a string representing a N digits unsigned integer to an integer */
-        uint32_t convertNDigitsInt(const char* const number, const uint8_t digits, const uint8_t radix);
+        uint32_t convertNDigitsInt(const char number[], const uint8_t digits, const uint8_t radix);
 
         /** \brief Convert a time parameter of a NMEA frame */
         bool convertTimeParam(const char* time, IRtc::DateTime& date_time);

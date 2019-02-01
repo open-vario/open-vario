@@ -340,7 +340,7 @@ const char* NmeaGnss::getNextFrameParam(const char* frame)
 }
 
 /** \brief Convert a string representing a N digits unsigned integer to an integer */
-uint32_t NmeaGnss::convertNDigitsInt(const char* const number, const uint8_t digits, const uint8_t radix)
+uint32_t NmeaGnss::convertNDigitsInt(const char number[], const uint8_t digits, const uint8_t radix)
 {
     uint32_t value = 0u;
     for (uint8_t i = 0; i < digits; i++)

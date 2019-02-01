@@ -27,17 +27,16 @@ namespace open_vario
 
 /** \brief Constructor */
 IdentificationService::IdentificationService(DeviceManager& device_manager)
-: m_device_manager(device_manager)
+: OpenVarioBleServiceBase()
+, m_device_manager(device_manager)
 
-, m_identification_service("Identification service", {0x38u, 0xdfu, 0x4du, 0xa7u, 0x94u, 0xf3u, 0x44u, 0xdcu, 0x83u, 0xadu, 0x4eu, 0x10u, 0x86u, 0x4fu, 0xbdu, 0x44u})
+, m_identification_service("Identification service", "38df4da7-94f3-44dc-83ad-4e10864fbd44")
 
-, m_software_version("Software version", {0x52u, 0x0bu, 0x42u, 0xa8u, 0xeeu, 0x29u, 0x46u, 0xecu, 0x9eu, 0xffu, 0x24u, 0xe7u, 0x32u, 0xcau, 0x0cu, 0xb5u}, 5u, IBleCharacteristic::PROP_READ)
-, m_software_manufacturer_name("Software manufacturer name", {0xdeu, 0xa2u, 0x33u, 0xccu, 0xdau, 0xbbu, 0x4bu, 0x00u, 0x90u, 0x46u, 0xf7u, 0x0au, 0x44u, 0xc1u, 0xceu, 0xdau}, 16u /* 64u */, IBleCharacteristic::PROP_READ)
-, m_gatt_profile_version("Open Vario GATT profile version", {0x26u, 0xacu, 0xddu, 0x71u, 0xabu, 0x60u, 0x4au, 0x9cu, 0xbbu, 0x5bu, 0x10u, 0x1eu, 0xecu, 0xc4u, 0x3cu, 0x00u}, 5u, IBleCharacteristic::PROP_READ)
-, m_hardware_version("Hardware version", {0x77u, 0x37u, 0x30u, 0x05u, 0x83u, 0xc6u, 0x41u, 0x17u, 0xb8u, 0xa9u, 0x04u, 0xccu, 0x2bu, 0xe0u, 0x82u, 0x24u}, 5u, IBleCharacteristic::PROP_READ)
-, m_hardware_manufacturer_name("Hardware manufacturer name", {0x82u, 0xd0u, 0x7du, 0x5au, 0x16u, 0x1au, 0x40u, 0xa8u, 0xb3u, 0x6fu, 0x9fu, 0x81u, 0x6eu, 0xc5u, 0xd3u, 0x4fu}, 16u /* 64u */, IBleCharacteristic::PROP_READ)
-, m_hardware_serial_number("Hardware serial number", {0xcbu, 0xb1u, 0x21u, 0x93u, 0x2bu, 0x57u, 0x42u, 0x3eu, 0x83u, 0x81u, 0xccu, 0x69u, 0x96u, 0xaeu, 0xe5u, 0x33u}, 16u /* 64u */, IBleCharacteristic::PROP_READ)
-, m_hardware_manufacturing_date("Hardware manufacturing date", {0xddu, 0xd3u, 0x4du, 0x61u, 0xe8u, 0x35u, 0x48u, 0x78u, 0xa8u, 0xacu, 0xcfu, 0x22u, 0x21u, 0xf3u, 0x19u, 0x29u}, 19u, IBleCharacteristic::PROP_READ)
+, m_command("Command", "520b42a8-ee29-46ec-9eff-24e732ca0cb5", true, IBleCharacteristic::PROP_WRITE)
+, m_identification_info("Identification info", "dea233cc-dabb-4b00-9046-f70a44c1ceda", 32u, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+
+, m_cmd(CMD_RD_GATT_VERSION)
+, m_cmd_available(true)
 {}
 
 
@@ -47,12 +46,8 @@ bool IdentificationService::init()
     bool ret = true;
 
     // Fill BLE service with characteristics
-    ret = ret && m_identification_service.addCharacteristic(m_software_version);
-    ret = ret && m_identification_service.addCharacteristic(m_software_manufacturer_name);
-    ret = ret && m_identification_service.addCharacteristic(m_gatt_profile_version);
-    ret = ret && m_identification_service.addCharacteristic(m_hardware_version);
-    ret = ret && m_identification_service.addCharacteristic(m_hardware_manufacturer_name);
-    ret = ret && m_identification_service.addCharacteristic(m_hardware_serial_number);
+    ret = ret && m_identification_service.addCharacteristic(m_command);
+    ret = ret && m_identification_service.addCharacteristic(m_identification_info);
 
     return ret;
 }
@@ -62,17 +57,94 @@ bool IdentificationService::start()
 {
     bool ret = true;
 
-    // Update characteristics values
-    m_software_version.update(IOpenVarioApp::getInstance().getVersion());
-    m_software_manufacturer_name.update(IOpenVarioApp::getInstance().getSwManufacturer());
-    m_gatt_profile_version.update("1.0");
-    m_hardware_version.update(m_device_manager.getHwVersion());
-    m_hardware_manufacturer_name.update(m_device_manager.getHwManufacturer());
-    m_hardware_serial_number.update(m_device_manager.getHwSerialNumber());
-    m_hardware_manufacturing_date.update(m_device_manager.getHwManufacturingDate());
-    
+    // Register to characteristics notifications
+    ret = m_command.registerListener(*this);
+    if (ret)
+    {
+        // Update characteristics values
+        updateCharacteristicsValues();
+    }
+
     return ret;
 }
 
+/** \brief Update the BLE service characteristics values */
+void IdentificationService::updateCharacteristicsValues()
+{
+    // Check if a command is available
+    if (m_cmd_available)
+    {
+        // Reset flag
+        m_cmd_available = false;
+
+        // Handle cmd
+        switch (m_cmd)
+        {
+            case CMD_RD_GATT_VERSION:
+            {
+                m_identification_info.update("1.0");
+                break;
+            }
+
+            case CMD_RD_SOFT_VERSION:
+            {
+                m_identification_info.update(IOpenVarioApp::getInstance().getVersion());
+                break;
+            }
+
+            case CMD_RD_SOFT_MANUF_NAME:
+            {
+                m_identification_info.update(IOpenVarioApp::getInstance().getSwManufacturer());
+                break;
+            }
+
+            case CMD_RD_HARD_VERSION:
+            {
+                m_identification_info.update(m_device_manager.getHwVersion());
+                break;
+            }
+
+            case CMD_RD_HARD_MANUF_NAME:
+            {
+                m_identification_info.update(m_device_manager.getHwManufacturer());
+                break;
+            }
+
+            case CMD_RD_HARD_SERIAL_NUMBER:
+            {
+                m_identification_info.update(m_device_manager.getHwSerialNumber());
+                break;
+            }
+
+            case CMD_RD_HARD_MANUF_DATE:
+            {
+                m_identification_info.update(m_device_manager.getHwManufacturingDate());
+                break;
+            }
+
+            default:
+            {
+                m_identification_info.update("Invalid command");
+                break;
+            }
+        }
+    }
+}
+
+/** \brief Called when the characteristic's value has changed */
+void IdentificationService::onValueChanged(IBleCharacteristic& characteristic, const bool from_stack, const void* new_value, const uint16_t new_value_size)
+{
+    // Only handle modifications mades by the client
+    if (from_stack)
+    {
+        // Save command
+        if (new_value_size == m_command.valueLength())
+        {
+            m_cmd = *reinterpret_cast<const Command*>(new_value);
+            m_cmd_available = true;
+            triggerAsyncUpdate();
+        }
+    }
+}
 
 }

@@ -25,6 +25,18 @@ namespace open_vario
 {
 
 class IBleService;
+class IOpenVarioBleService;
+
+
+/** \brief Interface for all Open Vario BLE service listeners implementations */
+class IOpenVarioBleServiceListener
+{
+    public:
+
+        /** \brief Called when a service needs to asynchronously update its characteristics values */
+        virtual void triggerAsyncUpdate(IOpenVarioBleService& ble_service) = 0;
+};
+
 
 /** \brief Interface for all Open Vario BLE service implementations */
 class IOpenVarioBleService
@@ -43,6 +55,9 @@ class IOpenVarioBleService
 
         /** \brief Get the BLE service */
         virtual IBleService& getService() = 0;
+
+        /** \brief Register a listener */
+        virtual bool registerListener(IOpenVarioBleServiceListener& listener) = 0;
 };
 
 }

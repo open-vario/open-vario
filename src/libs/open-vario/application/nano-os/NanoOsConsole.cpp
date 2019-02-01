@@ -64,14 +64,14 @@ bool NanoOsConsole::init()
 }
 
 /** \brief Handle the 'ov_version' console command */
-void NanoOsConsole::versionCmdHandler(const char* const params)
+void NanoOsConsole::versionCmdHandler(const char params[])
 {
     NANO_OS_USER_ConsoleWriteString(IOpenVarioApp::getInstance().getVersion());
     NANO_OS_USER_ConsoleWriteString("\r\n");
 }
 
 /** \brief Handle the 'ov_logs' console command */
-void NanoOsConsole::logsCmdHandler(const char* const params)
+void NanoOsConsole::logsCmdHandler(const char params[])
 {
     Log log;
     NANO_OS_USER_ConsoleWriteString("Timestamp  |  Level  |  Message\r\n");
@@ -91,7 +91,7 @@ void NanoOsConsole::logsCmdHandler(const char* const params)
 
 
 /** \brief Generic Nano-OS console command handler */
-void NanoOsConsole::cmdHandler(void* const user_data, const uint32_t command_id, const char* const params)
+void NanoOsConsole::cmdHandler(void* const user_data, const uint32_t command_id, const char params[])
 {
     // Get object
     NanoOsConsole& nano_os_console = *reinterpret_cast<NanoOsConsole*>(user_data);

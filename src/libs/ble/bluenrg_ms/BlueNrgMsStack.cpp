@@ -64,12 +64,12 @@ bool BlueNrgMsStack::start()
                 IBleService* service = m_ble_services->operator[](i);
 
                 // Add the service
-                ret = addService(*service);
+                uint8_t attribute_count = 0u;
+                ret = addService(*service, true, attribute_count);
             }
         }
 
         // Get the module's version
-        ret = true;
         if (ret)
         {
             uint8_t hw_version = 0; 
@@ -89,10 +89,17 @@ bool BlueNrgMsStack::start()
     return ret;
 }
 
-/** \brief Stop the BLE stack */
-bool BlueNrgMsStack::stop()
+/** \brief Do actions needed when a new client is connected */
+void BlueNrgMsStack::doConnectActions()
 {
-    return true;
+    // Nothing to do
+}
+
+/** \brief Do actions needed when a client is disconnected */
+void BlueNrgMsStack::doDisconnectActions()
+{
+    // Make the BLE module discoverable again
+    m_bluenrg_ms.setDiscoverable();
 }
 
 /** \brief Called when the module is connected to another device */
@@ -131,11 +138,40 @@ void BlueNrgMsStack::onValueChanged(IBleCharacteristic& characteristic, const bo
 }
 
 /** \brief Add a service to the stack */
-bool BlueNrgMsStack::addService(IBleService& service)
+bool BlueNrgMsStack::addService(IBleService& service, const bool primary_service, uint8_t& attribute_count)
 {
+    // Count the number of attributes to allocate for the service
+    attribute_count = 0u;
+    const nano_stl::IArray<IBleCharacteristic*>& characteristics = service.characteristics();
+    for (nano_stl::nano_stl_size_t i = 0; i < characteristics.getCount(); i++)
+    {
+        // Characteristic attribute + characteristic value 
+        attribute_count += 2u;
+        if (((characteristics[i]->properties() & IBleCharacteristic::PROP_NOTIFY) != 0u) ||
+            ((characteristics[i]->properties() & IBleCharacteristic::PROP_INDICATE) != 0u))
+        {
+            attribute_count++;
+        }
+        const nano_stl::IArray<IBleCharacteristicDescriptor*>& descriptors = characteristics[i]->descriptors();
+        for (nano_stl::nano_stl_size_t j = 0; j < descriptors.getCount(); i++)
+        {
+            attribute_count++;
+        }
+    }
+    const nano_stl::IArray<IBleService*>& included_services = service.services();
+    for (nano_stl::nano_stl_size_t i = 0; i < included_services.getCount(); i++)
+    {
+        //attribute_count++;
+    }
+
+    // Add the service to the stack
+    bool ret = true;
     uint16_t service_handle = 0u;
     const IBleUuid& service_uuid = service.uuid();
-    bool ret = m_bluenrg_ms.addBleService(&service_uuid.value()[0u], service_uuid.value().getCount(), true, service.characteristics().getCount(), service_handle);
+    if (attribute_count != 0u)
+    {
+        ret = m_bluenrg_ms.addBleService(&service_uuid.value()[0u], service_uuid.value().getCount(), primary_service, attribute_count, service_handle);
+    }
     if (ret)
     {
         // Save service handle
@@ -146,11 +182,17 @@ bool BlueNrgMsStack::addService(IBleService& service)
         if (ret)
         {
             // Add included services
-            const nano_stl::IArray<IBleService*>& included_services = service.services();
             for (nano_stl::nano_stl_size_t i = 0; (i < included_services.getCount()) && ret; i++)
             {
+                uint8_t included_service_attribute_count = 0u;
                 IBleService* included_service = included_services[i];
-                ret = addService(*included_service);
+                ret = addService(*included_service, true /*false*/, included_service_attribute_count);
+                /*if (ret)
+                {
+                    uint16_t included_handle = 0u;
+                    const IBleUuid& included_service_uuid = included_service->uuid();
+                    ret = m_bluenrg_ms.includeBleService(service.handle(), included_service->handle(), included_service_attribute_count, &included_service_uuid.value()[0u], included_service_uuid.value().getCount(), included_handle);
+                }*/
             }
         }
     }

@@ -105,7 +105,7 @@ class BlueNrgMs : public IInterruptPinListener
         void setHwConfig(const HwConfig& config) { m_config = config; }
 
         /** \brief Set the device name */
-        void setDeviceName(const char* const name);
+        void setDeviceName(const char name[]);
 
         /** \brief Set the module's listener */
         bool setListener(IBlueNrgMsListener& listener) { m_listener = &listener; return true; }
@@ -123,7 +123,7 @@ class BlueNrgMs : public IInterruptPinListener
         bool addBleService(const uint8_t* uuid, const size_t uuid_size, const bool primary_service, const uint8_t max_attr_count, uint16_t& service_handle);
 
         /** \brief Include a BLE service into another BLE service */
-        bool includeBleService(const uint16_t root_service_handle, const uint16_t service_handle, const uint8_t* uuid, const size_t uuid_size, uint16_t& included_handle);
+        bool includeBleService(const uint16_t root_service_handle, const uint16_t service_handle, const int16_t service_attribute_count, const uint8_t* uuid, const size_t uuid_size, uint16_t& included_handle);
 
         /** \brief Add a BLE characteristic */
         bool addBleCharacteristic(const uint16_t service_handle, const uint8_t* uuid, const size_t uuid_size, const uint8_t max_length, const bool is_fixed_length, const uint8_t properties, const SecurityPermission security_perms, uint16_t& char_handle);

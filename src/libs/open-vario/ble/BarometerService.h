@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BAROMETERSERVICE_H
 #define BAROMETERSERVICE_H
 
-#include "IOpenVarioBleService.h"
+#include "OpenVarioBleServiceBase.h"
 
 #include "BleService.h"
 #include "BleCharacteristic.h"
@@ -35,7 +35,7 @@ namespace open_vario
 
 
 /** \brief BLE barometer service */
-class BarometerService : public IOpenVarioBleService, public IBleCharacteristicListener
+class BarometerService : public OpenVarioBleServiceBase
 {
     public:
 
@@ -54,28 +54,19 @@ class BarometerService : public IOpenVarioBleService, public IBleCharacteristicL
 
         /** \brief Get the BLE service */
         virtual IBleService& getService() { return m_barometer_service; }
-
-        /** \brief Called when the characteristic's value has changed */
-        virtual void onValueChanged(IBleCharacteristic& characteristic, const bool from_stack, const void* new_value, const uint16_t new_value_size);
    
 
     private:
 
 
         /** \brief Barometer service */
-        BleService128<0u, 4u> m_barometer_service;
+        BleService128<0u, 2u> m_barometer_service;
 
         /** \brief Pressure */
         BleCharacteristic128<uint32_t, 0u> m_pressure;
 
         /** \brief Temperature */
         BleCharacteristic128<int16_t, 0u> m_temperature;
-
-        /** \brief Min temperature */
-        BleCharacteristic128<int16_t, 0u> m_min_temperature;
-
-        /** \brief Max temperature */
-        BleCharacteristic128<int16_t, 0u> m_max_temperature;
 
 
         /** \brief Barometer event handler */

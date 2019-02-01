@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef VARIOMETERSERVICE_H
 #define VARIOMETERSERVICE_H
 
-#include "IOpenVarioBleService.h"
+#include "OpenVarioBleServiceBase.h"
 
 #include "BleService.h"
 #include "BleCharacteristic.h"
@@ -34,7 +34,7 @@ namespace open_vario
 
 
 /** \brief BLE variometer service */
-class VariometerService : public IOpenVarioBleService
+class VariometerService : public OpenVarioBleServiceBase
 {
     public:
 
@@ -59,22 +59,13 @@ class VariometerService : public IOpenVarioBleService
 
 
         /** \brief Variometer service */
-        BleService128<0u, 5u> m_variometer_service;
+        BleService128<0u, 2u> m_variometer_service;
 
-        /** \brief Main altitude */
+        /** \brief Vario */
         BleCharacteristic128<int16_t, 0u> m_vario;
 
-        /** \brief Min altitude */
-        BleCharacteristic128<int16_t, 0u> m_min_vario;
-
-        /** \brief Max altitude */
-        BleCharacteristic128<int16_t, 0u> m_max_vario;
-
-        /** \brief Altitude 1 */
+        /** \brief Acceleration */
         BleCharacteristic128<uint8_t, 0u> m_acceleration;
-
-        /** \brief Altitude 2 */
-        BleCharacteristic128<uint8_t, 0u> m_max_acceleration;
 
 
         /** \brief Variometer event handler */

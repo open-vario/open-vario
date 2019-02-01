@@ -48,7 +48,7 @@ class ILogger
 
 
         /** \brief Log a message */
-        virtual void log(const Log::Level log_level, const char* const message, ...) = 0;
+        virtual void log(const Log::Level log_level, const char message[], ...) = 0;
 
         /** \brief Add a listener */
         virtual bool registerListener(ILogListener& listener)  = 0;

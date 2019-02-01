@@ -59,7 +59,7 @@ struct Log
     Log();
 
     /** \brief Initializing constructor */
-    Log(const uint32_t timestamp, const Level level, const char* const message);
+    Log(const uint32_t timestamp, const Level level, const char message[]);
 
     /** \brief Copy constructor */
     Log(const Log& copy);

@@ -35,7 +35,7 @@ Log::Log()
 {}
 
 /** \brief Initializing constructor */
-Log::Log(const uint32_t _timestamp, const Level _level, const char* const _message)
+Log::Log(const uint32_t _timestamp, const Level _level, const char _message[])
 : timestamp(_timestamp)
 , level(_level)
 , message(_message)
