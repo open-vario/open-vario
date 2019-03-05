@@ -53,6 +53,19 @@ class IAltimeter
         /** \brief Set a reference altitude (1 = 0.1m) */
         virtual bool setReferenceAltitude(const int32_t ref_altitude) = 0;
 
+        /** \brief Set the altitude 1 (1 = 0.1m) */
+        virtual bool setAlti1(const int32_t alti_1) = 0;
+
+        /** \brief Set the altitude 2 (1 = 0.1m) */
+        virtual bool setAlti2(const int32_t alti_2) = 0;
+
+        /** \brief Set the altitude 3 (1 = 0.1m) */
+        virtual bool setAlti3(const int32_t alti_3) = 0;
+
+        /** \brief Set the altitude 4 (1 = 0.1m) */
+        virtual bool setAlti4(const int32_t alti_4) = 0;
+
+
         /** \brief Event triggered on new atimeter values */
         virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() = 0;
 

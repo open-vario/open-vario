@@ -34,7 +34,7 @@ namespace open_vario
 
 
 /** \brief BLE altimeter service */
-class AltimeterService : public OpenVarioBleServiceBase
+class AltimeterService : public OpenVarioBleServiceBase, public IBleCharacteristicListener
 {
     public:
 
@@ -53,6 +53,10 @@ class AltimeterService : public OpenVarioBleServiceBase
 
         /** \brief Get the BLE service */
         virtual IBleService& getService() { return m_altimeter_service; } 
+
+
+        /** \brief Called when the characteristic's value has changed */
+        virtual void onValueChanged(IBleCharacteristic& characteristic, const bool from_stack, const void* new_value, const uint16_t new_value_size);
    
 
     private:

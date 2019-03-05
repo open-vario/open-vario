@@ -52,6 +52,18 @@ class Altimeter : public IAltimeter
         /** \brief Set a reference altitude (1 = 0.1m) */
         virtual bool setReferenceAltitude(const int32_t ref_altitude);
 
+        /** \brief Set the altitude 1 (1 = 0.1m) */
+        virtual bool setAlti1(const int32_t alti_1);
+
+        /** \brief Set the altitude 2 (1 = 0.1m) */
+        virtual bool setAlti2(const int32_t alti_2);
+
+        /** \brief Set the altitude 3 (1 = 0.1m) */
+        virtual bool setAlti3(const int32_t alti_3);
+
+        /** \brief Set the altitude 4 (1 = 0.1m) */
+        virtual bool setAlti4(const int32_t alti_4);
+
         /** \brief Event triggered on new atimeter values */
         virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() { return m_altimeter_values_event; }
 
@@ -63,6 +75,10 @@ class Altimeter : public IAltimeter
 
         /** \brief Barometric altimeter */
         IBarometricAltimeter& m_barometric_altimeter;
+
+
+        /** \brief Mutex to protect acces to altimeter sensor */
+        Mutex m_alti_mutex;
 
         
         /** \brief Altimeter output values */

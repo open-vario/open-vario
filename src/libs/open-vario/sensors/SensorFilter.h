@@ -125,6 +125,12 @@ class SensorFilter : public IConfigValueListener
             }
         }
 
+        /** \brief Reset the internal filter */
+        void resetFilter()
+        {
+            m_filter.setFilterDepth(m_filter_depth);
+        }
+
         /** \brief Called when a configuration value has been modified */
         virtual void onConfigValueChange(const IConfigValue& config_value)
         {

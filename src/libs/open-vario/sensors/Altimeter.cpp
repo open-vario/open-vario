@@ -30,6 +30,8 @@ Altimeter::Altimeter(ConfigManager& config_manager, IBarometricAltimeter& barome
 : m_config_manager(config_manager)
 , m_barometric_altimeter(barometric_altimeter)
 
+, m_alti_mutex()
+
 , m_alti_values()
 , m_alti_filter(config_manager, OV_CONFIG_GROUP_ALTIMETER, OV_CONFIG_VALUE_ALTI_FILTER_DEPTH, SensorFilter<int32_t, ALTI_FILTER_MAX_DEPTH>::SensorValues(m_alti_values.main_alti, m_alti_values.min_alti, m_alti_values.max_alti))
 
@@ -119,6 +121,7 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
     bool ret;
 
     // Read sensor raw values
+    m_alti_mutex.lock();
     ret = m_barometric_altimeter.readAltitude(raw_altitude);
     ret = ret && m_barometric_altimeter.readPressure(raw_pressure);
     ret = ret && m_barometric_altimeter.readTemperature(raw_temperature);
@@ -132,6 +135,7 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
         m_alti_values.alti_2 = m_alti_values.main_alti + m_offset_alti_2;
         m_alti_values.alti_3 = m_alti_values.main_alti + m_offset_alti_3;
         m_alti_values.alti_4 = m_alti_values.main_alti + m_offset_alti_4;
+        m_alti_mutex.unlock();
 
         // Notify current values
         if (m_started)
@@ -139,6 +143,11 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
             m_altimeter_values_event.trigger(m_alti_values);
         }
     }
+    else
+    {
+        m_alti_mutex.unlock();
+    }
+    
 
     return ret;
 }
@@ -146,15 +155,67 @@ bool Altimeter::compute(int32_t& raw_altitude, uint32_t& raw_pressure, int16_t& 
 /** \brief Set a reference altitude (1 = 0.1m) */
 bool Altimeter::setReferenceAltitude(const int32_t ref_altitude)
 {
+    m_alti_mutex.lock();
     const bool ret = m_barometric_altimeter.setReferenceAltitude(ref_altitude);
     if (ret)
     {
         // Reset min and max values
         m_alti_values.min_alti = ref_altitude;
         m_alti_values.max_alti = ref_altitude;
+
+        // Reset filter
+        m_alti_filter.resetFilter();
     }
+    m_alti_mutex.unlock();
     return ret;
 }
 
+/** \brief Set the altitude 1 (1 = 0.1m) */
+bool Altimeter::setAlti1(const int32_t alti_1)
+{
+    m_alti_mutex.lock();
+    
+    m_offset_alti_1 = alti_1 - m_alti_values.main_alti;
+    
+    m_alti_mutex.unlock();
+
+    return true;
+}
+
+/** \brief Set the altitude 2 (1 = 0.1m) */
+bool Altimeter::setAlti2(const int32_t alti_2)
+{
+    m_alti_mutex.lock();
+    
+    m_offset_alti_2 = alti_2 - m_alti_values.main_alti;
+    
+    m_alti_mutex.unlock();
+
+    return true;
+}
+
+/** \brief Set the altitude 3 (1 = 0.1m) */
+bool Altimeter::setAlti3(const int32_t alti_3)
+{
+    m_alti_mutex.lock();
+    
+    m_offset_alti_3 = alti_3 - m_alti_values.main_alti;
+    
+    m_alti_mutex.unlock();
+
+    return true;
+}
+
+/** \brief Set the altitude 4 (1 = 0.1m) */
+bool Altimeter::setAlti4(const int32_t alti_4)
+{
+    m_alti_mutex.lock();
+    
+    m_offset_alti_4 = alti_4 - m_alti_values.main_alti;
+    
+    m_alti_mutex.unlock();
+
+    return true;
+}
 
 }

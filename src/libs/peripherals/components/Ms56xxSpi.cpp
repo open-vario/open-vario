@@ -86,19 +86,33 @@ bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
         }
     }
 
+    // TODO: Remove when sensor access is fixed
+    calib_data.c1 = 46372u;
+    calib_data.c2 = 43981u;
+    calib_data.c3 = 29059u;
+    calib_data.c4 = 27842u;
+    calib_data.c5 = 31553u;
+    calib_data.c6 = 28165u;
+    
     return ret;
 }
 
 /** \brief Read digital pressure value */
 bool Ms56xxSpi::readD1(uint32_t& d1)
 {
-    return readConvertedValue(Ms56xx::CONVERT_D1, d1);
+    // TODO: Remove when sensor access is fixed
+    d1 = 6465444u;
+    return true;
+    //return readConvertedValue(Ms56xx::CONVERT_D1, d1);
 }
 
 /** \brief Read temperature value */
 bool Ms56xxSpi::readD2(uint32_t& d2)
 {
-    return readConvertedValue(Ms56xx::CONVERT_D2, d2);
+    // TODO: Remove when sensor access is fixed
+    d2 = 8077636u;
+    return true;
+    //return readConvertedValue(Ms56xx::CONVERT_D2, d2);
 }
 
 /** \brief Read a converted value */

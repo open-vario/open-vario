@@ -61,10 +61,19 @@ bool AltimeterService::start()
 {
     bool ret = true;
 
-    // Register to altimeter events
-    IAltimeter& altimeter = IOpenVarioApp::getInstance().getAltimeter();
-    m_altimeter_event_handler = NANO_STL_EVENT_HANDLER_M(AltimeterService, onAltimeterValues, const AltimeterValues&);
-    ret = ret && altimeter.altimeterValuesEvent().bind(m_altimeter_event_handler);
+    // Register to characteristics events
+    ret = ret && m_main_alti.registerListener(*this);
+    ret = ret && m_alti_1.registerListener(*this);
+    ret = ret && m_alti_2.registerListener(*this);
+    ret = ret && m_alti_3.registerListener(*this);
+    ret = ret && m_alti_4.registerListener(*this);
+    if (ret)
+    {
+        // Register to altimeter events
+        IAltimeter& altimeter = IOpenVarioApp::getInstance().getAltimeter();
+        m_altimeter_event_handler = NANO_STL_EVENT_HANDLER_M(AltimeterService, onAltimeterValues, const AltimeterValues&);
+        ret = ret && altimeter.altimeterValuesEvent().bind(m_altimeter_event_handler);
+    }
 
     return ret;
 }
@@ -83,6 +92,42 @@ void AltimeterService::updateCharacteristicsValues()
 void AltimeterService::onAltimeterValues(const AltimeterValues& alti_values)
 {
     NANO_STL_MEMCPY(&m_altimeter_values, &alti_values, sizeof(AltimeterValues));
+}
+
+/** \brief Called when the characteristic's value has changed */
+void AltimeterService::onValueChanged(IBleCharacteristic& characteristic, const bool from_stack, const void* new_value, const uint16_t new_value_size)
+{
+    // Only handle modifications mades by the client
+    if (from_stack)
+    {
+        IAltimeter& altimeter = IOpenVarioApp::getInstance().getAltimeter();
+        int32_t altitude = static_cast<int32_t>(*reinterpret_cast<const int16_t*>(new_value) * 10);
+        if (&characteristic == static_cast<IBleCharacteristic*>(&m_main_alti))
+        {
+            altimeter.setReferenceAltitude(altitude);
+        }
+        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_1))
+        {
+            altimeter.setAlti1(altitude);
+        }
+        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_2))
+        {
+            altimeter.setAlti2(altitude);
+        }
+        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_3))
+        {
+            altimeter.setAlti3(altitude);
+        }
+        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_4))
+        {
+            altimeter.setAlti4(altitude);
+        }
+        else
+        {
+            // Should not happen => ignore
+        }
+        
+    }
 }
 
 }
