@@ -29,7 +29,7 @@ namespace open_vario
 /** \brief SPI chip select driver */
 class SpiChipSelectDriver : public ISpiChipSelect
 {
-    #define NUCLEOBOARD
+    //#define NUCLEOBOARD
     #ifdef NUCLEOBOARD
 
     public:

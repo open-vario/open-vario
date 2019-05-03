@@ -38,9 +38,14 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_activity_led_pin(Stm32l476Gpio::PORT_A, 5u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
 #endif // NUCLEOBOARD
 
-, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 3u /* 7u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 2u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_1 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
+//, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 3u /* 7u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+//, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_A /* PORT_B */, 2u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+//, m_debug_uart(m_cpu, Stm32l476Usart::USART_2 /* USART_1 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
+
+, m_debug_uart_rx_pin(Stm32l476Gpio::PORT_B /* PORT_B */, 7u /* 7u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart_tx_pin(Stm32l476Gpio::PORT_B /* PORT_B */, 6u /* 6u */, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_debug_uart(m_cpu, Stm32l476Usart::USART_1 /* USART_1 */, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
+ 
 
 , m_spi_1_sck_pin(Stm32l476Gpio::PORT_B /* PORT_A */, 3u /* 5u */, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_spi_1_mosi_pin(Stm32l476Gpio::PORT_A, 7u, Stm32l476Gpio::MODE_AF, 5u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
@@ -131,7 +136,7 @@ bool OpenVarioBoard::configure()
     ret = ret && m_debug_uart.configure();
 
     // SPI bus 1
-    ret = ret && m_spi_1_sck_pin.configure();
+    /*ret = ret && m_spi_1_sck_pin.configure();
     ret = ret && m_spi_1_mosi_pin.configure();
     ret = ret && m_spi_1_miso_pin.configure();
     ret = ret && m_spi_1_cs0_pin.configure();
@@ -141,7 +146,7 @@ bool OpenVarioBoard::configure()
     ret = ret && m_spi_1.configure();
 
     // SPI bus 2
-    ret = ret && m_spi_2_sck_pin.configure();
+    /*ret = ret && m_spi_2_sck_pin.configure();
     ret = ret && m_spi_2_mosi_pin.configure();
     ret = ret && m_spi_2_miso_pin.configure();
     ret = ret && m_spi_2_cs0_pin.configure();
@@ -151,7 +156,7 @@ bool OpenVarioBoard::configure()
     ret = ret && m_spi_2.configure();
 
     // I/O expander
-    ret = ret && m_io_expander.configure();
+    /*ret = ret && m_io_expander.configure();
     ret = ret && m_plus_button_pin.configure();
     ret = ret && m_minus_button_pin.configure();
     ret = ret && m_enter_button_pin.configure();
@@ -168,17 +173,17 @@ bool OpenVarioBoard::configure()
 
     // Barometric altimeter sensor
     ret = ret && m_alti_sensor.configure();
-
+*/
     // GNSS
     ret = ret && m_gnss_uart_rx_pin.configure();
     ret = ret && m_gnss_uart_tx_pin.configure();
     ret = ret && m_gnss_uart.configure();
     ret = ret && m_gnss.configure();
-
+/*
     // BLE
     ret = ret && m_ble_reset_pin.configure();
     ret = ret && m_ble_irq_pin.configure();
-    
+*/    
     return ret;
 }
 
