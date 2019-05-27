@@ -70,6 +70,12 @@ class SimuBlePeripheralStack : public SimuDevice, public IBlePeripheralStack
         /** \brief Stop the BLE stack */
         virtual bool stop();
 
+        /** \brief Do actions needed when a new client is connected */
+        virtual void doConnectActions();
+
+        /** \brief Do actions needed when a client is disconnected */
+        virtual void doDisconnectActions();
+
 
     private:
 

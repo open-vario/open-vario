@@ -26,6 +26,7 @@ LIBRARY_DIR := $(ROOT_DIR)/src/libs/open-vario
 
 # Source directories
 SOURCE_DIRS := $(LIBRARY_DIR) \
+               $(LIBRARY_DIR)/alarms \
                $(LIBRARY_DIR)/application \
                $(LIBRARY_DIR)/application/$(TARGET_OS) \
                $(LIBRARY_DIR)/ble \

@@ -214,11 +214,78 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //////////////////////////////////////////////////
+//                   Alarms                     //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : alarms */
+#define OV_CONFIG_GROUP_ALARMS                  10u
+
+/** \brief Configuration value : altitude alarm enabled */
+#define OV_CONFIG_VALUE_ALARMS_ALTI_ENABLED     0u
+
+/** \brief Configuration value : low altitude alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_LALTI_THRESHOLD  1u
+
+/** \brief Configuration value : high altitude alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_HALTI_THRESHOLD  2u
+
+/** \brief Configuration value : altitude alarm hysteresis */
+#define OV_CONFIG_VALUE_ALARMS_ALTI_HYSTERESIS  3u
+
+/** \brief Configuration value : temperature alarm enabled */
+#define OV_CONFIG_VALUE_ALARMS_TEMP_ENABLED     4u
+
+/** \brief Configuration value : low temperature alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_LTEMP_THRESHOLD  5u
+
+/** \brief Configuration value : high temperature alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_HTEMP_THRESHOLD  6u
+
+/** \brief Configuration value : temperature alarm hysteresis */
+#define OV_CONFIG_VALUE_ALARMS_TEMP_HYSTERESIS  7u
+
+/** \brief Configuration value : vario alarm enabled */
+#define OV_CONFIG_VALUE_ALARMS_VARIO_ENABLED    8u
+
+/** \brief Configuration value : low vario alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_LVARIO_THRESHOLD 9u
+
+/** \brief Configuration value : high vario alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_HVARIO_THRESHOLD 10u
+
+/** \brief Configuration value : vario alarm hysteresis */
+#define OV_CONFIG_VALUE_ALARMS_VARIO_HYSTERESIS 11u
+
+/** \brief Configuration value : speed alarm enabled */
+#define OV_CONFIG_VALUE_ALARMS_SPEED_ENABLED    12u
+
+/** \brief Configuration value : low speed alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_LSPEED_THRESHOLD 13u
+
+/** \brief Configuration value : high speed alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_HSPEED_THRESHOLD 14u
+
+/** \brief Configuration value : speed alarm hysteresis */
+#define OV_CONFIG_VALUE_ALARMS_SPEED_HYSTERESIS 15u
+
+/** \brief Configuration value : acceleration alarm enabled */
+#define OV_CONFIG_VALUE_ALARMS_ACCEL_ENABLED    16u
+
+/** \brief Configuration value : acceleration alarm threshold */
+#define OV_CONFIG_VALUE_ALARMS_ACCEL_THRESHOLD  17u
+
+/** \brief Configuration value : acceleration alarm hysteresis */
+#define OV_CONFIG_VALUE_ALARMS_ACCEL_HYSTERESIS 18u
+
+
+
+
+//////////////////////////////////////////////////
 //                 Bluetooth                    //
 //////////////////////////////////////////////////
 
 /** \brief Configuration value group : bluetooth low energy */
-#define OV_CONFIG_GROUP_BLE                     9u
+#define OV_CONFIG_GROUP_BLE                     10u
 
 /** \brief Configuration value : BLE enabled flag */
 #define OV_CONFIG_VALUE_BLE_ENABLED             0u
@@ -237,7 +304,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////
 
 /** \brief Configuration value group : simulator */
-#define OV_CONFIG_GROUP_SIMULATOR               10u
+#define OV_CONFIG_GROUP_SIMULATOR               11u
 
 /** \brief Configuration value : simulator enable flag */
 #define OV_CONFIG_VALUE_SIMU_ENABLED            0u

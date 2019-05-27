@@ -26,6 +26,7 @@
                 "${workspaceFolder}/src/libs/os/nano-os",
 
                 "${workspaceFolder}/src/libs/open-vario",
+                "${workspaceFolder}/src/libs/open-vario/alarms",
                 "${workspaceFolder}/src/libs/open-vario/application",
                 "${workspaceFolder}/src/libs/open-vario/application/nano-os",
                 "${workspaceFolder}/src/libs/open-vario/ble",
