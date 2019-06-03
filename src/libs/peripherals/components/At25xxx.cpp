@@ -117,7 +117,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
             spi_xfer_data.size = program_size;
             spi_xfer_data.cs = m_chip_select;
 
-            // Prepare SPI transfer to send the READ command
+            // Prepare SPI transfer to send the WRITE command
             uint8_t write_cmd[] = {
                                     0x02u, 
                                     static_cast<uint8_t>(((address + index) >> 8u) & 0xFFu), 

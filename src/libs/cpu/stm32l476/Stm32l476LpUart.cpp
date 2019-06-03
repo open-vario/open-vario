@@ -154,7 +154,7 @@ bool Stm32l476LpUart::configure()
 
     // Enable Rx interrupt
     LPUART1->CR1 |= (1u << 5u);
-    NVIC_EnableIRQ(LPUART1_IRQn);
+    //NVIC_EnableIRQ(LPUART1_IRQn);
 
     // Enable receive and transmit
     LPUART1->CR1 |= (1u << 0u) | (1u << 2u) | (1u << 3u);

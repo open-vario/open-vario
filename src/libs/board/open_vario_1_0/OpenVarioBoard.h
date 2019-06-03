@@ -116,12 +116,6 @@ class OpenVarioBoard : public IOpenVarioBoard
         McuRtc m_rtc;
 
 
-        #ifdef NUCLEOBOARD
-        /** \brief Pin to drive the activity LED */
-        Stm32l476Gpio m_activity_led_pin;
-        #endif // NUCLEOBOARD
-
-
         /** \brief Debug UART Rx pin */
         Stm32l476Gpio m_debug_uart_rx_pin;
 
@@ -195,18 +189,14 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Pin to read ENTER button state */
         IoExpanderPin m_enter_button_pin;
 
-        #ifndef NUCLEOBOARD
         /** \brief Pin to drive the activity LED */
         IoExpanderPin m_activity_led_pin;
-        #endif // NUCLEOBOARD
 
         /** \brief Pin to drive the low battery LED */
         IoExpanderPin m_low_bat_led_pin;
 
-        #ifndef NUCLEOBOARD
         /** \brief Pin to drive the BLE chip reset */
         IoExpanderPin m_ble_reset_pin;
-        #endif // NUCLEOBOARD
 
         /** \brief Activity LED */
         IoLed m_activity_led;
@@ -254,11 +244,6 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief U-Blox M8 GNSS */
         UBloxM8 m_gnss;
 
-
-        #ifdef NUCLEOBOARD
-        /** \brief Pin to drive the BLE chip reset */
-        Stm32l476Gpio m_ble_reset_pin;
-        #endif // NUCLEOBOARD
 
         /** \brief BLE interrupt pin */
         Stm32l476Gpio m_ble_irq_pin;

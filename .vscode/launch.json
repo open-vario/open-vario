@@ -52,7 +52,7 @@
             "type": "cortex-debug",
             "servertype": "jlink",
             "device": "STM32L476RG",
-            "interface": "jtag",
+            "interface": "swd",
             "ipAddress": null,
             "serialNumber": null
         },

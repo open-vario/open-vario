@@ -29,7 +29,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "BleManager.h"
 #include "LogMacro.h"
 #include "ISpi.h"
-
+#include "INorFlash.h"
 
 namespace open_vario
 {

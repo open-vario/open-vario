@@ -64,6 +64,9 @@ class SSt26xxx : public INorFlash
         /** \brief Erase the whole the NOR flash */
         virtual bool chipErase();
 
+        /** \brief Read the NOR flash ID */
+        virtual bool readId(uint8_t& manufacturer_id, uint8_t& device_type, uint8_t& device_id);
+
 
     private:
 
@@ -116,6 +119,12 @@ class SSt26xxx : public INorFlash
 
         /** \brief Chip erase command */
         static const uint8_t CE = 0xC7u;
+
+        /** \brief Global block protection unlock ommand */
+        static const uint8_t ULBPR = 0x98u;
+
+        /** \brief JDEC-ID read command */
+        static const uint8_t JEDEC_ID = 0x9Fu;
 
         /** \brief Read status register command */
         static const uint8_t RDSR = 0x05u;
