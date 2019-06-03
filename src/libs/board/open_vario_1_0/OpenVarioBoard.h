@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476LpUart.h"
 #include "Stm32l476Spi.h"
 #include "SpiChipSelectDriver.h"
+#include "Stm32l476I2c.h"
 #include "Stm32l476Crc32.h"
 
 #include "McuRtc.h"
@@ -189,11 +190,11 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Pin to read ENTER button state */
         IoExpanderPin m_enter_button_pin;
 
-        /** \brief Pin to drive the activity LED */
-        IoExpanderPin m_activity_led_pin;
-
         /** \brief Pin to drive the low battery LED */
         IoExpanderPin m_low_bat_led_pin;
+
+        /** \brief Pin to drive the activity LED */
+        IoExpanderPin m_activity_led_pin;
 
         /** \brief Pin to drive the BLE chip reset */
         IoExpanderPin m_ble_reset_pin;
@@ -256,6 +257,16 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief BLE stack */
         BlueNrgMsStack m_bluenrgms_stack;
+
+
+        /** \brief I2C bus 1 SCL pin */
+        Stm32l476Gpio m_i2c_1_scl_pin;
+
+        /** \brief I2C bus 1 SDA pin */
+        Stm32l476Gpio m_i2c_1_sda_pin;
+
+        /** \brief I2C bus 1 */
+        Stm32l476I2c m_i2c1;
 
 };
 

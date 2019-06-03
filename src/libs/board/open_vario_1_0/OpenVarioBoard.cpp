@@ -87,6 +87,10 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_ble_rx_task("BlueNrgMs Rx task", 11u)
 , m_bluenrgms(m_spi_1, 3u, m_ble_reset_pin, m_ble_irq_pin, m_ble_rx_task)
 , m_bluenrgms_stack(m_bluenrgms)
+
+, m_i2c_1_scl_pin(Stm32l476Gpio::PORT_B, 8u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_i2c_1_sda_pin(Stm32l476Gpio::PORT_B, 9u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_i2c1(m_cpu, Stm32l476I2c::I2C_1, 400000u, m_dma1)
 {
     (void)config_manager;
 }
@@ -161,7 +165,12 @@ bool OpenVarioBoard::configure()
     // BLE
     ret = ret && m_ble_reset_pin.configure();
     ret = ret && m_ble_irq_pin.configure();
-    
+
+    // I2C bus 1
+    ret = ret && m_i2c_1_scl_pin.configure();
+    ret = ret && m_i2c_1_sda_pin.configure();
+    ret = ret && m_i2c1.configure();
+
     return ret;
 }
 
