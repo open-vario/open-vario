@@ -292,7 +292,7 @@ void NmeaGnss::decodeFrame()
 
             // Status
             const char* status = getNextFrameParam(time);
-            m_data_valid = m_data_valid && (status[0] == 'A');
+            m_data_valid = m_data_valid && ((status[0] == 'A') || (status[0] == 'V'));
 
             // Extract latitude
             const char* const latitude = getNextFrameParam(status);
@@ -362,7 +362,7 @@ uint32_t NmeaGnss::convertNDigitsInt(const char number[], const uint8_t digits, 
 bool NmeaGnss::convertTimeParam(const char* time, IRtc::DateTime& date_time)
 {
     bool ret = false;
-    if (NANO_STL_STRNLEN(time, 10u) == 6)
+    if (NANO_STL_STRNLEN(time, 10u) >= 6)
     {
         date_time.hour = convertNDigitsInt(&time[0u], 2u, 10u);
         date_time.minute = convertNDigitsInt(&time[2u], 2u, 10u);

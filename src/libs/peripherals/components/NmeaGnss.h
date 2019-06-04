@@ -123,7 +123,7 @@ class NmeaGnss : public IGnss
         static const uint32_t INTER_FRAME_TIMEOUT = 1500u;
 
         /** \brief Inter char timeout in milliseconds */
-        static const uint32_t INTER_CHAR_TIMEOUT = 2u;
+        static const uint32_t INTER_CHAR_TIMEOUT = 50u;
 
 };
 
