@@ -104,8 +104,7 @@ bool Stm32l476I2c::configure()
         i2c->CR2 = 0;
 
         // Configure frequency
-        //i2c->TIMINGR = 0x40E03E53; // For 80MHz input clock
-        i2c->TIMINGR = 0x00E03E53;
+        i2c->TIMINGR = 0x20420F13;
         i2c->TIMEOUTR = 0;
 
         // Enable analog filter
@@ -219,12 +218,15 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
             {}
             if (m_xfer->stop_cond)
             {
-                i2c->CR1 |= (1u << 14u);
+                i2c->CR2 |= (1u << 14u);
             }
         }        
 
         // Disable error interrupts
         i2c->CR1 &= ~(1u << 4u) | (1u << 7u);
+
+        // Reset error flag
+        i2c->ICR = 0xFFFFFFFFu;
 
         // Next transfer
         m_xfer = m_xfer->next;
