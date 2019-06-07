@@ -17,8 +17,8 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Ms56xxSpi.h"
-#include "ISpi.h"
+#include "Ms56xxI2c.h"
+#include "II2c.h"
 #include "IOs.h"
 
 namespace open_vario
@@ -26,35 +26,33 @@ namespace open_vario
 
 
 /** \brief Constructor */
-Ms56xxSpi::Ms56xxSpi(ISpi& spi, const uint8_t chip_select)
-: m_spi(spi)
-, m_chip_select(chip_select)
+Ms56xxI2c::Ms56xxI2c(II2c& i2c, const uint8_t address)
+: m_i2c(i2c)
+, m_address(address)
 {}
 
 
 /** \brief Reset the chip */
-bool Ms56xxSpi::reset()
+bool Ms56xxI2c::reset()
 {
-    const uint8_t reset_cmd = Ms56xx::RESET_CMD;
-    ISpi::XFer spi_xfer;
-    spi_xfer.write_data = &reset_cmd;
-    spi_xfer.size = sizeof(reset_cmd);
-    spi_xfer.cs = m_chip_select;
-    spi_xfer.keep_cs_active = true;
+    uint8_t reset_cmd = Ms56xx::RESET_CMD;
+    II2c::XFer i2c_xfer;
+    i2c_xfer.read = false;
+    i2c_xfer.data = &reset_cmd;
+    i2c_xfer.size = sizeof(reset_cmd);
 
-    const bool ret = m_spi.xfer(spi_xfer);
+    const bool ret = m_i2c.xfer(m_address, i2c_xfer);
     if (ret)
     {
         // Wait end of reset (~2.8ms)
         IOs::getInstance().waitMs(20u);
-        m_spi.releaseCs();
     }
 
     return ret;
 }
 
 /** \brief Read calibration data from the PROM */
-bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
+bool Ms56xxI2c::readCalibrationData(CalibrationData& calib_data)
 {
     bool ret = true;
     uint16_t* const prom = reinterpret_cast<uint16_t*>(&calib_data);
@@ -63,78 +61,72 @@ bool Ms56xxSpi::readCalibrationData(CalibrationData& calib_data)
     for (uint8_t i = 0; i < (sizeof(CalibrationData) / sizeof(uint16_t)); i++)
     {
         // Calibration data
-        ISpi::XFer spi_xfer_data;
+        II2c::XFer i2c_xfer_data;
         uint8_t read_data[2u];
-        spi_xfer_data.read_data = read_data;
-        spi_xfer_data.size = sizeof(uint16_t);
-        spi_xfer_data.cs = m_chip_select;
+        i2c_xfer_data.data = read_data;
+        i2c_xfer_data.size = sizeof(uint16_t);
 
         // Command
-        const uint8_t read_calib_cmd = Ms56xx::PROM_READ + (i << 1);
-        ISpi::XFer spi_xfer_cmd;
-        spi_xfer_cmd.write_data = &read_calib_cmd;
-        spi_xfer_cmd.size = sizeof(read_calib_cmd);
-        spi_xfer_cmd.cs = m_chip_select;
-        spi_xfer_cmd.keep_cs_active = true;
-        spi_xfer_cmd.next = &spi_xfer_data;
+        uint8_t read_calib_cmd = Ms56xx::PROM_READ + (i << 1);
+        II2c::XFer i2c_xfer_cmd;
+        i2c_xfer_cmd.read = false;
+        i2c_xfer_cmd.data = &read_calib_cmd;
+        i2c_xfer_cmd.size = sizeof(read_calib_cmd);
+        i2c_xfer_cmd.next = &i2c_xfer_data;
 
-        ret = ret && m_spi.xfer(spi_xfer_cmd);
+        ret = ret && m_i2c.xfer(m_address, i2c_xfer_cmd);
         if (ret)
         {
             // Decode received data (MSB is received first)
             prom[i] = (read_data[0u] << 8u) + read_data[1u];
         }
     }
-    
+
     return ret;
 }
 
 /** \brief Read digital pressure value */
-bool Ms56xxSpi::readD1(uint32_t& d1)
+bool Ms56xxI2c::readD1(uint32_t& d1)
 {
     return readConvertedValue(Ms56xx::CONVERT_D1, d1);
 }
 
 /** \brief Read temperature value */
-bool Ms56xxSpi::readD2(uint32_t& d2)
+bool Ms56xxI2c::readD2(uint32_t& d2)
 {
     return readConvertedValue(Ms56xx::CONVERT_D2, d2);
 }
 
 /** \brief Read a converted value */
-bool Ms56xxSpi::readConvertedValue(const uint8_t cmd, uint32_t& value)
+bool Ms56xxI2c::readConvertedValue(uint8_t cmd, uint32_t& value)
 {
     bool ret;
 
     // Start conversion
-    ISpi::XFer spi_xfer;
-    spi_xfer.write_data = &cmd;
-    spi_xfer.size = sizeof(cmd);
-    spi_xfer.cs = m_chip_select;
-    spi_xfer.keep_cs_active = true;
-    ret = m_spi.xfer(spi_xfer);
+    II2c::XFer i2c_xfer;
+    i2c_xfer.read = false;
+    i2c_xfer.data = &cmd;
+    i2c_xfer.size = sizeof(cmd);
+    ret = m_i2c.xfer(m_address, i2c_xfer);
     if (ret)
     {
         // Wait end of conversion (~8.22ms)
         IOs::getInstance().waitMs(20u);
-        m_spi.releaseCs();
 
         // Adc value
-        ISpi::XFer spi_xfer_data;
+        II2c::XFer i2c_xfer_data;
         uint8_t read_data[3u];
-        spi_xfer_data.read_data = read_data;
-        spi_xfer_data.size = sizeof(read_data);
-        spi_xfer_data.cs = m_chip_select;
+        i2c_xfer_data.data = read_data;
+        i2c_xfer_data.size = sizeof(read_data);
 
         // Command
-        const uint8_t read_cmd = Ms56xx::ADC_READ;
-        spi_xfer.write_data = &read_cmd;
-        spi_xfer.size = sizeof(read_cmd);
-        spi_xfer.cs = m_chip_select;
-        spi_xfer.keep_cs_active = true;
-        spi_xfer.next = &spi_xfer_data;
+        uint8_t read_cmd = Ms56xx::ADC_READ;
+        i2c_xfer.read = false;
+        i2c_xfer.data = &read_cmd;
+        i2c_xfer.size = sizeof(read_cmd);
+        i2c_xfer.next = &i2c_xfer_data;
 
-        ret = m_spi.xfer(spi_xfer);
+        ret = m_i2c.xfer(m_address, i2c_xfer);
         if (ret)
         {
             // Decode received data (MSB is received first)

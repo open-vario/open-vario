@@ -18,7 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "OpenVarioBoard.h"
-
+#include "IOs.h"
 namespace open_vario
 {
 
@@ -56,6 +56,10 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_cs_driver_2(Stm32l476Gpio::PORT_B)
 , m_spi_2(m_cpu, Stm32l476Spi::SPI_2, 200000u, ISpi::POL_LOW, ISpi::PHA_FIRST, m_cs_driver_2, m_dma1)
 
+, m_i2c_1_scl_pin(Stm32l476Gpio::PORT_B, 8u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_i2c_1_sda_pin(Stm32l476Gpio::PORT_B, 9u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_i2c_1(m_cpu, Stm32l476I2c::I2C_1, 100000u, m_dma1)
+
 , m_io_expander(m_spi_2, 4u)
 , m_plus_button_pin(m_io_expander, 0u, true)
 , m_minus_button_pin(m_io_expander, 1u, true)
@@ -74,7 +78,11 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_exp_uart_tx_pin(Stm32l476Gpio::PORT_C, 10u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_exp_uart(m_cpu, Stm32l476Usart::USART_3, 115200u, IUart::PARITY_NONE, IUart::STOPBITS_ONE, IUart::FLOWCONTROL_NONE)
 
-, m_baro_sensor(m_spi_1, 0u)
+#ifdef MS56XX_SPI
+, m_baro_sensor(m_spi_1, 1u)
+#else
+, m_baro_sensor(m_i2c_1, 0x76u)
+#endif // MS56XX_SPI
 , m_alti_sensor(m_baro_sensor)
 
 , m_gnss_uart_rx_pin(Stm32l476Gpio::PORT_C, 0u, Stm32l476Gpio::MODE_AF, 8u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -87,10 +95,6 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_ble_rx_task("BlueNrgMs Rx task", 11u)
 , m_bluenrgms(m_spi_1, 3u, m_ble_reset_pin, m_ble_irq_pin, m_ble_rx_task)
 , m_bluenrgms_stack(m_bluenrgms)
-
-, m_i2c_1_scl_pin(Stm32l476Gpio::PORT_B, 8u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_i2c_1_sda_pin(Stm32l476Gpio::PORT_B, 9u, Stm32l476Gpio::MODE_AF, 4u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
-, m_i2c1(m_cpu, Stm32l476I2c::I2C_1, 400000u, m_dma1)
 {
     (void)config_manager;
 }
@@ -134,6 +138,11 @@ bool OpenVarioBoard::configure()
     ret = ret && m_cs_driver_2.configure();
     ret = ret && m_spi_2.configure();
 
+    // I2C bus 1
+    ret = ret && m_i2c_1_scl_pin.configure();
+    ret = ret && m_i2c_1_sda_pin.configure();
+    ret = ret && m_i2c_1.configure();
+
     // I/O expander
     ret = ret && m_io_expander.configure();
     ret = ret && m_plus_button_pin.configure();
@@ -165,11 +174,6 @@ bool OpenVarioBoard::configure()
     // BLE
     ret = ret && m_ble_reset_pin.configure();
     ret = ret && m_ble_irq_pin.configure();
-
-    // I2C bus 1
-    ret = ret && m_i2c_1_scl_pin.configure();
-    ret = ret && m_i2c_1_sda_pin.configure();
-    ret = ret && m_i2c1.configure();
 
     return ret;
 }

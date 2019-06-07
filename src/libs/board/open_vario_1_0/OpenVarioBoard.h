@@ -41,7 +41,11 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IoExpanderPin.h"
 #include "At25xxx.h"
 #include "SSt26xxx.h"
+#ifdef MS56XX_SPI
 #include "Ms56xxSpi.h"
+#else
+#include "Ms56xxI2c.h"
+#endif // MS56XX_SPI
 #include "BarometricAltimeter.h"
 #include "UBloxM8.h"
 #include "BlueNrgMs.h"
@@ -178,6 +182,16 @@ class OpenVarioBoard : public IOpenVarioBoard
         Stm32l476Spi m_spi_2;
 
 
+        /** \brief I2C bus 1 SCL pin */
+        Stm32l476Gpio m_i2c_1_scl_pin;
+
+        /** \brief I2C bus 1 SDA pin */
+        Stm32l476Gpio m_i2c_1_sda_pin;
+
+        /** \brief I2C bus 1 */
+        Stm32l476I2c m_i2c_1;
+
+
         /** \brief I/O expander */
         Mcp23S17 m_io_expander;
 
@@ -223,8 +237,13 @@ class OpenVarioBoard : public IOpenVarioBoard
         Stm32l476Usart m_exp_uart;
 
 
+        #ifdef MS56XX_SPI
         /** \brief Barometric pressure sensor */
         Ms56xxSpi m_baro_sensor;
+        #else
+        /** \brief Barometric pressure sensor */
+        Ms56xxI2c m_baro_sensor;
+        #endif // MS56XX_SPI
 
         /** \brief Barometric altimeter sensor */
         BarometricAltimeter m_alti_sensor;
@@ -257,17 +276,6 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief BLE stack */
         BlueNrgMsStack m_bluenrgms_stack;
-
-
-        /** \brief I2C bus 1 SCL pin */
-        Stm32l476Gpio m_i2c_1_scl_pin;
-
-        /** \brief I2C bus 1 SDA pin */
-        Stm32l476Gpio m_i2c_1_sda_pin;
-
-        /** \brief I2C bus 1 */
-        Stm32l476I2c m_i2c1;
-
 };
 
 }
