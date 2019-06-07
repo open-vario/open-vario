@@ -73,7 +73,6 @@ bool Stm32l476I2c::configure()
     bool ret = true;
 
     // Enable clock
-    uint32_t input_clock_frequency = 0u;
     switch (m_i2c)
     {
         case I2C_1:
@@ -82,8 +81,12 @@ bool Stm32l476I2c::configure()
         /* Intended fallthrough */
         case I2C_3:
         {
+            // Select SYSCLK has clock source
+            RCC->CCIPR &= ~(3u << (12u + 2u * static_cast<uint8_t>(m_i2c)));
+            RCC->CCIPR |= (1u << (12u + 2u * static_cast<uint8_t>(m_i2c)));
+
+            // Enable clock
             RCC->APB1ENR1 |= (1u << (21u + static_cast<uint8_t>(m_i2c)));
-            input_clock_frequency = m_cpu.getPclk1Frequency();
             break;
         }
 
@@ -103,8 +106,27 @@ bool Stm32l476I2c::configure()
         i2c->CR1 = 0;
         i2c->CR2 = 0;
 
-        // Configure frequency
-        i2c->TIMINGR = 0x20420F13;
+        // Configure frequency (based on a input clock of 48MHz)
+        if (m_frequency == 100000u)
+        {
+            // Standard mode - 100kHz
+            i2c->TIMINGR = 0xB0420F13;
+        }
+        else if (m_frequency == 400000u)
+        {
+            // Fast mode - 400kHz
+            i2c->TIMINGR = 0x50330309;
+        }
+        else if (m_frequency == 1000000u)
+        {
+            // Fast mode Plus - 1000kHz
+            i2c->TIMINGR = 0x50100103;
+        }
+        else
+        {
+            // Standard mode - 10kHz
+            i2c->TIMINGR = 0xB042C3C7;
+        }
         i2c->TIMEOUTR = 0;
 
         // Enable analog filter
@@ -138,6 +160,13 @@ bool Stm32l476I2c::configure()
     }
 
     return ret;
+}
+
+/** \brief Transfer data through the I2C */
+bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer)
+{
+    I2cError error = II2c::I2C_SUCCESS;
+    return this->xfer(slave_address, xfer, error);
 }
 
 /** \brief Transfer data through the I2C */
@@ -239,7 +268,7 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
     // Unlock I2C bus
     m_mutex.unlock();
 
-    return true;
+    return (error == II2c::I2C_SUCCESS);
 }
 
 /** \brief Called when the DMA transfer is done on a channel */

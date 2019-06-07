@@ -72,6 +72,9 @@ class Stm32l476I2c : public II2c, public IStm32l476DmaListener
         virtual bool configure();
 
         /** \brief Transfer data through the I2C */
+        virtual bool xfer(const uint8_t slave_address, const XFer& xfer);
+
+        /** \brief Transfer data through the I2C */
         virtual bool xfer(const uint8_t slave_address, const XFer& xfer, I2cError& error);
 
         /** \brief Called when the DMA transfer is done on a channel */

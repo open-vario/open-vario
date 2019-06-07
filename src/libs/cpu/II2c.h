@@ -76,6 +76,9 @@ class II2c
         virtual bool configure() = 0;
 
         /** \brief Transfer data through the I2C */
+        virtual bool xfer(const uint8_t slave_address, const XFer& xfer) = 0;
+
+        /** \brief Transfer data through the I2C */
         virtual bool xfer(const uint8_t slave_address, const XFer& xfer, I2cError& error) = 0;
 
 };
