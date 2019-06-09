@@ -60,7 +60,7 @@ void InitMode::enter()
     {
         LOG_ERROR("Failure during board initialization...");
     }
-    else
+    //else
     {
         LOG_INFO("Entering init mode...");
 

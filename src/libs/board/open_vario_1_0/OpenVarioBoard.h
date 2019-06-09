@@ -98,6 +98,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
 
+        /** \brief Get the board's GNSS */
+        virtual IGnss& gnss() { return m_gnss; }
+
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() { return m_bluenrgms_stack; }
         

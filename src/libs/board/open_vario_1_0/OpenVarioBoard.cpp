@@ -18,7 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "OpenVarioBoard.h"
-#include "IOs.h"
+
 namespace open_vario
 {
 

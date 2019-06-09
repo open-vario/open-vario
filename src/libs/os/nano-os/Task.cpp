@@ -38,7 +38,7 @@ Task::Task(const char* name, const uint8_t priority, uint8_t stack[], const size
     m_task_init_data.stack_size = stack_size / sizeof(nano_os_stack_t);
     m_task_init_data.task_func = Task::taskEntry;
     m_task_init_data.port_init_data.is_priviledged = true;
-    m_task_init_data.port_init_data.use_fpu = false;
+    m_task_init_data.port_init_data.use_fpu = true;
 }
 
 /** \brief Start the task */
