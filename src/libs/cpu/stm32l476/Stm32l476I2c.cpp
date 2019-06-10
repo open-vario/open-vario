@@ -129,7 +129,7 @@ bool Stm32l476I2c::configure()
         }
         i2c->TIMEOUTR = 0;
 
-        // Enable analog filter
+        // Disable analog filter
         i2c->CR1 |= (1u << 12u);
 
         // Configure DMA
@@ -190,6 +190,8 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
         i2c->ICR = 0xFFFFFFFFu;
 
         // Configure DMA
+        i2c->CR1 &= ~((1u << 14u) | (1u << 15u));
+        /*
         if (m_xfer->size != 0)
         {
             if (m_xfer->read)
@@ -201,11 +203,12 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
                 m_dma.startXfer(TX_DMA_CHANNEL[m_i2c], m_xfer->data, &i2c->TXDR, m_xfer->size);
             }
         }
-        i2c->CR1 &= ~((1u << 14u) | (1u << 15u));
+        */
+        
 
         // Configure transfer
         uint32_t cr2_reg;
-        cr2_reg = (slave_address << 1u) | (m_xfer->size << 16u);
+        cr2_reg = ((slave_address & 0x7Fu) << 1u) | (m_xfer->size << 16u);
         if (m_xfer->read)
         {
             cr2_reg |= (1u << 10u);
@@ -220,6 +223,7 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
         i2c->CR2 = cr2_reg;
 
         // Enable DMA
+        /*
         if (m_xfer->size != 0)
         {
             if (m_xfer->read)
@@ -231,28 +235,70 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
                 i2c->CR1 |= (1u << 14u);
             }
         }
+        */
 
         // Enable error interrupts
-        i2c->CR1 |= (1u << 4u) | (1u << 7u);
+        i2c->CR1 |= ((1u << 4u) | (1u << 7u));
 
         // Wait for end of transfer
+        /*
         if (m_xfer->size != 0)
         {
             (void)m_end_of_xfer.wait(IOs::getInstance().getInfiniteTimeoutValue());
         }
         else
+        */
         {
-            while ((m_error == II2c::I2C_SUCCESS) &&
-                   ((i2c->CR2 & (1u << 13u)) != 0))
-            {}
-            if (m_xfer->stop_cond)
+            uint8_t current_byte = 0;
+
+            if (m_xfer->read)
             {
-                i2c->CR2 |= (1u << 14u);
+                do
+                {
+                    // Wait rx ready condition
+                    while ((m_error == II2c::I2C_SUCCESS) &&
+                        ((i2c->ISR & (1u << 2u)) == 0))
+                    {}
+                    if (m_error == II2c::I2C_SUCCESS)
+                    {
+                        m_xfer->data[current_byte] = i2c->RXDR;
+                        current_byte++;
+                    }
+                }
+                while ((m_error == II2c::I2C_SUCCESS) && (current_byte != m_xfer->size));
+
+                // Wait end of transfer
+                while ((i2c->ISR & (1u << 6u)) != 0)
+                {}
             }
-        }        
+            else
+            {
+                do
+                {
+                    // Wait tx ready condition
+                    while ((m_error == II2c::I2C_SUCCESS) &&
+                        ((i2c->ISR & (1u << 1u)) == 0))
+                    {}
+                    if (m_error == II2c::I2C_SUCCESS)
+                    {
+                        i2c->TXDR = m_xfer->data[current_byte];
+                        current_byte++;
+                    }
+                }
+                while ((m_error == II2c::I2C_SUCCESS) && (current_byte != m_xfer->size));
+            } 
+        }
+
+        // Wait stop condition
+        if (m_xfer->stop_cond)
+        {
+            // Wait end of transfer
+            while ((i2c->ISR & (1u << 5u)) == 0)
+            {}
+        }
 
         // Disable error interrupts
-        i2c->CR1 &= ~(1u << 4u) | (1u << 7u);
+        i2c->CR1 &= ~((1u << 4u) | (1u << 7u));
 
         // Reset error flag
         i2c->ICR = 0xFFFFFFFFu;
@@ -261,6 +307,9 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
         m_xfer = m_xfer->next;
     }
     while ((m_xfer != nullptr) && (m_error == II2c::I2C_SUCCESS));
+
+    // Clear control register
+    i2c->CR2 = 0;
 
     // Save error state
     error = m_error;
@@ -313,6 +362,9 @@ void Stm32l476I2c::irqHandler()
 
     // Reset error flag
     i2c->ICR = 0xFFFFFFFFu;
+
+    // Stop condition
+    i2c->CR2 |= (1u << 14u);
 
     // End of transfer
     m_end_of_xfer.post(true);

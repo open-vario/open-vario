@@ -47,7 +47,7 @@ class II2c
             /** \brief Buffer */
             uint8_t* data;
             /** \brief Buffer size in bytes */
-            uint32_t size;
+            uint8_t size;
             /** \brief Read data on I2C bus */
             bool read;
             /** \brief Trigger a stop condition at the end of the transfer */
