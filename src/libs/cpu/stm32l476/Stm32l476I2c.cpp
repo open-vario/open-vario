@@ -48,7 +48,7 @@ static const IRQn_Type i2c_evt_irqs[Stm32l476I2c::I2C_MAX] = {I2C1_EV_IRQn, I2C2
 /** \brief I2C error irq numbers */
 static const IRQn_Type i2c_err_irqs[Stm32l476I2c::I2C_MAX] = {I2C1_ER_IRQn, I2C2_ER_IRQn, I2C3_ER_IRQn};
 
-/** \brief USART instances */
+/** \brief I2C instances */
 static Stm32l476I2c* i2cs[Stm32l476I2c::I2C_MAX] = {nullptr, nullptr, nullptr};
 
 
