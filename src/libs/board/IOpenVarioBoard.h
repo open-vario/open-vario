@@ -36,6 +36,7 @@ class INorFlash;
 class IBarometricAltimeter;
 class IGnss;
 class IBlePeripheralStack;
+class IBuzzer;
 
 /** \brief Interface for all open vario boards implementations */
 class IOpenVarioBoard
@@ -81,6 +82,9 @@ class IOpenVarioBoard
 
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() = 0;
+
+        /** \brief Get the board's buzzer */
+        virtual IBuzzer& buzzer() = 0;
 };
 
 }

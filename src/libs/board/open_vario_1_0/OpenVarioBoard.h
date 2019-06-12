@@ -34,6 +34,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SpiChipSelectDriver.h"
 #include "Stm32l476I2c.h"
 #include "Stm32l476Crc32.h"
+#include "Stm32l476LpTimPwm.h"
 
 #include "McuRtc.h"
 #include "IoLed.h"
@@ -50,6 +51,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "UBloxM8.h"
 #include "BlueNrgMs.h"
 #include "BlueNrgMsStack.h"
+#include "PwmBuzzer.h"
 
 namespace open_vario
 {
@@ -103,6 +105,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() { return m_bluenrgms_stack; }
+
+        /** \brief Get the board's buzzer */
+        virtual IBuzzer& buzzer() { return m_buzzer; }
         
 
     private:
@@ -279,6 +284,19 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief BLE stack */
         BlueNrgMsStack m_bluenrgms_stack;
+
+
+
+        /** \brief Buzzer PWM pin */
+        Stm32l476Gpio m_buzzer_pwm_pin;
+
+        /** \brief Buzzer PWM */
+        Stm32l476LpTimPwm m_buzzer_pwm;
+
+        /** \brief Buzzer */
+        PwmBuzzer m_buzzer;
+
+
 };
 
 }

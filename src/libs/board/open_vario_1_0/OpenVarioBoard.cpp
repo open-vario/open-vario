@@ -18,6 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "OpenVarioBoard.h"
+#include "IOs.h"
 
 namespace open_vario
 {
@@ -95,6 +96,10 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_ble_rx_task("BlueNrgMs Rx task", 11u)
 , m_bluenrgms(m_spi_1, 3u, m_ble_reset_pin, m_ble_irq_pin, m_ble_rx_task)
 , m_bluenrgms_stack(m_bluenrgms)
+
+, m_buzzer_pwm_pin(Stm32l476Gpio::PORT_A, 4u, Stm32l476Gpio::MODE_AF, 14u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
+, m_buzzer_pwm(m_cpu, Stm32l476LpTim::LPTIM_2)
+, m_buzzer(m_buzzer_pwm)
 {
     (void)config_manager;
 }
@@ -163,7 +168,7 @@ bool OpenVarioBoard::configure()
     ret = ret && m_flight_data_flash.configure();
 
     // Barometric altimeter sensor
-    ret = ret && m_alti_sensor.configure();
+    //ret = ret && m_alti_sensor.configure();
 
     // GNSS
     ret = ret && m_gnss_uart_rx_pin.configure();
@@ -174,6 +179,11 @@ bool OpenVarioBoard::configure()
     // BLE
     ret = ret && m_ble_reset_pin.configure();
     ret = ret && m_ble_irq_pin.configure();
+
+    // Buzzer
+    ret = ret && m_buzzer_pwm_pin.configure();
+    ret = ret && m_buzzer_pwm.configure(800u, 50u);
+    ret = ret && m_buzzer.configure();
 
     return ret;
 }
