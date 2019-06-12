@@ -125,12 +125,12 @@ bool Stm32l476Rtc::getDateTime(DateTime& date_time)
 
     /* Extract date and time */
     date_time.year = fromBcd((date_reg >> 16u) & 0xFFu);
-    date_time.month = fromBcd((date_reg >> 8u) & 0xFFu);
-    date_time.day = fromBcd((date_reg >> 0u) & 0xFFu);
+    date_time.month = fromBcd((date_reg >> 8u) & 0x1Fu);
+    date_time.day = fromBcd((date_reg >> 0u) & 0x3Fu);
 
-    date_time.hour = fromBcd((time_reg >> 16u) & 0xFFu);
-    date_time.minute = fromBcd((time_reg >> 8u) & 0xFFu);
-    date_time.second = fromBcd((time_reg >> 0u) & 0xFFu);
+    date_time.hour = fromBcd((time_reg >> 16u) & 0x3Fu);
+    date_time.minute = fromBcd((time_reg >> 8u) & 0x7Fu);
+    date_time.second = fromBcd((time_reg >> 0u) & 0x7Fu);
 
     return true;
 }
