@@ -692,6 +692,7 @@ static uint8_t  USBD_CDC_DataIn (USBD_HandleTypeDef *pdev, uint8_t epnum)
     else
     {
       hcdc->TxState = 0U;
+      ((USBD_CDC_ItfTypeDef *)pdev->pUserData)->TransmitDone();
     }
     return USBD_OK;
   }
