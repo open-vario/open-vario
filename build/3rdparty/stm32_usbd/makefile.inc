@@ -1,6 +1,6 @@
 ####################################################################################################
 # \file makefile
-# \brief  Makefile for the include files of cpu library
+# \brief  Makefile for stm32_usbd library
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -21,31 +21,21 @@
 ####################################################################################################
 
 
-# Locating the root directory
-ROOT_DIR := ../../..
+# Library directory
+LIBRARY_DIR := $(ROOT_DIR)/3rdparty/stm32_usbd
 
-# Project name
-PROJECT_NAME := cpu
-
-# Build type
-BUILD_TYPE := LIB
-
-# Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES = libs/os \
-                       3rdparty/nano-stl \
-					   3rdparty/stm32_usbd \
-                       $(TARGET_BSP) \
-					   $(TARGET_DEPENDENCIES)
-
-			  
-# Including common makefile definitions
-include $(ROOT_DIR)/build/make/generic_makefile
-
-
-# Rules for building the source files
-$(BIN_DIR)/$(OUTPUT_NAME): $(BIN_DEPENDENCIES)
-	@echo "Creating archive $(notdir $@)..."
-	$(DISP)$(AR) $(ARFLAGS) $@ $(OBJECT_FILES)
-
-	
+# Source directories
+SOURCE_DIRS := $(LIBRARY_DIR) \
+               $(LIBRARY_DIR)/STM32L4_HAL \
+               $(LIBRARY_DIR)/Core \
+               $(LIBRARY_DIR)/Core/Inc \
+               $(LIBRARY_DIR)/Core/Src \
+               $(LIBRARY_DIR)/Class \
+               $(LIBRARY_DIR)/Class/CDC \
+               $(LIBRARY_DIR)/Class/CDC/Inc \
+               $(LIBRARY_DIR)/Class/CDC/Src
+          
+# Project specific include directories
+PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \
+                    $(foreach LIB_DIR, $(SOURCE_DIRS), $(LIB_DIR))
 

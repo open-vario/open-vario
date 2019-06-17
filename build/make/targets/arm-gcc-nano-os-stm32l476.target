@@ -60,7 +60,7 @@ endif
 TARGET_LIBS=-lgcc -lc -lnosys -lm
 
 # Target implementation for the project defines
-TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_NANO_OS
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_NANO_OS -DSTM32L476xx
 
 
 # Optimisation level

@@ -1,6 +1,6 @@
 ####################################################################################################
 # \file makefile
-# \brief  Makefile for open-vario application
+# \brief  Makefile for stm32_usbd library
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -20,31 +20,20 @@
 # along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################################
 
+
 # Locating the root directory
 ROOT_DIR := ../../..
 
 # Project name
-PROJECT_NAME := open-vario
+PROJECT_NAME := stm32_usbd
 
 # Build type
-BUILD_TYPE := APP
+BUILD_TYPE := LIB
 
 # Projects that need to be build before the project or containing necessary include paths
-PROJECT_DEPENDENCIES :=  
+PROJECT_DEPENDENCIES = $(TARGET_BSP) \
+               		   $(TARGET_DEPENDENCIES)
 
-# Libraries needed by the project
-PROJECT_LIBS = libs/open-vario \
-               libs/os \
-               libs/cpu \
-               libs/board \
-               libs/peripherals \
-               libs/storage \
-               libs/ble \
-               3rdparty/nano-stl \
-               3rdparty/stm32_usbd \
-               $(TARGET_BSP) \
-               $(TARGET_DEPENDENCIES)
-               
 			  
 # Including common makefile definitions
 include $(ROOT_DIR)/build/make/generic_makefile
@@ -52,8 +41,8 @@ include $(ROOT_DIR)/build/make/generic_makefile
 
 # Rules for building the source files
 $(BIN_DIR)/$(OUTPUT_NAME): $(BIN_DEPENDENCIES)
-	@echo "Linking $(notdir $@)..."
-	$(DISP)$(LD) $(LINK_OUTPUT_CMD) $@ $(LDFLAGS) $(OBJECT_FILES) $(LIBS) $(TARGET_LIB_DIRS) $(TARGET_LIBS)
+	@echo "Creating archive $(notdir $@)..."
+	$(DISP)$(AR) $(ARFLAGS) $@ $(OBJECT_FILES)
 
 	
 
