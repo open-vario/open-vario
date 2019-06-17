@@ -37,6 +37,7 @@ class IBarometricAltimeter;
 class IGnss;
 class IBlePeripheralStack;
 class IBuzzer;
+class IUsbDeviceCdc;
 
 /** \brief Interface for all open vario boards implementations */
 class IOpenVarioBoard
@@ -85,6 +86,9 @@ class IOpenVarioBoard
 
         /** \brief Get the board's buzzer */
         virtual IBuzzer& buzzer() = 0;
+
+        /** \brief Get the board's USB Device CDC */
+        virtual IUsbDeviceCdc& usbd_cdc() = 0;
 };
 
 }

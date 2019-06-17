@@ -35,6 +35,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476I2c.h"
 #include "Stm32l476Crc32.h"
 #include "Stm32l476LpTimPwm.h"
+#include "Stm32l476UsbDeviceCdc.h"
 
 #include "McuRtc.h"
 #include "IoLed.h"
@@ -108,6 +109,9 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's buzzer */
         virtual IBuzzer& buzzer() { return m_buzzer; }
+
+        /** \brief Get the board's USB Device CDC */
+        virtual IUsbDeviceCdc& usbd_cdc() { return m_usbd_cdc; }
         
 
     private:
@@ -286,7 +290,6 @@ class OpenVarioBoard : public IOpenVarioBoard
         BlueNrgMsStack m_bluenrgms_stack;
 
 
-
         /** \brief Buzzer PWM pin */
         Stm32l476Gpio m_buzzer_pwm_pin;
 
@@ -296,6 +299,18 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Buzzer */
         PwmBuzzer m_buzzer;
 
+
+        /** \brief USB DM pin */
+        Stm32l476Gpio m_usb_dm_pin;
+
+        /** \brief USB DP pin */
+        Stm32l476Gpio m_usb_dp_pin;
+
+        /** \brief USB VBUS pin */
+        Stm32l476Gpio m_usb_vbus_pin;
+
+        /** \brief USB CDC device */
+        Stm32l476UsbDeviceCdc m_usbd_cdc;
 
 };
 

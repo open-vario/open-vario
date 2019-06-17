@@ -100,6 +100,11 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_buzzer_pwm_pin(Stm32l476Gpio::PORT_A, 4u, Stm32l476Gpio::MODE_AF, 14u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_buzzer_pwm(m_cpu, Stm32l476LpTim::LPTIM_2)
 , m_buzzer(m_buzzer_pwm)
+
+, m_usb_dm_pin(Stm32l476Gpio::PORT_A, 11u, Stm32l476Gpio::MODE_AF, 10u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_usb_dp_pin(Stm32l476Gpio::PORT_A, 12u, Stm32l476Gpio::MODE_AF, 10u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
+, m_usb_vbus_pin(Stm32l476Gpio::PORT_A, 9u, Stm32l476Gpio::MODE_INPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
+, m_usbd_cdc(m_cpu)
 {
     (void)config_manager;
 }
@@ -184,6 +189,12 @@ bool OpenVarioBoard::configure()
     ret = ret && m_buzzer_pwm_pin.configure();
     ret = ret && m_buzzer_pwm.configure(800u, 50u);
     ret = ret && m_buzzer.configure();
+
+    // USB
+    ret = ret && m_usb_dm_pin.configure();
+    ret = ret && m_usb_dp_pin.configure();
+    ret = ret && m_usb_vbus_pin.configure();
+    ret = ret && m_usbd_cdc.configure();
 
     return ret;
 }
