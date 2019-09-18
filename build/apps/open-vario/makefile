@@ -41,7 +41,6 @@ PROJECT_LIBS = libs/open-vario \
                libs/storage \
                libs/ble \
                3rdparty/nano-stl \
-               3rdparty/stm32_usbd \
                $(TARGET_BSP) \
                $(TARGET_DEPENDENCIES)
                

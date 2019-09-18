@@ -44,7 +44,7 @@ TARGET_BOARD=open_vario_1_0
 TARGET_BSP=bsps/bsp_stm32l476
 
 # Target lib dependencies
-TARGET_DEPENDENCIES=3rdparty/nano-os
+TARGET_DEPENDENCIES=3rdparty/nano-os 3rdparty/stm32_usbd
 
 # Target specific include directories
 TARGET_INC_DIRS=

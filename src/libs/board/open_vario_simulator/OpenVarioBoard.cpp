@@ -43,6 +43,10 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_alti_sensor(m_baro_sensor)
 
 , m_ble_stack(m_simulator, "ble_stack")
+
+, m_gnss(m_simulator, "gnss")
+, m_buzzer(m_simulator, "buzzer")
+, m_usbd_cdc(m_simulator, "maint_link")
 {}
 
 /** \brief Configure the board peripherals */
@@ -73,6 +77,15 @@ bool OpenVarioBoard::configure()
    
     // Barometric sensor
     ret = ret && m_baro_sensor.configure();
+
+    // GNSS
+    ret = ret && m_gnss.configure();
+
+    // Buzzer
+    ret = ret && m_buzzer.configure();
+
+    // USB device CDC
+    ret = ret && m_usbd_cdc.configure();
 
     return ret;
 }

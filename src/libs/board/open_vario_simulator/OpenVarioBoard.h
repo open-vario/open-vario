@@ -41,6 +41,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "SimuBarometricSensor.h"
 #include "SimuTemperatureSensor.h"
 #include "SimuBlePeripheralStack.h"
+#include "SimuGnss.h"
+#include "SimuBuzzer.h"
+#include "SimuUsbDeviceCdc.h"
 #include "Simulator.h"
 
 #include "BarometricAltimeter.h"
@@ -95,6 +98,15 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() { return m_ble_stack; }
 
+        /** \brief Get the board's GNSS */
+        virtual IGnss& gnss() { return m_gnss; }
+
+        /** \brief Get the board's buzzer */
+        virtual IBuzzer& buzzer() { return m_buzzer; }
+
+        /** \brief Get the board's USB Device CDC */
+        virtual IUsbDeviceCdc& usbd_cdc() { return m_usbd_cdc; }
+
 
     private:
 
@@ -147,9 +159,17 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Barometric altimeter */
         BarometricAltimeter m_alti_sensor;
 
+        /** \brief GNSS */
+        SimuGnss m_gnss;
+
         /** \brief BLE stack */
         SimuBlePeripheralStack m_ble_stack;
 
+        /** \brief Buzzer */
+        SimuBuzzer m_buzzer;
+
+        /** \brief USB device CDC */
+        SimuUsbDeviceCdc m_usbd_cdc;
 };
 
 }
