@@ -42,7 +42,7 @@ bool At25xxx::configure()
 }
 
 /** \brief Read data from the EEPROM */
-bool At25xxx::read(const uint16_t address, uint8_t data[], const uint16_t size)
+bool At25xxx::read(const uint16_t address, void* data, const uint16_t size)
 {
     bool ret = false;
 
@@ -51,7 +51,7 @@ bool At25xxx::read(const uint16_t address, uint8_t data[], const uint16_t size)
     {
         // Prepare SPI transfer for the read data
         ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = data;
+        spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(data);
         spi_xfer_data.size = size;
         spi_xfer_data.cs = m_chip_select;
 
@@ -75,7 +75,7 @@ bool At25xxx::read(const uint16_t address, uint8_t data[], const uint16_t size)
 }
 
 /** \brief Write data to the EEPROM */
-bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t size)
+bool At25xxx::write(const uint16_t address, const void* data, const uint16_t size)
 {
     bool ret = false;
 
@@ -85,6 +85,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
         uint16_t index = 0u;
         uint16_t left = size;
         uint32_t current_address = address;
+        const uint8_t* pdata = reinterpret_cast<const uint8_t*>(data);
         ret = true;
         while (ret && (left != 0u))
         {
@@ -113,7 +114,7 @@ bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t
 
             // Prepare SPI transfer for the data to write
             ISpi::XFer spi_xfer_data;
-            spi_xfer_data.write_data = &data[index];
+            spi_xfer_data.write_data = &pdata[index];
             spi_xfer_data.size = program_size;
             spi_xfer_data.cs = m_chip_select;
 

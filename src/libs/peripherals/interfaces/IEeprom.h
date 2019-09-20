@@ -39,10 +39,10 @@ class IEeprom
         virtual bool configure() = 0;
 
         /** \brief Read data from the EEPROM */
-        virtual bool read(const uint16_t address, uint8_t data[], const uint16_t size) = 0;
+        virtual bool read(const uint16_t address, void* data, const uint16_t size) = 0;
 
         /** \brief Write data to the EEPROM */
-        virtual bool write(const uint16_t address, const uint8_t data[], const uint16_t size) = 0;
+        virtual bool write(const uint16_t address, const void* data, const uint16_t size) = 0;
 };
 
 }

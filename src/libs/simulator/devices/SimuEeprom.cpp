@@ -49,7 +49,7 @@ bool SimuEeprom::configure()
 }
 
 /** \brief Read data from the EEPROM */
-bool SimuEeprom::read(const uint16_t address, uint8_t data[], const uint16_t size)
+bool SimuEeprom::read(const uint16_t address, void* data, const uint16_t size)
 {
     bool ret = false;
 
@@ -71,7 +71,7 @@ bool SimuEeprom::read(const uint16_t address, uint8_t data[], const uint16_t siz
 }
 
 /** \brief Write data to the EEPROM */
-bool SimuEeprom::write(const uint16_t address, const uint8_t data[], const uint16_t size)
+bool SimuEeprom::write(const uint16_t address, const void* data, const uint16_t size)
 {
     bool ret = false;
 

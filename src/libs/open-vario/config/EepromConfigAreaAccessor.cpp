@@ -41,7 +41,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
 
     // Read header
     ConfigHeader config_header;
-    ret = m_eeprom.read(0u, reinterpret_cast<uint8_t*>(&config_header), sizeof(ConfigHeader));
+    ret = m_eeprom.read(0u, &config_header, sizeof(ConfigHeader));
     if (ret)
     {
         // Check magic
@@ -205,7 +205,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
     if (ret)
     {
         config_header.crc32 = m_crc32.value();
-        ret = m_eeprom.write(0u, reinterpret_cast<const uint8_t*>(&config_header), sizeof(config_header));
+        ret = m_eeprom.write(0u, &config_header, sizeof(config_header));
     }
 
     return ret;
@@ -216,16 +216,12 @@ bool EepromConfigAreaAccessor::read(void* data, const size_t size, uint16_t& off
 {
     bool ret = false;
 
-    // Check data size
-    if (offset + size <= m_eeprom.getSize())
+    // Read data
+    ret = m_eeprom.read(offset, data, static_cast<uint16_t>(size));
+    if (ret)
     {
-        // Read data
-        ret = m_eeprom.read(offset, reinterpret_cast<uint8_t*>(data), static_cast<uint16_t>(size));
-        if (ret)
-        {
-            offset += static_cast<uint16_t>(size);
-            m_crc32.update(data, size);
-        }
+        offset += static_cast<uint16_t>(size);
+        m_crc32.update(data, size);
     }
 
     return ret;
@@ -236,16 +232,12 @@ bool EepromConfigAreaAccessor::write(const void* data, const size_t size, uint16
 {
     bool ret = false;
 
-    // Check data size
-    if (offset + size <= m_eeprom.getSize())
+    // Write data
+    ret = m_eeprom.write(offset, data, static_cast<uint16_t>(size));
+    if (ret)
     {
-        // Write data
-        ret = m_eeprom.write(offset, reinterpret_cast<const uint8_t*>(data), static_cast<uint16_t>(size));
-        if (ret)
-        {
-            offset += static_cast<uint16_t>(size);
-            m_crc32.update(data, size);
-        }
+        offset += static_cast<uint16_t>(size);
+        m_crc32.update(data, size);
     }
 
     return ret;

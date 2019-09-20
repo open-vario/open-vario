@@ -45,10 +45,10 @@ class SimuEeprom : public IEeprom
         virtual bool configure();
 
         /** \brief Read data from the EEPROM */
-        virtual bool read(const uint16_t address, uint8_t data[], const uint16_t size);
+        virtual bool read(const uint16_t address, void* data, const uint16_t size);
 
         /** \brief Write data to the EEPROM */
-        virtual bool write(const uint16_t address, const uint8_t data[], const uint16_t size);
+        virtual bool write(const uint16_t address, const void* data, const uint16_t size);
 
     private:
 
