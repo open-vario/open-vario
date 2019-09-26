@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "TimeManager.h"
+#include "BlackBox.h"
 #include "DeviceManager.h"
 #include "ConfigManager.h"
 #include "SensorsManager.h"
@@ -36,12 +37,13 @@ namespace open_vario
 
 
 /** \brief Constructor */
-InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, DeviceManager& device_manager,
+InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager,
                    ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
                    BleManager& ble_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
+, m_black_box(blackbox)
 , m_device_manager(device_manager)
 , m_config_manager(config_manager)
 , m_sensors_manager(sensors_manager)
@@ -70,6 +72,14 @@ void InitMode::enter()
 
         // Start date and time management
         m_time_manager.start();
+
+        // Initialize blackbox
+        uint8_t ctxt[32u] = {0};
+        m_black_box.init();
+        for (uint8_t i = 0; i < 50u; i++)
+        {
+            m_black_box.write(i, ctxt);
+        }
 
         // Initialize configuration
         m_config_manager.init();

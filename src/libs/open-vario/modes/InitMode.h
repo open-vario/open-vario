@@ -28,6 +28,7 @@ namespace open_vario
 class ModeManager;
 class HmiManager;
 class TimeManager;
+class BlackBox;
 class DeviceManager;
 class ConfigManager;
 class SensorsManager;
@@ -41,7 +42,7 @@ class InitMode : public IMode
     public:
 
         /** \brief Constructor */
-        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, DeviceManager& device_manager, 
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
                  ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
                  BleManager& ble_manager);
 
@@ -66,6 +67,9 @@ class InitMode : public IMode
 
         /** \brief Date and time manager */
         TimeManager& m_time_manager;
+
+        /** \brief BlackBox manager */
+        BlackBox& m_black_box;
 
         /** \brief Device manager */
         DeviceManager& m_device_manager;

@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "TimeManager.h"
+#include "BlackBox.h"
 #include "SensorsManager.h"
 #include "ProfileManager.h"
 #include "NorFlashPartition.h"
@@ -122,6 +123,9 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Eeprom partition for application configuration */
         EepromPartition m_app_config_eeprom_partition;
 
+        /** \brief Eeprom partition for blackbox */
+        EepromPartition m_blackbox_eeprom_partition;
+
 
         /** \brief Eeprom configuration area accessor */
         EepromConfigAreaAccessor m_config_area_accessor;
@@ -158,6 +162,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Date and time manager */
         TimeManager m_time_manager;
+
+        /** \brief Blackbox manager */
+        BlackBox m_blackbox;
 
         /** \brief Altimeter */
         Altimeter m_altimeter;
