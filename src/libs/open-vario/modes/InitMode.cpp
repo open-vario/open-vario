@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "TimeManager.h"
+#include "FaultManager.h"
 #include "BlackBox.h"
 #include "DeviceManager.h"
 #include "ConfigManager.h"
@@ -29,8 +30,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "FlightRecorder.h"
 #include "BleManager.h"
 #include "LogMacro.h"
-#include "ISpi.h"
 #include "INorFlash.h"
+#include "IGnss.h"
+#include "IBuzzer.h"
+#include "OpenVarioFaults.h"
 
 namespace open_vario
 {
@@ -39,7 +42,7 @@ namespace open_vario
 /** \brief Constructor */
 InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager,
                    ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
-                   BleManager& ble_manager)
+                   BleManager& ble_manager, FaultManager& fault_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
@@ -50,6 +53,7 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManag
 , m_profile_manager(profile_manager)
 , m_flight_recorder(flight_recorder)
 , m_ble_manager(ble_manager)
+, m_fault_manager(fault_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -60,9 +64,9 @@ void InitMode::enter()
     bool ret = board.configure();
     if (!ret)
     {
-        LOG_ERROR("Failure during board initialization...");
+        LOG_ERROR("Failure during board low-level initialization...");
     }
-    //else
+    else
     {
         LOG_INFO("Entering init mode...");
 
@@ -70,15 +74,27 @@ void InitMode::enter()
         m_hmi_manager.start();
         m_hmi_manager.getActivityLed().update(LedController::FAST_BLINK);
 
+        // Initialize fault manager
+        m_fault_manager.init();
+
         // Start date and time management
+        if (!board.rtc().configure())
+        {
+            m_fault_manager.raise(OV_FAULT_RTC_KO);
+        }
         m_time_manager.start();
 
-        // Initialize blackbox
-        uint8_t ctxt[32u] = {0};
-        m_black_box.init();
-        for (uint8_t i = 0; i < 50u; i++)
+        // Board autotest
+        LOG_INFO("Starting autotests...");
+        if (!autotest())
         {
-            m_black_box.write(i, ctxt);
+            LOG_ERROR("Autotests failed");
+        }
+
+        // Initialize blackbox
+        if (!m_black_box.init())
+        {
+            LOG_ERROR("Unable to initialize blackbox");
         }
 
         // Initialize configuration
@@ -106,10 +122,9 @@ void InitMode::enter()
                     {
                         LOG_ERROR("Failed to initialize flight recorder");
                     }
-                    
+          
                     // Initialize BLE
                     ret = m_ble_manager.init();
-                    if (!ret)
                     {
                         LOG_ERROR("Failed to initialize BLE");
                     }
@@ -152,6 +167,52 @@ void InitMode::enter()
 void InitMode::leave()
 {
     LOG_INFO("Leaving init mode...");
+}
+
+/** \brief Start and check the board peripherals */
+bool InitMode::autotest()
+{
+    bool ret = true;
+    IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
+
+    // Configuration EEPROM
+    if (!board.config_eeprom().configure())
+    {
+        m_fault_manager.raise(OV_FAULT_CONFIG_EEPROM_KO);
+        ret = false;
+    }
+
+    // Flight data NOR Flash
+    if (!board.flight_data_norflash().configure())
+    {
+        m_fault_manager.raise(OV_FAULT_FLIGHT_DATA_FLASH_KO);
+        ret = false;
+    }
+
+    // Altimeter
+    IAltimeterSensor& alti = board.altimeter();
+    if (!alti.configure())
+    {
+        m_fault_manager.raise(OV_FAULT_SENSOR_ALTI_KO);
+        ret = false;
+    }
+
+    // GNSS
+    if (!board.gnss().configure())
+    {
+        m_fault_manager.raise(OV_FAULT_GNSS_KO);
+        ret = false;
+    }
+    board.gnss().start();
+
+    // Buzzer
+    if (!board.buzzer().configure())
+    {
+        m_fault_manager.raise(OV_FAULT_BUZZER_KO);
+        ret = false;
+    }
+
+    return ret;
 }
 
 

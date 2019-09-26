@@ -81,6 +81,9 @@ class BlackBox
         /** \brief EEPROM partition to store blackbox data into */
         EepromPartition& m_eeprom;
 
+        /** \brief Indicate if the blackbox has been initialized */
+        bool m_initialized;
+
         /** \brief Mutex for blackbox concurrent accesses */
         Mutex m_mutex;
 

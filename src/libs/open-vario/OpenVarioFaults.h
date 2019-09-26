@@ -39,6 +39,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Flight data NORFLASH KO */
 #define OV_FAULT_FLIGHT_DATA_FLASH_KO                   0x13u
 
+/** \brief Buzzer KO */
+#define OV_FAULT_BUZZER_KO                              0x14u
+
 
 
 /** \brief Altimeter sensor KO */

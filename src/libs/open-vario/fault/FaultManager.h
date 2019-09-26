@@ -89,11 +89,11 @@ class FaultManager
         /** \brief Raise a fault */
         bool raise(const uint8_t id, const uint8_t context[]);
 
-        /** \brief Drop a fault */
-        bool drop(const uint8_t id);
+        /** \brief Clear a fault */
+        bool clear(const uint8_t id);
 
-        /** \brief Drop a fault */
-        bool drop(const uint8_t id, const uint8_t context[]);
+        /** \brief Clear a fault */
+        bool clear(const uint8_t id, const uint8_t context[]);
 
 
         /** \brief Indicate if a fault is active */
@@ -122,7 +122,7 @@ class FaultManager
 
 
         /** \brief List of all faults */
-        nano_stl::StaticArray<Fault, 20u> m_faults;
+        nano_stl::StaticArray<Fault, 80u> m_faults;
 };
 
 }

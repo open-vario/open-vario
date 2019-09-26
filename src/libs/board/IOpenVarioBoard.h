@@ -45,7 +45,7 @@ class IOpenVarioBoard
     public:
 
 
-        /** \brief Configure the board peripherals */
+        /** \brief Configure the board low-level peripherals */
         virtual bool configure() = 0;
 
         /** \brief Start the board peripherals */

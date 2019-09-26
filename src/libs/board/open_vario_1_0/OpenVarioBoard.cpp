@@ -109,16 +109,13 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
     (void)config_manager;
 }
 
-/** \brief Configure the board peripherals */
+/** \brief Configure the board low-level peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
 
     // DMA
     ret = ret && m_dma1.configure();
-
-    // RTC
-    ret = ret && m_rtc.configure();
 
     // CRC-32
     ret = ret && m_crc32.configure();
@@ -166,29 +163,18 @@ bool OpenVarioBoard::configure()
     ret = ret && m_activity_led.configure();
     ret = ret && m_low_bat_led.configure();
 
-    // EEPROM
-    ret = ret && m_config_eeprom.configure();
-
-    // NOR flash
-    ret = ret && m_flight_data_flash.configure();
-
-    // Barometric altimeter sensor
-    //ret = ret && m_alti_sensor.configure();
-
-    // GNSS
+    // GNSS UART
     ret = ret && m_gnss_uart_rx_pin.configure();
     ret = ret && m_gnss_uart_tx_pin.configure();
     ret = ret && m_gnss_uart.configure();
-    ret = ret && m_gnss.configure();
 
-    // BLE
+    // BLE pins
     ret = ret && m_ble_reset_pin.configure();
     ret = ret && m_ble_irq_pin.configure();
 
-    // Buzzer
+    // Buzzer PWM
     ret = ret && m_buzzer_pwm_pin.configure();
     ret = ret && m_buzzer_pwm.configure(800u, 50u);
-    ret = ret && m_buzzer.configure();
 
     // USB
     ret = ret && m_usb_dm_pin.configure();

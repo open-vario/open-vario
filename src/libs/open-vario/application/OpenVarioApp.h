@@ -31,6 +31,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
+#include "FaultManager.h"
 #include "TimeManager.h"
 #include "BlackBox.h"
 #include "SensorsManager.h"
@@ -163,6 +164,9 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Date and time manager */
         TimeManager m_time_manager;
 
+        /** \brief Fault manager */
+        FaultManager m_fault_manager;
+
         /** \brief Blackbox manager */
         BlackBox m_blackbox;
 
@@ -198,6 +202,14 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Bluetooth Low Energy manager */
         BleManager m_ble_manager;
+
+
+
+        /** \brief Delegate to receive fault events */
+        IEvent<const FaultManager::Fault&>::EventHandlerM m_fault_delegate;
+
+        /** \brief Called when a fault state has changed */
+        void onFaultChanged(const FaultManager::Fault& fault);
 };
 
 }

@@ -20,6 +20,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "OpenVarioApp.h"
 
 #include "OpenVarioConfig.h"
+#include "OpenVarioBlackBox.h"
+
+#include "LogMacro.h"
 
 namespace open_vario
 {
@@ -45,13 +48,15 @@ OpenVarioApp::OpenVarioApp()
 
 , m_mode_manager(m_operating_modes)
 , m_operating_modes()
-, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_blackbox, m_device_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder, m_ble_manager)
+, m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_blackbox, m_device_manager, m_config_manager, m_sensors_manager, m_profile_manager, m_flight_recorder, m_ble_manager, m_fault_manager)
 , m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager, m_flight_recorder, m_ble_manager)
 , m_power_off_mode(m_mode_manager, m_hmi_manager)
 
 , m_hmi_manager(m_board.activityLed())
 
 , m_time_manager(m_board.rtc())
+
+, m_fault_manager(m_time_manager)
 
 , m_blackbox(m_time_manager, m_blackbox_eeprom_partition)
 
@@ -68,6 +73,8 @@ OpenVarioApp::OpenVarioApp()
 , m_flight_recorder(m_config_manager, m_time_manager, m_profile_manager, m_flight_data_fs)
 
 , m_ble_manager(m_config_manager, m_board.ble_stack(), m_device_manager)
+
+, m_fault_delegate()
 {
     m_operating_modes.pushBack(&m_init_mode);
     m_operating_modes.pushBack(&m_run_mode);
@@ -84,6 +91,12 @@ bool OpenVarioApp::init(uint8_t argc, char* argv[])
     {
         // Initialize application
         ret = onInit(argc, argv);
+        if (ret)
+        {
+            // Register to fault manager
+            m_fault_delegate = IEvent<const FaultManager::Fault&>::EventHandlerM::create<OpenVarioApp, &OpenVarioApp::onFaultChanged>(*this);
+            m_fault_manager.faultChangedEvent().bind(m_fault_delegate);
+        }
     }
 
     return ret;
@@ -108,5 +121,20 @@ bool OpenVarioApp::start()
     return ret;
 }
 
+/** \brief Called when a fault state has changed */
+void OpenVarioApp::onFaultChanged(const FaultManager::Fault& fault)
+{
+    // Log change
+    if (fault.active)
+    {
+        LOG_ERROR("Fault occured : %d", fault.id);
+        m_blackbox.write(OV_BLACKBOX_FAULT_RAISED + fault.id, fault.context);
+    }
+    else
+    {
+        LOG_ERROR("Fault cleared : %d", fault.id);
+        m_blackbox.write(OV_BLACKBOX_FAULT_CLEARED + fault.id, fault.context);
+    }    
+}
 
 }

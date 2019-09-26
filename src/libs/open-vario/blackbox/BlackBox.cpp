@@ -35,6 +35,7 @@ const uint32_t BlackBox::BB_FOOTER = 0xDEADBEEF;
 BlackBox::BlackBox(TimeManager& time_manager, EepromPartition& eeprom)
 : m_time_manager(time_manager)
 , m_eeprom(eeprom)
+, m_initialized(false)
 , m_mutex()
 , m_max_entry_count((eeprom.getSize() - (sizeof(BB_HEADER) + sizeof(BB_FOOTER))) / sizeof(Entry))
 , m_current_entry_number(1u)
@@ -105,6 +106,7 @@ bool BlackBox::init()
     }
     if (ret)
     {
+        m_initialized = true;
         LOG_INFO("%d entries found!", m_entry_count);
     }
 
@@ -121,45 +123,48 @@ bool BlackBox::write(const uint16_t id)
 /** \brief Write data into the blackbox */
 bool BlackBox::write(const uint16_t id, const uint8_t context[])
 {
-    bool ret;
+    bool ret = false;
 
-    Entry entry = {0};
-    ret = m_time_manager.getDateTime(entry.timestamp);
-    if (ret)
+    if (m_initialized)
     {
-        m_mutex.lock();
-
-        entry.number = m_current_entry_number;
-        entry.id = id;
-        NANO_STL_MEMCPY(entry.context, context, Entry::MAX_CONTEXT_SIZE);
-        ret = m_eeprom.write(sizeof(BB_HEADER) + m_current_entry * sizeof(Entry), &entry, sizeof(Entry));
+        Entry entry = {0};
+        ret = m_time_manager.getDateTime(entry.timestamp);
         if (ret)
         {
-            m_current_entry_number++;
-            if (m_current_entry_number == 0u)
+            m_mutex.lock();
+
+            entry.number = m_current_entry_number;
+            entry.id = id;
+            NANO_STL_MEMCPY(entry.context, context, Entry::MAX_CONTEXT_SIZE);
+            ret = m_eeprom.write(sizeof(BB_HEADER) + m_current_entry * sizeof(Entry), &entry, sizeof(Entry));
+            if (ret)
             {
                 m_current_entry_number++;
-            }
-            m_current_entry++;
-            if (m_current_entry == m_max_entry_count)
-            {
-                m_current_entry = 0u;
-            }
-            if (m_entry_count == m_max_entry_count)
-            {
-                m_oldest_entry++;
-                if (m_oldest_entry == m_max_entry_count)
+                if (m_current_entry_number == 0u)
                 {
-                    m_oldest_entry = 0u;
+                    m_current_entry_number++;
                 }
+                m_current_entry++;
+                if (m_current_entry == m_max_entry_count)
+                {
+                    m_current_entry = 0u;
+                }
+                if (m_entry_count == m_max_entry_count)
+                {
+                    m_oldest_entry++;
+                    if (m_oldest_entry == m_max_entry_count)
+                    {
+                        m_oldest_entry = 0u;
+                    }
+                }
+                else
+                {
+                    m_entry_count++;
+                }            
             }
-            else
-            {
-                m_entry_count++;
-            }            
-        }
 
-        m_mutex.unlock();
+            m_mutex.unlock();
+        }
     }
 
     return ret;

@@ -28,6 +28,7 @@ namespace open_vario
 class ModeManager;
 class HmiManager;
 class TimeManager;
+class FaultManager;
 class BlackBox;
 class DeviceManager;
 class ConfigManager;
@@ -44,7 +45,7 @@ class InitMode : public IMode
         /** \brief Constructor */
         InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
                  ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
-                 BleManager& ble_manager);
+                 BleManager& ble_manager, FaultManager& fault_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -88,6 +89,14 @@ class InitMode : public IMode
 
         /** \brief BLE manager */
         BleManager& m_ble_manager;
+
+        /** \brief Fault manager */
+        FaultManager& m_fault_manager;
+
+
+
+        /** \brief Start and check the board peripherals */
+        bool autotest();
 };
 
 }

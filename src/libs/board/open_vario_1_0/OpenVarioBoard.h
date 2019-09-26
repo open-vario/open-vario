@@ -68,7 +68,7 @@ class OpenVarioBoard : public IOpenVarioBoard
         OpenVarioBoard(ConfigManager& config_manager);
 
 
-        /** \brief Configure the board peripherals */
+        /** \brief Configure the board low-level peripherals */
         virtual bool configure();
 
         /** \brief Start the board peripherals */

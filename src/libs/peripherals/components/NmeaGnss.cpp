@@ -391,8 +391,11 @@ bool NmeaGnss::convertCoordinates(const char* coordinates, double& coordinate)
 {
     bool ret = true;
 
-    // Extract coordinates
-    coordinate = NANO_STL_ATOF(coordinates);
+    // Extract coordinates and convert them in decimal degrees
+    double raw_coordinates = NANO_STL_ATOF(coordinates);
+    uint32_t degs = static_cast<uint32_t>(raw_coordinates / 100.);
+    double mins = static_cast<double>(static_cast<uint32_t>((raw_coordinates - static_cast<double>(degs * 100)) * 100.)) / 100.;
+    coordinate = static_cast<double>(degs) + (mins / 60.);
 
     return ret;
 }

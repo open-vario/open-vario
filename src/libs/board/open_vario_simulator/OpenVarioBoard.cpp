@@ -49,7 +49,7 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_usbd_cdc(m_simulator, "maint_link")
 {}
 
-/** \brief Configure the board peripherals */
+/** \brief Configure the board low-level peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;

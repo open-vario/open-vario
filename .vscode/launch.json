@@ -55,18 +55,6 @@
             "interface": "swd",
             "ipAddress": null,
             "serialNumber": null
-        },
-        {
-            "cwd": "${workspaceRoot}",
-            "executable": "./build/apps/test_ble/bin/arm-gcc-nano-os-stm32l476/test_ble.elf",
-            "name": "J-Link Debug STM32L476 Test BLE",
-            "request": "launch",
-            "type": "cortex-debug",
-            "servertype": "jlink",
-            "device": "STM32L476RG",
-            "interface": "jtag",
-            "ipAddress": null,
-            "serialNumber": null
         }
     ]
 }

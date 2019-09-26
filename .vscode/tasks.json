@@ -56,8 +56,7 @@
                 "all+",
                 "TARGET=mingw-windows"
             ],
-            "group": "build"
-            ,
+            "group": "build",
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [

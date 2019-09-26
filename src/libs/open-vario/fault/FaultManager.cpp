@@ -91,15 +91,15 @@ bool FaultManager::raise(const uint8_t id, const uint8_t context[])
     return ret;
 }
 
-/** \brief Drop a fault */
-bool FaultManager::drop(const uint8_t id)
+/** \brief Clear a fault */
+bool FaultManager::clear(const uint8_t id)
 {
     const uint8_t context[Fault::MAX_CONTEXT_SIZE] = {0};
-    return drop(id, context);
+    return clear(id, context);
 }
 
-/** \brief Drop a fault */
-bool FaultManager::drop(const uint8_t id, const uint8_t context[])
+/** \brief Clear a fault */
+bool FaultManager::clear(const uint8_t id, const uint8_t context[])
 {
     bool ret = false;
 
