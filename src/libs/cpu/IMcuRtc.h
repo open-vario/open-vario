@@ -47,6 +47,8 @@ class IMcuRtc
             uint8_t minute;
             /** \brief Second (0 - 59) */
             uint8_t second;
+            /** \brief Milliseconds (0 - 999) */
+            uint16_t millis;
         };
 
         /** \brief Configure the RTC */
