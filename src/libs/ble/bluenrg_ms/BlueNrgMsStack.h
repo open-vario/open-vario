@@ -61,6 +61,9 @@ class BlueNrgMsStack : public IBlePeripheralStack, public IBlueNrgMsListener, pu
         virtual void setListener(IBlePeripheralStackListener& listener) { m_listener = &listener; }
 
 
+        /** \brief Check if the BLE hardware is present and working */
+        virtual bool probe();
+        
         /** \brief Start the BLE stack */
         virtual bool start();
 

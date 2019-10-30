@@ -64,6 +64,9 @@ class SimuBlePeripheralStack : public SimuDevice, public IBlePeripheralStack
         virtual void setListener(IBlePeripheralStackListener& listener) { m_listener = &listener; }
 
 
+        /** \brief Check if the BLE hardware is present and working */
+        virtual bool probe() { return true; }
+
         /** \brief Start the BLE stack */
         virtual bool start();
 

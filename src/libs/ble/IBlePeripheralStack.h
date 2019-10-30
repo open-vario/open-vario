@@ -85,6 +85,9 @@ class IBlePeripheralStack
         virtual void setListener(IBlePeripheralStackListener& listener) = 0;
 
 
+        /** \brief Check if the BLE hardware is present and working */
+        virtual bool probe() = 0;
+
         /** \brief Start the BLE stack */
         virtual bool start() = 0;
 

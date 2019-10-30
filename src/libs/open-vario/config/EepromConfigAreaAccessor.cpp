@@ -95,8 +95,18 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
                             else
                             {
                                 // Invalid size, skip value
+                                uint8_t left = config_value_header.size;
                                 compatibility_mode = true;
-                                ret = read(temp_buffer, config_value_header.size, offset);
+                                do
+                                {
+                                    uint8_t size = left;
+                                    if (left > sizeof(temp_buffer))
+                                    {
+                                        size = sizeof(temp_buffer);
+                                    }
+                                    ret = read(temp_buffer, size, offset);
+                                    left -= size;
+                                } while (ret && (left != 0));
                             }
                         }
                     }

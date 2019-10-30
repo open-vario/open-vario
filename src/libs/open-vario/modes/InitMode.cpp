@@ -33,6 +33,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "INorFlash.h"
 #include "IGnss.h"
 #include "IBuzzer.h"
+#include "OpenVarioConfig.h"
 #include "OpenVarioFaults.h"
 
 namespace open_vario
@@ -85,10 +86,10 @@ void InitMode::enter()
         m_time_manager.start();
 
         // Board autotest
-        LOG_INFO("Starting autotests...");
-        if (!autotest())
+        LOG_INFO("Starting level 1 autotests...");
+        if (!autotest_l1())
         {
-            LOG_ERROR("Autotests failed");
+            LOG_ERROR("Autotests level 1 failed");
         }
 
         // Initialize blackbox
@@ -99,6 +100,13 @@ void InitMode::enter()
 
         // Initialize configuration
         m_config_manager.init();
+
+        // Board autotest
+        LOG_INFO("Starting level 2 autotests...");
+        if (!autotest_l2())
+        {
+            LOG_ERROR("Autotests level 2 failed");
+        }
 
         // Initialize device manager
         m_device_manager.init();
@@ -125,6 +133,7 @@ void InitMode::enter()
           
                     // Initialize BLE
                     ret = m_ble_manager.init();
+                    if (!ret)
                     {
                         LOG_ERROR("Failed to initialize BLE");
                     }
@@ -169,8 +178,8 @@ void InitMode::leave()
     LOG_INFO("Leaving init mode...");
 }
 
-/** \brief Start and check the board peripherals */
-bool InitMode::autotest()
+/** \brief Start and check the board mandatory peripherals */
+bool InitMode::autotest_l1()
 {
     bool ret = true;
     IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
@@ -197,6 +206,15 @@ bool InitMode::autotest()
         ret = false;
     }
 
+    return ret;
+}
+
+/** \brief Start and check the board optional peripherals */
+bool InitMode::autotest_l2()
+{
+    bool ret = true;
+    IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
+
     // GNSS
     if (!board.gnss().configure())
     {
@@ -212,8 +230,19 @@ bool InitMode::autotest()
         ret = false;
     }
 
+    // BLE
+    bool ble_enabled = false;
+    m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_BLE, OV_CONFIG_VALUE_BLE_ENABLED, ble_enabled);
+    if (ble_enabled)
+    {
+        if (!board.ble_stack().probe())
+        {
+            m_fault_manager.raise(OV_FAULT_BLE_KO);
+            ret = false;
+        }
+    }
+
     return ret;
 }
-
 
 }

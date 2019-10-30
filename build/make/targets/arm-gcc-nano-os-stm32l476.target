@@ -38,7 +38,7 @@ TARGET_ARCH=cortex-m4
 TARGET_CPU=stm32l476
 
 # Target Board
-TARGET_BOARD=open_vario_1_0
+TARGET_BOARD=nucleo_xble_mikrobus
 
 # Target BSP
 TARGET_BSP=bsps/bsp_stm32l476

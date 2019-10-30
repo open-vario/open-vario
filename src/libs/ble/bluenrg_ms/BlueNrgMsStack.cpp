@@ -42,6 +42,12 @@ BlueNrgMsStack::BlueNrgMsStack(BlueNrgMs& bluenrg_ms)
     m_bluenrg_ms.setListener(*this);
 }
 
+/** \brief Check if the BLE hardware is present and working */
+bool BlueNrgMsStack::probe()
+{
+    return m_bluenrg_ms.probe();
+}
+
 /** \brief Start the BLE stack */
 bool BlueNrgMsStack::start()
 {

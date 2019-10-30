@@ -110,7 +110,7 @@ bool Stm32l476I2c::configure()
         if (m_frequency == 100000u)
         {
             // Standard mode - 100kHz
-            i2c->TIMINGR = 0xB0420F13;
+            i2c->TIMINGR = 0x10909cec;//0xB0420F13;
         }
         else if (m_frequency == 400000u)
         {
@@ -129,9 +129,6 @@ bool Stm32l476I2c::configure()
         }
         i2c->TIMEOUTR = 0;
 
-        // Disable analog filter
-        i2c->CR1 |= (1u << 12u);
-
         // Configure DMA
         Stm32l476Dma::ChannelConfig config;
         
@@ -144,10 +141,10 @@ bool Stm32l476I2c::configure()
         config.periph_inc = false;
         config.circular = false;
         config.dir = Stm32l476Dma::DIR_PERIPH_2_MEM;
-        ret = m_dma.configureChannel(RX_DMA_CHANNEL[m_i2c], config, *this);
+//        ret = m_dma.configureChannel(RX_DMA_CHANNEL[m_i2c], config, *this);
 
         config.dir = Stm32l476Dma::DIR_MEM_2_PERIPH;
-        ret = ret && m_dma.configureChannel(TX_DMA_CHANNEL[m_i2c], config, *this);
+//        ret = ret && m_dma.configureChannel(TX_DMA_CHANNEL[m_i2c], config, *this);
         if (ret)
         {
             // Enable I2C
@@ -191,8 +188,7 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
 
         // Configure DMA
         i2c->CR1 &= ~((1u << 14u) | (1u << 15u));
-        /*
-        if (m_xfer->size != 0)
+        /*if (m_xfer->size != 0)
         {
             if (m_xfer->read)
             {
@@ -202,13 +198,11 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
             {
                 m_dma.startXfer(TX_DMA_CHANNEL[m_i2c], m_xfer->data, &i2c->TXDR, m_xfer->size);
             }
-        }
-        */
-        
+        }*/       
 
         // Configure transfer
         uint32_t cr2_reg;
-        cr2_reg = ((slave_address & 0x7Fu) << 1u) | (m_xfer->size << 16u);
+        cr2_reg = (slave_address << 0u) | (m_xfer->size << 16u);
         if (m_xfer->read)
         {
             cr2_reg |= (1u << 10u);
@@ -223,8 +217,7 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
         i2c->CR2 = cr2_reg;
 
         // Enable DMA
-        /*
-        if (m_xfer->size != 0)
+        /*if (m_xfer->size != 0)
         {
             if (m_xfer->read)
             {
@@ -234,19 +227,16 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
             {
                 i2c->CR1 |= (1u << 14u);
             }
-        }
-        */
+        }*/
 
         // Enable error interrupts
         i2c->CR1 |= ((1u << 4u) | (1u << 7u));
 
         // Wait for end of transfer
-        /*
-        if (m_xfer->size != 0)
+        /*if (m_xfer->size != 0)
         {
             (void)m_end_of_xfer.wait(IOs::getInstance().getInfiniteTimeoutValue());
         }
-        else
         */
         {
             uint8_t current_byte = 0;

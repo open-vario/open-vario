@@ -95,8 +95,11 @@ class InitMode : public IMode
 
 
 
-        /** \brief Start and check the board peripherals */
-        bool autotest();
+        /** \brief Start and check the board mandatory peripherals */
+        bool autotest_l1();
+
+        /** \brief Start and check the board optional peripherals */
+        bool autotest_l2();
 };
 
 }
