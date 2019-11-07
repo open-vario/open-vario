@@ -37,6 +37,8 @@ class IGnss
         /** \brief GNSS navigation data */
         struct NavigationData
         {
+            /** \brief Date and time (UTC) */
+            IRtc::DateTime date_time;
             /** \brief Latitude (1 = 1°) */
             double latitude;
             /** \brief Longitude (1 = 1°) */
@@ -45,14 +47,17 @@ class IGnss
             uint32_t speed;
             /** \brief Altitude (1 = 0.1 m) */
             uint32_t altitude;
+            /** \brief Track angle (1 = 0.1°) */
+            uint16_t track_angle;
             /** \brief Number of satellites */
             uint8_t satellite_count;
-            /** \brief Date and time (UTC) */
-            IRtc::DateTime date_time;
         };
 
+        /** \brief Check if the GNSS hardware is present and working */
+        virtual bool probe() = 0;
+
         /** \brief Configure the GNSS */
-        virtual bool configure() = 0;
+        virtual bool configure(const uint16_t acqu_period) = 0;
 
         /** \brief Start the GNSS */
         virtual bool start() = 0;

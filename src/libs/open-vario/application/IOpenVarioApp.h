@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IBarometer.h"
 #include "IThermometer.h"
 #include "IVariometer.h"
+#include "IGnssProvider.h"
 
 namespace open_vario
 {
@@ -63,6 +64,9 @@ class IOpenVarioApp
 
         /** \brief Get the variometer */
         virtual IVariometer& getVariometer() = 0;
+
+        /** \brief Get the GNSS data provider */
+        virtual IGnssProvider& getGnssProvider() = 0;
 
 
         /** \brief Initialize the application */

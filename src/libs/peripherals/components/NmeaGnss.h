@@ -37,6 +37,10 @@ class NmeaGnss : public IGnss
         /** \brief Constructor */
         NmeaGnss(IUart& uart, ITask& rx_task);
 
+
+        /** \brief Check if the GNSS hardware is present and working */
+        virtual bool probe();
+
         
         /** \brief Read the current navigation data */
         virtual bool readData(NavigationData& nav_data);
@@ -72,6 +76,9 @@ class NmeaGnss : public IGnss
 
         /** \brief Convert a speed parameter of a NMEA frame */
         bool convertSpeed(const char* speed, uint32_t& spd);
+
+        /** \brief Convert a track angle parameter of a NMEA frame */
+        bool convertTrackAngle(const char* track_angle, uint16_t& ta);
         
 
     private:

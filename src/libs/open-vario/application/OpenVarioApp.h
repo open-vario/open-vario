@@ -40,6 +40,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "NorFlashFs.h"
 #include "FlightRecorder.h"
 #include "BleManager.h"
+#include "GnssManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "PowerOffMode.h"
@@ -85,6 +86,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Get the variometer */
         virtual IVariometer& getVariometer() { return m_variometer; }
+
+        /** \brief Get the GNSS data provider */
+        virtual IGnssProvider& getGnssProvider() { return m_gnss_manager; }
 
 
         /** \brief Initialize the application */
@@ -203,6 +207,9 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Bluetooth Low Energy manager */
         BleManager m_ble_manager;
 
+
+        /** \brief GNSS manager */
+        GnssManager m_gnss_manager;
 
 
         /** \brief Delegate to receive fault events */

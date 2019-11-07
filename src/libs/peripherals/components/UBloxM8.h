@@ -36,7 +36,7 @@ class UBloxM8 : public NmeaGnss
 
 
         /** \brief Configure the GNSS */
-        virtual bool configure();
+        virtual bool configure(const uint16_t acqu_period);
 
         /** \brief Start the GNSS */
         virtual bool start();

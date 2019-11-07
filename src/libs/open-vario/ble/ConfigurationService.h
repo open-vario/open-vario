@@ -99,7 +99,7 @@ class ConfigurationService : public OpenVarioBleServiceBase, public IBleCharacte
 
 
         /** \brief Configuration service */
-        BleService128<0u, 8u> m_configuration_service;
+        BleService128<0u, 2u> m_configuration_service;
 
         /** \brief Command */
         BleCharacteristic128<uint32_t, 0u> m_command;

@@ -47,7 +47,7 @@ class FaultManager
             bool active;
             /** \brief Id */
             uint8_t id;
-            /** \bried Context */
+            /** \brief Context */
             uint8_t context[MAX_CONTEXT_SIZE];
             /** \brief Timestamp */
             IRtc::DateTime timestamp;

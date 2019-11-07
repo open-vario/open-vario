@@ -55,7 +55,7 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_activity_led()
 , m_low_bat_led()
 
-, m_config_eeprom(m_spi_1, 1u, 32768u, 64u) // 32kB - 64B
+, m_config_eeprom(m_spi_1, 1u, 8192u, 32u) // 8kB - 32B
 , m_flight_data_flash(m_spi_1, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
 
 , m_baro_sensor(m_i2c_1, 0xEEu)

@@ -30,10 +30,10 @@ NavigationService::NavigationService()
 
 , m_navigation_service("Navigation service", "530b9c7a-3185-49f0-9bb5-8e7b88a9df09")
 
-, m_speed("Speed", "609a0afe-59a2-4837-b4fe-46d2ddfec0dd", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_latitude("Latitude", "c75a49f0-cfe0-4d93-8109-3dbc588c2243", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_longitude("Longitude", "3692fbda-6a27-4422-a307-5f852658cae0", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_track_angle("Track angle", "c6502b8c-5aae-489f-bb23-04eabc389f58", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+, m_nav_data("Navigation data", "609a0afe-59a2-4837-b4fe-46d2ddfec0dd", 23u, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+
+, m_gnss_data()
+, m_gnss_event_handler()
 {}
 
 
@@ -43,10 +43,7 @@ bool NavigationService::init()
     bool ret = true;
 
     // Fill BLE service with characteristics
-    ret = ret && m_navigation_service.addCharacteristic(m_speed);
-    ret = ret && m_navigation_service.addCharacteristic(m_latitude);
-    ret = ret && m_navigation_service.addCharacteristic(m_longitude);
-    ret = ret && m_navigation_service.addCharacteristic(m_track_angle);
+    ret = ret && m_navigation_service.addCharacteristic(m_nav_data);
 
     return ret;
 }
@@ -56,7 +53,10 @@ bool NavigationService::start()
 {
     bool ret = true;
 
-    // TODO : register to GNSS values
+    // Register to GNSS events
+    IGnssProvider& gnss = IOpenVarioApp::getInstance().getGnssProvider();
+    m_gnss_event_handler = NANO_STL_EVENT_HANDLER_M(NavigationService, onGnssData, const IGnss::NavigationData&);
+    ret = ret && gnss.gnssDataEvent().bind(m_gnss_event_handler);
 
     return ret;
 }
@@ -64,10 +64,19 @@ bool NavigationService::start()
 /** \brief Update the BLE service characteristics values */
 void NavigationService::updateCharacteristicsValues()
 {
-    m_speed.update(0u);
-    m_latitude.update(0.);
-    m_longitude.update(0.);
-    m_track_angle.update(0u);
+    uint8_t nav_data[23u] = {0};
+    NANO_STL_MEMCPY(&nav_data[0u], &m_gnss_data.satellite_count, sizeof(uint8_t));
+    NANO_STL_MEMCPY(&nav_data[1u], &m_gnss_data.latitude, sizeof(double));
+    NANO_STL_MEMCPY(&nav_data[9u], &m_gnss_data.longitude, sizeof(double));
+    NANO_STL_MEMCPY(&nav_data[17u], &m_gnss_data.speed, sizeof(uint32_t));
+    NANO_STL_MEMCPY(&nav_data[21u], &m_gnss_data.track_angle, sizeof(uint16_t));
+    m_nav_data.update(nav_data, sizeof(nav_data));
+}
+
+/** \brief Called when new GNSS data is available */
+void NavigationService::onGnssData(const IGnss::NavigationData& gnss_data)
+{
+    m_gnss_data = gnss_data;
 }
 
 }

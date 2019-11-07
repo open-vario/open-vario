@@ -32,10 +32,16 @@ SimuGnss::SimuGnss(ISimulator& simulator, const std::string& name)
 , m_running(false)
 {}
 
+/** \brief Check if the GNSS hardware is present and working */
+bool SimuGnss::probe()
+{ 
+    return true; 
+}
 
 /** \brief Configure the GNSS */
-bool SimuGnss::configure()
+bool SimuGnss::configure(const uint16_t acq_period)
 {
+    (void)acq_period;
     return true;
 }
 

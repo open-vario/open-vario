@@ -40,8 +40,11 @@ class SimuGnss : public SimuDevice, public IGnss
         static const std::string type() { return "gnss"; }
 
 
+        /** \brief Check if the GNSS hardware is present and working */
+        virtual bool probe();
+
         /** \brief Configure the GNSS */
-        virtual bool configure();
+        virtual bool configure(const uint16_t acqu_period);
 
         /** \brief Start the GNSS */
         virtual bool start();

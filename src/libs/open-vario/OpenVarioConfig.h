@@ -298,13 +298,28 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+//////////////////////////////////////////////////
+//                   GNSS                       //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : GNSS */
+#define OV_CONFIG_GROUP_GNSS                    11u
+
+/** \brief Configuration value : GNSS enabled flag */
+#define OV_CONFIG_VALUE_GNSS_ENABLED            0u
+
+/** \brief Configuration value : acquisition period */
+#define OV_CONFIG_VALUE_GNSS_ACQ_PERIOD         1u
+
+
+
 
 //////////////////////////////////////////////////
 //                  Simulator                   //
 //////////////////////////////////////////////////
 
 /** \brief Configuration value group : simulator */
-#define OV_CONFIG_GROUP_SIMULATOR               11u
+#define OV_CONFIG_GROUP_SIMULATOR               12u
 
 /** \brief Configuration value : simulator enable flag */
 #define OV_CONFIG_VALUE_SIMU_ENABLED            0u

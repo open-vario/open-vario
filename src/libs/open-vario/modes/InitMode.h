@@ -33,6 +33,7 @@ class BlackBox;
 class DeviceManager;
 class ConfigManager;
 class SensorsManager;
+class GnssManager;
 class ProfileManager;
 class FlightRecorder;
 class BleManager;
@@ -44,8 +45,8 @@ class InitMode : public IMode
 
         /** \brief Constructor */
         InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
-                 ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
-                 BleManager& ble_manager, FaultManager& fault_manager);
+                 ConfigManager& config_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, ProfileManager& profile_manager, 
+                 FlightRecorder& flight_recorder, BleManager& ble_manager, FaultManager& fault_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -80,6 +81,9 @@ class InitMode : public IMode
 
         /** \brief Sensors manager */
         SensorsManager& m_sensors_manager;
+
+        /** \brief GNSS manager */
+        GnssManager& m_gnss_manager;
 
         /** \brief Profile manager */
         ProfileManager& m_profile_manager;

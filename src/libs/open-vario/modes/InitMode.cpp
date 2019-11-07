@@ -26,6 +26,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "DeviceManager.h"
 #include "ConfigManager.h"
 #include "SensorsManager.h"
+#include "GnssManager.h"
 #include "ProfileManager.h"
 #include "FlightRecorder.h"
 #include "BleManager.h"
@@ -41,9 +42,9 @@ namespace open_vario
 
 
 /** \brief Constructor */
-InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager,
-                   ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
-                   BleManager& ble_manager, FaultManager& fault_manager)
+InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
+                   ConfigManager& config_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, ProfileManager& profile_manager, 
+                   FlightRecorder& flight_recorder, BleManager& ble_manager, FaultManager& fault_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
@@ -51,6 +52,7 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManag
 , m_device_manager(device_manager)
 , m_config_manager(config_manager)
 , m_sensors_manager(sensors_manager)
+, m_gnss_manager(gnss_manager)
 , m_profile_manager(profile_manager)
 , m_flight_recorder(flight_recorder)
 , m_ble_manager(ble_manager)
@@ -124,6 +126,14 @@ void InitMode::enter()
                 ret = m_profile_manager.init();
                 if (ret)
                 {
+                    // Initialize and start GNSS manager
+                    ret = m_gnss_manager.init();
+                    ret = ret && m_gnss_manager.start();
+                    if (!ret)
+                    {
+                        LOG_ERROR("Failed to initialize GNSS manager");
+                    }
+
                     // Initialize flight recorder
                     ret = m_flight_recorder.init();
                     if (!ret)
@@ -215,19 +225,23 @@ bool InitMode::autotest_l2()
     bool ret = true;
     IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
 
-    // GNSS
-    if (!board.gnss().configure())
-    {
-        m_fault_manager.raise(OV_FAULT_GNSS_KO);
-        ret = false;
-    }
-    board.gnss().start();
-
     // Buzzer
     if (!board.buzzer().configure())
     {
         m_fault_manager.raise(OV_FAULT_BUZZER_KO);
         ret = false;
+    }
+
+    // GNSS
+    bool gnss_enabled = false;
+    m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_GNSS, OV_CONFIG_VALUE_GNSS_ENABLED, gnss_enabled);
+    if (gnss_enabled)
+    {
+        if (!board.gnss().probe())
+        {
+            m_fault_manager.raise(OV_FAULT_GNSS_KO);
+            ret = false;
+        }
     }
 
     // BLE

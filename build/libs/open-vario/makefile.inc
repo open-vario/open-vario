@@ -38,6 +38,7 @@ SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/hmi \
                $(LIBRARY_DIR)/log \
                $(LIBRARY_DIR)/modes \
+               $(LIBRARY_DIR)/navigation \
                $(LIBRARY_DIR)/profile \
                $(LIBRARY_DIR)/sensors \
                $(LIBRARY_DIR)/storage \

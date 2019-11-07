@@ -33,7 +33,7 @@ IdentificationService::IdentificationService(DeviceManager& device_manager)
 , m_identification_service("Identification service", "38df4da7-94f3-44dc-83ad-4e10864fbd44")
 
 , m_command("Command", "520b42a8-ee29-46ec-9eff-24e732ca0cb5", true, IBleCharacteristic::PROP_WRITE)
-, m_identification_info("Identification info", "dea233cc-dabb-4b00-9046-f70a44c1ceda", 32u, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+, m_identification_info("Identification info", "dea233cc-dabb-4b00-9046-f70a44c1ceda", 32u, IBleCharacteristic::PROP_READ)
 
 , m_cmd(CMD_RD_GATT_VERSION)
 , m_cmd_available(true)

@@ -17,39 +17,25 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "UBloxM8.h"
+#ifndef IGNSSPROVIDER_H
+#define IGNSSPROVIDER_H
 
+#include "IEvent.h"
+#include "IGnss.h"
 
 namespace open_vario
 {
 
-
-/** \brief Constructor */
-UBloxM8::UBloxM8(IUart& uart, ITask& rx_task)
-: NmeaGnss(uart, rx_task)
-{}
-
-/** \brief Configure the GNSS */
-bool UBloxM8::configure(const uint16_t acqu_period)
+/** \brief Interface for all GNSS data provider implementations */
+class IGnssProvider
 {
-    // TODO : configure NMEA messages and periodicity
-    (void)acqu_period;
-    return true;
-}
+    public:
 
-/** \brief Start the GNSS */
-bool UBloxM8::start()
-{
-    // Start NMEA message reception
-    return startRx();
-}
+        /** \brief Event triggered on new GNSS data */
+        virtual nano_stl::IEvent<const IGnss::NavigationData&>& gnssDataEvent() = 0;
 
-/** \brief Stop the GNSS */
-bool UBloxM8::stop()
-{
-    // TODO : stop the GNSS
-    return true;
-}
-
+};
 
 }
+
+#endif // IGNSSPROVIDER_H
