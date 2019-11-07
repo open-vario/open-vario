@@ -52,6 +52,7 @@
             "type": "cortex-debug",
             "servertype": "jlink",
             "device": "STM32L476RG",
+            "svdFile": "${workspaceFolder}/build/make/targets/STM32L4x6.svd",
             "interface": "swd",
             "ipAddress": null,
             "serialNumber": null
