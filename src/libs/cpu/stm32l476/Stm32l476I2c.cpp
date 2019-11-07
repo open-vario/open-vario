@@ -283,7 +283,8 @@ bool Stm32l476I2c::xfer(const uint8_t slave_address, const XFer& xfer, I2cError&
         if (m_xfer->stop_cond)
         {
             // Wait end of transfer
-            while ((i2c->ISR & (1u << 5u)) == 0)
+            const uint32_t start_time = IOs::getInstance().getMsTimestamp();
+            while (((i2c->ISR & (1u << 5u)) == 0) && ((IOs::getInstance().getMsTimestamp() - start_time) < 10u))
             {}
         }
 
