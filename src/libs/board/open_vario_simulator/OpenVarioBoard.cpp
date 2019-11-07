@@ -69,24 +69,6 @@ bool OpenVarioBoard::configure()
     // LEDs
     ret = ret && m_activity_led.configure();
 
-    // EEPROM
-    ret = ret && m_config_eeprom.configure();
-
-    // NOR Flash
-    ret = ret && m_flight_data_flash.configure();
-   
-    // Barometric sensor
-    ret = ret && m_baro_sensor.configure();
-
-    // GNSS
-    ret = ret && m_gnss.configure();
-
-    // Buzzer
-    ret = ret && m_buzzer.configure();
-
-    // USB device CDC
-    ret = ret && m_usbd_cdc.configure();
-
     return ret;
 }
 

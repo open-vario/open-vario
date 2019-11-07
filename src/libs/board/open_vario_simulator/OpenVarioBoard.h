@@ -159,11 +159,11 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Barometric altimeter */
         BarometricAltimeter m_alti_sensor;
 
-        /** \brief GNSS */
-        SimuGnss m_gnss;
-
         /** \brief BLE stack */
         SimuBlePeripheralStack m_ble_stack;
+
+        /** \brief GNSS */
+        SimuGnss m_gnss;
 
         /** \brief Buzzer */
         SimuBuzzer m_buzzer;
