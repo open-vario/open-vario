@@ -42,6 +42,12 @@ BlueNrgMsStack::BlueNrgMsStack(BlueNrgMs& bluenrg_ms)
     m_bluenrg_ms.setListener(*this);
 }
 
+/** \brief Check if the BLE hardware is present and working */
+bool BlueNrgMsStack::probe()
+{
+    return m_bluenrg_ms.probe();
+}
+
 /** \brief Start the BLE stack */
 bool BlueNrgMsStack::start()
 {
@@ -158,11 +164,6 @@ bool BlueNrgMsStack::addService(IBleService& service, const bool primary_service
             attribute_count++;
         }
     }
-    const nano_stl::IArray<IBleService*>& included_services = service.services();
-    for (nano_stl::nano_stl_size_t i = 0; i < included_services.getCount(); i++)
-    {
-        //attribute_count++;
-    }
 
     // Add the service to the stack
     bool ret = true;
@@ -182,17 +183,12 @@ bool BlueNrgMsStack::addService(IBleService& service, const bool primary_service
         if (ret)
         {
             // Add included services
+            const nano_stl::IArray<IBleService*>& included_services = service.services();
             for (nano_stl::nano_stl_size_t i = 0; (i < included_services.getCount()) && ret; i++)
             {
                 uint8_t included_service_attribute_count = 0u;
                 IBleService* included_service = included_services[i];
-                ret = addService(*included_service, true /*false*/, included_service_attribute_count);
-                /*if (ret)
-                {
-                    uint16_t included_handle = 0u;
-                    const IBleUuid& included_service_uuid = included_service->uuid();
-                    ret = m_bluenrg_ms.includeBleService(service.handle(), included_service->handle(), included_service_attribute_count, &included_service_uuid.value()[0u], included_service_uuid.value().getCount(), included_handle);
-                }*/
+                ret = addService(*included_service, true, included_service_attribute_count);
             }
         }
     }

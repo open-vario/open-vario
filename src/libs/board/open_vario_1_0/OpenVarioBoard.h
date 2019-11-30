@@ -32,7 +32,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Stm32l476LpUart.h"
 #include "Stm32l476Spi.h"
 #include "SpiChipSelectDriver.h"
+#include "Stm32l476I2c.h"
 #include "Stm32l476Crc32.h"
+#include "Stm32l476LpTimPwm.h"
+#include "Stm32l476UsbDeviceCdc.h"
 
 #include "McuRtc.h"
 #include "IoLed.h"
@@ -40,11 +43,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IoExpanderPin.h"
 #include "At25xxx.h"
 #include "SSt26xxx.h"
+#ifdef MS56XX_SPI
 #include "Ms56xxSpi.h"
+#else
+#include "Ms56xxI2c.h"
+#endif // MS56XX_SPI
 #include "BarometricAltimeter.h"
 #include "UBloxM8.h"
 #include "BlueNrgMs.h"
 #include "BlueNrgMsStack.h"
+#include "PwmBuzzer.h"
 
 namespace open_vario
 {
@@ -60,7 +68,7 @@ class OpenVarioBoard : public IOpenVarioBoard
         OpenVarioBoard(ConfigManager& config_manager);
 
 
-        /** \brief Configure the board peripherals */
+        /** \brief Configure the board low-level peripherals */
         virtual bool configure();
 
         /** \brief Start the board peripherals */
@@ -93,8 +101,17 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() { return m_alti_sensor; }
 
+        /** \brief Get the board's GNSS */
+        virtual IGnss& gnss() { return m_gnss; }
+
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() { return m_bluenrgms_stack; }
+
+        /** \brief Get the board's buzzer */
+        virtual IBuzzer& buzzer() { return m_buzzer; }
+
+        /** \brief Get the board's USB Device CDC */
+        virtual IUsbDeviceCdc& usbd_cdc() { return m_usbd_cdc; }
         
 
     private:
@@ -114,12 +131,6 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief RTC peripheral */
         McuRtc m_rtc;
-
-
-        #ifdef NUCLEOBOARD
-        /** \brief Pin to drive the activity LED */
-        Stm32l476Gpio m_activity_led_pin;
-        #endif // NUCLEOBOARD
 
 
         /** \brief Debug UART Rx pin */
@@ -183,6 +194,16 @@ class OpenVarioBoard : public IOpenVarioBoard
         Stm32l476Spi m_spi_2;
 
 
+        /** \brief I2C bus 1 SCL pin */
+        Stm32l476Gpio m_i2c_1_scl_pin;
+
+        /** \brief I2C bus 1 SDA pin */
+        Stm32l476Gpio m_i2c_1_sda_pin;
+
+        /** \brief I2C bus 1 */
+        Stm32l476I2c m_i2c_1;
+
+
         /** \brief I/O expander */
         Mcp23S17 m_io_expander;
 
@@ -195,18 +216,14 @@ class OpenVarioBoard : public IOpenVarioBoard
         /** \brief Pin to read ENTER button state */
         IoExpanderPin m_enter_button_pin;
 
-        #ifndef NUCLEOBOARD
-        /** \brief Pin to drive the activity LED */
-        IoExpanderPin m_activity_led_pin;
-        #endif // NUCLEOBOARD
-
         /** \brief Pin to drive the low battery LED */
         IoExpanderPin m_low_bat_led_pin;
 
-        #ifndef NUCLEOBOARD
+        /** \brief Pin to drive the activity LED */
+        IoExpanderPin m_activity_led_pin;
+
         /** \brief Pin to drive the BLE chip reset */
         IoExpanderPin m_ble_reset_pin;
-        #endif // NUCLEOBOARD
 
         /** \brief Activity LED */
         IoLed m_activity_led;
@@ -232,8 +249,13 @@ class OpenVarioBoard : public IOpenVarioBoard
         Stm32l476Usart m_exp_uart;
 
 
+        #ifdef MS56XX_SPI
         /** \brief Barometric pressure sensor */
         Ms56xxSpi m_baro_sensor;
+        #else
+        /** \brief Barometric pressure sensor */
+        Ms56xxI2c m_baro_sensor;
+        #endif // MS56XX_SPI
 
         /** \brief Barometric altimeter sensor */
         BarometricAltimeter m_alti_sensor;
@@ -255,11 +277,6 @@ class OpenVarioBoard : public IOpenVarioBoard
         UBloxM8 m_gnss;
 
 
-        #ifdef NUCLEOBOARD
-        /** \brief Pin to drive the BLE chip reset */
-        Stm32l476Gpio m_ble_reset_pin;
-        #endif // NUCLEOBOARD
-
         /** \brief BLE interrupt pin */
         Stm32l476Gpio m_ble_irq_pin;
 
@@ -271,6 +288,29 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief BLE stack */
         BlueNrgMsStack m_bluenrgms_stack;
+
+
+        /** \brief Buzzer PWM pin */
+        Stm32l476Gpio m_buzzer_pwm_pin;
+
+        /** \brief Buzzer PWM */
+        Stm32l476LpTimPwm m_buzzer_pwm;
+
+        /** \brief Buzzer */
+        PwmBuzzer m_buzzer;
+
+
+        /** \brief USB DM pin */
+        Stm32l476Gpio m_usb_dm_pin;
+
+        /** \brief USB DP pin */
+        Stm32l476Gpio m_usb_dp_pin;
+
+        /** \brief USB VBUS pin */
+        Stm32l476Gpio m_usb_vbus_pin;
+
+        /** \brief USB CDC device */
+        Stm32l476UsbDeviceCdc m_usbd_cdc;
 
 };
 

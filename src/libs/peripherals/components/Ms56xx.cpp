@@ -150,9 +150,7 @@ bool Ms56xx::checkPromCrc4()
     }
     crc = (0x000F & (crc >> 12u));
 
-    // TODO : Fix CRC computation
-    return true;
-    //return (crc == prom_crc);
+    return (crc == prom_crc);
 }
 
 

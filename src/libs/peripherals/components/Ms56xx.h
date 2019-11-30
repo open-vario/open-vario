@@ -59,7 +59,7 @@ class Ms56xx : public IBarometricSensor
             uint16_t c2;
             /** \brief Temperature coefficient of pressure sensitivity | TCS */
             uint16_t c3;
-            /** \brief Teperature coefficient of pressure offset | TCO */
+            /** \brief Temperature coefficient of pressure offset | TCO */
             uint16_t c4;
             /** \brief Reference temperature | Tref */
             uint16_t c5;

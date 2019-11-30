@@ -39,7 +39,7 @@ bool EepromPartition::configure()
 }
 
 /** \brief Read data from the EEPROM partition */
-bool EepromPartition::read(const uint16_t address, uint8_t data[], const uint16_t size)
+bool EepromPartition::read(const uint16_t address, void* data, const uint16_t size)
 {
     bool ret = false;
 
@@ -54,7 +54,7 @@ bool EepromPartition::read(const uint16_t address, uint8_t data[], const uint16_
 }
 
 /** \brief Write data to the EEPROM partition */
-bool EepromPartition::write(const uint16_t address, const uint8_t data[], const uint16_t size)
+bool EepromPartition::write(const uint16_t address, const void* data, const uint16_t size)
 {
     bool ret = false;
 

@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Delegate.h"
 
+#include "IGnss.h"
 
 
 namespace open_vario
@@ -59,20 +60,23 @@ class NavigationService : public OpenVarioBleServiceBase
 
 
         /** \brief Navigation service */
-        BleService128<0u, 4u> m_navigation_service;
+        BleService128<0u, 1u> m_navigation_service;
 
-        /** \brief Speed */
-        BleCharacteristic128<uint16_t, 0u> m_speed;
+        /** \brief Navigation data */
+        BleCharacteristic128<uint8_t*, 0u> m_nav_data;
 
-        /** \brief Latitude */
-        BleCharacteristic128<double, 0u> m_latitude;
 
-        /** \brief Longitude */
-        BleCharacteristic128<double, 0u> m_longitude;
+        /** \brief Current navigation data */
+        IGnss::NavigationData m_gnss_data;
 
-        /** \brief Track angle */
-        BleCharacteristic128<uint16_t, 0u> m_track_angle;
 
+        /** \brief GNSS event handler */
+        nano_stl::IEvent<const IGnss::NavigationData&>::EventHandlerM m_gnss_event_handler;
+
+
+
+        /** \brief Called when new GNSS data is available */
+        void onGnssData(const IGnss::NavigationData& gnss_data);
 };
 
 }

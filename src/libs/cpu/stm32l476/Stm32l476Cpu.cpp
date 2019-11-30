@@ -21,13 +21,17 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stm32l476xx.h"
 
+/** \brief System core clock (needed for some STM32 HAL functions) */
+uint32_t SystemCoreClock;
+
 namespace open_vario
 {
 
-
 /** \brief Constructor */
 Stm32l476Cpu::Stm32l476Cpu()
-{}
+{
+    SystemCoreClock = getFrequency();
+}
 
 /** \brief Reset the CPU */
 bool Stm32l476Cpu::reset()

@@ -43,10 +43,10 @@ class EepromPartition
         bool configure();
 
         /** \brief Read data from the EEPROM partition */
-        bool read(const uint16_t address, uint8_t data[], const uint16_t size);
+        bool read(const uint16_t address, void* data, const uint16_t size);
 
         /** \brief Write data to the EEPROM partition */
-        bool write(const uint16_t address, const uint8_t data[], const uint16_t size);
+        bool write(const uint16_t address, const void* data, const uint16_t size);
 
 
     private:

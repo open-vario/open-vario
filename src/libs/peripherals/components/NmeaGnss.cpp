@@ -40,6 +40,15 @@ NmeaGnss::NmeaGnss(IUart& uart, ITask& rx_task)
 {}
 
 
+/** \brief Check if the GNSS hardware is present and working */
+bool NmeaGnss::probe()
+{
+    // Wait for data on the UART
+    uint8_t dummy_data[6] = {0};
+    bool ret = m_uart.read(dummy_data, sizeof(dummy_data), 1100u);
+    return ret;
+}
+
 /** \brief Read the current navigation data */
 bool NmeaGnss::readData(NavigationData& nav_data)
 {
@@ -47,16 +56,12 @@ bool NmeaGnss::readData(NavigationData& nav_data)
     m_mutex.lock();
 
     // Copy data
-    bool ret = m_data_valid; 
-    if (ret)
-    {
-        nav_data = m_nav_data;
-    }
+    nav_data = m_nav_data;
 
     // Unlock data
     m_mutex.unlock();
 
-    return ret;
+    return true;
 }
 
 /** \brief Receive task method */
@@ -292,7 +297,7 @@ void NmeaGnss::decodeFrame()
 
             // Status
             const char* status = getNextFrameParam(time);
-            m_data_valid = m_data_valid && (status[0] == 'A');
+            m_data_valid = m_data_valid && ((status[0] == 'A') || (status[0] == 'V'));
 
             // Extract latitude
             const char* const latitude = getNextFrameParam(status);
@@ -313,10 +318,11 @@ void NmeaGnss::decodeFrame()
             m_data_valid = m_data_valid && convertSpeed(speed, m_nav_data.speed);
 
             // Skip track angle
-            skip = getNextFrameParam(speed);
+            const char* const track_angle = getNextFrameParam(speed);
+            m_data_valid = m_data_valid && convertTrackAngle(track_angle, m_nav_data.track_angle);
 
             // Extract date
-            const char* const date = getNextFrameParam(skip);
+            const char* const date = getNextFrameParam(track_angle);
             m_data_valid = convertDateParam(date, m_nav_data.date_time);            
         }
         else
@@ -362,7 +368,7 @@ uint32_t NmeaGnss::convertNDigitsInt(const char number[], const uint8_t digits, 
 bool NmeaGnss::convertTimeParam(const char* time, IRtc::DateTime& date_time)
 {
     bool ret = false;
-    if (NANO_STL_STRNLEN(time, 10u) == 6)
+    if (NANO_STL_STRNLEN(time, 10u) >= 6)
     {
         date_time.hour = convertNDigitsInt(&time[0u], 2u, 10u);
         date_time.minute = convertNDigitsInt(&time[2u], 2u, 10u);
@@ -391,8 +397,11 @@ bool NmeaGnss::convertCoordinates(const char* coordinates, double& coordinate)
 {
     bool ret = true;
 
-    // Extract coordinates
-    coordinate = NANO_STL_ATOF(coordinates);
+    // Extract coordinates and convert them in decimal degrees
+    double raw_coordinates = NANO_STL_ATOF(coordinates);
+    uint32_t degs = static_cast<uint32_t>(raw_coordinates / 100.);
+    double mins = static_cast<double>(static_cast<uint32_t>((raw_coordinates - static_cast<double>(degs * 100)) * 100.)) / 100.;
+    coordinate = static_cast<double>(degs) + (mins / 60.);
 
     return ret;
 }
@@ -421,6 +430,20 @@ bool NmeaGnss::convertSpeed(const char* speed, uint32_t& spd)
 
     // Convert value
     spd = static_cast<uint32_t>(d_speed * 0.514444);
+
+    return ret;
+}
+
+/** \brief Convert a track angle parameter of a NMEA frame */
+bool NmeaGnss::convertTrackAngle(const char* track_angle, uint16_t& ta)
+{
+    bool ret = true;
+
+    // Extract track_angle
+    double d_track_angle = NANO_STL_ATOF(track_angle);
+
+    // Convert value
+    ta = static_cast<uint16_t>(d_track_angle * 10.);
 
     return ret;
 }

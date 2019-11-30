@@ -42,123 +42,140 @@ bool At25xxx::configure()
 }
 
 /** \brief Read data from the EEPROM */
-bool At25xxx::read(const uint16_t address, uint8_t data[], const uint16_t size)
+bool At25xxx::read(const uint16_t address, void* data, const uint16_t size)
 {
     bool ret = false;
 
-    // Check address
-    if (address + size <= m_size)
+    // Check size
+    if (size == 0)
     {
-        // Prepare SPI transfer for the read data
-        ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = data;
-        spi_xfer_data.size = size;
-        spi_xfer_data.cs = m_chip_select;
+        ret = true;
+    }
+    else
+    {
+        // Check address
+        if (address + size <= m_size)
+        {
+            // Prepare SPI transfer for the read data
+            ISpi::XFer spi_xfer_data;
+            spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(data);
+            spi_xfer_data.size = size;
+            spi_xfer_data.cs = m_chip_select;
 
-        // Prepare SPI transfer to send the READ command
-        uint8_t read_cmd[] = {
-                                0x03u, 
-                                static_cast<uint8_t>((address >> 8u) & 0xFFu), 
-                                static_cast<uint8_t>(address & 0xFFu)
-                             };
-        ISpi::XFer spi_xfer_cmd;
-        spi_xfer_cmd.write_data = read_cmd;
-        spi_xfer_cmd.size = sizeof(read_cmd);
-        spi_xfer_cmd.cs = m_chip_select;
-        spi_xfer_cmd.keep_cs_active = true;
-        spi_xfer_cmd.next = &spi_xfer_data;
+            // Prepare SPI transfer to send the READ command
+            uint8_t read_cmd[] = {
+                                    0x03u, 
+                                    static_cast<uint8_t>((address >> 8u) & 0xFFu), 
+                                    static_cast<uint8_t>(address & 0xFFu)
+                                };
+            ISpi::XFer spi_xfer_cmd;
+            spi_xfer_cmd.write_data = read_cmd;
+            spi_xfer_cmd.size = sizeof(read_cmd);
+            spi_xfer_cmd.cs = m_chip_select;
+            spi_xfer_cmd.keep_cs_active = true;
+            spi_xfer_cmd.next = &spi_xfer_data;
 
-        ret = m_spi.xfer(spi_xfer_cmd);
+            ret = m_spi.xfer(spi_xfer_cmd);
+        }
     }
 
     return ret;
 }
 
 /** \brief Write data to the EEPROM */
-bool At25xxx::write(const uint16_t address, const uint8_t data[], const uint16_t size)
+bool At25xxx::write(const uint16_t address, const void* data, const uint16_t size)
 {
     bool ret = false;
 
-    // Check address
-    if (address + size <= m_size)
+    // Check size
+    if (size == 0)
     {
-        uint16_t index = 0u;
-        uint16_t left = size;
-        uint32_t current_address = address;
         ret = true;
-        while (ret && (left != 0u))
+    }
+    else
+    {
+        // Check address
+        if (address + size <= m_size)
         {
-            // Enable write operations
-            sendWriteEnableCmd();
-
-            // Check programming page alignment
-            const uint32_t page_align = current_address & (m_page_size - 1u);
-
-            // Compute programming size
-            uint32_t program_size = left;
-            if (page_align != 0u)
+            uint16_t index = 0u;
+            uint16_t left = size;
+            uint32_t current_address = address;
+            const uint8_t* pdata = reinterpret_cast<const uint8_t*>(data);
+            ret = true;
+            while (ret && (left != 0u))
             {
-                if (program_size > (m_page_size - page_align))
-                {
-                    program_size = m_page_size - page_align;
-                }
-            }
-            else
-            {
-                if (program_size > m_page_size)
-                {
-                    program_size = m_page_size;
-                }
-            }
+                // Enable write operations
+                sendWriteEnableCmd();
 
-            // Prepare SPI transfer for the data to write
-            ISpi::XFer spi_xfer_data;
-            spi_xfer_data.write_data = &data[index];
-            spi_xfer_data.size = program_size;
-            spi_xfer_data.cs = m_chip_select;
+                // Check programming page alignment
+                const uint32_t page_align = current_address & (m_page_size - 1u);
 
-            // Prepare SPI transfer to send the READ command
-            uint8_t write_cmd[] = {
-                                    0x02u, 
-                                    static_cast<uint8_t>(((address + index) >> 8u) & 0xFFu), 
-                                    static_cast<uint8_t>((address + index) & 0xFFu)
-                                  };
-            ISpi::XFer spi_xfer_cmd;
-            spi_xfer_cmd.write_data = write_cmd;
-            spi_xfer_cmd.size = sizeof(write_cmd);
-            spi_xfer_cmd.cs = m_chip_select;
-            spi_xfer_cmd.keep_cs_active = true;
-            spi_xfer_cmd.next = &spi_xfer_data;
-
-            // Start transfer
-            ret = m_spi.xfer(spi_xfer_cmd);
-            if (ret)
-            {
-                // Wait for end of write
-                bool ready = false;
-                const uint32_t timeout = IOs::getInstance().getMsTimestamp() + WRITE_TIMEOUT;
-                do
+                // Compute programming size
+                uint32_t program_size = left;
+                if (page_align != 0u)
                 {
-                    // Read status register
-                    uint8_t read_sr[] = {0x05u, 0x00u};
-                    spi_xfer_cmd.write_data = read_sr;
-                    spi_xfer_cmd.read_data = read_sr;
-                    spi_xfer_cmd.size = sizeof(read_sr);
-                    spi_xfer_cmd.cs = m_chip_select;
-                    spi_xfer_cmd.keep_cs_active = false;
-                    spi_xfer_cmd.next = nullptr;
-                    ret = m_spi.xfer(spi_xfer_cmd);
-                    if (ret)
+                    if (program_size > (m_page_size - page_align))
                     {
-                        ready = ((read_sr[1u] & (1u << 0u)) == 0u);
+                        program_size = m_page_size - page_align;
                     }
                 }
-                while (ret && !ready && (IOs::getInstance().getMsTimestamp() < timeout));
+                else
+                {
+                    if (program_size > m_page_size)
+                    {
+                        program_size = m_page_size;
+                    }
+                }
 
-                // Next transfer
-                index += program_size;
-                left -= program_size;
-                current_address += program_size;
+                // Prepare SPI transfer for the data to write
+                ISpi::XFer spi_xfer_data;
+                spi_xfer_data.write_data = &pdata[index];
+                spi_xfer_data.size = program_size;
+                spi_xfer_data.cs = m_chip_select;
+
+                // Prepare SPI transfer to send the WRITE command
+                uint8_t write_cmd[] = {
+                                        0x02u, 
+                                        static_cast<uint8_t>(((address + index) >> 8u) & 0xFFu), 
+                                        static_cast<uint8_t>((address + index) & 0xFFu)
+                                    };
+                ISpi::XFer spi_xfer_cmd;
+                spi_xfer_cmd.write_data = write_cmd;
+                spi_xfer_cmd.size = sizeof(write_cmd);
+                spi_xfer_cmd.cs = m_chip_select;
+                spi_xfer_cmd.keep_cs_active = true;
+                spi_xfer_cmd.next = &spi_xfer_data;
+
+                // Start transfer
+                ret = m_spi.xfer(spi_xfer_cmd);
+                if (ret)
+                {
+                    // Wait for end of write
+                    bool ready = false;
+                    const uint32_t timeout = IOs::getInstance().getMsTimestamp() + WRITE_TIMEOUT;
+                    do
+                    {
+                        // Read status register
+                        uint8_t read_sr[] = {0x05u, 0x00u};
+                        spi_xfer_cmd.write_data = read_sr;
+                        spi_xfer_cmd.read_data = read_sr;
+                        spi_xfer_cmd.size = sizeof(read_sr);
+                        spi_xfer_cmd.cs = m_chip_select;
+                        spi_xfer_cmd.keep_cs_active = false;
+                        spi_xfer_cmd.next = nullptr;
+                        ret = m_spi.xfer(spi_xfer_cmd);
+                        if (ret)
+                        {
+                            ready = ((read_sr[1u] & (1u << 0u)) == 0u);
+                        }
+                    }
+                    while (ret && !ready && (IOs::getInstance().getMsTimestamp() < timeout));
+
+                    // Next transfer
+                    index += program_size;
+                    left -= program_size;
+                    current_address += program_size;
+                }
             }
         }
     }

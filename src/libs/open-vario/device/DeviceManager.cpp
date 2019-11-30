@@ -49,7 +49,7 @@ bool DeviceManager::init()
     LOG_INFO("Reading electronic stamp...");
 
     // Read the electronic stamp
-    ret = m_eeprom_partition.read(0u, reinterpret_cast<uint8_t*>(&m_electronic_stamp), sizeof(ElectronicStamp));
+    ret = m_eeprom_partition.read(0u, &m_electronic_stamp, sizeof(ElectronicStamp));
     if (ret)
     {
         // Check electronic stamp integrity

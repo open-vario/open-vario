@@ -1,6 +1,6 @@
 {
-    "cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink_V640\\JLinkGDBServerCL.exe",
-    "cortex-debug.armToolchainPath": "C:\\gcc_arm_cortex_m_7.3\\bin",
+    "cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink\\JLinkGDBServerCL.exe",
+    "cortex-debug.armToolchainPath": "C:\\gcc_arm_cortex_m_8.2\\bin",
     //"cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-5_4-2016q3/bin",
     //"cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe",
     "files.exclude": {
@@ -62,6 +62,8 @@
         "memory": "cpp",
         "mutex": "cpp",
         "ratio": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "stm32l4xx_hal.h": "c",
+        "stm32l4xx_hal_conf.h": "c"
     }
 }

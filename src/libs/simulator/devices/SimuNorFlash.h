@@ -65,6 +65,9 @@ class SimuNorFlash : public INorFlash
         /** \brief Erase the whole the NOR flash */
         virtual bool chipErase();
 
+        /** \brief Read the NOR flash ID */
+        virtual bool readId(uint8_t& manufacturer_id, uint8_t& device_type, uint8_t& device_id);
+
 
     private:
 

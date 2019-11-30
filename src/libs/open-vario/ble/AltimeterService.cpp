@@ -30,11 +30,8 @@ AltimeterService::AltimeterService()
 
 , m_altimeter_service("Altimeter service", "516c5737-8250-493b-bb95-b2a16f65110e")
 
-, m_main_alti("Main altitude", "f033de08-eda3-46a2-9918-19e123297152", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_1("Altitude 1", "b176dd1b-d98e-4707-b51d-d0e31223f776", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_2("Altitude 2", "e4c54ec3-e4b3-43a3-9eb0-9790615f68c3", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_3("Altitude 3", "2a0934e3-7127-46c0-90a9-d6a5cbb51fa6", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
-, m_alti_4("Altitude 4", "80b81b29-791a-4b98-bc76-c6a85539b844", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY | IBleCharacteristic::PROP_WRITE)
+, m_altitudes("Altitudes", "f033de08-eda3-46a2-9918-19e123297152", 10, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+, m_command("Command", "b176dd1b-d98e-4707-b51d-d0e31223f776", true, IBleCharacteristic::PROP_WRITE)
 
 , m_altimeter_event_handler()
 , m_altimeter_values()
@@ -47,11 +44,8 @@ bool AltimeterService::init()
     bool ret = true;
 
     // Fill BLE service with characteristics
-    ret = ret && m_altimeter_service.addCharacteristic(m_main_alti);
-    ret = ret && m_altimeter_service.addCharacteristic(m_alti_1);
-    ret = ret && m_altimeter_service.addCharacteristic(m_alti_2);
-    ret = ret && m_altimeter_service.addCharacteristic(m_alti_3);
-    ret = ret && m_altimeter_service.addCharacteristic(m_alti_4);
+    ret = ret && m_altimeter_service.addCharacteristic(m_altitudes);
+    ret = ret && m_altimeter_service.addCharacteristic(m_command);
 
     return ret;
 }
@@ -62,11 +56,7 @@ bool AltimeterService::start()
     bool ret = true;
 
     // Register to characteristics events
-    ret = ret && m_main_alti.registerListener(*this);
-    ret = ret && m_alti_1.registerListener(*this);
-    ret = ret && m_alti_2.registerListener(*this);
-    ret = ret && m_alti_3.registerListener(*this);
-    ret = ret && m_alti_4.registerListener(*this);
+    ret = ret && m_command.registerListener(*this);
     if (ret)
     {
         // Register to altimeter events
@@ -81,11 +71,24 @@ bool AltimeterService::start()
 /** \brief Update the BLE service characteristics values */
 void AltimeterService::updateCharacteristicsValues()
 {
-    m_main_alti.update(static_cast<int16_t>(m_altimeter_values.main_alti / 10));
-    m_alti_1.update(static_cast<int16_t>(m_altimeter_values.alti_1 / 10));
-    m_alti_2.update(static_cast<int16_t>(m_altimeter_values.alti_2 / 10));
-    m_alti_3.update(static_cast<int16_t>(m_altimeter_values.alti_3 / 10));
-    m_alti_4.update(static_cast<int16_t>(m_altimeter_values.alti_4 / 10));
+    const uint16_t main_alti = static_cast<int16_t>(m_altimeter_values.main_alti / 10);
+    const uint16_t alti_1 = static_cast<int16_t>(m_altimeter_values.alti_1 / 10);
+    const uint16_t alti_2 = static_cast<int16_t>(m_altimeter_values.alti_2 / 10);
+    const uint16_t alti_3 = static_cast<int16_t>(m_altimeter_values.alti_3 / 10);
+    const uint16_t alti_4 = static_cast<int16_t>(m_altimeter_values.alti_4 / 10);
+    const uint8_t altitudes[] = {
+                                    static_cast<uint8_t>(main_alti & 0xFFu),
+                                    static_cast<uint8_t>((main_alti >> 8u) & 0xFFu),
+                                    static_cast<uint8_t>(alti_1 & 0xFFu),
+                                    static_cast<uint8_t>((alti_1 >> 8u) & 0xFFu),
+                                    static_cast<uint8_t>(alti_2 & 0xFFu),
+                                    static_cast<uint8_t>((alti_2 >> 8u) & 0xFFu),
+                                    static_cast<uint8_t>(alti_3 & 0xFFu),
+                                    static_cast<uint8_t>((alti_3 >> 8u) & 0xFFu),
+                                    static_cast<uint8_t>(alti_4 & 0xFFu),
+                                    static_cast<uint8_t>((alti_4 >> 8u) & 0xFFu)
+                                };
+    m_altitudes.update(altitudes, sizeof(altitudes));
 }
 
 /** \brief Called when new altimeter values have been computed */
@@ -101,32 +104,47 @@ void AltimeterService::onValueChanged(IBleCharacteristic& characteristic, const 
     if (from_stack)
     {
         IAltimeter& altimeter = IOpenVarioApp::getInstance().getAltimeter();
-        int32_t altitude = static_cast<int32_t>(*reinterpret_cast<const int16_t*>(new_value) * 10);
-        if (&characteristic == static_cast<IBleCharacteristic*>(&m_main_alti))
+        const uint32_t value = *reinterpret_cast<const uint32_t*>(new_value);
+        const int32_t altitude = static_cast<int32_t>(static_cast<int16_t>(value & 0xFFFFu)) * 10;
+        const uint16_t command = static_cast<uint16_t>((value >> 8u) & 0xFFFFu);
+        switch (command)
         {
-            altimeter.setReferenceAltitude(altitude);
+            case CMD_SET_MAIN_ALTI:
+            {
+                altimeter.setReferenceAltitude(altitude);
+                break;
+            }
+
+            case CMD_SET_ALTI_1:
+            {
+                altimeter.setAlti1(altitude);
+                break;
+            }
+
+            case CMD_SET_ALTI_2:
+            {
+                altimeter.setAlti2(altitude);
+                break;
+            }
+
+            case CMD_SET_ALTI_3:
+            {
+                altimeter.setAlti3(altitude);
+                break;
+            }
+
+            case CMD_SET_ALTI_4:
+            {
+                altimeter.setAlti4(altitude);
+                break;
+            }
+
+            default:
+            {
+                // Should not happen => ignore
+                break;
+            }
         }
-        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_1))
-        {
-            altimeter.setAlti1(altitude);
-        }
-        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_2))
-        {
-            altimeter.setAlti2(altitude);
-        }
-        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_3))
-        {
-            altimeter.setAlti3(altitude);
-        }
-        else if (&characteristic == static_cast<IBleCharacteristic*>(&m_alti_4))
-        {
-            altimeter.setAlti4(altitude);
-        }
-        else
-        {
-            // Should not happen => ignore
-        }
-        
     }
 }
 

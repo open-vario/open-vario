@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ModeManager.h"
 #include "HmiManager.h"
 #include "SensorsManager.h"
+#include "GnssManager.h"
 #include "FlightRecorder.h"
 #include "BleManager.h"
 #include "LogMacro.h"
@@ -30,11 +31,12 @@ namespace open_vario
 
 
 /** \brief Constructor */
-RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, FlightRecorder& flight_recorder,
+RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, FlightRecorder& flight_recorder,
                  BleManager& ble_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_sensors_manager(sensors_manager)
+, m_gnss_manager(gnss_manager)
 , m_flight_recorder(flight_recorder)
 , m_ble_manager(ble_manager)
 {}
@@ -61,6 +63,13 @@ void RunMode::enter()
     if (!ret)
     {
         LOG_ERROR("Failure during sensors notification startup");
+    }
+
+    // Start GNSS notifications
+    ret = m_gnss_manager.startNotifications();
+    if (!ret)
+    {
+        LOG_ERROR("Failure during GNSS notification startup");
     }
 
     // Start flight recorder

@@ -26,15 +26,19 @@ LIBRARY_DIR := $(ROOT_DIR)/src/libs/open-vario
 
 # Source directories
 SOURCE_DIRS := $(LIBRARY_DIR) \
+               $(LIBRARY_DIR)/alarms \
                $(LIBRARY_DIR)/application \
                $(LIBRARY_DIR)/application/$(TARGET_OS) \
+               $(LIBRARY_DIR)/blackbox \
                $(LIBRARY_DIR)/ble \
                $(LIBRARY_DIR)/config \
                $(LIBRARY_DIR)/device \
+               $(LIBRARY_DIR)/fault \
                $(LIBRARY_DIR)/fight \
                $(LIBRARY_DIR)/hmi \
                $(LIBRARY_DIR)/log \
                $(LIBRARY_DIR)/modes \
+               $(LIBRARY_DIR)/navigation \
                $(LIBRARY_DIR)/profile \
                $(LIBRARY_DIR)/sensors \
                $(LIBRARY_DIR)/storage \

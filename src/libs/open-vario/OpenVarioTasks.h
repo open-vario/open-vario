@@ -33,6 +33,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Priority of the BLE manager's task */
 #define OV_TASK_PRIO_BLE_MANAGER            3u
 
+/** \brief Priority of the GNSS manager's task */
+#define OV_TASK_PRIO_GNSS_MANAGER           4u
+
 /** \brief Priority of the sensors manager's task */
 #define OV_TASK_PRIO_SENSOR_MANAGER         5u
 

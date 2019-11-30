@@ -71,9 +71,10 @@ uint32_t Stm32l476Crc32::update(const void* buffer, const size_t size)
     }
 
     const uint8_t* u8_buffer = reinterpret_cast<const uint8_t*>(u32_buffer);
+    volatile uint8_t* crc_dr = reinterpret_cast<volatile uint8_t*>(&(CRC->DR));
     while (u8_size != 0u)
     {
-        CRC->DR = *u8_buffer;
+        *crc_dr = *u8_buffer;
         u8_buffer++;
         u8_size--;
     }

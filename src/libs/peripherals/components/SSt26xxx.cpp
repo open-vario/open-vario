@@ -46,6 +46,10 @@ bool SSt26xxx::configure()
     ret = ret && sendCommand(RSTEN);
     ret = ret && sendCommand(RST);
 
+    // Unlock all blocks
+    ret = ret && sendCommand(WREN);
+    ret = ret && sendCommand(ULBPR);
+
     // Wait ready
     ret = ret && waitReady();
 
@@ -211,6 +215,39 @@ bool SSt26xxx::chipErase()
 
     // Chip erase
     ret = ret && sendCommand(CE);
+    ret = ret && waitReady();
+
+    return ret;
+}
+
+/** \brief Read the NOR flash ID */
+bool SSt26xxx::readId(uint8_t& manufacturer_id, uint8_t& device_type, uint8_t& device_id)
+{
+    bool ret = false;
+
+    // Prepare SPI transfer for the read data
+    uint8_t read_data[3] = {0};
+    ISpi::XFer spi_xfer_data;
+    spi_xfer_data.read_data = read_data;
+    spi_xfer_data.size = sizeof(read_data);
+    spi_xfer_data.cs = m_chip_select;
+
+    // Prepare SPI transfer to send the JEDEC-ID read command
+    uint8_t read_cmd[] = { JEDEC_ID };
+    ISpi::XFer spi_xfer_cmd;
+    spi_xfer_cmd.write_data = read_cmd;
+    spi_xfer_cmd.size = sizeof(read_cmd);
+    spi_xfer_cmd.cs = m_chip_select;
+    spi_xfer_cmd.keep_cs_active = true;
+    spi_xfer_cmd.next = &spi_xfer_data;
+
+    ret = m_spi.xfer(spi_xfer_cmd);
+    if (ret)
+    {
+        manufacturer_id = read_data[0u];
+        device_type = read_data[1u];
+        device_id = read_data[2u];
+    }
 
     return ret;
 }

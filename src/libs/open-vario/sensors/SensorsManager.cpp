@@ -142,7 +142,7 @@ void SensorsManager::task(void* const param)
             }
             else
             {
-                LOG_ERROR("Unable to compute altitude");
+                //LOG_ERROR("Unable to compute altitude");
             }
 
             // Compute acceleration

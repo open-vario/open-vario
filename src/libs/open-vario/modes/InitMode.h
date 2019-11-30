@@ -28,9 +28,12 @@ namespace open_vario
 class ModeManager;
 class HmiManager;
 class TimeManager;
+class FaultManager;
+class BlackBox;
 class DeviceManager;
 class ConfigManager;
 class SensorsManager;
+class GnssManager;
 class ProfileManager;
 class FlightRecorder;
 class BleManager;
@@ -41,9 +44,9 @@ class InitMode : public IMode
     public:
 
         /** \brief Constructor */
-        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, DeviceManager& device_manager, 
-                 ConfigManager& config_manager, SensorsManager& sensors_manager, ProfileManager& profile_manager, FlightRecorder& flight_recorder,
-                 BleManager& ble_manager);
+        InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
+                 ConfigManager& config_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, ProfileManager& profile_manager, 
+                 FlightRecorder& flight_recorder, BleManager& ble_manager, FaultManager& fault_manager);
 
 
         ////// Implementation of IMode interface //////
@@ -67,6 +70,9 @@ class InitMode : public IMode
         /** \brief Date and time manager */
         TimeManager& m_time_manager;
 
+        /** \brief BlackBox manager */
+        BlackBox& m_black_box;
+
         /** \brief Device manager */
         DeviceManager& m_device_manager;
 
@@ -76,6 +82,9 @@ class InitMode : public IMode
         /** \brief Sensors manager */
         SensorsManager& m_sensors_manager;
 
+        /** \brief GNSS manager */
+        GnssManager& m_gnss_manager;
+
         /** \brief Profile manager */
         ProfileManager& m_profile_manager;
 
@@ -84,6 +93,17 @@ class InitMode : public IMode
 
         /** \brief BLE manager */
         BleManager& m_ble_manager;
+
+        /** \brief Fault manager */
+        FaultManager& m_fault_manager;
+
+
+
+        /** \brief Start and check the board mandatory peripherals */
+        bool autotest_l1();
+
+        /** \brief Start and check the board optional peripherals */
+        bool autotest_l2();
 };
 
 }

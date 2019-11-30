@@ -18,7 +18,10 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "NanoOsConsole.h"
+#include "nano_os_data.h"
+#include "nano_os_port.h"
 #include "IOpenVarioApp.h"
+#include "ICpu.h"
 
 
 namespace open_vario
@@ -29,7 +32,8 @@ namespace open_vario
 const nano_os_console_cmd_desc_t NanoOsConsole::m_console_commands[] = 
                                                             {
                                                                 {"ov_version", "Display Open Vario version", &NanoOsConsole::cmdHandler},
-                                                                {"ov_logs", "Display Open Vario logs", &NanoOsConsole::cmdHandler}
+                                                                {"ov_logs", "Display Open Vario logs", &NanoOsConsole::cmdHandler},
+                                                                {"ov_reset", "Reset Open Vario device", &NanoOsConsole::cmdHandler}
                                                             };
 
 
@@ -48,6 +52,7 @@ NanoOsConsole::NanoOsConsole(IUart& console_uart, ILogHistory& log_history)
     // Register handlers
     m_console_command_handlers.pushBack(&NanoOsConsole::versionCmdHandler);
     m_console_command_handlers.pushBack(&NanoOsConsole::logsCmdHandler);
+    m_console_command_handlers.pushBack(&NanoOsConsole::resetCmdHandler);
 }
 
 /** \brief Initialize the commands */
@@ -88,6 +93,15 @@ void NanoOsConsole::logsCmdHandler(const char params[])
     }
 }
 
+/** \brief Handle the 'ov_reset' console command */
+void NanoOsConsole::resetCmdHandler(const char params[])
+{
+    NANO_OS_USER_ConsoleWriteString("OpenVario device will now reset...\r\n");
+    NANO_OS_TASK_Sleep(50u);
+    NANO_OS_PORT_RAISE_PRIVILEDGES();
+    IOpenVarioApp::getInstance().getBoard().cpu().reset();
+    NANO_OS_USER_ConsoleWriteString("Reset failed!\r\n");
+}
 
 
 /** \brief Generic Nano-OS console command handler */

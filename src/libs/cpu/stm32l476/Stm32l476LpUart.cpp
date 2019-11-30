@@ -247,10 +247,11 @@ void Stm32l476LpUart::irqHandler()
     #endif // OS_NANO_OS
 
     bool signal;
+    static volatile USART_TypeDef* lpuart_regs = LPUART1; 
 
     // Read received data
     signal = (m_rx_queue.getCount() == 0u);
-    while ((LPUART1->ISR & ( 1u << 5u)) != 0) // RXNE bit
+    while ((LPUART1->ISR & (1u << 5u)) != 0) // RXNE bit
     {
         // Read the received byte
         m_rx_queue.push(static_cast<uint8_t>(LPUART1->RDR));
@@ -296,7 +297,8 @@ void Stm32l476LpUart::irqHandler()
     }
 
     // Clear error flags
-    LPUART1->ICR = 0x00u;
+    LPUART1->ICR = 0xFFFFFFFFu;
+    lpuart_regs->ICR = 0;
 
     #ifdef OS_NANO_OS
     NANO_OS_INTERRUPT_Exit();

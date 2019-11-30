@@ -31,13 +31,16 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
+#include "FaultManager.h"
 #include "TimeManager.h"
+#include "BlackBox.h"
 #include "SensorsManager.h"
 #include "ProfileManager.h"
 #include "NorFlashPartition.h"
 #include "NorFlashFs.h"
 #include "FlightRecorder.h"
 #include "BleManager.h"
+#include "GnssManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "PowerOffMode.h"
@@ -84,6 +87,9 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Get the variometer */
         virtual IVariometer& getVariometer() { return m_variometer; }
 
+        /** \brief Get the GNSS data provider */
+        virtual IGnssProvider& getGnssProvider() { return m_gnss_manager; }
+
 
         /** \brief Initialize the application */
         virtual bool init(uint8_t argc, char* argv[]);
@@ -122,6 +128,9 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Eeprom partition for application configuration */
         EepromPartition m_app_config_eeprom_partition;
 
+        /** \brief Eeprom partition for blackbox */
+        EepromPartition m_blackbox_eeprom_partition;
+
 
         /** \brief Eeprom configuration area accessor */
         EepromConfigAreaAccessor m_config_area_accessor;
@@ -159,6 +168,12 @@ class OpenVarioApp : public IOpenVarioApp
         /** \brief Date and time manager */
         TimeManager m_time_manager;
 
+        /** \brief Fault manager */
+        FaultManager m_fault_manager;
+
+        /** \brief Blackbox manager */
+        BlackBox m_blackbox;
+
         /** \brief Altimeter */
         Altimeter m_altimeter;
 
@@ -191,6 +206,17 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Bluetooth Low Energy manager */
         BleManager m_ble_manager;
+
+
+        /** \brief GNSS manager */
+        GnssManager m_gnss_manager;
+
+
+        /** \brief Delegate to receive fault events */
+        IEvent<const FaultManager::Fault&>::EventHandlerM m_fault_delegate;
+
+        /** \brief Called when a fault state has changed */
+        void onFaultChanged(const FaultManager::Fault& fault);
 };
 
 }

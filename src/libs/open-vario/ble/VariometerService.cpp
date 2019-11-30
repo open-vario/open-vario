@@ -29,8 +29,7 @@ VariometerService::VariometerService()
 : OpenVarioBleServiceBase()
 , m_variometer_service("Variometer service", "ae283ac8-786f-42ef-b694-b7faf492cae9")
 
-, m_vario("Vario", "7708157c-132f-4d21-a1d9-c9768732b4e9", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
-, m_acceleration("Acceleration", "9e13b15f-3582-433b-9034-55ac8881ee4f", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
+, m_vario_accel("Vario-Acceleration", "7708157c-132f-4d21-a1d9-c9768732b4e9", true, IBleCharacteristic::PROP_READ | IBleCharacteristic::PROP_NOTIFY)
 
 , m_variometer_event_handler()
 , m_variometer_values()
@@ -43,8 +42,7 @@ bool VariometerService::init()
     bool ret = true;
 
     // Fill BLE service with characteristics
-    ret = ret && m_variometer_service.addCharacteristic(m_vario);
-    ret = ret && m_variometer_service.addCharacteristic(m_acceleration);
+    ret = ret && m_variometer_service.addCharacteristic(m_vario_accel);
 
     return ret;
 }
@@ -65,8 +63,12 @@ bool VariometerService::start()
 /** \brief Update the BLE service characteristics values */
 void VariometerService::updateCharacteristicsValues()
 {
-    m_vario.update(m_variometer_values.vario);
-    m_acceleration.update(0u);
+    uint32_t vario_accel = 0;
+
+    vario_accel = static_cast<uint16_t>(m_variometer_values.vario);
+    vario_accel += (static_cast<uint32_t>(0) << 8u);
+    
+    m_vario_accel.update(vario_accel);
 }
 
 /** \brief Called when new variometer values have been computed */

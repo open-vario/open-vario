@@ -34,7 +34,10 @@ class ICrc32;
 class IEeprom;
 class INorFlash;
 class IBarometricAltimeter;
+class IGnss;
 class IBlePeripheralStack;
+class IBuzzer;
+class IUsbDeviceCdc;
 
 /** \brief Interface for all open vario boards implementations */
 class IOpenVarioBoard
@@ -42,7 +45,7 @@ class IOpenVarioBoard
     public:
 
 
-        /** \brief Configure the board peripherals */
+        /** \brief Configure the board low-level peripherals */
         virtual bool configure() = 0;
 
         /** \brief Start the board peripherals */
@@ -75,8 +78,17 @@ class IOpenVarioBoard
         /** \brief Get the board's altimeter sensor */
         virtual IBarometricAltimeter& altimeter() = 0;
 
+        /** \brief Get the board's GNSS */
+        virtual IGnss& gnss() = 0;
+
         /** \brief Get the board's Bluetooth Low Energy stack */
         virtual IBlePeripheralStack& ble_stack() = 0;
+
+        /** \brief Get the board's buzzer */
+        virtual IBuzzer& buzzer() = 0;
+
+        /** \brief Get the board's USB Device CDC */
+        virtual IUsbDeviceCdc& usbd_cdc() = 0;
 };
 
 }

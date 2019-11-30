@@ -51,7 +51,7 @@ bool LinuxRtc::setDateTime(const DateTime& date_time)
     // Set system time
     struct timespec sys_time;
     sys_time.tv_sec = mktime(&sys_time_tm);
-    sys_time.tv_nsec = 0;
+    sys_time.tv_nsec = date_time.millis * 1000000u;
     return (clock_settime(CLOCK_REALTIME, &sys_time) == 0);
 }
 
@@ -71,6 +71,7 @@ bool LinuxRtc::getDateTime(DateTime& date_time)
     date_time.hour = sys_time_tm.tm_hour;
     date_time.minute = sys_time_tm.tm_min;
     date_time.second = sys_time_tm.tm_sec;
+    date_time.millis = sys_time.tv_nsec / 1000000u;
 
     return true;
 }

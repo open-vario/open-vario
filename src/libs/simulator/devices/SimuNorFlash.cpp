@@ -158,5 +158,14 @@ bool SimuNorFlash::chipErase()
     return sectorErase(0, m_sector_count);
 }
 
+/** \brief Read the NOR flash ID */
+bool SimuNorFlash::readId(uint8_t& manufacturer_id, uint8_t& device_type, uint8_t& device_id)
+{
+    manufacturer_id = 0;
+    device_type = 0;
+    device_id = 0;
+    return true;
+}
+
 
 }

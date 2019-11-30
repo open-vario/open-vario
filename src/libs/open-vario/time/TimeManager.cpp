@@ -18,6 +18,8 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "TimeManager.h"
+#include "LogMacro.h"
+#include "nano-stl.h"
 
 namespace open_vario
 {
@@ -32,8 +34,28 @@ TimeManager::TimeManager(IRtc& rtc)
 /** \brief Start the date and time manager */
 bool TimeManager::start()
 {
-    // Noting to do
-    return true;
+    bool ret;
+
+    // Get current date and time
+    IRtc::DateTime date_time;
+    ret = m_rtc.getDateTime(date_time);
+    if (ret)
+    {
+        char temp[64u];
+        NANO_STL_SNPRINTF(temp, sizeof(temp), "Current date and time : %d/%d/%d - %d:%d:%d", date_time.day, 
+                                                                                             date_time.month, 
+                                                                                             (2000u + date_time.year), 
+                                                                                             date_time.hour, 
+                                                                                             date_time.minute, 
+                                                                                             date_time.second);
+        LOG_INFO(temp);
+    }
+    else
+    {
+        LOG_ERROR("Unable to initialize Time manager");
+    }    
+
+    return ret;
 }
 
 /** \brief Set the system's date and time */

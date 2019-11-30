@@ -120,17 +120,28 @@ bool Stm32l476Rtc::setDateTime(const DateTime& date_time)
 bool Stm32l476Rtc::getDateTime(DateTime& date_time)
 {
     /* Read date and time registers */
-    const uint32_t time_reg = RTC->TR;
-    const uint32_t date_reg = RTC->DR;
+    uint32_t subsec_reg;
+    uint32_t time_reg;
+    uint32_t date_reg;
+    do
+    {
+        time_reg = RTC->TR;
+        subsec_reg = RTC->SSR;
+        date_reg = RTC->DR;
+    }
+    while (time_reg != RTC->TR);
 
     /* Extract date and time */
     date_time.year = fromBcd((date_reg >> 16u) & 0xFFu);
-    date_time.month = fromBcd((date_reg >> 8u) & 0xFFu);
-    date_time.day = fromBcd((date_reg >> 0u) & 0xFFu);
+    date_time.month = fromBcd((date_reg >> 8u) & 0x1Fu);
+    date_time.day = fromBcd((date_reg >> 0u) & 0x3Fu);
 
-    date_time.hour = fromBcd((time_reg >> 16u) & 0xFFu);
-    date_time.minute = fromBcd((time_reg >> 8u) & 0xFFu);
-    date_time.second = fromBcd((time_reg >> 0u) & 0xFFu);
+    date_time.hour = fromBcd((time_reg >> 16u) & 0x3Fu);
+    date_time.minute = fromBcd((time_reg >> 8u) & 0x7Fu);
+    date_time.second = fromBcd((time_reg >> 0u) & 0x7Fu);
+
+    const uint32_t prediv = RTC->PRER & 0x7FFFu;
+    date_time.millis = 1000u * (prediv - subsec_reg) / (prediv + 1u);
 
     return true;
 }

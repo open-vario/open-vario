@@ -57,14 +57,15 @@ void pll_init()
     while ((RCC->BDCR & (1u << 1u)) == 0u)
     {}
 
-    /* Wait MSI ready */
+    /* Configure MSI to run at 48MHz with hardware autocalibration using LSE (PLL mode) */
     while ((RCC->CR & (1u << 1u)) == 0u)
     {}
-
-    /* Configure MSI to run at 48MHz with hardware autocalibration using LSE (PLL mode) */
     reg = RCC->CR;
     reg &= ~(0x0F << 4u);
-    RCC->CR = reg | (11u << 4u) | (1u << 3u) | (1u << 2u);
+    RCC->CR = reg | (11u << 4u) | (1u << 3u);
+    while ((RCC->CR & (1u << 1u)) == 0u)
+    {}
+    RCC->CR |= (1u << 2u);
     while ((RCC->CR & (1u << 1u)) == 0u)
     {}
 
@@ -81,5 +82,5 @@ void pll_init()
     RCC->CFGR = (5u << 11u) | (5u << 8u) | (0u << 4u) | (0u << 0u);
 
     /* Select MSI as source clock for USB */
-    RCC->CCIPR |= (3u << 28u);
+    RCC->CCIPR |= (3u << 26u);
 }

@@ -38,13 +38,13 @@ TARGET_ARCH=cortex-m4
 TARGET_CPU=stm32l476
 
 # Target Board
-TARGET_BOARD=open_vario_1_0
+TARGET_BOARD=nucleo_xble_mikrobus
 
 # Target BSP
 TARGET_BSP=bsps/bsp_stm32l476
 
 # Target lib dependencies
-TARGET_DEPENDENCIES=3rdparty/nano-os
+TARGET_DEPENDENCIES=3rdparty/nano-os 3rdparty/stm32_usbd
 
 # Target specific include directories
 TARGET_INC_DIRS=
@@ -60,7 +60,7 @@ endif
 TARGET_LIBS=-lgcc -lc -lnosys -lm
 
 # Target implementation for the project defines
-TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_NANO_OS
+TARGET_PROJECT_DEFINES=$(foreach PROJECT_DEFINE, $(PROJECT_DEFINES), -D$(PROJECT_DEFINE)) -DOS_NANO_OS -DSTM32L476xx
 
 
 # Optimisation level
@@ -74,7 +74,7 @@ COMMON_FLAGS = -g -Wall -mthumb -mcpu=cortex-m4 -march=armv7e-m -mfloat-abi=hard
 CFLAGS = -DCORE_M4 -Wno-main $(COMMON_FLAGS) -fsigned-char -fno-exceptions $(PROJECT_CFLAGS)
 CXXFLAGS = $(COMMON_FLAGS) $(DISABLED_WARNINGS) -fsigned-char $(PROJECT_CXXFLAGS) -std=c++17 -fno-check-new -fno-exceptions -fno-unwind-tables -fno-rtti -fno-gnu-keywords -fno-use-cxa-atexit -Wno-register
 ASFLAGS = $(COMMON_FLAGS) $(OPTIMIZATION_LEVEL) $(PROJECT_ASFLAGS)
-LDFLAGS = -e _start -Map $(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) -EL -g --gc-sections -dT $(ROOT_DIR)/src/bsps/bsp_stm32l476/gcc/stm32l476.ld $(PROJECT_LDFLAGS)
+LDFLAGS = -e _start -Map $(patsubst /cygdrive/$(DRIVE_LETTER)%,$(DRIVE_LETTER):%, $(abspath $(patsubst %.elf, %.map, $(BIN_DIR)/$(OUTPUT_NAME)))) -EL -g --gc-sections -dT $(ROOT_DIR)/src/bsps/bsp_stm32l476/gcc/stm32l476.ld $(PROJECT_LDFLAGS) --print-memory-usage --no-print-gc-sections
 ARFLAGS = -c -r $(PROJECT_ARFLAGS)
 
 # Number of times the libraries names shall be duplicated in the command line

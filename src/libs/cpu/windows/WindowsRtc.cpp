@@ -47,6 +47,7 @@ bool WindowsRtc::setDateTime(const DateTime& date_time)
     sys_time.wHour = date_time.hour;
     sys_time.wMinute = date_time.minute;
     sys_time.wSecond = date_time.second;
+    sys_time.wMilliseconds = date_time.millis;
 
     // Set system time
     return (SetLocalTime(&sys_time) != 0);
@@ -66,6 +67,7 @@ bool WindowsRtc::getDateTime(DateTime& date_time)
     date_time.hour = sys_time.wHour;
     date_time.minute = sys_time.wMinute;
     date_time.second = sys_time.wSecond;
+    date_time.millis = sys_time.wMilliseconds;
 
     return true;
 }

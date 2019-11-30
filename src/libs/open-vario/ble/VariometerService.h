@@ -59,13 +59,10 @@ class VariometerService : public OpenVarioBleServiceBase
 
 
         /** \brief Variometer service */
-        BleService128<0u, 2u> m_variometer_service;
+        BleService128<0u, 1u> m_variometer_service;
 
-        /** \brief Vario */
-        BleCharacteristic128<int16_t, 0u> m_vario;
-
-        /** \brief Acceleration */
-        BleCharacteristic128<uint8_t, 0u> m_acceleration;
+        /** \brief Vario and acceleration*/
+        BleCharacteristic128<uint32_t, 0u> m_vario_accel;
 
 
         /** \brief Variometer event handler */

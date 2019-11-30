@@ -62,23 +62,30 @@ class AltimeterService : public OpenVarioBleServiceBase, public IBleCharacterist
     private:
 
 
+        /** \brief Commands */
+        enum Command
+        {
+            /** \brief Set the main altitude */
+            CMD_SET_MAIN_ALTI = 0x1000u,
+            /** \brief Set the altitude 1 */
+            CMD_SET_ALTI_1 = 0x1001u,
+            /** \brief Set the altitude 2 */
+            CMD_SET_ALTI_2 = 0x1002u,
+            /** \brief Set the altitude 3 */
+            CMD_SET_ALTI_3 = 0x1003u,
+            /** \brief Set the altitude 4 */
+            CMD_SET_ALTI_4 = 0x1004u
+        };
+
+
         /** \brief Altimeter service */
-        BleService128<0u, 5u> m_altimeter_service;
+        BleService128<0u, 2u> m_altimeter_service;
 
-        /** \brief Main altitude */
-        BleCharacteristic128<int16_t, 0u> m_main_alti;
+        /** \brief Altitudes */
+        BleCharacteristic128<uint8_t*, 0u> m_altitudes;
 
-        /** \brief Altitude 1 */
-        BleCharacteristic128<int16_t, 0u> m_alti_1;
-
-        /** \brief Altitude 2 */
-        BleCharacteristic128<int16_t, 0u> m_alti_2;
-
-        /** \brief Altitude 3 */
-        BleCharacteristic128<int16_t, 0u> m_alti_3;
-
-        /** \brief Altitude 4 */
-        BleCharacteristic128<int16_t, 0u> m_alti_4;
+        /** \brief Command */
+        BleCharacteristic128<uint32_t, 0u> m_command;
 
 
         /** \brief Altimeter event handler */

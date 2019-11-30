@@ -43,9 +43,13 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_alti_sensor(m_baro_sensor)
 
 , m_ble_stack(m_simulator, "ble_stack")
+
+, m_gnss(m_simulator, "gnss")
+, m_buzzer(m_simulator, "buzzer")
+, m_usbd_cdc(m_simulator, "maint_link")
 {}
 
-/** \brief Configure the board peripherals */
+/** \brief Configure the board low-level peripherals */
 bool OpenVarioBoard::configure()
 {
     bool ret = true;
@@ -64,15 +68,6 @@ bool OpenVarioBoard::configure()
 
     // LEDs
     ret = ret && m_activity_led.configure();
-
-    // EEPROM
-    ret = ret && m_config_eeprom.configure();
-
-    // NOR Flash
-    ret = ret && m_flight_data_flash.configure();
-   
-    // Barometric sensor
-    ret = ret && m_baro_sensor.configure();
 
     return ret;
 }

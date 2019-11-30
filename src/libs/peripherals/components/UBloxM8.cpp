@@ -30,9 +30,10 @@ UBloxM8::UBloxM8(IUart& uart, ITask& rx_task)
 {}
 
 /** \brief Configure the GNSS */
-bool UBloxM8::configure()
+bool UBloxM8::configure(const uint16_t acqu_period)
 {
     // TODO : configure NMEA messages and periodicity
+    (void)acqu_period;
     return true;
 }
 

@@ -46,5 +46,12 @@ bool SimuBlePeripheralStack::stop()
     return true;
 }
 
+/** \brief Do actions needed when a new client is connected */
+void SimuBlePeripheralStack::doConnectActions()
+{}
+
+/** \brief Do actions needed when a client is disconnected */
+void SimuBlePeripheralStack::doDisconnectActions()
+{}
 
 }

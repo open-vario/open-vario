@@ -62,11 +62,11 @@ class BarometerService : public OpenVarioBleServiceBase
         /** \brief Barometer service */
         BleService128<0u, 2u> m_barometer_service;
 
-        /** \brief Pressure */
-        BleCharacteristic128<uint32_t, 0u> m_pressure;
+        /** \brief Pressure and Temperature*/
+        BleCharacteristic128<uint8_t*, 0u> m_pressure_temperature;
 
-        /** \brief Temperature */
-        BleCharacteristic128<int16_t, 0u> m_temperature;
+        /** \brief Pressure and Temperature min and max values*/
+        BleCharacteristic128<uint8_t*, 0u> m_min_max;
 
 
         /** \brief Barometer event handler */

@@ -58,7 +58,7 @@ class NanoOsConsole
         typedef void (NanoOsConsole::*CmdHandler)(const char params[]);
 
         /** \brief Console command handlers */
-        nano_stl::StaticVector<CmdHandler, 2u> m_console_command_handlers;
+        nano_stl::StaticVector<CmdHandler, 3u> m_console_command_handlers;
 
 
         /** \brief Handle the 'ov_version' console command */
@@ -66,6 +66,9 @@ class NanoOsConsole
 
         /** \brief Handle the 'ov_logs' console command */
         void logsCmdHandler(const char params[]);
+
+        /** \brief Handle the 'ov_reset' console command */
+        void resetCmdHandler(const char params[]);
 
 
         /** \brief Generic Nano-OS console command handler */

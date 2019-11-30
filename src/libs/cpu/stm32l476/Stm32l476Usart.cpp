@@ -296,7 +296,7 @@ void Stm32l476Usart::irqHandler()
 
     // Read received data
     signal = (m_rx_queue.getCount() == 0u);
-    while ((usart->ISR & ( 1u << 5u)) != 0) // RXNE bit
+    while ((usart->ISR & (1u << 5u)) != 0) // RXNE bit
     {
         // Read the received byte
         m_rx_queue.push(static_cast<uint8_t>(usart->RDR));
@@ -342,7 +342,7 @@ void Stm32l476Usart::irqHandler()
     }
 
     // Clear error flags
-    usart->ICR = 0x00u;
+    usart->ICR = 0xFFFFFFFFu;
 
     #ifdef OS_NANO_OS
     NANO_OS_INTERRUPT_Exit();
