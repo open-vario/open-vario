@@ -40,11 +40,20 @@ class Console
 		/** \brief Write a formatted line to the console */
 		void writeLine(const char* format, ...);
 
+		/** \brief Write an array of bytes to the console */
+		void writeBytes(const uint8_t* bytes, const size_t size);
+
 		/** \brief Read a character on the console */
 		char read();
 
 		/** \brief Read a line on the console */
 		void readLine(char* line, const size_t max_size);
+
+		/** \brief Read an unsigned integer value on the console */
+		uint32_t readUint(const uint8_t radix = 10);
+
+		/** \brief Read a signed integer value on the console */
+		int32_t readInt();
 
 
 	private:

@@ -24,7 +24,9 @@
 APPLICATION_DIR := $(ROOT_DIR)/src/apps/hw-tests
 
 # Source directories
-SOURCE_DIRS := $(APPLICATION_DIR)
+SOURCE_DIRS := $(APPLICATION_DIR) \
+               $(APPLICATION_DIR)/tests \
+               $(APPLICATION_DIR)/tools
               
 # Project specific include directories
 PROJECT_INC_DIRS := $(PROJECT_INC_DIRS) \

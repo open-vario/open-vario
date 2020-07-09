@@ -20,9 +20,14 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef HWTESTS_H
 #define HWTESTS_H
 
+#include "Os.h"
 #include "TaskHelper.h"
 #include "OpenVarioBoard.h"
 #include "Console.h"
+#include "Menu.h"
+
+#include "EepromTest.h"
+
 
 namespace open_vario
 {
@@ -40,6 +45,9 @@ class HwTests
 
 	private:
 
+		/** \brief OS */
+		Os m_os;
+
 		/** \brief Test's task */
 		TaskHelper<4096u> m_test_task;
 
@@ -49,10 +57,27 @@ class HwTests
 		/** \brief Console */
 		Console m_console;
 
+		/** \brief Main menu */
+		Menu m_menu;
+
+		/** \brief Number of hardware tests */
+		static const size_t HW_TESTS_COUNT = 1;
+
+		/** \brief Menu entries */
+		Menu::Entry m_menu_entries[HW_TESTS_COUNT];
+
+		/** \brief Hardware tests */
+		IHwTest* m_tests[HW_TESTS_COUNT];
+		EepromTest m_eeprom_test;
+
+
 		
 
 		/** \brief Test's task */
 		void task(void* unused);
+
+		/** \brief Generic menu handler to select a test */
+		void selectTest(const size_t entry, Console& console);
 };
 
 }

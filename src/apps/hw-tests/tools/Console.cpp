@@ -19,6 +19,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Console.h"
 #include "IOs.h"
+#include "nano-stl-libc.h"
 
 
 namespace open_vario
@@ -59,6 +60,31 @@ void Console::writeLine(const char* format, ...)
 	m_write_mutex.unlock();
 }
 
+/** \brief Write an array of bytes to the console */
+void Console::writeBytes(const uint8_t* bytes, const size_t size)
+{
+	m_write_mutex.lock();
+
+	size_t count = 0;
+	while (count != size)
+	{
+		int val = *bytes;
+		write("0x%02x ", val);
+		count++;
+		bytes++;
+		if ((count % 16) == 0)
+		{
+			write("\r\n");
+		}
+	}
+	if ((count % 16) != 0)
+	{
+		write("\r\n");
+	}
+
+	m_write_mutex.unlock();
+}
+
 /** \brief Read a character on the console */
 char Console::read()
 {
@@ -67,6 +93,7 @@ char Console::read()
 	uint8_t c = 0;
 	while (!m_uart.read(&c, 1u, IOs::getInstance().getInfiniteTimeoutValue()))
 	{}
+	m_uart.write(&c, 1u);
 
 	m_read_mutex.unlock();
 
@@ -86,14 +113,60 @@ void Console::readLine(char* line, const size_t max_size)
 	{
 		if (m_uart.read(&c, 1u, IOs::getInstance().getInfiniteTimeoutValue()))
 		{
-			*line = (char)c;
-			line++;
-			rx_size++;
-			eol = (c == '\n');
+			bool echo = true;
+			if (c == '\r')
+			{
+				*line = 0;
+				eol = true;
+			}
+			else if (c == '\n')
+			{
+				echo = false;
+			}
+			else if ((c == '\b') || (c == 127))
+			{
+				if (rx_size != 0)
+				{
+					line--;
+					rx_size--;
+				}
+				else
+				{
+					echo = false;
+				}				
+			}
+			else
+			{
+				*line = (char)c;
+				line++;
+				rx_size++;
+			}
+			if (echo)
+			{
+				m_uart.write(&c, 1u);
+			}
 		}
 	}
+	c = '\n';
+	m_uart.write(&c, 1u);
 
 	m_read_mutex.unlock();
+}
+
+/** \brief Read an unsigned integer value on the console */
+uint32_t Console::readUint(const uint8_t radix)
+{
+	char line[20u] = {0};
+	readLine(line, sizeof(line));
+	return static_cast<uint32_t>(NANO_STL_LIBC_Antoi(line, radix, sizeof(line)));
+}
+
+/** \brief Read a signed integer value on the console */
+int32_t Console::readInt()
+{
+	char line[20u] = {0};
+	readLine(line, sizeof(line));
+	return static_cast<int32_t>(NANO_STL_LIBC_Antoi(line, 10, sizeof(line)));
 }
 
 /** \brief Write a formatted string to the console */
