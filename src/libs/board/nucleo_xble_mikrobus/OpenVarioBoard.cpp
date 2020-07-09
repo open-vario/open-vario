@@ -25,7 +25,7 @@ namespace open_vario
 
 
 /** \brief Constructor */
-OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
+OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
 
 , m_dma1(Stm32l476Dma::DMA_1)
@@ -78,7 +78,6 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 
 , m_usbd_cdc()
 {
-    (void)config_manager;
 }
 
 /** \brief Configure the board low-level peripherals */

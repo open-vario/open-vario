@@ -1,6 +1,6 @@
 ####################################################################################################
 # \file makefile
-# \brief  Makefile for open-vario application
+# \brief  Makefile for hw-tests application
 # \author C. Jimenez
 # \copyright Copyright(c) 2017 Cedric Jimenez
 #
@@ -24,7 +24,7 @@
 ROOT_DIR := ../../..
 
 # Project name
-PROJECT_NAME := open-vario
+PROJECT_NAME := hw-tests
 
 # Build type
 BUILD_TYPE := APP
@@ -33,9 +33,7 @@ BUILD_TYPE := APP
 PROJECT_DEPENDENCIES :=  
 
 # Libraries needed by the project
-PROJECT_LIBS = libs/open-vario \
-               libs/storage \
-               libs/ble \
+PROJECT_LIBS = libs/ble \
                3rdparty/nano-stl \
                libs/board \
                libs/peripherals \

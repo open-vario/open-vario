@@ -13,10 +13,7 @@
                 "all+",
                 "TARGET=arm-gcc-nano-os-stm32l476"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "problemMatcher": {
                 "owner": "cpp",
                 "fileLocation": [
@@ -40,6 +37,49 @@
             "args": [
                 "-C",
                 "${workspaceFolder}/build/apps/open-vario",
+                "clean+",
+                "TARGET=arm-gcc-nano-os-stm32l476"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "make STM32L476  HW tests",
+            "type": "shell", 
+            "command": "make",
+            "args": [
+                "-C",
+                "${workspaceFolder}/build/apps/hw-tests",
+                "all+",
+                "TARGET=arm-gcc-nano-os-stm32l476"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        },
+        {
+            "label": "clean STM32L476 HW tests",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-C",
+                "${workspaceFolder}/build/apps/hw-tests",
                 "clean+",
                 "TARGET=arm-gcc-nano-os-stm32l476"
             ],
@@ -125,46 +165,6 @@
             ],
             "group": "build",
             "problemMatcher": []
-        },
-		{
-            "label": "make Test BLE",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "-C",
-                "${workspaceFolder}/build/apps/test_ble",
-                "all+",
-                "TARGET=arm-gcc-nano-os-stm32l476"
-            ],
-            "group": "build",
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": [
-                    "relative",
-                    "${workspaceFolder}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            }
-        },
-        {
-            "label": "clean Test BLE",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "-C",
-                "${workspaceFolder}/build/apps/test_ble",
-                "clean+",
-                "TARGET=arm-gcc-nano-os-stm32l476"
-            ],
-            "group": "build",
-            "problemMatcher": []
-        },
+        }
     ]
 }
