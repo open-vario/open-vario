@@ -43,8 +43,11 @@ class Console
 		/** \brief Write an array of bytes to the console */
 		void writeBytes(const uint8_t* bytes, const size_t size);
 
+		/** \brief Peek an available character on the console */
+		bool peekChar(char& c);
+
 		/** \brief Read a character on the console */
-		char read();
+		char readChar();
 
 		/** \brief Read a line on the console */
 		void readLine(char* line, const size_t max_size);
