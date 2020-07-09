@@ -25,7 +25,7 @@ namespace open_vario
 
 
 /** \brief Constructor */
-OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
+OpenVarioBoard::OpenVarioBoard()
 : m_cpu()
 
 , m_dma1(Stm32l476Dma::DMA_1)
@@ -72,7 +72,7 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_activity_led(m_activity_led_pin, IIoPin::HIGH)
 , m_low_bat_led(m_low_bat_led_pin, IIoPin::HIGH)
 
-, m_config_eeprom(m_spi_2, 1u, 32768u, 64u) // 32kB - 64B
+, m_config_eeprom(m_spi_1, 4u, 32768u, 64u) // 32kB - 64B
 , m_flight_data_flash(m_spi_2, 2u, 8388608u, 4096u, 256u) // 8MB - 4kB - 256B
 
 , m_exp_uart_rx_pin(Stm32l476Gpio::PORT_C, 11u, Stm32l476Gpio::MODE_AF, 7u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
@@ -106,7 +106,6 @@ OpenVarioBoard::OpenVarioBoard(ConfigManager& config_manager)
 , m_usb_vbus_pin(Stm32l476Gpio::PORT_A, 9u, Stm32l476Gpio::MODE_INPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_MEDIUM)
 , m_usbd_cdc(m_cpu)
 {
-    (void)config_manager;
 }
 
 /** \brief Configure the board low-level peripherals */

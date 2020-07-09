@@ -6,6 +6,12 @@
                 "${workspaceFolder}/src",
 
                 "${workspaceFolder}/src/apps",
+                
+                "${workspaceFolder}/src/apps/hw-tests",
+                "${workspaceFolder}/src/apps/hw-tests/tests",
+                "${workspaceFolder}/src/apps/hw-tests/tools",
+
+                "${workspaceFolder}/src/apps",
                 "${workspaceFolder}/src/apps/open-vario",
 
                 "${workspaceFolder}/src/bsps",

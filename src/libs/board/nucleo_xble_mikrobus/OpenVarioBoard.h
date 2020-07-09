@@ -61,7 +61,7 @@ class OpenVarioBoard : public IOpenVarioBoard
     public:
 
         /** \brief Constructor */
-        OpenVarioBoard(ConfigManager& config_manager);
+        OpenVarioBoard();
 
 
         /** \brief Configure the board low-level peripherals */

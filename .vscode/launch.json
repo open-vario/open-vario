@@ -56,6 +56,19 @@
             "interface": "swd",
             "ipAddress": null,
             "serialNumber": null
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/apps/hw-tests/bin/arm-gcc-nano-os-stm32l476/hw-tests.elf",
+            "name": "J-Link Debug STM32L476 HW Tests",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "device": "STM32L476RG",
+            "svdFile": "${workspaceFolder}/build/make/targets/STM32L4x6.svd",
+            "interface": "swd",
+            "ipAddress": null,
+            "serialNumber": null
         }
     ]
 }
