@@ -85,8 +85,26 @@ void Console::writeBytes(const uint8_t* bytes, const size_t size)
 	m_write_mutex.unlock();
 }
 
+/** \brief Peek an available character on the console */
+bool Console::peekChar(char& c)
+{
+	m_read_mutex.lock();
+
+	uint8_t uc = 0;
+	bool ret = m_uart.read(&uc, 1u, 0);
+	if (ret)
+	{
+		m_uart.write(&uc, 1u);
+		c = static_cast<char>(uc);
+	}
+
+	m_read_mutex.unlock();
+
+	return ret;
+}
+
 /** \brief Read a character on the console */
-char Console::read()
+char Console::readChar()
 {
 	m_read_mutex.lock();
 
@@ -97,7 +115,7 @@ char Console::read()
 
 	m_read_mutex.unlock();
 
-	return (char)c;
+	return static_cast<char>(c);
 }
 
 /** \brief Read a line on the console */

@@ -27,6 +27,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Menu.h"
 
 #include "EepromTest.h"
+#include "AltimeterTest.h"
 
 
 namespace open_vario
@@ -61,7 +62,7 @@ class HwTests
 		Menu m_menu;
 
 		/** \brief Number of hardware tests */
-		static const size_t HW_TESTS_COUNT = 1;
+		static const size_t HW_TESTS_COUNT = 2;
 
 		/** \brief Menu entries */
 		Menu::Entry m_menu_entries[HW_TESTS_COUNT];
@@ -69,6 +70,7 @@ class HwTests
 		/** \brief Hardware tests */
 		IHwTest* m_tests[HW_TESTS_COUNT];
 		EepromTest m_eeprom_test;
+		AltimeterTest m_altimeter_test;
 
 
 		

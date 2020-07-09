@@ -33,8 +33,10 @@ HwTests::HwTests()
 , m_menu_entries()
 , m_tests()
 , m_eeprom_test("Configuration EEPROM", m_board.config_eeprom())
+, m_altimeter_test(m_board.altimeter())
 {
 	m_tests[0] = &m_eeprom_test;
+	m_tests[1] = &m_altimeter_test;
 
 
 	for (size_t i = 0; i < HW_TESTS_COUNT; i++)
