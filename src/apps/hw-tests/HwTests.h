@@ -30,6 +30,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "EepromTest.h"
 #include "NorFlashTest.h"
 #include "AltimeterTest.h"
+#include "GnssTest.h"
 
 
 namespace open_vario
@@ -64,7 +65,7 @@ class HwTests
 		Menu m_menu;
 
 		/** \brief Number of hardware tests */
-		static const size_t HW_TESTS_COUNT = 5;
+		static const size_t HW_TESTS_COUNT = 6;
 
 		/** \brief Menu entries */
 		Menu::Entry m_menu_entries[HW_TESTS_COUNT];
@@ -76,6 +77,7 @@ class HwTests
 		EepromTest m_eeprom_test;
 		NorFlashTest m_norflash_test;
 		AltimeterTest m_altimeter_test;
+		GnssTest m_gnss_test;
 
 
 		
