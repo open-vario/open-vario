@@ -32,6 +32,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "AltimeterTest.h"
 #include "GnssTest.h"
 #include "BuzzerTest.h"
+#include "RtcTest.h"
 
 namespace open_vario
 {
@@ -65,7 +66,7 @@ class HwTests
 		Menu m_menu;
 
 		/** \brief Number of hardware tests */
-		static const size_t HW_TESTS_COUNT = 7;
+		static const size_t HW_TESTS_COUNT = 8;
 
 		/** \brief Menu entries */
 		Menu::Entry m_menu_entries[HW_TESTS_COUNT];
@@ -79,6 +80,7 @@ class HwTests
 		AltimeterTest m_altimeter_test;
 		GnssTest m_gnss_test;
 		BuzzerTest m_buzzer_test;
+		RtcTest m_rtc_test;
 
 
 		

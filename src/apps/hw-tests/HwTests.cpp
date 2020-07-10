@@ -39,6 +39,7 @@ HwTests::HwTests()
 , m_altimeter_test(m_board.altimeter())
 , m_gnss_test(m_board.gnss())
 , m_buzzer_test(m_board.buzzer())
+, m_rtc_test(m_board.rtc())
 {
 	m_tests[0] = &m_spi1_test;
 	m_tests[1] = &m_spi2_test;
@@ -47,7 +48,7 @@ HwTests::HwTests()
 	m_tests[4] = &m_altimeter_test;
 	m_tests[5] = &m_gnss_test;
 	m_tests[6] = &m_buzzer_test;
-
+	m_tests[7] = &m_rtc_test;
 
 	for (size_t i = 0; i < HW_TESTS_COUNT; i++)
 	{
