@@ -84,9 +84,8 @@ void AltimeterTest::live(const size_t entry, Console& console)
     uint32_t period = console.readUint();
 
     char c = 0;
-    console.peekChar(c);
     console.writeLine("Starting live read (press any key to stop)...");
-    while (console.peekChar(c))
+    while (!console.peekChar(c))
     {
         displayAltitude(console, "%d.%dm");
         IOs::getInstance().waitMs(period);
