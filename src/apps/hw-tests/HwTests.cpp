@@ -32,11 +32,15 @@ HwTests::HwTests()
 , m_menu("Hardware tests", m_menu_entries, sizeof(m_menu_entries) / sizeof(Menu::Entry))
 , m_menu_entries()
 , m_tests()
+, m_spi1_test("SPI bus 1", m_board.spi1())
+, m_spi2_test("SPI bus 2", m_board.spi2())
 , m_eeprom_test("Configuration EEPROM", m_board.config_eeprom())
 , m_altimeter_test(m_board.altimeter())
 {
-	m_tests[0] = &m_eeprom_test;
-	m_tests[1] = &m_altimeter_test;
+	m_tests[0] = &m_spi1_test;
+	m_tests[1] = &m_spi2_test;
+	m_tests[2] = &m_eeprom_test;
+	m_tests[3] = &m_altimeter_test;
 
 
 	for (size_t i = 0; i < HW_TESTS_COUNT; i++)

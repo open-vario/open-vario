@@ -58,6 +58,9 @@ class Console
 		/** \brief Read a signed integer value on the console */
 		int32_t readInt();
 
+		/** \brief Read an array of bytes on the console */
+		void readBytes(uint8_t* bytes, const size_t size, size_t& count);
+
 
 	private:
 
