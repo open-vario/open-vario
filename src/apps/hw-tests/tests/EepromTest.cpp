@@ -81,7 +81,7 @@ void EepromTest::read(const size_t entry, Console& console)
         success = m_eeprom.read(start_address, buffer, size);
         if (success)
         {
-            console.writeBytes(buffer, size);
+            console.writeFormattedBytes(buffer, size);
             left -= size;
             start_address += size;
         }

@@ -40,6 +40,7 @@ HwTests::HwTests()
 , m_gnss_test(m_board.gnss())
 , m_buzzer_test(m_board.buzzer())
 , m_rtc_test(m_board.rtc())
+, m_usb_cdc_test(m_board.usbd_cdc())
 {
 	m_tests[0] = &m_spi1_test;
 	m_tests[1] = &m_spi2_test;
@@ -49,6 +50,7 @@ HwTests::HwTests()
 	m_tests[5] = &m_gnss_test;
 	m_tests[6] = &m_buzzer_test;
 	m_tests[7] = &m_rtc_test;
+	m_tests[8] = &m_usb_cdc_test;
 
 	for (size_t i = 0; i < HW_TESTS_COUNT; i++)
 	{
@@ -83,10 +85,11 @@ void HwTests::task(void* unused)
 	}
 	else
 	{
-		while (true)
-		{
-			m_menu.display(m_console);
-		}
+		m_menu.display(m_console);
+		
+		m_console.writeLine("Resetting cpu...");
+		IOs::getInstance().waitMs(250u);
+		m_board.cpu().reset();
 	}
 }
 

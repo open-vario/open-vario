@@ -41,6 +41,9 @@ class Console
 		void writeLine(const char* format, ...);
 
 		/** \brief Write an array of bytes to the console */
+		void writeFormattedBytes(const uint8_t* bytes, const size_t size);
+		
+		/** \brief Write an array of bytes to the console */
 		void writeBytes(const uint8_t* bytes, const size_t size);
 
 		/** \brief Peek an available character on the console */

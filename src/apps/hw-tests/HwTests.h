@@ -33,6 +33,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "GnssTest.h"
 #include "BuzzerTest.h"
 #include "RtcTest.h"
+#include "UsbCdcTest.h"
 
 namespace open_vario
 {
@@ -66,7 +67,7 @@ class HwTests
 		Menu m_menu;
 
 		/** \brief Number of hardware tests */
-		static const size_t HW_TESTS_COUNT = 8;
+		static const size_t HW_TESTS_COUNT = 9;
 
 		/** \brief Menu entries */
 		Menu::Entry m_menu_entries[HW_TESTS_COUNT];
@@ -81,6 +82,7 @@ class HwTests
 		GnssTest m_gnss_test;
 		BuzzerTest m_buzzer_test;
 		RtcTest m_rtc_test;
+		UsbCdcTest m_usb_cdc_test;
 
 
 		

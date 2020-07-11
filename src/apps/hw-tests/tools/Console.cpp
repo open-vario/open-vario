@@ -61,7 +61,7 @@ void Console::writeLine(const char* format, ...)
 }
 
 /** \brief Write an array of bytes to the console */
-void Console::writeBytes(const uint8_t* bytes, const size_t size)
+void Console::writeFormattedBytes(const uint8_t* bytes, const size_t size)
 {
 	m_write_mutex.lock();
 
@@ -81,6 +81,16 @@ void Console::writeBytes(const uint8_t* bytes, const size_t size)
 	{
 		write("\r\n");
 	}
+
+	m_write_mutex.unlock();
+}
+
+/** \brief Write an array of bytes to the console */
+void Console::writeBytes(const uint8_t* bytes, const size_t size)
+{
+	m_write_mutex.lock();
+
+	m_uart.write(bytes, size);
 
 	m_write_mutex.unlock();
 }

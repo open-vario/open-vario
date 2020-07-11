@@ -62,7 +62,7 @@ void SpiTest::read(const size_t entry, Console& console)
     read_xfer.next = NULL;
     if (m_spi.xfer(read_xfer))
     {
-        console.writeBytes(read_buffer, count);
+        console.writeFormattedBytes(read_buffer, count);
     }
     else
     {
@@ -125,7 +125,7 @@ void SpiTest::xfer(const size_t entry, Console& console)
     xfer.next = NULL;
     if (m_spi.xfer(xfer))
     {
-        console.writeBytes(read_buffer, count);
+        console.writeFormattedBytes(read_buffer, count);
     }
     else
     {
