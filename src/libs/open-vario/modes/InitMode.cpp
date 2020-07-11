@@ -135,7 +135,7 @@ void InitMode::enter()
                     }
 
                     // Initialize flight recorder
-                    ret = m_flight_recorder.init();
+                    //ret = m_flight_recorder.init();
                     if (!ret)
                     {
                         LOG_ERROR("Failed to initialize flight recorder");
@@ -150,6 +150,7 @@ void InitMode::enter()
                     
                     // Blink a bit :)
                     IOpenVarioApp::getInstance().getOs().waitMs(2000u);
+                    IOpenVarioApp::getInstance().getOs().waitMs(12345678u);
 
                     ret = true;
                 }
