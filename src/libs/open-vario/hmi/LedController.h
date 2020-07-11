@@ -89,7 +89,7 @@ class LedController : public ITimerListener
         static const uint32_t MEDIUM_BLINK_PERIOD = 500u;
 
         /** \brief Fast blink period in milliseconds */
-        static const uint32_t FAST_BLINK_PERIOD = 250u;
+        static const uint32_t FAST_BLINK_PERIOD = 100u;
 
 };
 

@@ -17,61 +17,40 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "RunMode.h"
+#include "DiagnosticMode.h"
 #include "ModeManager.h"
 #include "HmiManager.h"
-#include "SensorsManager.h"
-#include "GnssManager.h"
-#include "FlightRecorder.h"
-#include "BleManager.h"
 #include "LogMacro.h"
+#include "ICpu.h"
 
 namespace open_vario
 {
 
 
 /** \brief Constructor */
-RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, FlightRecorder& flight_recorder,
-                 BleManager& ble_manager)
+DiagnosticMode::DiagnosticMode(ModeManager& mode_manager, HmiManager& hmi_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
-, m_sensors_manager(sensors_manager)
-, m_gnss_manager(gnss_manager)
-, m_flight_recorder(flight_recorder)
-, m_ble_manager(ble_manager)
 {}
 
 /** \brief Enter into the operating mode */
-void RunMode::enter()
+void DiagnosticMode::enter()
 {
-    bool ret;
-
-    LOG_INFO("Entering run mode...");
+    LOG_INFO("Entering diagnostic mode...");
 
     // Update LED blink
-    m_hmi_manager.getActivityLed().update(LedController::SLOW_BLINK);
-
-    // Start flight recorder
-    ret = m_flight_recorder.start();
-    if (!ret)
-    {
-        LOG_ERROR("Failed to start flight recorder");
-    }
+    m_hmi_manager.getActivityLed().update(LedController::MEDIUM_BLINK);
 }
 
 /** \brief Leave the operating mode */
-void RunMode::leave()
+void DiagnosticMode::leave()
 {
-    bool ret;
+    LOG_INFO("Leaving diagnostic mode...");
 
-    LOG_INFO("Leaving run mode...");
-
-    // Stop flight recorder
-    ret = m_flight_recorder.stopRecording();
-    if (!ret)
-    {
-        LOG_ERROR("Failed to stop flight recorder");
-    }
+    // Reset board
+    IOs::getInstance().waitMs(250u);
+    IOpenVarioBoard& board = IOpenVarioApp::getInstance().getBoard();
+    board.cpu().reset();
 }
 
 

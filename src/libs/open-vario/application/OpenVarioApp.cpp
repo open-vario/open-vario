@@ -50,6 +50,7 @@ OpenVarioApp::OpenVarioApp()
 , m_operating_modes()
 , m_init_mode(m_mode_manager, m_hmi_manager, m_time_manager, m_blackbox, m_device_manager, m_config_manager, m_sensors_manager, m_gnss_manager, m_profile_manager, m_flight_recorder, m_ble_manager, m_fault_manager)
 , m_run_mode(m_mode_manager, m_hmi_manager, m_sensors_manager, m_gnss_manager, m_flight_recorder, m_ble_manager)
+, m_diag_mode(m_mode_manager, m_hmi_manager)
 , m_power_off_mode(m_mode_manager, m_hmi_manager)
 
 , m_hmi_manager(m_board.activityLed())
@@ -80,6 +81,7 @@ OpenVarioApp::OpenVarioApp()
 {
     m_operating_modes.pushBack(&m_init_mode);
     m_operating_modes.pushBack(&m_run_mode);
+    m_operating_modes.pushBack(&m_diag_mode);
     m_operating_modes.pushBack(&m_power_off_mode);
 }
 

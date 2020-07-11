@@ -43,6 +43,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "GnssManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
+#include "DiagnosticMode.h"
 #include "PowerOffMode.h"
 
 #include "nano-stl.h"
@@ -158,6 +159,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Run mode */
         RunMode m_run_mode;
+
+        /** \brief Diagnostic mode */
+        DiagnosticMode m_diag_mode;
 
         /** \brief Power off mode */
         PowerOffMode m_power_off_mode;

@@ -50,7 +50,7 @@ class ModeManager
     private:
 
         /** \brief Thread */
-        TaskHelper<2048u> m_task;
+        TaskHelper<4096u> m_task;
 
         /** \brief Operating modes */
         nano_stl::IArray<IMode*>& m_operating_modes;

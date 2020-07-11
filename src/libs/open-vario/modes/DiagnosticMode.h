@@ -17,28 +17,45 @@ You should have received a copy of the GNU Lesser General Public License
 along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OPERATINGMODE_H
-#define OPERATINGMODE_H
+#ifndef DIAGNOSTICMODE_H
+#define DIAGNOSTICMODE_H
 
+#include "IMode.h"
 
 namespace open_vario
 {
 
+class ModeManager;
+class HmiManager;
 
-/** \brief Operating modes */
-enum OperatingMode
+/** \brief Operating mode : Diagnostic */
+class DiagnosticMode : public IMode
 {
-    /** \brief Initialization */
-    OPMODE_INIT = 0u,
-    /** \brief Running */
-    OPMODE_RUN = 1u,
-    /** \brief Diagnostic */
-    OPMODE_DIAG = 2u,
-    /** \brief Power off */
-    OPMODE_POWEROFF = 3u
-};
+    public:
 
+        /** \brief Constructor */
+        DiagnosticMode(ModeManager& mode_manager, HmiManager& hmi_manager);
+
+
+        ////// Implementation of IMode interface //////
+
+
+        /** \brief Enter into the operating mode */
+        virtual void enter();
+
+        /** \brief Leave the operating mode */
+        virtual void leave();
+
+
+    private:
+
+        /** \brief Mode manager */
+        ModeManager& m_mode_manager;
+
+        /** \brief HMI manager */
+        HmiManager& m_hmi_manager;
+};
 
 }
 
-#endif // OPERATINGMODE_H
+#endif // DIAGNOSTICMODE_H

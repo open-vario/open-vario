@@ -126,33 +126,26 @@ void InitMode::enter()
                 ret = m_profile_manager.init();
                 if (ret)
                 {
-                    // Initialize and start GNSS manager
-                    ret = m_gnss_manager.init();
-                    ret = ret && m_gnss_manager.start();
-                    if (!ret)
-                    {
-                        LOG_ERROR("Failed to initialize GNSS manager");
-                    }
-
                     // Initialize flight recorder
-                    //ret = m_flight_recorder.init();
+                    ret = m_flight_recorder.init();
                     if (!ret)
                     {
                         LOG_ERROR("Failed to initialize flight recorder");
                     }
-          
-                    // Initialize BLE
-                    ret = m_ble_manager.init();
-                    if (!ret)
+
+                    // Initialize and start GNSS manager
+                    if (ret)
                     {
-                        LOG_ERROR("Failed to initialize BLE");
+                        ret = m_gnss_manager.init();
+                        ret = ret && m_gnss_manager.start();
+                        if (!ret)
+                        {
+                            LOG_ERROR("Failed to initialize GNSS manager");
+                        }
                     }
-                    
+
                     // Blink a bit :)
                     IOpenVarioApp::getInstance().getOs().waitMs(2000u);
-                    IOpenVarioApp::getInstance().getOs().waitMs(12345678u);
-
-                    ret = true;
                 }
                 else
                 {
@@ -186,7 +179,23 @@ void InitMode::enter()
 /** \brief Leave the operating mode */
 void InitMode::leave()
 {
+    bool ret;
+
     LOG_INFO("Leaving init mode...");
+
+    // Start sensor notifications
+    ret = m_sensors_manager.startNotifications();
+    if (!ret)
+    {
+        LOG_ERROR("Failure during sensors notification startup");
+    }
+
+    // Start GNSS notifications
+    ret = m_gnss_manager.startNotifications();
+    if (!ret)
+    {
+        LOG_ERROR("Failure during GNSS notification startup");
+    }
 }
 
 /** \brief Start and check the board mandatory peripherals */
