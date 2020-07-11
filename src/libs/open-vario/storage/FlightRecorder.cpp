@@ -39,8 +39,8 @@ FlightRecorder::FlightRecorder(ConfigManager& config_manager, TimeManager& time_
 , m_config_record_period(OV_CONFIG_VALUE_FR_RECORD_PERIOD, "Recording period", 1000u, 250u, 30000u, true)
 , m_config_flight_detector_enabled(OV_CONFIG_VALUE_FR_FLIGHT_DETECTOR_EN, "Flight detector enabled", false, true)
 , m_config_pressure_recording_enabled(OV_CONFIG_VALUE_FR_PRESSURE_REC_EN, "Pressure recording enabled", false, true)
-, m_config_temperature_recording_enabled(OV_CONFIG_VALUE_FR_TEMPERATURE_REC_EN, "Temperature recording enabled", false, true)
-, m_config_acceleration_recording_enabled(OV_CONFIG_VALUE_FR_ACCELERATION_REC_EN, "Acceleration recording enabled", false, true)
+, m_config_temperature_recording_enabled(OV_CONFIG_VALUE_FR_TEMPERATURE_REC_EN, "Temperature recording enabled", true, true)
+, m_config_acceleration_recording_enabled(OV_CONFIG_VALUE_FR_ACCELERATION_REC_EN, "Acceleration recording enabled", true, true)
 , m_config_gnss_recording_enabled(OV_CONFIG_VALUE_FR_GNSS_REC_EN, "GNSS recording enabled", true, true)
 
 , m_record_period(0u)

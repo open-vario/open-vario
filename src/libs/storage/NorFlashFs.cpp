@@ -77,15 +77,19 @@ bool NorFlashFs::init()
                                 m_file_count++;
                                 m_current_file_id++;
                                 last_entry = entry;
+                                current_address += sizeof(FileEntry);
                             }
                         }
-                    } while (ret && (entry.file_start_sector != FileEntry::EMPTY));
+                    } 
+                    while (ret && (entry.file_start_sector != FileEntry::EMPTY));
                     if (ret)
                     {
                         // Check empty filesystem
                         if (m_file_count == 0)
                         {
                             format_needed = false;
+                            m_first_free_sector = 1;
+                            m_current_file_id = 0;
                         }
                         else
                         {
@@ -111,6 +115,7 @@ bool NorFlashFs::init()
                                             {
                                                 end_sector--;
                                             }
+                                            m_write_context.file_sector = last_entry.file_start_sector;
                                             m_write_context.current_sector = end_sector;
                                             m_write_context.is_in_use = true;
                                             ret = closeWrittenFile();
@@ -229,9 +234,18 @@ bool NorFlashFs::createFile(const char name[])
                 ret = write(&file_data_header, sizeof(FileDataHeader));
                 if (ret)
                 {
-                    m_current_file_id++;
-                    file_data_header.data_size = 0u;
-                    m_write_context.is_in_use = true;
+                    // Add file entry
+                    FileEntry entry;
+                    entry.file_start_sector = m_write_context.current_sector;
+                    entry.reserved = FileEntry::EMPTY;
+                    uint32_t entry_address = toAddress(0) + sizeof(NorFlashSectorHeader) + sizeof(StartFsHeader) + m_current_file_id * sizeof(entry);
+                    ret = m_nor_flash.write(entry_address, &entry, sizeof(FileEntry));
+                    if (ret)
+                    {
+                        m_current_file_id++;
+                        file_data_header.data_size = 0u;
+                        m_write_context.is_in_use = true;
+                    }
                 }
             }
         }
@@ -661,6 +675,7 @@ bool NorFlashFs::goToEndOfFileByDataSector(const uint32_t current_sector, uint32
     bool eof = false;
     end_sector = current_sector;
     m_write_context.current_sector = current_sector;
+    m_write_context.file_header.last_sector = current_sector;
     do
     {
         // Read sector header
@@ -704,6 +719,7 @@ bool NorFlashFs::goToEndOfFileByDataSector(const uint32_t current_sector, uint32
                                 (file_data != FileHeader::NO_SIZE));
                     }
                     m_write_context.file_header.size += m_write_context.file_data_header.data_size;
+                    m_write_context.file_header.last_sector = m_write_context.current_sector;
                     end_sector = m_write_context.current_sector;
                     m_write_context.current_sector++;
                 }
