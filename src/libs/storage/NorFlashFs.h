@@ -106,14 +106,11 @@ class NorFlashFs : public IFileSystem
         {
             /** \brief File system version */
             uint32_t version;
-            /** \brief Sector type */
-            uint8_t sector_type;
             /** \brief Reserved */
-            uint8_t reserved_1;
-            /** \brief Reserved */
-            uint8_t reserved_2;
-            /** \brief Reserved */
-            uint8_t reserved_3;
+            uint32_t reserved;
+
+            /** \brief Reserved value */
+            static const uint32_t RESERVED = 0xFFFFFFFFu;
         };
 
         /** \brief File header */
@@ -130,9 +127,9 @@ class NorFlashFs : public IFileSystem
             uint32_t id;
             /** \brief File size */
             uint32_t size;
-            /** \brief Next file sector */
-            uint32_t next_file_sector;
-            /** \brief Delete flag */
+            /** \brief Last sector */
+            uint32_t last_sector;
+            /** \brief Reserved */
             uint8_t reserved_1;
             /** \brief Reserved */
             uint8_t reserved_2;
@@ -153,8 +150,18 @@ class NorFlashFs : public IFileSystem
             uint32_t file_start_sector;
             /** \brief Data size */
             uint32_t data_size;
-            /** \brief Next data sector */
-            uint32_t next_data_sector;
+        };
+
+        /** \brief File entry in the file table */
+        struct FileEntry
+        {
+            /** \brief Empty entry */
+            static const uint32_t EMPTY = 0xFFFFFFFFu;
+
+            /** \brief File start sector */
+            uint32_t file_start_sector;
+            /** \brief Reserved */
+            uint32_t reserved;
         };
 
 
@@ -189,13 +196,8 @@ class NorFlashFs : public IFileSystem
         uint32_t m_current_file_id;
 
 
-        /** \brief Newest file sector */
-        uint32_t m_newest_file_sector;
-
-        /** \brief Oldest file sector */
-        uint32_t m_oldest_file_sector;
-
-        
+        /** \brief First free sector */
+        uint32_t m_first_free_sector;        
 
 
 
@@ -229,6 +231,8 @@ class NorFlashFs : public IFileSystem
         bool openSectorToWrite(const uint8_t open_sector_type);
 
 
+        /** \brief Write data to the NOR flash */
+        bool write(const void* data, const size_t size);
 
 
 
