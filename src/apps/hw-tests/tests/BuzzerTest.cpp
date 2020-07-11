@@ -58,7 +58,7 @@ void BuzzerTest::on(const size_t entry, Console& console)
     console.write("Frequency in Hz : ");
     uint32_t frequency = console.readUint();
 
-    console.write("Volume in % : ");
+    console.write("Volume in %% : ");
     uint8_t volume = console.readUint();
     if (m_buzzer.setVolume(volume))
     {
@@ -134,20 +134,20 @@ void BuzzerTest::song(const size_t entry, Console& console)
                                     { SI, 1u, Q},
                                     { DO, 2u, M},
 
-                                    { LA, 1u, C},
+                                    { LA, 1u, Q},
                                     { SI, 1u, Q},
                                     { LA, 1u, Q},
                                     { SOL, 1u, Q},
                                     { LA, 1u, Q},
                                     { SI, 1u, Q},
                                     { DO, 2u, C},
-                                    { SOL, 1u, C},
+                                    { SOL, 1u, Q},
                                     { LA, 1u, Q},
                                     { SOL, 1u, Q},
                                     { FA, 1u, Q},
                                     { MI, 1u, C},
                                     { SOL, 1u, C},
-                                    { LA, 1u, C},
+                                    { LA, 1u, Q},
                                     { SI, 1u, Q},
                                     { LA, 1u, Q},
                                     { SOL, 1u, Q},
@@ -155,6 +155,7 @@ void BuzzerTest::song(const size_t entry, Console& console)
                                     { SI, 1u, Q},
                                     { DO, 2u, Q},
                                     { SOL, 1u, Q},
+                                    { DO, 2u, Q},
                                     { SI, 1u, Q},
                                     { RE, 2u, Q},
                                     { DO, 2u, C}
@@ -164,7 +165,7 @@ void BuzzerTest::song(const size_t entry, Console& console)
     console.write("Tempo (duration of quaver in ms) : ");
     uint32_t tempo = console.readUint() * Q;
 
-    console.write("Volume in % : ");
+    console.write("Volume in %% : ");
     uint8_t volume = console.readUint();
     m_buzzer.setVolume(volume);
 
