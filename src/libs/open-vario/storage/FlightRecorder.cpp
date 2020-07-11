@@ -60,6 +60,7 @@ FlightRecorder::FlightRecorder(ConfigManager& config_manager, TimeManager& time_
 , m_barometer_evt_handler()
 , m_thermometer_evt_handler()
 , m_variometer_evt_handler()
+, m_gnss_evt_handler()
 
 , m_flight_data()
 , m_flight_data_mutex()
@@ -111,6 +112,10 @@ bool FlightRecorder::init()
             
             m_variometer_evt_handler = NANO_STL_EVENT_HANDLER_M(FlightRecorder, onVariometerValues, const VariometerValues&);
             ret = ret && IOpenVarioApp::getInstance().getVariometer().variometerValuesEvent().bind(m_variometer_evt_handler);
+
+            // Register to GNSS events
+            m_gnss_evt_handler = NANO_STL_EVENT_HANDLER_M(FlightRecorder, onGnssValues, const IGnss::NavigationData&);
+            ret = ret && IOpenVarioApp::getInstance().getGnssProvider().gnssDataEvent().bind(m_gnss_evt_handler);
         }
 
         // Start the task
@@ -406,6 +411,18 @@ void FlightRecorder::onVariometerValues(const VariometerValues& vario_values)
     // Save values
     m_flight_data_mutex.lock();
     m_flight_data.vario = vario_values.vario;
+    m_flight_data_mutex.unlock();
+}
+
+/** \brief Called when new GNSS values have been computed */
+void FlightRecorder::onGnssValues(const IGnss::NavigationData& nav_data)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_flight_data.latitude = nav_data.latitude;
+    m_flight_data.longitude = nav_data.longitude;
+    m_flight_data.speed = nav_data.speed;
+    m_flight_data.track_angle = nav_data.track_angle;
     m_flight_data_mutex.unlock();
 }
 

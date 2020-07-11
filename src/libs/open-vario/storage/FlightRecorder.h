@@ -33,6 +33,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "IBarometer.h"
 #include "IThermometer.h"
 #include "IVariometer.h"
+#include "IGnss.h"
 #include "FlightData.h"
 #include "FlightDataAdapter.h"
 #include "StaticRingBuffer.h"
@@ -180,6 +181,9 @@ class FlightRecorder : public ITimerListener
         /** \brief Event handler to receive variometer notifications */
         nano_stl::IEvent<const VariometerValues&>::EventHandlerM m_variometer_evt_handler;
 
+        /** \brief Event handler to receive GNSS notifications */
+        nano_stl::IEvent<const IGnss::NavigationData&>::EventHandlerM m_gnss_evt_handler;
+
 
         /** \brief Flight data */
         FlightData m_flight_data;
@@ -209,6 +213,9 @@ class FlightRecorder : public ITimerListener
 
         /** \brief Called when new variometer values have been computed */
         void onVariometerValues(const VariometerValues& vario_values);
+
+        /** \brief Called when new GNSS values have been computed */
+        void onGnssValues(const IGnss::NavigationData& nav_data);
 };
 
 }
