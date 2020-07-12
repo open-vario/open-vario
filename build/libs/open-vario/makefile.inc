@@ -33,8 +33,8 @@ SOURCE_DIRS := $(LIBRARY_DIR) \
                $(LIBRARY_DIR)/ble \
                $(LIBRARY_DIR)/config \
                $(LIBRARY_DIR)/device \
+               $(LIBRARY_DIR)/diagnostic \
                $(LIBRARY_DIR)/fault \
-               $(LIBRARY_DIR)/fight \
                $(LIBRARY_DIR)/hmi \
                $(LIBRARY_DIR)/log \
                $(LIBRARY_DIR)/modes \

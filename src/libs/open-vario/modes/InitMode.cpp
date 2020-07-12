@@ -30,6 +30,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ProfileManager.h"
 #include "FlightRecorder.h"
 #include "BleManager.h"
+#include "DiagnosticManager.h"
 #include "LogMacro.h"
 #include "INorFlash.h"
 #include "IGnss.h"
@@ -44,7 +45,7 @@ namespace open_vario
 /** \brief Constructor */
 InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManager& time_manager, BlackBox& blackbox, DeviceManager& device_manager, 
                    ConfigManager& config_manager, SensorsManager& sensors_manager, GnssManager& gnss_manager, ProfileManager& profile_manager, 
-                   FlightRecorder& flight_recorder, BleManager& ble_manager, FaultManager& fault_manager)
+                   FlightRecorder& flight_recorder, BleManager& ble_manager, FaultManager& fault_manager, DiagnosticManager& diag_manager)
 : m_mode_manager(mode_manager)
 , m_hmi_manager(hmi_manager)
 , m_time_manager(time_manager)
@@ -57,6 +58,7 @@ InitMode::InitMode(ModeManager& mode_manager, HmiManager& hmi_manager, TimeManag
 , m_flight_recorder(flight_recorder)
 , m_ble_manager(ble_manager)
 , m_fault_manager(fault_manager)
+, m_diag_manager(diag_manager)
 {}
 
 /** \brief Enter into the operating mode */
@@ -144,6 +146,13 @@ void InitMode::enter()
                         }
                     }
 
+                    // Initialize diagnostic manager
+                    if (!m_diag_manager.init())
+                    {
+                        LOG_ERROR("Failed to initialize diagnostic manager");
+                        ret = false;
+                    }
+
                     // Blink a bit :)
                     IOpenVarioApp::getInstance().getOs().waitMs(2000u);
                 }
@@ -163,15 +172,18 @@ void InitMode::enter()
         }
 
         // Change mode
-        if (ret)
+        if (!m_diag_manager.isLinkEnabled())
         {
-            // Init done, switch to run mode
-            m_mode_manager.switchToMode(OPMODE_RUN);
-        } 
-        else
-        {
-            // Init failed, switch to power off mode
-            m_mode_manager.switchToMode(OPMODE_POWEROFF);
+            if (ret)
+            {
+                // Init done, switch to run mode
+                m_mode_manager.switchToMode(OPMODE_RUN);
+            } 
+            else
+            {
+                // Init failed, switch to power off mode
+                m_mode_manager.switchToMode(OPMODE_POWEROFF);
+            }
         }
     }
 }

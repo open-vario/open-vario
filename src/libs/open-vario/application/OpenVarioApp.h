@@ -41,6 +41,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "FlightRecorder.h"
 #include "BleManager.h"
 #include "GnssManager.h"
+#include "DiagnosticManager.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "DiagnosticMode.h"
@@ -214,6 +215,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief GNSS manager */
         GnssManager m_gnss_manager;
+
+        /** \brief Diagnostic manager */
+        DiagnosticManager m_diag_manager;
 
 
         /** \brief Delegate to receive fault events */
