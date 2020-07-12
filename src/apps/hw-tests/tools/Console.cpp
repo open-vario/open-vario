@@ -61,7 +61,7 @@ void Console::writeLine(const char* format, ...)
 }
 
 /** \brief Write an array of bytes to the console */
-void Console::writeBytes(const uint8_t* bytes, const size_t size)
+void Console::writeFormattedBytes(const uint8_t* bytes, const size_t size)
 {
 	m_write_mutex.lock();
 
@@ -81,6 +81,16 @@ void Console::writeBytes(const uint8_t* bytes, const size_t size)
 	{
 		write("\r\n");
 	}
+
+	m_write_mutex.unlock();
+}
+
+/** \brief Write an array of bytes to the console */
+void Console::writeBytes(const uint8_t* bytes, const size_t size)
+{
+	m_write_mutex.lock();
+
+	m_uart.write(bytes, size);
 
 	m_write_mutex.unlock();
 }
@@ -185,6 +195,34 @@ int32_t Console::readInt()
 	char line[20u] = {0};
 	readLine(line, sizeof(line));
 	return static_cast<int32_t>(NANO_STL_LIBC_Antoi(line, 10, sizeof(line)));
+}
+
+/** \brief Read an array of bytes on the console */
+void Console::readBytes(uint8_t* bytes, const size_t size, size_t& count)
+{
+	char line[64u] = {0};
+	readLine(line, sizeof(line));
+
+	char* byte_start = line;
+	char* pline = line;
+	count = 0;
+	while (((*pline) != 0) && (count != size))
+	{
+		if ((*pline == ' '))
+		{
+			*pline = 0;
+			bytes[count] = static_cast<uint8_t>(NANO_STL_LIBC_Antoi(byte_start, 16, sizeof(line)));
+			byte_start = pline + 1;
+			count++;
+		}
+		pline++;		
+	}
+	if (count != size)
+	{
+		*pline = 0;
+		bytes[count] = static_cast<uint8_t>(NANO_STL_LIBC_Antoi(byte_start, 16, sizeof(line)));
+		count++;
+	}
 }
 
 /** \brief Write a formatted string to the console */

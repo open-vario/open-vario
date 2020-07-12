@@ -18,7 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-#include "EepromTest.h"
+#include "NorFlashTest.h"
 
 
 
@@ -27,28 +27,30 @@ namespace open_vario
 {
 
 /** \brief Constructor */
-EepromTest::EepromTest(const char* name, IEeprom& eeprom)
+NorFlashTest::NorFlashTest(const char* name, INorFlash& flash)
 : HwTestBase(name, m_menu_entries, sizeof(m_menu_entries) / sizeof(Menu::Entry))
-, m_eeprom(eeprom)
+, m_flash(flash)
 , m_menu_entries()
 {
-    MENU_ENTRY(0, "Infos", EepromTest, infos);
-    MENU_ENTRY(1, "Probe", EepromTest, probe);
-    MENU_ENTRY(2, "Read bytes", EepromTest, read);
-    MENU_ENTRY(3, "Write bytes", EepromTest, write);
+    MENU_ENTRY(0, "Infos", NorFlashTest, infos);
+    MENU_ENTRY(1, "Probe", NorFlashTest, probe);
+    MENU_ENTRY(2, "Read bytes", NorFlashTest, read);
+    MENU_ENTRY(3, "Write bytes", NorFlashTest, write);
+    MENU_ENTRY(4, "Sector erase", NorFlashTest, sectorErase);
+    MENU_ENTRY(5, "Bulk erase", NorFlashTest, bulkErase);
 }
 
 /** \brief Infos test */
-void EepromTest::infos(const size_t entry, Console& console)
+void NorFlashTest::infos(const size_t entry, Console& console)
 {
-    console.writeLine("EEPROM size in bytes : %u", m_eeprom.getSize());
+    console.writeLine("NOR Flash size in bytes : %u", m_flash.getSize());
 }
 
 /** \brief Probe test */
-void EepromTest::probe(const size_t entry, Console& console)
+void NorFlashTest::probe(const size_t entry, Console& console)
 {
-    console.writeLine("Probing EEPROM...");
-    if (m_eeprom.configure())
+    console.writeLine("Probing NOR Flash...");
+    if (m_flash.configure())
     {
         console.writeLine("Success!");
     }
@@ -59,7 +61,7 @@ void EepromTest::probe(const size_t entry, Console& console)
 }
 
 /** \brief Read test */
-void EepromTest::read(const size_t entry, Console& console)
+void NorFlashTest::read(const size_t entry, Console& console)
 {
     console.writeLine("Read test :");
     console.write("- start address : ");
@@ -78,7 +80,7 @@ void EepromTest::read(const size_t entry, Console& console)
         {
             size = sizeof(buffer);
         }
-        success = m_eeprom.read(start_address, buffer, size);
+        success = m_flash.read(start_address, buffer, size);
         if (success)
         {
             console.writeFormattedBytes(buffer, size);
@@ -93,7 +95,7 @@ void EepromTest::read(const size_t entry, Console& console)
 }
 
 /** \brief Write test */
-void EepromTest::write(const size_t entry, Console& console)
+void NorFlashTest::write(const size_t entry, Console& console)
 {
     console.writeLine("Write test :");
     console.write("- start address : ");
@@ -119,7 +121,7 @@ void EepromTest::write(const size_t entry, Console& console)
             buffer[i] = start_value;
             start_value++;
         }
-        success = m_eeprom.write(start_address, buffer, size);
+        success = m_flash.write(start_address, buffer, size);
         if (success)
         {
             left -= size;
@@ -134,6 +136,38 @@ void EepromTest::write(const size_t entry, Console& console)
     {
         console.writeLine("Failed!");
     }  
+}
+
+/** \brief Sector erase test */
+void NorFlashTest::sectorErase(const size_t entry, Console& console)
+{
+    console.writeLine("Sector erase :");
+    console.write("- sector address : ");
+    uint32_t start_address = console.readUint(16u);
+
+    console.writeLine("Executing sector erase operation at address 0x%x...", start_address);
+    if (m_flash.sectorErase(start_address))
+    {
+        console.writeLine("Success!");
+    }
+    else
+    {
+        console.writeLine("Failed!");
+    } 
+}
+
+/** \brief Bulk erase test */
+void NorFlashTest::bulkErase(const size_t entry, Console& console)
+{
+    console.writeLine("Executing bulk erase operation...");
+    if (m_flash.chipErase())
+    {
+        console.writeLine("Success!");
+    }
+    else
+    {
+        console.writeLine("Failed!");
+    } 
 }
 
 }

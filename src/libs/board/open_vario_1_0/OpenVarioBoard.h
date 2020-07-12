@@ -112,6 +112,17 @@ class OpenVarioBoard : public IOpenVarioBoard
 
         /** \brief Get the board's USB Device CDC */
         virtual IUsbDeviceCdc& usbd_cdc() { return m_usbd_cdc; }
+
+
+
+        /** \brief Get the board's SPI1 driver */
+        ISpi& spi1() { return m_spi_1; }
+
+        /** \brief Get the board's SPI2 driver */
+        ISpi& spi2() { return m_spi_2; }
+
+        /** \brief Get the board's I2C1 driver */
+        II2c& i2c1() { return m_i2c_1; }
         
 
     private:

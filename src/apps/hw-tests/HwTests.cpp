@@ -32,12 +32,25 @@ HwTests::HwTests()
 , m_menu("Hardware tests", m_menu_entries, sizeof(m_menu_entries) / sizeof(Menu::Entry))
 , m_menu_entries()
 , m_tests()
+, m_spi1_test("SPI bus 1", m_board.spi1())
+, m_spi2_test("SPI bus 2", m_board.spi2())
 , m_eeprom_test("Configuration EEPROM", m_board.config_eeprom())
+, m_norflash_test("Flight data NOR Flash", m_board.flight_data_norflash())
 , m_altimeter_test(m_board.altimeter())
+, m_gnss_test(m_board.gnss())
+, m_buzzer_test(m_board.buzzer())
+, m_rtc_test(m_board.rtc())
+, m_usb_cdc_test(m_board.usbd_cdc())
 {
-	m_tests[0] = &m_eeprom_test;
-	m_tests[1] = &m_altimeter_test;
-
+	m_tests[0] = &m_spi1_test;
+	m_tests[1] = &m_spi2_test;
+	m_tests[2] = &m_eeprom_test;
+	m_tests[3] = &m_norflash_test;
+	m_tests[4] = &m_altimeter_test;
+	m_tests[5] = &m_gnss_test;
+	m_tests[6] = &m_buzzer_test;
+	m_tests[7] = &m_rtc_test;
+	m_tests[8] = &m_usb_cdc_test;
 
 	for (size_t i = 0; i < HW_TESTS_COUNT; i++)
 	{
@@ -72,10 +85,11 @@ void HwTests::task(void* unused)
 	}
 	else
 	{
-		while (true)
-		{
-			m_menu.display(m_console);
-		}
+		m_menu.display(m_console);
+		
+		m_console.writeLine("Resetting cpu...");
+		IOs::getInstance().waitMs(250u);
+		m_board.cpu().reset();
 	}
 }
 

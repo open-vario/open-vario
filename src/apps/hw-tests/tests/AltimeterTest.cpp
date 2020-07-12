@@ -55,7 +55,6 @@ void AltimeterTest::probe(const size_t entry, Console& console)
 /** \brief Read test */
 void AltimeterTest::read(const size_t entry, Console& console)
 {
-    int32_t altitude = 0;
     console.writeLine("Reading altitude...");
     displayAltitude(console, "=> Altitude : %d.%dm");
 }

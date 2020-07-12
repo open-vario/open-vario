@@ -41,6 +41,9 @@ class Console
 		void writeLine(const char* format, ...);
 
 		/** \brief Write an array of bytes to the console */
+		void writeFormattedBytes(const uint8_t* bytes, const size_t size);
+		
+		/** \brief Write an array of bytes to the console */
 		void writeBytes(const uint8_t* bytes, const size_t size);
 
 		/** \brief Peek an available character on the console */
@@ -57,6 +60,9 @@ class Console
 
 		/** \brief Read a signed integer value on the console */
 		int32_t readInt();
+
+		/** \brief Read an array of bytes on the console */
+		void readBytes(uint8_t* bytes, const size_t size, size_t& count);
 
 
 	private:
