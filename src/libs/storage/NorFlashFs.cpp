@@ -399,90 +399,61 @@ bool NorFlashFs::openFile(const uint32_t file_number, FileInfo& file_info)
 {
     bool ret = false;
 
-    // // Lock filesystem
-    // m_mutex.lock();
+    // Lock filesystem
+    m_mutex.lock();
 
-    // // Check if the read context is available
-    // // and if the file_number is valid
-    // if (!m_read_context.is_in_use && 
-    //     (file_number < m_file_count))
-    // {
-    //     // Walk through the file system
-    //     bool found = false;
-    //     bool valid = false;
-    //     uint32_t current_file_number = 0u;
-    //     uint32_t sector = m_oldest_file_sector;
-    //     NorFlashSectorHeader sector_header;
-    //     do
-    //     {
-    //         // Read sector header
-    //         ret = readSectorHeader(sector, sector_header, valid);
-    //         if (ret && valid)
-    //         {
-    //             // Check sector type
-    //             uint8_t sector_type = sector_header.sector_type; 
-    //             m_read_context.current_address = toAddress(sector) + sizeof(NorFlashSectorHeader);
-    //             if (sector_header.sector_type == NorFlashSectorHeader::START_OF_FS)
-    //             {
-    //                 // Read file system header
-    //                 StartFsHeader start_fs_header;
-    //                 ret = m_nor_flash.read(m_read_context.current_address, &start_fs_header, sizeof(StartFsHeader));
-    //                 if (ret)
-    //                 {
-    //                     sector_type = start_fs_header.sector_type;
-    //                     m_read_context.current_address += sizeof(StartFsHeader);
-    //                 }
-    //             }
-    //             if (ret)
-    //             {
-    //                 if (sector_type == NorFlashSectorHeader::START_OF_FILE)
-    //                 {
-    //                     // Start of file, read header
-    //                     ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_header, sizeof(FileHeader));
-    //                     if (ret)
-    //                     {
-    //                         // Jump to next file
-    //                         if (current_file_number != file_number)
-    //                         {
-    //                             current_file_number++;
-    //                             sector = m_read_context.file_header.next_file_sector;
-    //                         }
-    //                         else
-    //                         {
-    //                             found = true;
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     while (ret && valid && !found);
-    //     if (ret && valid)
-    //     {
-    //         // Read data header
-    //         m_read_context.current_address += sizeof(FileHeader);
-    //         ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_data_header, sizeof(FileDataHeader));
-    //         if (ret)
-    //         {
-    //             // Initialize read context 
-    //             m_read_context.is_in_use = true;
-    //             m_read_context.current_address += sizeof(FileDataHeader);
-    //             m_read_context.file_sector = sector;
-    //             m_read_context.current_sector = sector;
+    // Check if the read context is available
+    // and if the file_number is valid
+    if (!m_read_context.is_in_use && 
+        (file_number < m_file_count))
+    {
+        // Read file table entry
+        FileEntry entry = {0};
+        uint32_t entry_address = toAddress(0) + sizeof(NorFlashSectorHeader) + sizeof(StartFsHeader) + file_number * sizeof(FileEntry);
+        ret = m_nor_flash.read(entry_address, &entry, sizeof(FileEntry));
+        if (ret && (entry.file_start_sector != FileEntry::EMPTY))
+        {
+            // Read sector header
+            bool valid = false;
+            NorFlashSectorHeader sector_header = {0};
+            ret = readSectorHeader(entry.file_start_sector, sector_header, valid);
+            if (ret && valid && (sector_header.sector_type == NorFlashSectorHeader::START_OF_FILE))
+            {
+                // Read file header
+                m_read_context.current_address = toAddress(entry.file_start_sector) + sizeof(NorFlashSectorHeader);
+                ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_header, sizeof(FileHeader));
+                if (ret)
+                {
+                    // Read data header
+                    m_read_context.current_address += sizeof(FileHeader);
+                    ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_data_header, sizeof(FileDataHeader));
+                    if (ret)
+                    {
+                        // Initialize read context 
+                        m_read_context.is_in_use = true;
+                        m_read_context.current_address += sizeof(FileDataHeader);
+                        m_read_context.file_sector = entry.file_start_sector;
+                        m_read_context.current_sector = entry.file_start_sector;
 
-    //             // Extract file info
-    //             file_info.size = m_read_context.file_header.size;
-    //             NANO_STL_STRNCPY(file_info.name, m_read_context.file_header.name, FileInfo::MAX_FILENAME_LEN);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         ret = false;
-    //     }
-    // }
+                        // Extract file info
+                        file_info.size = m_read_context.file_header.size;
+                        NANO_STL_STRNCPY(file_info.name, m_read_context.file_header.name, FileInfo::MAX_FILENAME_LEN);
+                    }
+                }                        
+            }
+            else
+            {
+                ret = false;
+            }
+        }
+        else
+        {
+            ret = false;
+        }
+    }
 
-    // // Unlock filesystem
-    // m_mutex.unlock();
+    // Unlock filesystem
+    m_mutex.unlock();
 
     return ret;
 }
@@ -492,108 +463,85 @@ bool NorFlashFs::readFromFile(void* const data, const uint32_t size, uint32_t& r
 {
     bool ret = false;
 
-    // // Lock filesystem
-    // m_mutex.lock();
+    // Lock filesystem
+    m_mutex.lock();
 
-    // // Check if the read context is available
-    // if (m_read_context.is_in_use)
-    // {
-    //     // Check if data fits into current sector
-    //     if (size <= m_read_context.file_data_header.data_size)
-    //     {
-    //         // Read data
-    //         ret = m_nor_flash.read(m_read_context.current_address, data, size);
-    //         if (ret)
-    //         {
-    //             // Update file header and context
-    //             m_read_context.current_address += size;
-    //             m_read_context.file_header.size -= size;
-    //             m_read_context.file_data_header.data_size -= size;
-    //             read = size;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         // Read data fitting into current sector
-    //         const uint32_t fit_size = m_read_context.file_data_header.data_size;
-    //         const uint32_t left_size = size - fit_size;
-    //         uint8_t* u8_data = reinterpret_cast<uint8_t*>(data); 
-    //         ret = m_nor_flash.read(m_read_context.current_address, u8_data, fit_size);
-    //         if (ret)
-    //         {
-    //             // Update file header and context
-    //             u8_data += fit_size;
-    //             m_read_context.file_header.size -= fit_size;
-    //             m_read_context.file_data_header.data_size -= fit_size;
-    //             read = fit_size;
+    // Check if the read context is available
+    if (m_read_context.is_in_use)
+    {
+        // Check if data fits into current sector
+        if (size <= m_read_context.file_data_header.data_size)
+        {
+            // Read data
+            ret = m_nor_flash.read(m_read_context.current_address, data, size);
+            if (ret)
+            {
+                // Update file header and context
+                m_read_context.current_address += size;
+                m_read_context.file_header.size -= size;
+                m_read_context.file_data_header.data_size -= size;
+                read = size;
+            }
+        }
+        else
+        {
+            // Read data fitting into current sector
+            const uint32_t fit_size = m_read_context.file_data_header.data_size;
+            const uint32_t left_size = size - fit_size;
+            uint8_t* u8_data = reinterpret_cast<uint8_t*>(data); 
+            ret = m_nor_flash.read(m_read_context.current_address, u8_data, fit_size);
+            if (ret)
+            {
+                // Update file header and context
+                u8_data += fit_size;
+                m_read_context.file_header.size -= fit_size;
+                m_read_context.file_data_header.data_size -= fit_size;
+                read = fit_size;
 
-    //             // Check if there is data left into the file
-    //             if (m_read_context.file_header.size != 0u)
-    //             {
-    //                 // Open next sector
-    //                 bool valid = false;
-    //                 NorFlashSectorHeader sector_header;
-    //                 m_read_context.current_sector = m_read_context.file_data_header.next_data_sector;
-    //                 ret = readSectorHeader(m_read_context.current_sector, sector_header, valid);
-    //                 ret = ret && valid;
-    //                 if (ret)
-    //                 {
-    //                     // Check sector type
-    //                     uint8_t sector_type = sector_header.sector_type; 
-    //                     m_read_context.current_address = toAddress(m_read_context.current_sector) + sizeof(NorFlashSectorHeader);
-    //                     if (sector_header.sector_type == NorFlashSectorHeader::START_OF_FS)
-    //                     {
-    //                         // Read file system header
-    //                         StartFsHeader start_fs_header;
-    //                         ret = m_nor_flash.read(m_read_context.current_address, &start_fs_header, sizeof(StartFsHeader));
-    //                         if (ret)
-    //                         {
-    //                             sector_type = start_fs_header.sector_type;
-    //                             m_read_context.current_address += sizeof(StartFsHeader);
-    //                         }
-    //                     }
-    //                     if (ret)
-    //                     {
-    //                         if (sector_type == NorFlashSectorHeader::FILE_DATA)
-    //                         {
-    //                             // Read file data header
-    //                             ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_data_header, sizeof(FileDataHeader));
-    //                             if (ret)
-    //                             {
-    //                                 m_read_context.current_address += sizeof(FileDataHeader);
-    //                             }
-    //                         }
-    //                         else
-    //                         {
-    //                             ret = false;
-    //                         }
-    //                     }
-    //                 }
-    //                 if (ret)
-    //                 {
-    //                     // Read data left from current sector
-    //                     uint32_t size_to_read = left_size;
-    //                     if (size_to_read > m_read_context.file_data_header.data_size)
-    //                     {
-    //                         size_to_read = m_read_context.file_data_header.data_size;
-    //                     }
-    //                     ret = m_nor_flash.read(m_read_context.current_address, u8_data, size_to_read);
-    //                     if (ret)
-    //                     {
-    //                         // Update file header and context
-    //                         m_read_context.current_address += size_to_read;
-    //                         m_read_context.file_header.size -= size_to_read;
-    //                         m_read_context.file_data_header.data_size -= size_to_read;
-    //                         read += size_to_read;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+                // Check if there is data left into the file
+                if (m_read_context.file_header.size != 0u)
+                {
+                    // Open next sector
+                    bool valid = false;
+                    NorFlashSectorHeader sector_header;
+                    m_read_context.current_sector++;
+                    ret = readSectorHeader(m_read_context.current_sector, sector_header, valid);
+                    ret = ret && valid;
+                    if (ret && valid && (sector_header.sector_type == NorFlashSectorHeader::FILE_DATA))
+                    {
+                        // Read file data header
+                        ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_data_header, sizeof(FileDataHeader));
+                        if (ret)
+                        {
+                            // Read data left from current sector
+                            uint32_t size_to_read = left_size;
+                            m_read_context.current_address += sizeof(FileDataHeader);
+                            if (size_to_read > m_read_context.file_data_header.data_size)
+                            {
+                                size_to_read = m_read_context.file_data_header.data_size;
+                            }
+                            ret = m_nor_flash.read(m_read_context.current_address, u8_data, size_to_read);
+                            if (ret)
+                            {
+                                // Update file header and context
+                                m_read_context.current_address += size_to_read;
+                                m_read_context.file_header.size -= size_to_read;
+                                m_read_context.file_data_header.data_size -= size_to_read;
+                                read += size_to_read;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                }
+            }
+        }
+    }
 
-    // // Unlock filesystem
-    // m_mutex.unlock();
+    // Unlock filesystem
+    m_mutex.unlock();
 
     return ret;
 }
@@ -603,18 +551,19 @@ bool NorFlashFs::closeReadFile()
 {
     bool ret = false;
 
-    // // Lock filesystem
-    // m_mutex.lock();
+    // Lock filesystem
+    m_mutex.lock();
 
-    // // Check if the read context is available
-    // if (m_read_context.is_in_use)
-    // {
-    //     // Read context is now free
-    //     m_read_context.is_in_use = false;
-    // }
+    // Check if the read context is available
+    if (m_read_context.is_in_use)
+    {
+        // Read context is now free
+        m_read_context.is_in_use = false;
+        ret = true;
+    }
 
-    // // Unlock filesystem
-    // m_mutex.unlock();
+    // Unlock filesystem
+    m_mutex.unlock();
 
     return ret;
 }
