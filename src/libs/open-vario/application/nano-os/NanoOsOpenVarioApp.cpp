@@ -33,7 +33,7 @@ NanoOsOpenVarioApp NanoOsOpenVarioApp::m_singleton;
 /** \brief Constructor */
 NanoOsOpenVarioApp::NanoOsOpenVarioApp()
 : OpenVarioApp()
-, m_nano_os_console(getBoard().debugUart(), getLogHistory())
+, m_nano_os_console(getBoard().debugUart(), getLogHistory(), getDiagLink())
 {}
 
 /** \brief Called during application initialization */

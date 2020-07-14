@@ -77,7 +77,8 @@ OpenVarioApp::OpenVarioApp()
 
 , m_gnss_manager(m_config_manager, m_fault_manager, m_board.gnss())
 
-, m_diag_manager(m_config_manager, m_device_manager, m_time_manager, m_profile_manager, m_mode_manager, m_flight_recorder, m_board.usbd_cdc())
+, m_uart_diag_link(m_board.debugUart())
+, m_diag_manager(m_config_manager, m_device_manager, m_time_manager, m_profile_manager, m_mode_manager, m_flight_recorder, m_uart_diag_link)
 
 , m_fault_delegate()
 {

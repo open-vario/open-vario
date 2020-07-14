@@ -20,11 +20,12 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIAGNOSTICMANAGER_H
 #define DIAGNOSTICMANAGER_H
 
-#include "IUsbDeviceCdc.h"
+#include "IDiagnosticLink.h"
 #include "TaskHelper.h"
 #include "FlightRecorder.h"
 #include "DataSerializer.h"
 #include "DataDeserializer.h"
+#include "Semaphore.h"
 
 namespace open_vario
 {
@@ -36,7 +37,7 @@ class ProfileManager;
 class ModeManager;
 
 /** \brief Diagnostic manager */
-class DiagnosticManager : public IUsbDeviceCdcListener
+class DiagnosticManager : public IDiagnosticLinkListener
 {
     public:
 
@@ -44,7 +45,7 @@ class DiagnosticManager : public IUsbDeviceCdcListener
         DiagnosticManager(ConfigManager& config_manager, DeviceManager& device_manager, 
                           TimeManager& time_manager, ProfileManager& profile_manager, 
                           ModeManager& mode_manager, FlightRecorder& flight_recorder, 
-                          IUsbDeviceCdc& usb_cdc);
+                          IDiagnosticLink& diag_link);
 
 
         /** \brief Initialize the device manager */
@@ -52,15 +53,15 @@ class DiagnosticManager : public IUsbDeviceCdcListener
 
 
         /** \brief Get the state of the diagnostic link */
-        bool isLinkEnabled() const { return m_diag_link_enabled; }
+        bool isLinkEnabled() const { return m_diag_link.isAvailable(); }
         
 
 
-        /** \brief Called when the USB cable has been plugged */
-        virtual void onUsbPlugged() override;
+        /** \brief Called when the link is available */
+        virtual void onLinkAvailable() override;
 
-        /** \brief Called when the USB cable has been unplugged */
-        virtual void onUsbUnplugged() override;
+        /** \brief Called when the link is not available */
+        virtual void onLinkNotAvailable() override;
 
 
     private:
@@ -128,12 +129,15 @@ class DiagnosticManager : public IUsbDeviceCdcListener
         /** \brief Flight recorder */
         FlightRecorder& m_flight_recorder;
 
-        /** \brief EEPROM partition */
-        IUsbDeviceCdc& m_usb_cdc;
+        /** \brief Diagnostic link */
+        IDiagnosticLink& m_diag_link;
 
 
         /** \brief Indicate if the diagnostic link is enable */
         bool m_diag_link_enabled;
+
+        /** \brief Diagnostic link enabled semaphore */
+        Semaphore m_diag_link_enabled_sem;
 
         /** \brief Diagnostic command task */
         TaskHelper<2048u> m_diag_cmd_task;
@@ -144,7 +148,7 @@ class DiagnosticManager : public IUsbDeviceCdcListener
         /** \brief Rx data size */
         uint32_t m_rx_data_size;
 
-        /** \brief Data buffer for receivd commands and responses */
+        /** \brief Data buffer for received commands and responses */
         uint8_t m_data_buffer[CMD_FRAME_MAX_DATA_SIZE];
 
         /** \brief Response data serializer */

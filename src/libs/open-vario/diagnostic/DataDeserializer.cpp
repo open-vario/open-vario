@@ -34,7 +34,7 @@ DataDeserializer::DataDeserializer(const uint8_t* buffer, const size_t size)
 /** \brief Deserialize a string */
 bool DataDeserializer::deserialize(char* s)
 {
-    return deserialize(s, NANO_STL_STRNLEN(reinterpret_cast<const char*>(&m_serialized_buffer[m_serialized_data_size]), m_serialized_data_size) + 1u);
+    return deserialize(s, NANO_STL_STRNLEN(reinterpret_cast<const char*>(m_serialized_buffer), m_serialized_data_size) + 1u);
 }
 
 /** \brief Deserialize a buffer */
@@ -44,7 +44,8 @@ bool DataDeserializer::deserialize(void* buffer, const size_t size)
 
     if (m_serialized_data_size >= size)
     {
-        NANO_STL_MEMCPY(buffer, &m_serialized_buffer[m_serialized_data_size], size);
+        NANO_STL_MEMCPY(buffer, m_serialized_buffer, size);
+        m_serialized_buffer += size;
         m_serialized_data_size -= size;
         ret = true;
     } 

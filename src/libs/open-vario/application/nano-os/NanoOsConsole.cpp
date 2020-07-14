@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "nano_os_port.h"
 #include "IOpenVarioApp.h"
 #include "ICpu.h"
+#include "UartDiagnosticLink.h"
 
 
 namespace open_vario
@@ -33,6 +34,7 @@ const nano_os_console_cmd_desc_t NanoOsConsole::m_console_commands[] =
                                                             {
                                                                 {"ov_version", "Display Open Vario version", &NanoOsConsole::cmdHandler},
                                                                 {"ov_logs", "Display Open Vario logs", &NanoOsConsole::cmdHandler},
+                                                                {"ov_diag", "Switch uart debug link to diagnostic link", &NanoOsConsole::cmdHandler},
                                                                 {"ov_reset", "Reset Open Vario device", &NanoOsConsole::cmdHandler}
                                                             };
 
@@ -40,10 +42,14 @@ const nano_os_console_cmd_desc_t NanoOsConsole::m_console_commands[] =
 /** \brief Uart driver to use for Nano-OS console */
 static IUart* nano_os_console_uart = nullptr;
 
+/** \brief Indicate if diagnostic mode is enabled */
+static bool diag_mode_enabled = false;
+
 
 /** \brief Constructor */
-NanoOsConsole::NanoOsConsole(IUart& console_uart, ILogHistory& log_history)
+NanoOsConsole::NanoOsConsole(IUart& console_uart, ILogHistory& log_history, UartDiagnosticLink& diag_link)
 : m_log_history(log_history)
+, m_diag_link(diag_link)
 , m_console_command_group()
 , m_console_command_handlers()
 {
@@ -52,6 +58,7 @@ NanoOsConsole::NanoOsConsole(IUart& console_uart, ILogHistory& log_history)
     // Register handlers
     m_console_command_handlers.pushBack(&NanoOsConsole::versionCmdHandler);
     m_console_command_handlers.pushBack(&NanoOsConsole::logsCmdHandler);
+    m_console_command_handlers.pushBack(&NanoOsConsole::diagCmdHandler);
     m_console_command_handlers.pushBack(&NanoOsConsole::resetCmdHandler);
 }
 
@@ -91,6 +98,14 @@ void NanoOsConsole::logsCmdHandler(const char params[])
         NANO_OS_USER_ConsoleWriteString(log.message.cStr());
         NANO_OS_USER_ConsoleWriteString("\r\n");
     }
+}
+
+/** \brief Handle the 'ov_diag' console command */
+void NanoOsConsole::diagCmdHandler(const char params[])
+{
+    NANO_OS_USER_ConsoleWriteString("Switching to diagnostic mode...\r\n");
+    NANO_OS_TASK_Sleep(50u);
+    m_diag_link.enableLink();
 }
 
 /** \brief Handle the 'ov_reset' console command */
@@ -140,10 +155,17 @@ extern "C" nano_os_error_t NANO_OS_USER_ConsoleReadChar(char* const c)
 {
     nano_os_error_t ret = NOS_ERR_FAILURE;
 
-    /* Wait for a char on the UART */
-    if (nano_os_console_uart->read(reinterpret_cast<uint8_t*>(c), 1u, IOs::getInstance().getInfiniteTimeoutValue()))
+    if (diag_mode_enabled)
     {
-        ret = NOS_ERR_SUCCESS;
+        NANO_OS_TASK_Sleep(0xFFFFFFFFu);
+    }
+    else
+    {    
+        /* Wait for a char on the UART */
+        if (nano_os_console_uart->read(reinterpret_cast<uint8_t*>(c), 1u, IOs::getInstance().getInfiniteTimeoutValue()))
+        {
+            ret = NOS_ERR_SUCCESS;
+        }
     }
 
     return ret;
@@ -154,10 +176,17 @@ extern "C" nano_os_error_t NANO_OS_USER_ConsoleWriteString(const char* const str
 {
     nano_os_error_t ret = NOS_ERR_FAILURE;
 
-    /* Wait for a char on the UART */
-    if (nano_os_console_uart->write(reinterpret_cast<const uint8_t*>(string), STRNLEN(string, 1024u)))
+    if (diag_mode_enabled)
     {
         ret = NOS_ERR_SUCCESS;
+    }
+    else
+    {  
+        /* Wait for a char on the UART */
+        if (nano_os_console_uart->write(reinterpret_cast<const uint8_t*>(string), STRNLEN(string, 1024u)))
+        {
+            ret = NOS_ERR_SUCCESS;
+        }
     }
 
     return ret;

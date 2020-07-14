@@ -42,6 +42,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "BleManager.h"
 #include "GnssManager.h"
 #include "DiagnosticManager.h"
+#include "UartDiagnosticLink.h"
 #include "InitMode.h"
 #include "RunMode.h"
 #include "DiagnosticMode.h"
@@ -111,6 +112,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief Get the log history */
         virtual ILogHistory& getLogHistory() { return m_log_history; }
+
+        /** \brief Get the diagnostic link */
+        UartDiagnosticLink& getDiagLink() { return m_uart_diag_link; }
 
     private:
 
@@ -215,6 +219,9 @@ class OpenVarioApp : public IOpenVarioApp
 
         /** \brief GNSS manager */
         GnssManager m_gnss_manager;
+
+        /** \brief UART diagnostic link */
+        UartDiagnosticLink m_uart_diag_link;
 
         /** \brief Diagnostic manager */
         DiagnosticManager m_diag_manager;

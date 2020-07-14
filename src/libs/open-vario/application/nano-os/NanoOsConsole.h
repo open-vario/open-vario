@@ -29,6 +29,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 namespace open_vario
 {
 
+class UartDiagnosticLink;
 
 /** \brief Open-vario specific commands implementation for Nano-OS console */
 class NanoOsConsole
@@ -36,7 +37,7 @@ class NanoOsConsole
     public:
 
         /** \brief Constructor */
-        NanoOsConsole(IUart& console_uart, ILogHistory& log_history);
+        NanoOsConsole(IUart& console_uart, ILogHistory& log_history, UartDiagnosticLink& diag_link);
 
         /** \brief Initialize the commands */
         bool init();
@@ -48,6 +49,9 @@ class NanoOsConsole
         /** \brief Log history */
         ILogHistory& m_log_history;
 
+        /** \brief Diagnostic link */
+        UartDiagnosticLink& m_diag_link;
+
         /** \brief Console commmands group */
         nano_os_console_cmd_group_desc_t m_console_command_group;
 
@@ -58,7 +62,7 @@ class NanoOsConsole
         typedef void (NanoOsConsole::*CmdHandler)(const char params[]);
 
         /** \brief Console command handlers */
-        nano_stl::StaticVector<CmdHandler, 3u> m_console_command_handlers;
+        nano_stl::StaticVector<CmdHandler, 4u> m_console_command_handlers;
 
 
         /** \brief Handle the 'ov_version' console command */
@@ -66,6 +70,9 @@ class NanoOsConsole
 
         /** \brief Handle the 'ov_logs' console command */
         void logsCmdHandler(const char params[]);
+
+        /** \brief Handle the 'ov_diag' console command */
+        void diagCmdHandler(const char params[]);
 
         /** \brief Handle the 'ov_reset' console command */
         void resetCmdHandler(const char params[]);

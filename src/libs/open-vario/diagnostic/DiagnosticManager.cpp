@@ -57,15 +57,16 @@ enum DiagCmds
 DiagnosticManager::DiagnosticManager(ConfigManager& config_manager, DeviceManager& device_manager, 
                                      TimeManager& time_manager, ProfileManager& profile_manager, 
                                      ModeManager& mode_manager, FlightRecorder& flight_recorder, 
-                                     IUsbDeviceCdc& usb_cdc)
+                                     IDiagnosticLink& diag_link)
 : m_config_manager(config_manager)
 , m_device_manager(device_manager)
 , m_time_manager(time_manager)
 , m_profile_manager(profile_manager)
 , m_mode_manager(mode_manager)
 , m_flight_recorder(flight_recorder)
-, m_usb_cdc(usb_cdc)
+, m_diag_link(diag_link)
 , m_diag_link_enabled(false)
+, m_diag_link_enabled_sem(0u, 1u)
 , m_diag_cmd_task("Diagnostic task", 2u)
 , m_rx_cmd(0)
 , m_rx_data_size(0)
@@ -80,9 +81,9 @@ bool DiagnosticManager::init()
 {
     bool ret;
 
-    // Initialize USB link
-    m_usb_cdc.registerListener(*this);
-    ret = m_usb_cdc.start();
+    // Initialize diagnostic link
+    m_diag_link.registerListener(*this);
+    ret = m_diag_link.init();
     if (ret)
     {
         // Start diagnostic command task
@@ -93,19 +94,18 @@ bool DiagnosticManager::init()
     return ret;
 }
 
-/** \brief Called when the USB cable has been plugged */
-void DiagnosticManager::onUsbPlugged()
+/** \brief Called when the link is available */
+void DiagnosticManager::onLinkAvailable()
 {
-    LOG_INFO("USB cable plugged!");
-    m_diag_link_enabled = true;
+    LOG_INFO("Diagnostic link enabled!");
     m_mode_manager.switchToMode(OPMODE_DIAG);
+    m_diag_link_enabled_sem.post(false);
 }
 
-/** \brief Called when the USB cable has been unplugged */
-void DiagnosticManager::onUsbUnplugged()
+/** \brief Called when the link is not available */
+void DiagnosticManager::onLinkNotAvailable()
 {
-    LOG_INFO("USB cable unplugged!");
-    m_diag_link_enabled = false;
+    LOG_INFO("Diagnostic link disabled!");
     m_mode_manager.switchToMode(OPMODE_RUN);
 }
 
@@ -119,15 +119,19 @@ void DiagnosticManager::diagCmdTask(void* unused)
     RxState rx_state = RXSTATE_WAIT_HEADER_1;
     while (true)
     {
+        // Check if link is available
+        if (!m_diag_link.isAvailable())
+        {
+            // Wait for the link to be ready
+            m_diag_link_enabled_sem.wait(IOs::getInstance().getInfiniteTimeoutValue());
+            rx_state = RXSTATE_WAIT_HEADER_1;
+            data_received = 0;
+        }
+
         // Read byte
         uint8_t read_byte = 0;
         uint32_t read_size = 0;
-        uint32_t timeout = CMD_FRAME_TIMEOUT;
-        if (rx_state == RXSTATE_WAIT_HEADER_1)
-        {
-            timeout = IOs::getInstance().getInfiniteTimeoutValue();
-        }
-        bool ret = m_usb_cdc.read(&read_byte, sizeof(read_byte), read_size, timeout);
+        bool ret = m_diag_link.read(&read_byte, sizeof(read_byte), CMD_FRAME_TIMEOUT);
         if (ret)
         {
             // Rx state machine
@@ -281,10 +285,10 @@ void DiagnosticManager::sendResponse(const uint8_t cmd, const void* data, const 
     header[2u] = cmd;
     header[3u] = static_cast<uint8_t>(size & 0xFFu);
     header[4u] = static_cast<uint8_t>((size >> 8u) & 0xFFu);
-    m_usb_cdc.write(header, sizeof(header));
+    m_diag_link.write(header, sizeof(header));
 
     // Data
-    m_usb_cdc.write(reinterpret_cast<const uint8_t*>(data), size);
+    m_diag_link.write(reinterpret_cast<const uint8_t*>(data), size);
 }
 
 /** \brief Handle : Read device info */
