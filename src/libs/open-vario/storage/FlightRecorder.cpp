@@ -208,11 +208,11 @@ bool FlightRecorder::openFlightFile(const uint32_t file_number, FlightFileHeader
         ret = m_file_system.readFromFile(&file_header, sizeof(FlightFileHeader), read);
         if (read == sizeof(file_header))
         {
-            // Compute number of flight data acquisitions
-            file_header.flight_data_count = (file_info.size - sizeof(FlightFileHeader)) / sizeof(FlightData); 
-
             // Configure flight data adpater
             m_flight_data_adapter.configure(file_header.pressure_available, file_header.temperature_available, file_header.accel_available, file_header.gnss_available);
+
+            // Compute number of flight data acquisitions
+            file_header.flight_data_count = (file_info.size - sizeof(FlightFileHeader)) / m_flight_data_adapter.size(); 
         }
         else
         {
@@ -237,7 +237,7 @@ bool FlightRecorder::readFlightData(FlightData& flight_data)
     if (ret)
     {
         // Check data size
-        ret = (read == sizeof(flight_data));
+        ret = (read == m_flight_data_adapter.size());
         if (ret)
         {
             // Deserialize data

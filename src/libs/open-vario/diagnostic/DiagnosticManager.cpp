@@ -255,7 +255,7 @@ void DiagnosticManager::handleCommand()
     // Check command validity
     if ((m_rx_cmd > 0) && (m_rx_cmd < DIAG_CMD_MAX))
     {
-        // Initialize serializer/dserializer
+        // Initialize serializer/deserializer
         DataDeserializer deserializer(m_data_buffer, m_rx_data_size);
         m_resp_serializer.clear();
 
