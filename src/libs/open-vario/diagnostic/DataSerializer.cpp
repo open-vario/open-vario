@@ -78,7 +78,7 @@ bool DataSerializer::serialize(const FlightData& flight_data)
 {
     bool ret = false;
 
-    if ((m_serialized_data_size + 30u) <= m_serialized_buffer_size)
+    if ((m_serialized_data_size + 34u) <= m_serialized_buffer_size)
     {
         serialize(flight_data.altitude);
         serialize(flight_data.latitude);
@@ -88,6 +88,7 @@ bool DataSerializer::serialize(const FlightData& flight_data)
         serialize(flight_data.track_angle);
         serialize(flight_data.acceleration);
         serialize(flight_data.temperature);
+        serialize(flight_data.pressure);
         ret = true;
     }
 

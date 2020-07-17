@@ -44,7 +44,7 @@ RunMode::RunMode(ModeManager& mode_manager, HmiManager& hmi_manager, SensorsMana
 /** \brief Enter into the operating mode */
 void RunMode::enter()
 {
-    bool ret;
+    bool ret = true;
 
     LOG_INFO("Entering run mode...");
 

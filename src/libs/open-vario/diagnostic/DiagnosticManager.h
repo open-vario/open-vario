@@ -26,6 +26,11 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataSerializer.h"
 #include "DataDeserializer.h"
 #include "Semaphore.h"
+#include "IAltimeter.h"
+#include "IBarometer.h"
+#include "IThermometer.h"
+#include "IVariometer.h"
+#include "IGnss.h"
 
 namespace open_vario
 {
@@ -163,8 +168,43 @@ class DiagnosticManager : public IDiagnosticLinkListener
         /** \brief Indicate is a flight data is already available */
         bool m_flight_data_available;
 
+        /** \brief  Current Flight data */
+        FlightData m_current_flight_data;
+
+        /** \brief Mutex to protect access to flight data */
+        Mutex m_flight_data_mutex;
+
+        /** \brief Event handler to receive altimeter notifications */
+        nano_stl::IEvent<const AltimeterValues&>::EventHandlerM m_altimeter_evt_handler;
+
+        /** \brief Event handler to receive barometer notifications */
+        nano_stl::IEvent<const BarometerValues&>::EventHandlerM m_barometer_evt_handler;
+
+        /** \brief Event handler to receive thermometer notifications */
+        nano_stl::IEvent<const ThermometerValues&>::EventHandlerM m_thermometer_evt_handler;
+
+        /** \brief Event handler to receive variometer notifications */
+        nano_stl::IEvent<const VariometerValues&>::EventHandlerM m_variometer_evt_handler;
+
+        /** \brief Event handler to receive GNSS notifications */
+        nano_stl::IEvent<const IGnss::NavigationData&>::EventHandlerM m_gnss_evt_handler;
 
 
+
+        /** \brief Called when new altimeter values have been computed */
+        void onAltimeterValues(const AltimeterValues& alti_values);
+
+        /** \brief Called when new barometer values have been computed */
+        void onBarometerValues(const BarometerValues& baro_values);
+
+        /** \brief Called when new thermometer values have been computed */
+        void onThermometerValues(const ThermometerValues& temp_values);
+
+        /** \brief Called when new variometer values have been computed */
+        void onVariometerValues(const VariometerValues& vario_values);
+
+        /** \brief Called when new GNSS values have been computed */
+        void onGnssValues(const IGnss::NavigationData& nav_data);
 
         /** \brief Diagnostic command task */
         void diagCmdTask(void* unused);
@@ -190,6 +230,19 @@ class DiagnosticManager : public IDiagnosticLinkListener
 
         /** \brief Handle : Erase all flights */
         bool eraseAllFlights(DataDeserializer& deserializer);
+
+        /** \brief Handle : Read current flight data */
+        bool readCurrentFlightData(DataDeserializer& deserializer);
+
+        /** \brief Handle : Read current date time */
+        bool readCurrentDateTime(DataDeserializer& deserializer);
+
+        /** \brief Handle : Set reference altitude */
+        bool setReferenceAltitude(DataDeserializer& deserializer);
+
+        /** \brief Handle : Save configuration */
+        bool saveConfiguration(DataDeserializer& deserializer);
+        
 };
 
 }

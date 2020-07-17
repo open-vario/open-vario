@@ -165,6 +165,15 @@ bool Altimeter::setReferenceAltitude(const int32_t ref_altitude)
 
         // Reset filter
         m_alti_filter.resetFilter();
+
+        // Save reference values
+        uint32_t pressure = 0;
+        m_barometric_altimeter.readPressure(pressure);
+        int16_t temperature = 0;
+        m_barometric_altimeter.readTemperature(temperature);
+        m_config_manager.setConfigValue<int32_t>(OV_CONFIG_GROUP_ALTIMETER, OV_CONFIG_VALUE_ALTI_REF_ALTI, ref_altitude);
+        m_config_manager.setConfigValue<int16_t>(OV_CONFIG_GROUP_ALTIMETER, OV_CONFIG_VALUE_ALTI_REF_TEMP, temperature);
+        m_config_manager.setConfigValue<uint32_t>(OV_CONFIG_GROUP_ALTIMETER, OV_CONFIG_VALUE_ALTI_REF_PRES, pressure);
     }
     m_alti_mutex.unlock();
     return ret;

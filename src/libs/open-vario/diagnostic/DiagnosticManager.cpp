@@ -43,6 +43,15 @@ enum DiagCmds
     /** \brief Handle : Erase all flights */
     DIAG_CMD_ERASE_ALL_FLIGHTS,
 
+    /** \brief Handle : Read current flight data */
+    DIAG_CMD_READ_CURRENT_FLIGHT_DATA,
+    /** \brief Handle : Read current date time */
+    DIAG_CMD_READ_CURRENT_DATE_TIME,
+    /** \brief Handle : Set reference altitude */
+    DIAG_CMD_SET_REFERENCE_ALTITUDE,
+    /** \­brief Handle : Save configuration */
+    DIAG_CMD_SAVE_CONFIGURATION,
+
     /** \brief Max command number */
     DIAG_CMD_MAX,
 
@@ -72,7 +81,12 @@ DiagnosticManager::DiagnosticManager(ConfigManager& config_manager, DeviceManage
 , m_rx_data_size(0)
 , m_data_buffer()
 , m_resp_serializer(m_data_buffer, sizeof(m_data_buffer))
+, m_flight_data()
+, m_flight_data_left(0)
+, m_flight_data_available(false)
+, m_current_flight_data()
 {
+    NANO_STL_MEMSET(&m_current_flight_data, 0, sizeof(m_current_flight_data));
 }
 
 
@@ -86,6 +100,23 @@ bool DiagnosticManager::init()
     ret = m_diag_link.init();
     if (ret)
     {
+        // Register to sensor events
+        m_altimeter_evt_handler = NANO_STL_EVENT_HANDLER_M(DiagnosticManager, onAltimeterValues, const AltimeterValues&);
+        ret = ret && IOpenVarioApp::getInstance().getAltimeter().altimeterValuesEvent().bind(m_altimeter_evt_handler);
+        
+        m_barometer_evt_handler = NANO_STL_EVENT_HANDLER_M(DiagnosticManager, onBarometerValues, const BarometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getBarometer().barometerValuesEvent().bind(m_barometer_evt_handler);
+
+        m_thermometer_evt_handler = NANO_STL_EVENT_HANDLER_M(DiagnosticManager, onThermometerValues, const ThermometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getThermometer().thermometerValuesEvent().bind(m_thermometer_evt_handler);
+        
+        m_variometer_evt_handler = NANO_STL_EVENT_HANDLER_M(DiagnosticManager, onVariometerValues, const VariometerValues&);
+        ret = ret && IOpenVarioApp::getInstance().getVariometer().variometerValuesEvent().bind(m_variometer_evt_handler);
+
+        // Register to GNSS events
+        m_gnss_evt_handler = NANO_STL_EVENT_HANDLER_M(DiagnosticManager, onGnssValues, const IGnss::NavigationData&);
+        ret = ret && IOpenVarioApp::getInstance().getGnssProvider().gnssDataEvent().bind(m_gnss_evt_handler);
+
         // Start diagnostic command task
         ITask::TaskMethod task_method = TASK_METHOD(DiagnosticManager, diagCmdTask);
         ret = m_diag_cmd_task.start(task_method, NULL);
@@ -109,6 +140,54 @@ void DiagnosticManager::onLinkNotAvailable()
     m_mode_manager.switchToMode(OPMODE_RUN);
 }
 
+/** \brief Called when new altimeter values have been computed */
+void DiagnosticManager::onAltimeterValues(const AltimeterValues& alti_values)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_current_flight_data.altitude = alti_values.main_alti;
+    m_flight_data_mutex.unlock();
+}
+
+/** \brief Called when new barometer values have been computed */
+void DiagnosticManager::onBarometerValues(const BarometerValues& baro_values)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_current_flight_data.pressure = baro_values.pressure;
+    m_flight_data_mutex.unlock();
+}
+
+/** \brief Called when new thermometer values have been computed */
+void DiagnosticManager::onThermometerValues(const ThermometerValues& temp_values)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_current_flight_data.temperature = temp_values.temperature;
+    m_flight_data_mutex.unlock();
+}
+
+/** \brief Called when new variometer values have been computed */
+void DiagnosticManager::onVariometerValues(const VariometerValues& vario_values)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_current_flight_data.vario = vario_values.vario;
+    m_flight_data_mutex.unlock();
+}
+
+/** \brief Called when new GNSS values have been computed */
+void DiagnosticManager::onGnssValues(const IGnss::NavigationData& nav_data)
+{
+    // Save values
+    m_flight_data_mutex.lock();
+    m_current_flight_data.latitude = nav_data.latitude;
+    m_current_flight_data.longitude = nav_data.longitude;
+    m_current_flight_data.speed = nav_data.speed;
+    m_current_flight_data.track_angle = nav_data.track_angle;
+    m_flight_data_mutex.unlock();
+}
+
 /** \brief Diagnostic command task */
 void DiagnosticManager::diagCmdTask(void* unused)
 {
@@ -130,7 +209,6 @@ void DiagnosticManager::diagCmdTask(void* unused)
 
         // Read byte
         uint8_t read_byte = 0;
-        uint32_t read_size = 0;
         bool ret = m_diag_link.read(&read_byte, sizeof(read_byte), CMD_FRAME_TIMEOUT);
         if (ret)
         {
@@ -247,7 +325,12 @@ void DiagnosticManager::handleCommand()
                                                         &DiagnosticManager::readFlightCount,
                                                         &DiagnosticManager::readFlight,
                                                         &DiagnosticManager::readNextFlightData,
-                                                        &DiagnosticManager::eraseAllFlights
+                                                        &DiagnosticManager::eraseAllFlights,
+
+                                                        &DiagnosticManager::readCurrentFlightData,
+                                                        &DiagnosticManager::readCurrentDateTime,
+                                                        &DiagnosticManager::setReferenceAltitude,
+                                                        &DiagnosticManager::saveConfiguration,
                                                       };
 
     bool ret = false;
@@ -396,5 +479,48 @@ bool DiagnosticManager::eraseAllFlights(DataDeserializer& deserializer)
     return m_flight_recorder.eraseAllFlightFiles();
 }
 
+/** \brief Handle : Read current flight data */
+bool DiagnosticManager::readCurrentFlightData(DataDeserializer& deserializer)
+{
+    m_flight_data_mutex.lock();
+    bool ret = m_resp_serializer.serialize(m_current_flight_data);
+    m_flight_data_mutex.unlock();
+    return ret;
+}
+
+/** \brief Handle : Read current date time */
+bool DiagnosticManager::readCurrentDateTime(DataDeserializer& deserializer)
+{
+    IRtc::DateTime date_time;
+    bool ret = m_time_manager.getDateTime(date_time);
+    if (ret)
+    {
+        ret = m_resp_serializer.serialize(date_time);
+    }
+    return ret;
+}
+
+/** \brief Handle : Set reference altitude */
+bool DiagnosticManager::setReferenceAltitude(DataDeserializer& deserializer)
+{
+    bool ret;
+
+    // Get altitude
+    int32_t altitude = 0;
+    ret = deserializer.deserialize(altitude);
+    if (ret)
+    {
+        ret = IOpenVarioApp::getInstance().getAltimeter().setReferenceAltitude(altitude);
+    }
+
+    return ret;
+}
+
+/** \brief Handle : Save configuration */
+bool DiagnosticManager::saveConfiguration(DataDeserializer& deserializer)
+{
+    const bool ret = m_config_manager.store();
+    return ret;
+}
 
 }
