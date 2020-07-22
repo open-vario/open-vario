@@ -174,7 +174,7 @@ bool FlightRecorder::stopRecording()
 {
     bool ret = false;
 
-    if (!m_is_recording)
+    if (m_is_recording)
     {
         LOG_INFO("Stopping flight recording...");
 

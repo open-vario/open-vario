@@ -51,11 +51,11 @@ class MessageQueueBase : public IMessageQueue<MsgType>
 
             if (from_isr)
             {
-                err = NANO_OS_MAILBOX_Post(&m_mailbox, &msg);
+                err = NANO_OS_MAILBOX_PostFromIsr(&m_mailbox, &msg);
             }
             else
             {
-                err = NANO_OS_MAILBOX_PostFromIsr(&m_mailbox, &msg);
+                err = NANO_OS_MAILBOX_Post(&m_mailbox, &msg);
             }
 
             return (err == NOS_ERR_SUCCESS);

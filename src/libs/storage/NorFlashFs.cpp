@@ -129,8 +129,8 @@ bool NorFlashFs::init()
                                     else
                                     {
                                         // Initialize next free sector
-                                        m_current_file_id = m_read_context.file_header.id + 1u;
-                                        m_first_free_sector = m_read_context.file_header.last_sector + 1u;
+                                        m_current_file_id = m_write_context.file_header.id + 1u;
+                                        m_first_free_sector = m_write_context.file_header.last_sector + 1u;
                                         format_needed = false;
                                     }
                                 }
@@ -295,9 +295,8 @@ bool NorFlashFs::writeToFile(const void* const data, const uint32_t size)
                 m_write_context.file_header.size += fit_size;
                 m_write_context.file_data_header.data_size += fit_size;
 
-                // Compute next sector number
-                m_write_context.current_sector++;
-                if (m_write_context.current_sector == m_nor_flash.getSectorCount())
+                // Check sector availability
+                if ((m_write_context.current_sector + 1u) == m_nor_flash.getSectorCount())
                 {
                     // NOR flash is full
                     ret = false;
@@ -310,6 +309,7 @@ bool NorFlashFs::writeToFile(const void* const data, const uint32_t size)
                     if (ret)
                     {
                         // Open next sector
+                        m_write_context.current_sector++;
                         ret = openSectorToWrite(NorFlashSectorHeader::FILE_DATA);
                         if (ret)
                         {
@@ -505,11 +505,13 @@ bool NorFlashFs::readFromFile(void* const data, const uint32_t size, uint32_t& r
                     bool valid = false;
                     NorFlashSectorHeader sector_header;
                     m_read_context.current_sector++;
+                    m_read_context.current_address = toAddress(m_read_context.current_sector);
                     ret = readSectorHeader(m_read_context.current_sector, sector_header, valid);
                     ret = ret && valid;
                     if (ret && valid && (sector_header.sector_type == NorFlashSectorHeader::FILE_DATA))
                     {
                         // Read file data header
+                        m_read_context.current_address += sizeof(NorFlashSectorHeader);
                         ret = m_nor_flash.read(m_read_context.current_address, &m_read_context.file_data_header, sizeof(FileDataHeader));
                         if (ret)
                         {

@@ -343,7 +343,7 @@ along with Nano-OS.  If not, see <http://www.gnu.org/licenses/>.
 #define NANO_OS_CONSOLE_TASK_PRIORITY           1u
 
 /** \brief Size of the console task stack in number of elements */
-#define NANO_OS_CONSOLE_TASK_STACK_SIZE         (NANO_OS_PORT_MIN_STACK_SIZE + 128u)
+#define NANO_OS_CONSOLE_TASK_STACK_SIZE         (NANO_OS_PORT_MIN_STACK_SIZE + 256u)
 
 /** \brief Size of the console command buffer in number of characters
            (must be big enough to store a whole command line) */
