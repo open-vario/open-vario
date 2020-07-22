@@ -242,6 +242,9 @@ class DiagnosticManager : public IDiagnosticLinkListener
 
         /** \brief Handle : Save configuration */
         bool saveConfiguration(DataDeserializer& deserializer);
+
+        /** \brief Handle : Reset configuration */
+        bool resetConfiguration(DataDeserializer& deserializer);
         
 };
 

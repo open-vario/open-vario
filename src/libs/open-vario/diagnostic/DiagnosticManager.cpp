@@ -49,8 +49,11 @@ enum DiagCmds
     DIAG_CMD_READ_CURRENT_DATE_TIME,
     /** \brief Handle : Set reference altitude */
     DIAG_CMD_SET_REFERENCE_ALTITUDE,
+    
     /** \­brief Handle : Save configuration */
     DIAG_CMD_SAVE_CONFIGURATION,
+    /** \­brief Handle : Reset configuration */
+    DIAG_CMD_RESET_CONFIGURATION,
 
     /** \brief Max command number */
     DIAG_CMD_MAX,
@@ -330,7 +333,9 @@ void DiagnosticManager::handleCommand()
                                                         &DiagnosticManager::readCurrentFlightData,
                                                         &DiagnosticManager::readCurrentDateTime,
                                                         &DiagnosticManager::setReferenceAltitude,
+
                                                         &DiagnosticManager::saveConfiguration,
+                                                        &DiagnosticManager::resetConfiguration,
                                                       };
 
     bool ret = false;
@@ -519,6 +524,14 @@ bool DiagnosticManager::setReferenceAltitude(DataDeserializer& deserializer)
 /** \brief Handle : Save configuration */
 bool DiagnosticManager::saveConfiguration(DataDeserializer& deserializer)
 {
+    const bool ret = m_config_manager.store();
+    return ret;
+}
+
+/** \brief Handle : Reset configuration */
+bool DiagnosticManager::resetConfiguration(DataDeserializer& deserializer)
+{
+    m_config_manager.resetToDefault();
     const bool ret = m_config_manager.store();
     return ret;
 }
