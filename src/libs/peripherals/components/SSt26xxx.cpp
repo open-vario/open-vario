@@ -98,17 +98,18 @@ bool SSt26xxx::write(const uint32_t address, const void* const data, const uint3
     // Check address
     if (address + size <= m_size)
     {
-        // Enable write operations
-        ret = sendCommand(WREN);
-
         ISpi::XFer spi_xfer_data;
         ISpi::XFer spi_xfer_cmd;
         uint16_t index = 0u;
         uint16_t left = size;
         uint32_t current_address = address;
         const uint8_t* const u8_data = reinterpret_cast<const uint8_t*>(data);
+        ret = true;
         while (ret && (left != 0u))
         {
+            // Enable write operation
+            sendCommand(WREN);
+
             // Check programming page alignment
             const uint32_t page_align = current_address & (m_page_size - 1u);
 
