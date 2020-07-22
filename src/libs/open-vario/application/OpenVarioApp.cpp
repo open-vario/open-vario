@@ -55,7 +55,7 @@ OpenVarioApp::OpenVarioApp()
 
 , m_hmi_manager(m_board.activityLed())
 
-, m_time_manager(m_board.rtc())
+, m_time_manager(m_board.rtc(), m_config_manager)
 
 , m_fault_manager(m_time_manager)
 

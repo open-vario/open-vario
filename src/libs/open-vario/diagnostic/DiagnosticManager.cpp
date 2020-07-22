@@ -43,10 +43,13 @@ enum DiagCmds
     /** \brief Handle : Erase all flights */
     DIAG_CMD_ERASE_ALL_FLIGHTS,
 
+    /** \brief Handle : Read current date time */
+    DIAG_CMD_READ_DATE_TIME,
+    /** \brief Handle : Set current date time */
+    DIAG_CMD_SET_DATE_TIME,
+
     /** \brief Handle : Read current flight data */
     DIAG_CMD_READ_CURRENT_FLIGHT_DATA,
-    /** \brief Handle : Read current date time */
-    DIAG_CMD_READ_CURRENT_DATE_TIME,
     /** \brief Handle : Set reference altitude */
     DIAG_CMD_SET_REFERENCE_ALTITUDE,
     
@@ -330,8 +333,10 @@ void DiagnosticManager::handleCommand()
                                                         &DiagnosticManager::readNextFlightData,
                                                         &DiagnosticManager::eraseAllFlights,
 
+                                                        &DiagnosticManager::readDateTime,
+                                                        &DiagnosticManager::setDateTime,
+
                                                         &DiagnosticManager::readCurrentFlightData,
-                                                        &DiagnosticManager::readCurrentDateTime,
                                                         &DiagnosticManager::setReferenceAltitude,
 
                                                         &DiagnosticManager::saveConfiguration,
@@ -484,17 +489,8 @@ bool DiagnosticManager::eraseAllFlights(DataDeserializer& deserializer)
     return m_flight_recorder.eraseAllFlightFiles();
 }
 
-/** \brief Handle : Read current flight data */
-bool DiagnosticManager::readCurrentFlightData(DataDeserializer& deserializer)
-{
-    m_flight_data_mutex.lock();
-    bool ret = m_resp_serializer.serialize(m_current_flight_data);
-    m_flight_data_mutex.unlock();
-    return ret;
-}
-
 /** \brief Handle : Read current date time */
-bool DiagnosticManager::readCurrentDateTime(DataDeserializer& deserializer)
+bool DiagnosticManager::readDateTime(DataDeserializer& deserializer)
 {
     IRtc::DateTime date_time;
     bool ret = m_time_manager.getDateTime(date_time);
@@ -502,6 +498,34 @@ bool DiagnosticManager::readCurrentDateTime(DataDeserializer& deserializer)
     {
         ret = m_resp_serializer.serialize(date_time);
     }
+    return ret;
+}
+
+/** \brief Handle : Set current date time */
+bool DiagnosticManager::setDateTime(DataDeserializer& deserializer)
+{
+    bool ret;    
+
+    // Get date-time and timezone
+    IRtc::DateTime utc_date_time = {0};
+    ret = deserializer.deserialize(utc_date_time);
+    int32_t time_zone = 0;
+    ret = ret && deserializer.deserialize(time_zone);
+    if (ret)
+    {
+        // Set date and time
+        ret = m_time_manager.setDateTime(utc_date_time, time_zone);
+    }
+
+    return ret;
+}
+
+/** \brief Handle : Read current flight data */
+bool DiagnosticManager::readCurrentFlightData(DataDeserializer& deserializer)
+{
+    m_flight_data_mutex.lock();
+    bool ret = m_resp_serializer.serialize(m_current_flight_data);
+    m_flight_data_mutex.unlock();
     return ret;
 }
 

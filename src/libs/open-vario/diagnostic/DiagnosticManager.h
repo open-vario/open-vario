@@ -231,11 +231,14 @@ class DiagnosticManager : public IDiagnosticLinkListener
         /** \brief Handle : Erase all flights */
         bool eraseAllFlights(DataDeserializer& deserializer);
 
+        /** \brief Handle : Read current date time */
+        bool readDateTime(DataDeserializer& deserializer);
+
+        /** \brief Handle : Set current date time */
+        bool setDateTime(DataDeserializer& deserializer);
+
         /** \brief Handle : Read current flight data */
         bool readCurrentFlightData(DataDeserializer& deserializer);
-
-        /** \brief Handle : Read current date time */
-        bool readCurrentDateTime(DataDeserializer& deserializer);
 
         /** \brief Handle : Set reference altitude */
         bool setReferenceAltitude(DataDeserializer& deserializer);

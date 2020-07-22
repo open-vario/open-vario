@@ -330,4 +330,19 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+//////////////////////////////////////////////////
+//               Date and time                  //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : date and time */
+#define OV_CONFIG_GROUP_DATE_TIME              11u
+
+/** \brief Configuration value : time zone */
+#define OV_CONFIG_VALUE_DATE_TIME_TZ           0u
+
+/** \brief Configuration value : gnss date time synchro */
+#define OV_CONFIG_VALUE_DATE_TIME_GNSS_SYNCHRO 1u
+
+
+
 #endif // OPENVARIOCONFIG_H

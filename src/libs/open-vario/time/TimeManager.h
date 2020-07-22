@@ -21,28 +21,43 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define TIMEMANAGER_H
 
 #include "IRtc.h"
+#include "IGnss.h"
+#include "IEvent.h"
+#include "Delegate.h"
+#include "ConfigManager.h"
+#include "ConfigValueGroup.h"
+#include "MinMaxConfigValue.h"
+#include "Timer.h"
 
 namespace open_vario
 {
 
 
 /** \brief Date and time manager */
-class TimeManager
+class TimeManager : public IConfigValueListener, public ITimerListener
 {
     public:
 
         /** \brief Constructor */
-        TimeManager(IRtc& rtc);
+        TimeManager(IRtc& rtc, ConfigManager& config_manager);
 
 
         /** \brief Start the date and time manager */
         bool start();
 
         /** \brief Set the system's date and time */
-        bool setDateTime(const IRtc::DateTime& date_time);
+        bool setDateTime(const IRtc::DateTime& utc_date_time, const int32_t time_zone);
 
         /** \brief Get the system's date and time */
         bool getDateTime(IRtc::DateTime& date_time);
+
+
+
+        /** \brief Called when a configuration value has been modified */
+        virtual void onConfigValueChange(const IConfigValue& config_value) override;
+
+        /** \brief Method which will be called when the timer elapsed */
+        virtual void timerElapsed(ITimer& timer) override;
 
         
 
@@ -50,6 +65,38 @@ class TimeManager
 
         /** \brief RTC peripheral */
         IRtc& m_rtc;
+
+        /** \brief Configuration manager */
+        ConfigManager& m_config_manager;
+
+        /** \brief Configuration values */
+        ConfigValueGroup<2u> m_config_values;
+        /** \brief Configuration value : time zone */
+        MinMaxConfigValue<int32_t> m_config_time_zone;
+        /** \brief Configuration value : gnss date time synchro */
+        ConfigValue<bool> m_config_gnss_synchro;
+
+        /** \brief System's time zone (offset in seconds to add to UTC date and time) */
+        int32_t m_time_zone;
+
+        /** \brief Indicate if date and time must be automatically synchronized with GNSS */
+        bool m_gnss_synchro;
+
+        /** \brief Date and time GNSS synchro timer */
+        Timer m_gnss_synchro_timer;
+
+        /** \­brief GNSS date and time (UTC) */
+        IRtc::DateTime m_gnss_date_time;
+
+        /** \brief Event handler to receive GNSS notifications */
+        nano_stl::IEvent<const IGnss::NavigationData&>::EventHandlerM m_gnss_evt_handler;
+
+
+        /** \brief Called when new GNSS values have been computed */
+        void onGnssValues(const IGnss::NavigationData& nav_data);
+
+        /** \brief Get the local date and time corresponding to an UTC date and time */
+        void toLocalDateTime(const IRtc::DateTime& utc_date_time, IRtc::DateTime& local_date_time);
 };
 
 }

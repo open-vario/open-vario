@@ -21,6 +21,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #define DATADESERIALIZER_H
 
 #include "nano-stl.h"
+#include "IRtc.h"
 
 namespace open_vario
 {
@@ -60,6 +61,9 @@ class DataDeserializer
 
         /** \brief Deserialize a string */
         bool deserialize(char* s);
+
+        /** \brief Deserialize a date and time */
+        bool deserialize(IRtc::DateTime& date_time);
 
         /** \brief Deserialize a buffer */
         bool deserialize(void* buffer, const size_t size);

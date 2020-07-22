@@ -37,6 +37,26 @@ bool DataDeserializer::deserialize(char* s)
     return deserialize(s, NANO_STL_STRNLEN(reinterpret_cast<const char*>(m_serialized_buffer), m_serialized_data_size) + 1u);
 }
 
+/** \brief Deserialize a date and time */
+bool DataDeserializer::deserialize(IRtc::DateTime& date_time)
+{
+    bool ret = false;
+
+    if (m_serialized_data_size >= 8u)
+    {
+        deserialize(date_time.year);
+        deserialize(date_time.month);
+        deserialize(date_time.day);
+        deserialize(date_time.hour);
+        deserialize(date_time.minute);
+        deserialize(date_time.second);
+        deserialize(date_time.millis);
+        ret = true;
+    }
+
+    return ret;
+}
+
 /** \brief Deserialize a buffer */
 bool DataDeserializer::deserialize(void* buffer, const size_t size)
 {
