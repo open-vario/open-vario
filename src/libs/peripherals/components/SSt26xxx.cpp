@@ -61,30 +61,38 @@ bool SSt26xxx::read(const uint32_t address, void* const data, const uint32_t siz
 {
     bool ret = false;
 
-    // Check address
-    if (address + size <= m_size)
+    // Check size
+    if (size == 0)
     {
-        // Prepare SPI transfer for the read data
-        ISpi::XFer spi_xfer_data;
-        spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(data);
-        spi_xfer_data.size = size;
-        spi_xfer_data.cs = m_chip_select;
+        ret = true;
+    }
+    else
+    {
+        // Check address
+        if (address + size <= m_size)
+        {
+            // Prepare SPI transfer for the read data
+            ISpi::XFer spi_xfer_data;
+            spi_xfer_data.read_data = reinterpret_cast<uint8_t*>(data);
+            spi_xfer_data.size = size;
+            spi_xfer_data.cs = m_chip_select;
 
-        // Prepare SPI transfer to send the READ command
-        uint8_t read_cmd[] = {
-                                READ,
-                                static_cast<uint8_t>((address >> 16u) & 0xFFu),
-                                static_cast<uint8_t>((address >> 8u) & 0xFFu),
-                                static_cast<uint8_t>(address & 0xFFu)
-                             };
-        ISpi::XFer spi_xfer_cmd;
-        spi_xfer_cmd.write_data = read_cmd;
-        spi_xfer_cmd.size = sizeof(read_cmd);
-        spi_xfer_cmd.cs = m_chip_select;
-        spi_xfer_cmd.keep_cs_active = true;
-        spi_xfer_cmd.next = &spi_xfer_data;
+            // Prepare SPI transfer to send the READ command
+            uint8_t read_cmd[] = {
+                                    READ,
+                                    static_cast<uint8_t>((address >> 16u) & 0xFFu),
+                                    static_cast<uint8_t>((address >> 8u) & 0xFFu),
+                                    static_cast<uint8_t>(address & 0xFFu)
+                                };
+            ISpi::XFer spi_xfer_cmd;
+            spi_xfer_cmd.write_data = read_cmd;
+            spi_xfer_cmd.size = sizeof(read_cmd);
+            spi_xfer_cmd.cs = m_chip_select;
+            spi_xfer_cmd.keep_cs_active = true;
+            spi_xfer_cmd.next = &spi_xfer_data;
 
-        ret = m_spi.xfer(spi_xfer_cmd);
+            ret = m_spi.xfer(spi_xfer_cmd);
+        }
     }
 
     return ret;
@@ -95,68 +103,76 @@ bool SSt26xxx::write(const uint32_t address, const void* const data, const uint3
 {
     bool ret = false;
 
-    // Check address
-    if (address + size <= m_size)
+    // Check size
+    if (size == 0)
     {
-        ISpi::XFer spi_xfer_data;
-        ISpi::XFer spi_xfer_cmd;
-        uint16_t index = 0u;
-        uint16_t left = size;
-        uint32_t current_address = address;
-        const uint8_t* const u8_data = reinterpret_cast<const uint8_t*>(data);
         ret = true;
-        while (ret && (left != 0u))
+    }
+    else
+    {
+        // Check address
+        if (address + size <= m_size)
         {
-            // Enable write operation
-            sendCommand(WREN);
-
-            // Check programming page alignment
-            const uint32_t page_align = current_address & (m_page_size - 1u);
-
-            // Compute programming size
-            uint32_t program_size = left;
-            if (page_align != 0u)
+            ISpi::XFer spi_xfer_data;
+            ISpi::XFer spi_xfer_cmd;
+            uint16_t index = 0u;
+            uint16_t left = size;
+            uint32_t current_address = address;
+            const uint8_t* const u8_data = reinterpret_cast<const uint8_t*>(data);
+            ret = true;
+            while (ret && (left != 0u))
             {
-                if (program_size > (m_page_size - page_align))
+                // Enable write operation
+                sendCommand(WREN);
+
+                // Check programming page alignment
+                const uint32_t page_align = current_address & (m_page_size - 1u);
+
+                // Compute programming size
+                uint32_t program_size = left;
+                if (page_align != 0u)
                 {
-                    program_size = m_page_size - page_align;
+                    if (program_size > (m_page_size - page_align))
+                    {
+                        program_size = m_page_size - page_align;
+                    }
                 }
-            }
-            else
-            {
-                if (program_size > m_page_size)
+                else
                 {
-                    program_size = m_page_size;
+                    if (program_size > m_page_size)
+                    {
+                        program_size = m_page_size;
+                    }
                 }
+
+                // Program data
+                spi_xfer_data.write_data = &u8_data[index];
+                spi_xfer_data.size = program_size;
+                spi_xfer_data.cs = m_chip_select;
+
+                uint8_t write_cmd[] = {
+                                        PP,
+                                        static_cast<uint8_t>((current_address >> 16u) & 0xFFu),
+                                        static_cast<uint8_t>((current_address >> 8u) & 0xFFu),
+                                        static_cast<uint8_t>(current_address & 0xFFu)
+                                    };
+                spi_xfer_cmd.write_data = write_cmd;
+                spi_xfer_cmd.size = sizeof(write_cmd);
+                spi_xfer_cmd.cs = m_chip_select;
+                spi_xfer_cmd.keep_cs_active = true;
+                spi_xfer_cmd.next = &spi_xfer_data;
+
+                ret = m_spi.xfer(spi_xfer_cmd);
+                if (ret)
+                {
+                    ret = waitReady();
+                }
+
+                // Next data
+                index += program_size;
+                left -= program_size;
+                current_address += program_size;
             }
-
-            // Program data
-            spi_xfer_data.write_data = &u8_data[index];
-            spi_xfer_data.size = program_size;
-            spi_xfer_data.cs = m_chip_select;
-
-            uint8_t write_cmd[] = {
-                                    PP,
-                                    static_cast<uint8_t>((current_address >> 16u) & 0xFFu),
-                                    static_cast<uint8_t>((current_address >> 8u) & 0xFFu),
-                                    static_cast<uint8_t>(current_address & 0xFFu)
-                                  };
-            spi_xfer_cmd.write_data = write_cmd;
-            spi_xfer_cmd.size = sizeof(write_cmd);
-            spi_xfer_cmd.cs = m_chip_select;
-            spi_xfer_cmd.keep_cs_active = true;
-            spi_xfer_cmd.next = &spi_xfer_data;
-
-            ret = m_spi.xfer(spi_xfer_cmd);
-            if (ret)
-            {
-                ret = waitReady();
-            }
-
-            // Next data
-            index += program_size;
-            left -= program_size;
-            current_address += program_size;
         }
     }
 
