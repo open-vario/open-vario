@@ -41,7 +41,7 @@ class EepromTest : public HwTestBase
 		IEeprom& m_eeprom;
 
 		/** \brief Menu entries */
-		Menu::Entry m_menu_entries[4];
+		Menu::Entry m_menu_entries[5];
 
 
 
@@ -56,6 +56,9 @@ class EepromTest : public HwTestBase
 
 		/** \brief Write test */
 		void write(const size_t entry, Console& console);
+
+		/** \brief Erase test */
+		void erase(const size_t entry, Console& console);
 };
 
 }

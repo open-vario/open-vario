@@ -36,6 +36,7 @@ EepromTest::EepromTest(const char* name, IEeprom& eeprom)
     MENU_ENTRY(1, "Probe", EepromTest, probe);
     MENU_ENTRY(2, "Read bytes", EepromTest, read);
     MENU_ENTRY(3, "Write bytes", EepromTest, write);
+    MENU_ENTRY(4, "Erase", EepromTest, erase);
 }
 
 /** \brief Infos test */
@@ -118,6 +119,44 @@ void EepromTest::write(const size_t entry, Console& console)
         {
             buffer[i] = start_value;
             start_value++;
+        }
+        success = m_eeprom.write(start_address, buffer, size);
+        if (success)
+        {
+            left -= size;
+            start_address += size;
+        }
+    }
+    if (success)
+    {
+        console.writeLine("Success!");
+    }
+    else
+    {
+        console.writeLine("Failed!");
+    }  
+}
+
+/** \brief Erase test */
+void EepromTest::erase(const size_t entry, Console& console)
+{
+    console.writeLine("Erase test :");
+    console.write("- start address : ");
+    uint32_t start_address = console.readUint(16u);
+    console.write("- bytes count : ");
+    uint32_t count = console.readUint(10u);
+
+    console.writeLine("Erasing %d bytes starting at address 0x%x...", count, start_address);
+    bool success = true;
+    uint8_t buffer[64u];
+    uint32_t left = count;
+    NANO_STL_MEMSET(buffer, 0xFF, sizeof(buffer));
+    while (success && (left != 0))
+    {
+        uint32_t size = left;
+        if (size > sizeof(buffer))
+        {
+            size = sizeof(buffer);
         }
         success = m_eeprom.write(start_address, buffer, size);
         if (success)
