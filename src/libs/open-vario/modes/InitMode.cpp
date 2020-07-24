@@ -87,7 +87,7 @@ void InitMode::enter()
         {
             m_fault_manager.raise(OV_FAULT_RTC_KO);
         }
-        m_time_manager.start();
+        m_time_manager.init();
 
         // Board autotest
         LOG_INFO("Starting level 1 autotests...");
@@ -104,6 +104,9 @@ void InitMode::enter()
 
         // Initialize configuration
         m_config_manager.init();
+
+        // Start time manager
+        m_time_manager.start();
 
         // Board autotest
         LOG_INFO("Starting level 2 autotests...");
@@ -268,7 +271,7 @@ bool InitMode::autotest_l2()
 
     // BLE
     bool ble_enabled = false;
-    m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_BLE, OV_CONFIG_VALUE_BLE_ENABLED, ble_enabled);
+    //m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_BLE, OV_CONFIG_VALUE_BLE_ENABLED, ble_enabled);
     if (ble_enabled)
     {
         if (!board.ble_stack().probe())

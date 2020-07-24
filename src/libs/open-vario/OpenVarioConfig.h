@@ -218,7 +218,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////
 
 /** \brief Configuration value group : alarms */
-#define OV_CONFIG_GROUP_ALARMS                  10u
+#define OV_CONFIG_GROUP_ALARMS                  9u
 
 /** \brief Configuration value : altitude alarm enabled */
 #define OV_CONFIG_VALUE_ALARMS_ALTI_ENABLED     0u
@@ -313,13 +313,28 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
+//////////////////////////////////////////////////
+//               Date and time                  //
+//////////////////////////////////////////////////
+
+/** \brief Configuration value group : date and time */
+#define OV_CONFIG_GROUP_DATE_TIME              12u
+
+/** \brief Configuration value : time zone */
+#define OV_CONFIG_VALUE_DATE_TIME_TZ           0u
+
+/** \brief Configuration value : gnss date time synchro */
+#define OV_CONFIG_VALUE_DATE_TIME_GNSS_SYNCHRO 1u
+
+
+
 
 //////////////////////////////////////////////////
 //                  Simulator                   //
 //////////////////////////////////////////////////
 
 /** \brief Configuration value group : simulator */
-#define OV_CONFIG_GROUP_SIMULATOR               12u
+#define OV_CONFIG_GROUP_SIMULATOR               14u
 
 /** \brief Configuration value : simulator enable flag */
 #define OV_CONFIG_VALUE_SIMU_ENABLED            0u
@@ -330,18 +345,6 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-//////////////////////////////////////////////////
-//               Date and time                  //
-//////////////////////////////////////////////////
-
-/** \brief Configuration value group : date and time */
-#define OV_CONFIG_GROUP_DATE_TIME              11u
-
-/** \brief Configuration value : time zone */
-#define OV_CONFIG_VALUE_DATE_TIME_TZ           0u
-
-/** \brief Configuration value : gnss date time synchro */
-#define OV_CONFIG_VALUE_DATE_TIME_GNSS_SYNCHRO 1u
 
 
 

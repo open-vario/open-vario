@@ -48,6 +48,40 @@ TimeManager::TimeManager(IRtc& rtc, ConfigManager& config_manager)
     m_config_manager.registerConfigValueGroup(m_config_values);
 }
 
+/** \brief Initiatialize the date and time manager */
+bool TimeManager::init()
+{
+    bool ret;
+
+    // Get current date and time
+    IRtc::DateTime date_time;
+    ret = m_rtc.getDateTime(date_time);
+    if (ret)
+    {
+        char temp[64u];
+        NANO_STL_SNPRINTF(temp, sizeof(temp), "Current date and time (UTC) : %d/%d/%d - %d:%d:%d",  date_time.day, 
+                                                                                                    date_time.month, 
+                                                                                                    (2000u + date_time.year), 
+                                                                                                    date_time.hour, 
+                                                                                                    date_time.minute, 
+                                                                                                    date_time.second);
+        LOG_INFO(temp);
+    }
+    else
+    {
+        date_time.year = 0;
+        date_time.month = 1;
+        date_time.day = 1;
+        date_time.hour = 0;
+        date_time.minute = 0;
+        date_time.second = 0;
+        date_time.millis = 0;
+        m_rtc.setDateTime(date_time);
+        LOG_ERROR("Unable to initialize time manager => set default date and time");
+    }
+
+    return ret;
+}
 
 /** \brief Start the date and time manager */
 bool TimeManager::start()
@@ -97,7 +131,7 @@ bool TimeManager::start()
 
     if (!ret)
     {
-        LOG_ERROR("Unable to initialize Time manager");
+        LOG_ERROR("Unable to start time manager");
     }    
 
     return ret;
@@ -110,6 +144,7 @@ bool TimeManager::setDateTime(const IRtc::DateTime& utc_date_time, const int32_t
     if (ret)
     {
         m_time_zone = time_zone;
+        m_config_manager.setConfigValue(OV_CONFIG_GROUP_DATE_TIME, OV_CONFIG_VALUE_DATE_TIME_TZ, m_time_zone);
     }
     return ret;
 }

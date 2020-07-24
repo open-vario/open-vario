@@ -41,6 +41,8 @@ class TimeManager : public IConfigValueListener, public ITimerListener
         /** \brief Constructor */
         TimeManager(IRtc& rtc, ConfigManager& config_manager);
 
+        /** \brief Initiatialize the date and time manager */
+        bool init();
 
         /** \brief Start the date and time manager */
         bool start();
