@@ -39,8 +39,6 @@ TimeManager::TimeManager(IRtc& rtc, ConfigManager& config_manager)
 
 , m_time_zone(0)
 , m_gnss_synchro(true)
-, m_gnss_synchro_timer()
-, m_gnss_date_time()
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_time_zone);
@@ -122,11 +120,6 @@ bool TimeManager::start()
         // Register to GNSS events
         m_gnss_evt_handler = NANO_STL_EVENT_HANDLER_M(TimeManager, onGnssValues, const IGnss::NavigationData&);
         ret = IOpenVarioApp::getInstance().getGnssProvider().gnssDataEvent().bind(m_gnss_evt_handler);
-        if (ret)
-        {
-            m_gnss_date_time.millis = 0xFFFFu;
-            m_gnss_synchro_timer.start(*this, 5000u);
-        }
     }
 
     if (!ret)
@@ -166,24 +159,14 @@ void TimeManager::onConfigValueChange(const IConfigValue& config_value)
     m_time_zone = config_value.value<int16_t>();
 }
 
-/** \brief Method which will be called when the timer elapsed */
-void TimeManager::timerElapsed(ITimer& timer)
-{
-    if (m_gnss_date_time.millis != 0xFFFFu)
-    {
-        m_rtc.setDateTime(m_gnss_date_time);
-        m_gnss_synchro_timer.stop();
-        IOpenVarioApp::getInstance().getGnssProvider().gnssDataEvent().unbind(m_gnss_evt_handler);
-        LOG_INFO("Date and time synchronized with GNSS!");
-    }
-}
-
 /** \brief Called when new GNSS values have been computed */
 void TimeManager::onGnssValues(const IGnss::NavigationData& nav_data)
 {
     if (nav_data.satellite_count != 0)
     {
-        m_gnss_date_time = nav_data.date_time;
+        m_rtc.setDateTime(nav_data.date_time);
+        IOpenVarioApp::getInstance().getGnssProvider().gnssDataEvent().unbind(m_gnss_evt_handler);
+        LOG_INFO("Date and time synchronized with GNSS!");
     }
 }
 

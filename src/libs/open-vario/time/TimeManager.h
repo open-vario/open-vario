@@ -27,14 +27,13 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "ConfigManager.h"
 #include "ConfigValueGroup.h"
 #include "MinMaxConfigValue.h"
-#include "Timer.h"
 
 namespace open_vario
 {
 
 
 /** \brief Date and time manager */
-class TimeManager : public IConfigValueListener, public ITimerListener
+class TimeManager : public IConfigValueListener
 {
     public:
 
@@ -58,9 +57,6 @@ class TimeManager : public IConfigValueListener, public ITimerListener
         /** \brief Called when a configuration value has been modified */
         virtual void onConfigValueChange(const IConfigValue& config_value) override;
 
-        /** \brief Method which will be called when the timer elapsed */
-        virtual void timerElapsed(ITimer& timer) override;
-
         
 
     private:
@@ -83,12 +79,6 @@ class TimeManager : public IConfigValueListener, public ITimerListener
 
         /** \brief Indicate if date and time must be automatically synchronized with GNSS */
         bool m_gnss_synchro;
-
-        /** \brief Date and time GNSS synchro timer */
-        Timer m_gnss_synchro_timer;
-
-        /** \­brief GNSS date and time (UTC) */
-        IRtc::DateTime m_gnss_date_time;
 
         /** \brief Event handler to receive GNSS notifications */
         nano_stl::IEvent<const IGnss::NavigationData&>::EventHandlerM m_gnss_evt_handler;
