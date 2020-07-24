@@ -29,6 +29,7 @@ LedController::LedController(ILed& led)
 , m_led_mode(OFF)
 , m_led_state(ILed::OFF)
 , m_blink_timer()
+, m_blink_period(0)
 {}
 
 /** \brief Start the controller */
@@ -40,7 +41,7 @@ void LedController::start(const Mode led_mode)
 /** \brief Stop the controller */
 void LedController::stop()
 {
-    if (m_led_mode >= SLOW_BLINK)
+    if (m_blink_period != 0)
     {
         m_blink_timer.stop();
     }
@@ -51,8 +52,7 @@ void LedController::stop()
 /** \brief Update the LED state */
 void LedController::update(const Mode led_mode)
 {
-    uint32_t blink_period = 0u;
-
+    m_blink_period = 0;
     switch (led_mode)
     {
         case OFF:
@@ -70,20 +70,26 @@ void LedController::update(const Mode led_mode)
         }
 
         case SLOW_BLINK:
+        // Intended fallthrough
+        case SLOW_PULSE:
         {
-            blink_period = SLOW_BLINK_PERIOD;
+            m_blink_period = SLOW_BLINK_PERIOD;
             break;
         }
 
         case MEDIUM_BLINK:
+        // Intended fallthrough
+        case MEDIUM_PULSE:
         {
-            blink_period = MEDIUM_BLINK_PERIOD;
+            m_blink_period = MEDIUM_BLINK_PERIOD;
             break;
         }
 
         case FAST_BLINK:
+        // Intended fallthrough
+        case FAST_PULSE:
         {
-            blink_period = FAST_BLINK_PERIOD;
+            m_blink_period = FAST_BLINK_PERIOD;
             break;
         }
 
@@ -93,23 +99,25 @@ void LedController::update(const Mode led_mode)
         }
     }
 
-    if (blink_period != 0u)
+    if (m_blink_period != 0u)
     {
+        if (m_led_mode >= SLOW_PULSE)
+        {
+            m_led.setOff();
+            m_led_state = ILed::OFF;
+        }
         if (m_led_mode >= SLOW_BLINK)
         {
-            m_blink_timer.setPeriod(blink_period);
+            m_blink_timer.setPeriod(m_blink_period);
         }
         else
         {
-            m_blink_timer.start(*this, blink_period);
+            m_blink_timer.start(*this, m_blink_period);
         }
     }
     else
     {
-        if (m_led_mode >= SLOW_BLINK)
-        {
-            m_blink_timer.stop();
-        }
+        m_blink_timer.stop();
     }
     m_led_mode = led_mode;
 }
@@ -120,10 +128,18 @@ void LedController::timerElapsed(ITimer& timer)
     if (m_led_state == ILed::ON)
     {
         m_led_state = ILed::OFF;
+        if (m_led_mode >= SLOW_PULSE)
+        {
+            m_blink_timer.setPeriod(m_blink_period);
+        }
     }
     else
     {
         m_led_state = ILed::ON;
+        if (m_led_mode >= SLOW_PULSE)
+        {
+            m_blink_timer.setPeriod(PULSE_LENGTH);
+        }
     }
     m_led.setState(m_led_state);
 }

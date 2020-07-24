@@ -45,7 +45,13 @@ class LedController : public ITimerListener
             /** \brief Medium blink */
             MEDIUM_BLINK = 3u,
             /** \brief Fast blink */
-            FAST_BLINK = 4u
+            FAST_BLINK = 4u,
+            /** \brief Slow pulse */
+            SLOW_PULSE = 5u,
+            /** \brief Medium pulse */
+            MEDIUM_PULSE = 6u,
+            /** \brief Fast pulse */
+            FAST_PULSE = 7u
         };
 
 
@@ -80,6 +86,9 @@ class LedController : public ITimerListener
         /** \brief Timer to handle the blinking */
         Timer m_blink_timer;
 
+        /** \brief Blink period in milliseconds */
+        uint32_t m_blink_period;
+
 
 
         /** \brief Slow blink period in milliseconds */
@@ -90,6 +99,9 @@ class LedController : public ITimerListener
 
         /** \brief Fast blink period in milliseconds */
         static const uint32_t FAST_BLINK_PERIOD = 100u;
+
+        /** \brief Pulse length in milliseconds */
+        static const uint32_t PULSE_LENGTH = 50u;
 
 };
 

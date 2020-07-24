@@ -49,7 +49,7 @@ void RunMode::enter()
     LOG_INFO("Entering run mode...");
 
     // Update LED blink
-    m_hmi_manager.getActivityLed().update(LedController::SLOW_BLINK);
+    m_hmi_manager.getActivityLed().update(LedController::SLOW_PULSE);
 
     // Start flight recorder
     ret = m_flight_recorder.start();

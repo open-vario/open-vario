@@ -49,15 +49,10 @@ bool Timer::stop()
 
 /** \brief Set the timer's period */
 bool Timer::setPeriod(const uint32_t period)
-{
-    bool ret = false;
-    
-    if (stop())
-    {
-        ret = start(*m_listener, period);
-    }
-    
-    return ret;
+{    
+    m_timer.period = NANO_OS_MS_TO_TICKS(period);
+
+    return true;
 }
 
 /** \brief Callback function of the timers */
