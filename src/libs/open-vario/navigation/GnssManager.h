@@ -58,6 +58,9 @@ class GnssManager : public ITimerListener, public IGnssProvider
         /** \brief Method which will be called when the timer elapsed */
         virtual void timerElapsed(ITimer& timer);
 
+        /** \brief Get the current navigation data */
+        virtual bool getData(IGnss::NavigationData& nav_data);
+
         /** \brief Event triggered on new GNSS data */
         virtual nano_stl::IEvent<const IGnss::NavigationData&>& gnssDataEvent() { return m_gnss_data_event; }
 

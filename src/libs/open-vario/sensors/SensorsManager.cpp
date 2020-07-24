@@ -29,23 +29,28 @@ namespace open_vario
 
 
 /** \brief Constructor */
-SensorsManager::SensorsManager(ConfigManager& config_manager, Altimeter& altimeter, Barometer& barometer, Thermometer& thermometer, Variometer& variometer)
+SensorsManager::SensorsManager(ConfigManager& config_manager, Altimeter& altimeter, Barometer& barometer, Thermometer& thermometer, Variometer& variometer, IGnssProvider& gnss)
 : m_config_manager(config_manager)
 , m_altimeter(altimeter)
 , m_barometer(barometer)
 , m_thermometer(thermometer)
 , m_variometer(variometer)
+, m_gnss(gnss)
 
 , m_config_values(OV_CONFIG_GROUP_SENSORS, "Sensors")
 , m_config_acq_period(OV_CONFIG_VALUE_SENSOR_ACQ_PERIOD, "Acquisition period", 250u, 50u, 2000u, true)
+, m_config_gnss_auto_calib(OV_CONFIG_VALUE_SENSOR_GNSS_AUTO_CALIB, "Auto calibration with GNSS", true, true)
 
 , m_acq_period(0u)
 , m_task("Sensors task", OV_TASK_PRIO_SENSOR_MANAGER)
 , m_acq_timer()
 , m_acq_trigger_sem(0u, 1u)
+
+, m_gnss_auto_calib(false)
 {
     // Register configuration values
     m_config_values.registerConfigValue(m_config_acq_period);
+    m_config_values.registerConfigValue(m_config_gnss_auto_calib);
     m_config_manager.registerConfigValueGroup(m_config_values);
 }
 
@@ -58,6 +63,7 @@ bool SensorsManager::init()
     
     // Load configuration values
     ret = m_config_manager.getConfigValue<uint16_t>(OV_CONFIG_GROUP_SENSORS, OV_CONFIG_VALUE_SENSOR_ACQ_PERIOD, m_acq_period);
+    ret = ret && m_config_manager.getConfigValue<bool>(OV_CONFIG_GROUP_SENSORS, OV_CONFIG_VALUE_SENSOR_GNSS_AUTO_CALIB, m_gnss_auto_calib);
     if (ret)
     {
         // Initialize sensors
@@ -147,6 +153,29 @@ void SensorsManager::task(void* const param)
 
             // Compute acceleration
             // TODO...
+
+            // Altitude calibration with GNSS data
+            if (m_gnss_auto_calib)
+            {
+                bool ret;
+                IGnss::NavigationData nav_data = {0};
+                ret = m_gnss.getData(nav_data);
+                if (ret && (nav_data.satellite_count != 0))
+                {
+                    AltimeterValues alti_values = {0};
+                    m_altimeter.getValues(alti_values);
+
+                    const double sensor_altitude = static_cast<double>(alti_values.main_alti) / 10.; 
+                    const double gnss_altitude = static_cast<double>(nav_data.altitude) / 10.;
+                    const double min_gnss_altitude = gnss_altitude - nav_data.vrms;
+                    const double max_gnss_altitude = gnss_altitude + nav_data.vrms;
+                    if ((sensor_altitude < min_gnss_altitude) ||
+                        (sensor_altitude > max_gnss_altitude))
+                    {
+                        m_altimeter.setReferenceAltitude(static_cast<int32_t>(nav_data.altitude));
+                    }
+                }
+            }
         }
     }
 }

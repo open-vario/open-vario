@@ -29,6 +29,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #include "Barometer.h"
 #include "Thermometer.h"
 #include "Variometer.h"
+#include "IGnssProvider.h"
 
 namespace open_vario
 {
@@ -40,7 +41,7 @@ class SensorsManager : public ITimerListener
     public:
 
         /** \brief Constructor */
-        SensorsManager(ConfigManager& config_manager, Altimeter& altimeter, Barometer& barometer, Thermometer& thermometer, Variometer& variometer);
+        SensorsManager(ConfigManager& config_manager, Altimeter& altimeter, Barometer& barometer, Thermometer& thermometer, Variometer& variometer, IGnssProvider& gnss);
 
 
         /** \brief Initialize the sensors manager */
@@ -73,11 +74,16 @@ class SensorsManager : public ITimerListener
         /** \brief Variometer */
         Variometer& m_variometer;
 
+        /** \brief GNSS */
+        IGnssProvider& m_gnss;
+
 
         /** \brief Configuration values */
-        ConfigValueGroup<3u> m_config_values;
+        ConfigValueGroup<2u> m_config_values;
         /** \brief Configuration value : acquisition period */
         MinMaxConfigValue<uint16_t> m_config_acq_period;
+        /** \brief Configuration value : auto calibration with GNSS altitude */
+        ConfigValue<bool> m_config_gnss_auto_calib;
 
 
         /** \brief Acquisition period in milliseconds */
@@ -92,6 +98,9 @@ class SensorsManager : public ITimerListener
         /** \brief Semaphore to trigger the start of sensor acquisitions */
         Semaphore m_acq_trigger_sem;
 
+
+        /** \brief Indicate if auto calibration with GNSS altitude is enabled */
+        bool m_gnss_auto_calib;
 
 
         /** \brief Sensors manager's task method */

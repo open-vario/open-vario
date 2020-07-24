@@ -31,6 +31,9 @@ class IGnssProvider
 {
     public:
 
+        /** \brief Get the current navigation data */
+        virtual bool getData(IGnss::NavigationData& nav_data) = 0;
+
         /** \brief Event triggered on new GNSS data */
         virtual nano_stl::IEvent<const IGnss::NavigationData&>& gnssDataEvent() = 0;
 

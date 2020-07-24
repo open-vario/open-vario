@@ -56,6 +56,9 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 /** \brief Configuration value : acquisition period */
 #define OV_CONFIG_VALUE_SENSOR_ACQ_PERIOD       0u
 
+/** \brief Configuration value : auto calibration with GNSS altitude */
+#define OV_CONFIG_VALUE_SENSOR_GNSS_AUTO_CALIB  1u
+
 
 
 

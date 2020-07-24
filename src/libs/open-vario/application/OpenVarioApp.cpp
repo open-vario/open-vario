@@ -65,7 +65,7 @@ OpenVarioApp::OpenVarioApp()
 , m_barometer(m_config_manager)
 , m_thermometer(m_config_manager)
 , m_variometer(m_config_manager)
-, m_sensors_manager(m_config_manager, m_altimeter, m_barometer, m_thermometer, m_variometer)
+, m_sensors_manager(m_config_manager, m_altimeter, m_barometer, m_thermometer, m_variometer, m_gnss_manager)
 
 , m_profile_manager(m_config_manager)
 

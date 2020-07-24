@@ -173,5 +173,11 @@ void GnssManager::timerElapsed(ITimer& timer)
     m_acq_trigger_sem.post(false);
 }
 
+/** \brief Get the current navigation data */
+bool GnssManager::getData(IGnss::NavigationData& nav_data)
+{
+    return m_gnss.readData(nav_data);
+}
+
 
 }

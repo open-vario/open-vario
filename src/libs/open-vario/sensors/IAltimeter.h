@@ -65,8 +65,11 @@ class IAltimeter
         /** \brief Set the altitude 4 (1 = 0.1m) */
         virtual bool setAlti4(const int32_t alti_4) = 0;
 
+        /** \brief Get the current altimeter values */
+        virtual bool getValues(AltimeterValues& values) = 0;
 
-        /** \brief Event triggered on new atimeter values */
+
+        /** \brief Event triggered on new altimeter values */
         virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() = 0;
 
 };

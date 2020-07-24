@@ -227,4 +227,16 @@ bool Altimeter::setAlti4(const int32_t alti_4)
     return true;
 }
 
+/** \brief Get the current altimeter values */
+bool Altimeter::getValues(AltimeterValues& values)
+{
+    m_alti_mutex.lock();
+    
+    values = m_alti_values;
+    
+    m_alti_mutex.unlock();
+
+    return true;
+}
+
 }

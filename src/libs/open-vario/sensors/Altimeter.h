@@ -64,7 +64,10 @@ class Altimeter : public IAltimeter
         /** \brief Set the altitude 4 (1 = 0.1m) */
         virtual bool setAlti4(const int32_t alti_4);
 
-        /** \brief Event triggered on new atimeter values */
+        /** \brief Get the current altimeter values */
+        virtual bool getValues(AltimeterValues& values);
+
+        /** \brief Event triggered on new altimeter values */
         virtual nano_stl::IEvent<const AltimeterValues&>& altimeterValuesEvent() { return m_altimeter_values_event; }
 
 
@@ -128,7 +131,7 @@ class Altimeter : public IAltimeter
         int32_t m_offset_alti_4;
 
 
-        /** \brief Event triggered on new atimeter values */
+        /** \brief Event triggered on new altimeter values */
         nano_stl::EventHelper<3u, const AltimeterValues&> m_altimeter_values_event;
 
 
