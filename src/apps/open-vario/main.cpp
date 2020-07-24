@@ -18,15 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "IOpenVarioApp.h"
-#include "FlagSet.h"
-#include "Semaphore.h"
-#include "Mutex.h"
 using namespace open_vario;
-
-FlagSet flagset(15u);
-Semaphore sem(0u, 15u);
-Mutex mutex;
-
 
 /** \brief Application's entry point */
 int main(int argc, char* argv[])
