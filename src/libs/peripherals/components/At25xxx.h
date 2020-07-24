@@ -70,7 +70,7 @@ class At25xxx : public IEeprom
 
 
         /** \brief Write timeout in milliseconds */
-        static const uint32_t WRITE_TIMEOUT = 10u;
+        static const uint32_t WRITE_TIMEOUT = 100u;
 };
 
 }

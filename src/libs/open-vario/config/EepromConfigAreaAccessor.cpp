@@ -65,6 +65,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
         // Read header
         ConfigValueGroupHeader config_value_group_header;
         ret = read(&config_value_group_header, sizeof(config_value_group_header), offset);
+        ret = ret && (config_value_group_header.magic == ConfigValueGroupHeader::MAGIC_VALUE);
         if (ret)
         {
             // Look for corresponding group
@@ -78,6 +79,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
                     {
                         ConfigValueHeader config_value_header;
                         ret = read(&config_value_header, sizeof(config_value_header), offset);
+                        ret = ret && (config_value_header.magic == ConfigValueHeader::MAGIC_VALUE);
                         if (ret)
                         {
                             // Look for corresponding value
@@ -145,8 +147,7 @@ bool EepromConfigAreaAccessor::load(const uint16_t config_version, const nano_st
     // Check CRC-32
     if (ret)
     {
-        // TODO : find why CRC is always invalid
-        //ret = (m_crc32.value() == config_header.crc32);
+        ret = (m_crc32.value() == config_header.crc32);
     }
 
     return ret;
@@ -186,6 +187,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
         {
             // Write header
             ConfigValueGroupHeader config_value_group_header;
+            config_value_group_header.magic = ConfigValueGroupHeader::MAGIC_VALUE;
             config_value_group_header.id = config_value_group->id();
             config_value_group_header.count = config_value_group->getCount();
             ret = write(&config_value_group_header, sizeof(config_value_group_header), offset);
@@ -199,6 +201,7 @@ bool EepromConfigAreaAccessor::store(const uint16_t config_version, const nano_s
 
                     // Write header
                     ConfigValueHeader config_value_header;
+                    config_value_header.magic = ConfigValueHeader::MAGIC_VALUE;
                     config_value_header.id = config_value->id();
                     config_value_header.size = static_cast<uint8_t>(config_value->size());
                     ret = write(&config_value_header, sizeof(config_value_header), offset);

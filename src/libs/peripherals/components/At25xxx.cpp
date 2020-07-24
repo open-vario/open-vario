@@ -170,6 +170,7 @@ bool At25xxx::write(const uint16_t address, const void* data, const uint16_t siz
                         }
                     }
                     while (ret && !ready && (IOs::getInstance().getMsTimestamp() < timeout));
+                    ret = ready;
 
                     // Next transfer
                     index += program_size;

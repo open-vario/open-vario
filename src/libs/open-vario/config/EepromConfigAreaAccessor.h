@@ -65,19 +65,30 @@ class EepromConfigAreaAccessor : public IConfigAreaAccessor
         /** \brief Configuration value group header */
         struct ConfigValueGroupHeader
         {
+            /** \brief Magic value */
+            uint32_t magic;
             /** \brief Configuration value group id */
             uint16_t id;
             /** \brief Number of configuration values in the group */
             uint16_t count;
+
+            /** \brief Magic value */
+            static const uint32_t MAGIC_VALUE = 0xF00DF00Du;
         };
 
         /** \brief Configuration value header */
         struct ConfigValueHeader
         {
+            /** \brief Magic value */
+            uint16_t magic;
             /** \brief Configuration value id */
             uint16_t id;
             /** \brief Configuration value size */
             uint8_t size;
+            /** \brief Reserved */
+            uint8_t reserved;
+            /** \brief Magic value */
+            static const uint16_t MAGIC_VALUE = 0xAA55u;
         };
 
 

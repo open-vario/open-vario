@@ -105,10 +105,10 @@ void ConfigManager::resetToDefault()
         IConfigValueGroup* config_value_group = m_config_value_groups[i];
         if (config_value_group != nullptr)
         {
-            for (nano_stl::nano_stl_size_t i = 0; i < config_value_group->getCount(); i++)
+            for (nano_stl::nano_stl_size_t j = 0; j < config_value_group->getCount(); j++)
             {
                 IConfigValue* config_value;
-                if (config_value_group->getConfigValue(i, config_value))
+                if (config_value_group->getConfigValue(j, config_value))
                 {
                     config_value->reset();
                 }
