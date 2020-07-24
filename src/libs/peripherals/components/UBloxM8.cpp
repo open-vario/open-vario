@@ -18,7 +18,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "UBloxM8.h"
-
+#include "IUart.h"
 
 namespace open_vario
 {
@@ -32,6 +32,10 @@ UBloxM8::UBloxM8(IUart& uart, ITask& rx_task)
 /** \brief Configure the GNSS */
 bool UBloxM8::configure(const uint16_t acqu_period)
 {
+    // Enable GST message on UART
+    static const char enable_gst_msg[] = "$PUBX,40,GST,0,1,0,0,0,0";
+    sendFrame(enable_gst_msg, sizeof(enable_gst_msg) - 1u, true);
+
     // TODO : configure NMEA messages and periodicity
     (void)acqu_period;
     return true;

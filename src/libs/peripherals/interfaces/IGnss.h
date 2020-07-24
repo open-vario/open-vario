@@ -51,6 +51,14 @@ class IGnss
             uint16_t track_angle;
             /** \brief Number of satellites */
             uint8_t satellite_count;
+            /** \brief Horizontal precision (m) */
+            double hrms;
+            /** \brief Vertical precision (m) */
+            double vrms;
+            /** \brief Horizontal dilution of precision */
+            double hdop;
+            /** \brief Vertical dilution of precision */
+            double vdop;
         };
 
         /** \brief Check if the GNSS hardware is present and working */

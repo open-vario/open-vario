@@ -23,6 +23,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstring>
 #include <cstdlib>
+#include <cmath>
 
 
 namespace open_vario
@@ -212,6 +213,39 @@ bool NmeaGnss::startRx()
     return m_rx_task.start(task_method, nullptr);
 }
 
+/** \brief Send an NMEA frame */
+bool NmeaGnss::sendFrame(const char* nmea_frame, const size_t size, const bool compute_cs)
+{
+    bool ret;
+
+    // Send frame
+    ret = m_uart.write(reinterpret_cast<const uint8_t*>(nmea_frame), size);
+    if (ret)
+    {
+        // Send checksum
+        if (compute_cs)
+        {
+            uint8_t cs = 0;
+            for (size_t i = 1; i < size; i++)
+            {
+                cs ^= static_cast<uint8_t>(nmea_frame[i]);
+            }
+
+            char temp[4] = {0};
+            NANO_STL_SNPRINTF(temp, sizeof(temp), "*%02x", static_cast<int>(cs));
+            ret = m_uart.write(reinterpret_cast<uint8_t*>(temp), 3u);
+        }
+
+        // Send EOL
+        if (ret)
+        {
+            ret = m_uart.write(reinterpret_cast<const uint8_t*>("\r\n"), 2u);
+        }
+    }
+
+    return ret;
+}
+
 /** \brief Decode the received frame */
 void NmeaGnss::decodeFrame()
 {
@@ -324,6 +358,75 @@ void NmeaGnss::decodeFrame()
             // Extract date
             const char* const date = getNextFrameParam(track_angle);
             m_data_valid = convertDateParam(date, m_nav_data.date_time);            
+        }
+        else if (NANO_STL_STRNCMP(frametype, "GSA", 4u) == 0u)
+        {
+            // GSA frame : $GPGSA,A,3,04,05,,09,12,,,24,,,,,2.5,1.3,2.1*39
+            // - Fix selection (2D, 3D or Auto)
+            // - Fix mode
+            // - Satellites IDs (12 max)
+            // - Horizontal dilution of precision
+            // - Vertical dilution of precision
+
+            // Skip fix selection
+            const char* skip = getNextFrameParam(frametype);
+
+            // Skip fix mode
+            skip = getNextFrameParam(skip);
+
+            // Skip satellites
+            for (uint8_t i = 0; i < 12; i++)
+            {
+                skip = getNextFrameParam(skip);
+            }
+
+            // Horizontal dilution of precision
+            const char* const hdop = getNextFrameParam(skip);
+            m_data_valid = convertDop(hdop, m_nav_data.hdop);
+
+            // Vertical dilution of precision
+            const char* const vdop = getNextFrameParam(skip);
+            m_data_valid = convertDop(vdop, m_nav_data.vdop);
+        }
+        else if (NANO_STL_STRNCMP(frametype, "GST", 4u) == 0u)
+        {
+            // GST frame : $GPGST,082356.00,1.8,,,,1.7,1.3,2.2*7E
+            // - Time
+            // - Range RMS
+            // - Standard deviation of semi-major axis
+            // - Standard deviation of semi-minor axis
+            // - Orientation of semi-major axis
+            // - Standard deviation of latitude
+            // - Standard deviation of longitude
+            // - Standard deviation of altitude
+
+            // Skip time
+            const char* skip = getNextFrameParam(frametype);
+
+            // Skip range
+            skip = getNextFrameParam(skip);
+
+            // Skip axis
+            skip = getNextFrameParam(skip);
+            skip = getNextFrameParam(skip);
+            skip = getNextFrameParam(skip);
+
+            // Standard deviation of latitude
+            double latitude_dev = 0.;
+            const char* const latitude = getNextFrameParam(skip);
+            m_data_valid = convertDop(latitude, latitude_dev);
+
+            // Standard deviation of longitude
+            double longitude_dev = 0.;
+            const char* const longitude = getNextFrameParam(skip);
+            m_data_valid = convertDop(longitude, longitude_dev);
+
+            // Compute HRMS
+            m_nav_data.hrms = 2 * sqrt((latitude_dev * latitude_dev + longitude_dev * longitude_dev) / 2.);
+
+            // Standard deviation of altitude = VRMS
+            const char* const altitude = getNextFrameParam(skip);
+            m_data_valid = convertDop(altitude, m_nav_data.vrms);
         }
         else
         {
@@ -444,6 +547,17 @@ bool NmeaGnss::convertTrackAngle(const char* track_angle, uint16_t& ta)
 
     // Convert value
     ta = static_cast<uint16_t>(d_track_angle * 10.);
+
+    return ret;
+}
+
+/** \brief Convert a dilution of precision parameter of a NMEA frame */
+bool NmeaGnss::convertDop(const char* dop, double& fdop)
+{
+    bool ret = true;
+
+    // Extract value
+    fdop = NANO_STL_ATOF(dop);
 
     return ret;
 }

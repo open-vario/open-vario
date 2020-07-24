@@ -48,9 +48,14 @@ class NmeaGnss : public IGnss
 
     protected:
 
+        /** \brief Get the UART device */
+        IUart& uart() { return m_uart; }
 
         /** \brief Start receiving NMEA frame */
         bool startRx();
+
+        /** \brief Send an NMEA frame */
+        bool sendFrame(const char* nmea_frame, const size_t size, const bool compute_cs);
 
         /** \brief Handle a received NMEA frame (must be implemented in child classes if needed) */
         virtual void handleRxFrame(const char frame_type[], const char* frame_params) {}
@@ -79,6 +84,9 @@ class NmeaGnss : public IGnss
 
         /** \brief Convert a track angle parameter of a NMEA frame */
         bool convertTrackAngle(const char* track_angle, uint16_t& ta);
+
+        /** \brief Convert a dilution of precision parameter of a NMEA frame */
+        bool convertDop(const char* dop, double& fdop);
         
 
     private:
