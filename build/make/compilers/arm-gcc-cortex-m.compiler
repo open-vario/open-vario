@@ -29,7 +29,7 @@ ifeq ("$(CYGWIN_ENV)","CYGWIN")
     TOOLCHAIN_PATH = C:/gcc_arm_cortex_m_8.2
     TOOLCHAIN_SUFFIX =.exe
 else
-    TOOLCHAIN_PATH = /opt/gcc-arm-none-eabi-5_4-2016q3
+    TOOLCHAIN_PATH = /opt/gcc-arm-none-eabi-9-2020-q2-update
     TOOLCHAIN_SUFFIX =
 endif
 

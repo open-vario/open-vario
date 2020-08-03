@@ -1,8 +1,8 @@
 {
-    "cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink\\JLinkGDBServerCL.exe",
-    "cortex-debug.armToolchainPath": "C:\\gcc_arm_cortex_m_8.2\\bin",
-    //"cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-5_4-2016q3/bin",
-    //"cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe",
+    //"cortex-debug.JLinkGDBServerPath": "C:\\Program Files (x86)\\SEGGER\\JLink\\JLinkGDBServerCL.exe",
+    //"cortex-debug.armToolchainPath": "C:\\gcc_arm_cortex_m_8.2\\bin",
+    "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-9-2020-q2-update/bin",
+    "cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,

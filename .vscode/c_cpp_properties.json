@@ -4,33 +4,23 @@
             "name": "STM32L476",
             "includePath": [
                 "${workspaceFolder}/src",
-
                 "${workspaceFolder}/src/apps",
-                
                 "${workspaceFolder}/src/apps/hw-tests",
                 "${workspaceFolder}/src/apps/hw-tests/tests",
                 "${workspaceFolder}/src/apps/hw-tests/tools",
-
                 "${workspaceFolder}/src/apps",
                 "${workspaceFolder}/src/apps/open-vario",
-
                 "${workspaceFolder}/src/bsps",
                 "${workspaceFolder}/src/bsps/bsp_stm32l476",
-
                 "${workspaceFolder}/src/libs",
-
                 "${workspaceFolder}/src/libs/ble",
                 "${workspaceFolder}/src/libs/ble/bluenrg_ms",
-
                 "${workspaceFolder}/src/libs/board",
                 "${workspaceFolder}/src/libs/board/open_vario_1_0",
-
                 "${workspaceFolder}/src/libs/cpu",
                 "${workspaceFolder}/src/libs/cpu/stm32l476",
-
                 "${workspaceFolder}/src/libs/os",
                 "${workspaceFolder}/src/libs/os/nano-os",
-
                 "${workspaceFolder}/src/libs/open-vario",
                 "${workspaceFolder}/src/libs/open-vario/alarms",
                 "${workspaceFolder}/src/libs/open-vario/application",
@@ -49,13 +39,10 @@
                 "${workspaceFolder}/src/libs/open-vario/sensors",
                 "${workspaceFolder}/src/libs/open-vario/storage",
                 "${workspaceFolder}/src/libs/open-vario/time",
-
                 "${workspaceFolder}/src/libs/peripherals",
                 "${workspaceFolder}/src/libs/peripherals/interfaces",
                 "${workspaceFolder}/src/libs/peripherals/components",
-                
                 "${workspaceFolder}/src/libs/storage",
-                
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os",
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/api",
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/config",
@@ -66,7 +53,6 @@
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/port/cortex-m4/gcc",
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/sync_objects",
                 "${workspaceFolder}/3rdparty/nano-os/src/libs/nano-os/tools",
-
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/containers",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/error",
@@ -76,16 +62,15 @@
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/libc",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/memory",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/strings",
-
-                "C:\\gcc_arm_cortex_m_8.2\\arm-none-eabi\\include",
-                "C:\\gcc_arm_cortex_m_8.2\\arm-none-eabi\\include\\c++\\8.2.1"
+                "/opt/gcc-arm-none-eabi-9-2020-q2-update/arm-none-eabi/include",
+                "/opt/gcc-arm-none-eabi-9-2020-q2-update/arm-none-eabi/include/c++/9.3.1"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\gcc_arm_cortex_m_8.2\\bin\\arm-none-eabi-gcc.exe",
+            "compilerPath": "/opt/gcc-arm-none-eabi-9-2020-q2-update/bin/arm-none-eabi-gcc",
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
@@ -100,23 +85,16 @@
             "name": "Windows",
             "includePath": [
                 "${workspaceFolder}/src",
-
                 "${workspaceFolder}/src/apps",
                 "${workspaceFolder}/src/apps/open-vario",
-
                 "${workspaceFolder}/src/libs",
-
                 "${workspaceFolder}/src/libs/ble",
-
                 "${workspaceFolder}/src/libs/board",
                 "${workspaceFolder}/src/libs/board/open_vario_simulator",
-
                 "${workspaceFolder}/src/libs/cpu",
                 "${workspaceFolder}/src/libs/cpu/windows",
-
                 "${workspaceFolder}/src/libs/os",
                 "${workspaceFolder}/src/libs/os/windows",
-
                 "${workspaceFolder}/src/libs/open-vario",
                 "${workspaceFolder}/src/libs/open-vario/application",
                 "${workspaceFolder}/src/libs/open-vario/application/windows",
@@ -134,17 +112,13 @@
                 "${workspaceFolder}/src/libs/open-vario/sensors",
                 "${workspaceFolder}/src/libs/open-vario/storage",
                 "${workspaceFolder}/src/libs/open-vario/time",
-
                 "${workspaceFolder}/src/libs/peripherals",
                 "${workspaceFolder}/src/libs/peripherals/interfaces",
                 "${workspaceFolder}/src/libs/peripherals/components",
-
                 "${workspaceFolder}/src/libs/simulator",
                 "${workspaceFolder}/src/libs/simulator/api",
                 "${workspaceFolder}/src/libs/simulator/device",
-                
                 "${workspaceFolder}/src/libs/storage",
-
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/containers",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/error",
@@ -154,9 +128,7 @@
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/libc",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/memory",
                 "${workspaceFolder}/3rdparty/nano-stl/src/libs/nano-stl/strings",
-
                 "${workspaceFolder}/3rdparty/protobuf-3.6.1/src",
-
                 "C:\\mingw64\\include",
                 "C:\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.3.0\\include",
                 "C:\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.3.0\\include\\c++"

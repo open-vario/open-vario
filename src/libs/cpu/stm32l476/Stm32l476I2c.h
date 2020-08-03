@@ -20,7 +20,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef STM32L476I2C_H
 #define STM32L476I2C_H
 
-#include "II2C.h"
+#include "II2c.h"
 #include "Mutex.h"
 #include "Semaphore.h"
 #include "Stm32l476Dma.h"
