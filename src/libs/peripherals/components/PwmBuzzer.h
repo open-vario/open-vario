@@ -22,6 +22,7 @@ along with Open-Vario.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IBuzzer.h"
 #include "IPwm.h"
+#include "IOutputPin.h"
 
 
 namespace open_vario
@@ -33,7 +34,7 @@ class PwmBuzzer : public IBuzzer
     public:
 
         /** \brief Constructor */
-        PwmBuzzer(IPwm& pwm);
+        PwmBuzzer(IPwm& pwm, IOutputPin& power_pin);
 
 
         /** \brief Configure the buzzer */
@@ -53,6 +54,9 @@ class PwmBuzzer : public IBuzzer
 
         /** \brief PWM driver */
         IPwm& m_pwm;
+
+        /** \brief Buzzer power enable driver */
+        IOutputPin& m_power_pin;
 };
 
 }

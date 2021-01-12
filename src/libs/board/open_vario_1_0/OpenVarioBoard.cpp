@@ -97,9 +97,10 @@ OpenVarioBoard::OpenVarioBoard()
 , m_bluenrgms(m_spi_1, 3u, m_ble_reset_pin, m_ble_irq_pin, m_ble_rx_task)
 , m_bluenrgms_stack(m_bluenrgms)
 
+, m_buzzer_power_pin(Stm32l476Gpio::PORT_A, 3u, Stm32l476Gpio::MODE_OUTPUT, 0u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_buzzer_pwm_pin(Stm32l476Gpio::PORT_A, 4u, Stm32l476Gpio::MODE_AF, 14u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_HIGH)
 , m_buzzer_pwm(m_cpu, Stm32l476LpTim::LPTIM_2)
-, m_buzzer(m_buzzer_pwm)
+, m_buzzer(m_buzzer_pwm, m_buzzer_power_pin)
 
 , m_usb_dm_pin(Stm32l476Gpio::PORT_A, 11u, Stm32l476Gpio::MODE_AF, 10u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
 , m_usb_dp_pin(Stm32l476Gpio::PORT_A, 12u, Stm32l476Gpio::MODE_AF, 10u, Stm32l476Gpio::IT_NONE, Stm32l476Gpio::CONFIG_NONE, Stm32l476Gpio::SPEED_VERY_HIGH)
@@ -173,6 +174,7 @@ bool OpenVarioBoard::configure()
 
     // Buzzer PWM
     ret = ret && m_buzzer_pwm_pin.configure();
+    ret = ret && m_buzzer_power_pin.configure();
     ret = ret && m_buzzer_pwm.configure(800u, 50u);
 
     // USB

@@ -24,8 +24,8 @@ namespace open_vario
 {
 
 /** \brief Constructor */
-PwmBuzzer::PwmBuzzer(IPwm& pwm)
-: m_pwm(pwm)
+PwmBuzzer::PwmBuzzer(IPwm& pwm, IOutputPin& power_pin)
+: m_pwm(pwm), m_power_pin(power_pin)
 {}
 
 /** \brief Configure the buzzer */
@@ -66,6 +66,8 @@ bool PwmBuzzer::play(const uint32_t frequency)
     bool ret = m_pwm.setFrequency(frequency);
     if (ret)
     {
+        // Povide power to the Buzzer 
+        m_power_pin.setHigh();
         // Start playing
         ret = m_pwm.start();
     }
@@ -75,6 +77,9 @@ bool PwmBuzzer::play(const uint32_t frequency)
 /** \brief Stop playing the note */
 bool PwmBuzzer::stop()
 {
+    //  Remove power from the Buzzer 
+    m_power_pin.setLow();
+
     // Stop PWM
     return m_pwm.stop();
 }

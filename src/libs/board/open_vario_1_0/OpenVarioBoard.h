@@ -301,6 +301,9 @@ class OpenVarioBoard : public IOpenVarioBoard
         BlueNrgMsStack m_bluenrgms_stack;
 
 
+        /** \brief Buzzer power pin */
+        Stm32l476Gpio m_buzzer_power_pin;
+
         /** \brief Buzzer PWM pin */
         Stm32l476Gpio m_buzzer_pwm_pin;
 

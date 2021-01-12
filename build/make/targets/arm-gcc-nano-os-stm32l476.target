@@ -52,7 +52,7 @@ TARGET_INC_DIRS=
 
 # Target specific lib directories
 ifeq ("$(CYGWIN_ENV)","CYGWIN")
-    TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m+fp/hard -L$(TOOLCHAIN_PATH)/lib/gcc/arm-none-eabi/8.2.1/thumb/v7e-m+fp/hard
+    TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m+fp/hard -L$(TOOLCHAIN_PATH)/lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard
 else
     TARGET_LIB_DIRS=-L$(TOOLCHAIN_PATH)/arm-none-eabi/lib/thumb/v7e-m+fp/hard -L$(TOOLCHAIN_PATH)/lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard
 endif
