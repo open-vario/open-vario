@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build for STM32WB5MM-DK",
+			"command": "make",
+			"args": [
+				"TARGET_PLATFORM=stm32wb5mm-dk",
+				"all"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Clean for STM32WB5MM-DK",
+			"command": "make",
+			"args": [
+				"TARGET_PLATFORM=stm32wb5mm-dk",
+				"clean"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		}
+	]
+}
