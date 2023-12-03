@@ -7,7 +7,7 @@
         {
             "name": "Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "./bin_stm32wb5mm-dk/openvario_fw",
+            "executable": "${workspaceFolder}/bin_stm32wb5mm-dk/openvario_fw",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",

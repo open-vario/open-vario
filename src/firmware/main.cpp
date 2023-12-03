@@ -1,23 +1,110 @@
 
-#include "FreeRTOS.h"
-#include "task.h"
-
 #include "stm32wbxx_hal.h"
+
+#include "delegate.h"
+#include "lock_guard.h"
+#include "mutex.h"
+#include "os.h"
+#include "semaphore.h"
+#include "thread.h"
 
 /** @brief System Clock Configuration */
 static void SystemClock_Config(void);
 /** @brief Peripherals Common Clock Configuration */
 static void PeriphCommonClock_Config(void);
 
+class Test
+{
+  public:
+    Test() { }
+
+    void   f1() { count += 1; }
+    void   f2(size_t val) { count += val; }
+    size_t f3(void)
+    {
+        count += 1;
+        return count;
+    }
+    size_t f4(size_t val)
+    {
+        count += val;
+        return count;
+    }
+    size_t f5(size_t val, bool add)
+    {
+        count += val;
+        if (add)
+        {
+            count += val;
+        }
+        return count;
+    }
+
+    size_t f6(const size_t& val)
+    {
+        count += val;
+        return count;
+    }
+
+    void start()
+    {
+        auto start_func = ov::thread_func::create<Test, &Test::task_func>(*this);
+        thread.start(start_func, "Test", 3u, this);
+    }
+
+  private:
+    ov::thread<4096u> thread;
+    ov::mutex         mutex;
+    size_t            count = 0;
+
+    void task_func(void* param)
+    {
+        Test* test = reinterpret_cast<Test*>(param);
+        while (test == this)
+        {
+            ov::lock_guard<ov::mutex> lock(test->mutex);
+            test->f1();
+            ov::this_thread::sleep_for(2000u);
+        }
+    }
+};
+
+static Test t;
+
 /** @brief Entry point */
 int main()
 {
+    ov::mutex mutex;
+    {
+        ov::lock_guard<ov::mutex> lock(mutex);
+    }
+
+    ov::semaphore sem(0, 10u);
+    sem.release();
+    sem.take();
+
+    auto delegate1 = ov::delegate<void>::create<Test, &Test::f1>(t);
+    delegate1.invoke();
+    auto delegate2 = ov::delegate<void, size_t>::create<Test, &Test::f2>(t);
+    delegate2.invoke(1234u);
+    auto delegate3 = ov::delegate<size_t>::create<Test, &Test::f3>(t);
+    delegate3.invoke();
+    auto delegate4 = ov::delegate<size_t, size_t>::create<Test, &Test::f4>(t);
+    delegate4.invoke(1234u);
+    auto delegate5 = ov::delegate<size_t, size_t, bool>::create<Test, &Test::f5>(t);
+    delegate5.invoke(1234u, true);
+    size_t n         = 100000u;
+    auto   delegate6 = ov::delegate<size_t, const size_t&>::create<Test, &Test::f6>(t);
+    delegate6.invoke(n);
+
+    t.start();
+
     // Configure clocks
     SystemClock_Config();
     PeriphCommonClock_Config();
 
-    // Start FreeRTOS
-    vTaskStartScheduler();
+    // Start operating system
+    ov::os::start();
 
     // Shall never happen
     return 0;
