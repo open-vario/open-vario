@@ -2,6 +2,9 @@
 #                  Helper makefile                   #
 ######################################################
 
+# Default target
+default: all
+
 # Default platform
 TARGET_PLATFORM?=stm32wb5mm-dk
 
@@ -22,8 +25,11 @@ PARALLEL_BUILD?=-j 4
 # Build type can be either Debug or Release
 BUILD_TYPE?=Debug
 
-# Default target
-default: all
+# Disable build with docker when set to 1
+DISABLE_DOCKER?=0
+ifeq ($(DISABLE_DOCKER),0)
+include makefile.docker
+endif
 
 # Silent makefile
 .SILENT:
@@ -45,11 +51,11 @@ clean:
 build: $(BUILD_DIR)/Makefile
 	@echo "Starting build for $(TARGET_PLATFORM)..."
 	@mkdir -p $(BIN_DIR)
-	@make --silent -C $(BUILD_DIR) $(VERBOSE) $(PARALLEL_BUILD)
+	@@$(DOCKER_RUN) make --silent -C $(BUILD_DIR) $(VERBOSE) $(PARALLEL_BUILD)
 	@echo "$(TARGET_PLATFORM) build done!"
 
 $(BUILD_DIR)/Makefile:
 	@echo "Generating $(TARGET_PLATFORM) makefiles..."
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(BIN_DIR)
-	@cd $(BUILD_DIR) && cmake -D CMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_TOOLCHAIN_FILE=$(TARGET_TOOLCHAIN) -D BIN_DIR=$(BIN_DIR) -D TARGET_PLATFORM=$(TARGET_PLATFORM) $(ROOT_DIR)
+	@@$(DOCKER_RUN) eval "cd $(BUILD_DIR) && cmake -D CMAKE_BUILD_TYPE=$(BUILD_TYPE) -DCMAKE_TOOLCHAIN_FILE=$(TARGET_TOOLCHAIN) -D BIN_DIR=$(BIN_DIR) -D TARGET_PLATFORM=$(TARGET_PLATFORM) $(ROOT_DIR)"

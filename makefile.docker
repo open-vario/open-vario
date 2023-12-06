@@ -1,0 +1,44 @@
+######################################################
+#             Docker build related stuff             #
+######################################################
+
+# Variables needed for docker build
+UID:=$(shell id -u )
+GID:=$(shell id -g )
+
+# Proxy
+http_proxy?=
+https_proxy?=
+no_proxy?=
+
+# Interactive shell
+INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
+ifdef INTERACTIVE
+DOCKER_INTERACTIVE=-ti
+else
+DOCKER_INTERACTIVE=-i
+endif
+
+# Run command through docker
+DOCKER_RUN=docker run $(DOCKER_INTERACTIVE) --name openvario-builder -u $(UID) -v $(ROOT_DIR):$(ROOT_DIR) -w $(ROOT_DIR) -e http_proxy="$(http_proxy)" -e https_proxy="$(https_proxy)" -e no_proxy="$(no_proxy)" --rm openvario-builder:latest ./docker/entrypoint.sh
+
+# Target to fetch the compiler
+ARM_GCC_COMPILER_ARCHIVE:=$(ROOT_DIR)/docker/gcc-arm-none-eabi.tar.bz2
+fetch-compiler: $(ARM_GCC_COMPILER_ARCHIVE)
+$(ARM_GCC_COMPILER_ARCHIVE):
+	@echo "Getting ARM GCC compiler..."
+	@wget -v -O $(ARM_GCC_COMPILER_ARCHIVE) "https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2?rev=78196d3461ba4c9089a67b5f33edf82a&hash=5631ACEF1F8F237389F14B41566964EC"
+
+# Target to create the docker image containing the build tools
+docker-image: fetch-compiler
+	@echo "Creating Docker Builder image..."
+	@docker build \
+	--tag openvario-builder:latest	\
+	--build-arg uid=$(UID)	\
+	--build-arg gid=$(GID)	\
+	--build-arg http_proxy="$(http_proxy)"		\
+	--build-arg https_proxy="$(https_proxy)"	\
+	--build-arg no_proxy="$(no_proxy)"	\
+	--file $(ROOT_DIR)/docker/Dockerfile	\
+	$(ROOT_DIR)/docker
+	@echo "Docker Builder image created!"

@@ -3,7 +3,7 @@
 #################################################################################
 
 # Toolchain path
-set(CMAKE_TOOLCHAIN_PATH "/opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/")
+set(CMAKE_TOOLCHAIN_PATH "/opt/gcc-arm-none-eabi-10.3-2021.10/")
 
 # CPU flags
 set(MCPU_FLAGS "-mthumb -mcpu=cortex-m4")
@@ -16,7 +16,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../3rdparty/cmake-embedded-toolchains/arm-c
 set(WARNING_FLAGS "-Wall -Wextra -Werror")
 
 # Set compiler flags
-set(COMMON_FLAGS            "-DUSE_HAL_DRIVER -DSTM32WB5Mxx -DTX_INCLUDE_USER_DEFINE_FILE -DFX_INCLUDE_USER_DEFINE_FILE -DLX_INCLUDE_USER_DEFINE_FILE -ffunction-sections -fdata-sections -fstack-usage -fcyclomatic-complexity -fno-exceptions")
+set(COMMON_FLAGS            "-DUSE_HAL_DRIVER -DSTM32WB5Mxx -DTX_INCLUDE_USER_DEFINE_FILE -DFX_INCLUDE_USER_DEFINE_FILE -DLX_INCLUDE_USER_DEFINE_FILE -ffunction-sections -fdata-sections -fstack-usage -fno-exceptions")
 set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -Og -g3 -ggdb3 -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -Og -g3 -ggdb3 -DDEBUG")
 set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -O2 -DNDEBUG")
