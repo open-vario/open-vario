@@ -22,5 +22,11 @@ void yield_from_isr(bool higher_priority_task_woken)
     portYIELD_FROM_ISR(higher_priority_task_woken);
 }
 
+/** @brief Get the infinite timeout value */
+uint32_t infinite_timeout_value()
+{
+    return portMAX_DELAY;
+}
+
 } // namespace os
 } // namespace ov

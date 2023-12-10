@@ -14,7 +14,8 @@
             "servertype": "jlink",
             "device": "STM32WB55VG",
             "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
-            "showDevDebugOutput": "raw"
+            "showDevDebugOutput": "raw",
+            "rtos": "FreeRTOS"
         }
     ]
 }

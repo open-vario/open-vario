@@ -13,7 +13,7 @@ namespace ov
 static TIM_HandleTypeDef s_hal_tick;
 
 /** @brief Constructor */
-ov_board::ov_board() : m_qspi_drv(), m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv) { }
+ov_board::ov_board() : m_dbg_usart_drv(), m_qspi_drv(), m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv) { }
 
 /** @brief Initialize the peripherals */
 bool ov_board::init()
@@ -23,6 +23,7 @@ bool ov_board::init()
     // Initialize drivers
     ret = hal_init();
     ret = ret && io_init();
+    ret = ret && m_dbg_usart_drv.init();
     ret = ret && m_qspi_drv.init();
 
     // Initialize peripherals
@@ -86,6 +87,16 @@ bool ov_board::io_init()
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
 
+    // UART1(debug) pins
+    // PB7     ------> USART1_RX
+    // PB6     ------> USART1_TX
+    gpio_init.Pin       = GPIO_PIN_7 | GPIO_PIN_6;
+    gpio_init.Mode      = GPIO_MODE_AF_PP;
+    gpio_init.Pull      = GPIO_NOPULL;
+    gpio_init.Speed     = GPIO_SPEED_FREQ_MEDIUM;
+    gpio_init.Alternate = GPIO_AF7_USART1;
+    HAL_GPIO_Init(GPIOB, &gpio_init);
+
     // QSPI pins
     // PB9     ------> QUADSPI_BK1_IO0
     // PA3     ------> QUADSPI_CLK
@@ -100,18 +111,11 @@ bool ov_board::io_init()
     gpio_init.Alternate = GPIO_AF10_QUADSPI;
     HAL_GPIO_Init(GPIOB, &gpio_init);
 
-    gpio_init.Pin       = GPIO_PIN_3;
-    gpio_init.Mode      = GPIO_MODE_AF_PP;
-    gpio_init.Pull      = GPIO_NOPULL;
-    gpio_init.Speed     = GPIO_SPEED_FREQ_LOW;
-    gpio_init.Alternate = GPIO_AF10_QUADSPI;
+    gpio_init.Pin = GPIO_PIN_3;
     HAL_GPIO_Init(GPIOA, &gpio_init);
 
-    gpio_init.Pin       = GPIO_PIN_7 | GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_6;
-    gpio_init.Mode      = GPIO_MODE_AF_PP;
-    gpio_init.Pull      = GPIO_NOPULL;
-    gpio_init.Speed     = GPIO_SPEED_FREQ_HIGH;
-    gpio_init.Alternate = GPIO_AF10_QUADSPI;
+    gpio_init.Pin   = GPIO_PIN_7 | GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_6;
+    gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOD, &gpio_init);
 
     return ret;

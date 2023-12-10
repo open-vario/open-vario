@@ -17,11 +17,11 @@ static lfs_t s_lfs;
 static mutex s_lfs_mutex;
 
 /** @brief Read buffer */
-static uint8_t s_read_buffer[FS_BUFFERS_SIZE];
+static uint8_t s_read_buffer[FS_CACHE_SIZE];
 /** @brief Prog buffer */
-static uint8_t s_prog_buffer[FS_BUFFERS_SIZE];
+static uint8_t s_prog_buffer[FS_CACHE_SIZE];
 /** @brief Lookahead buffer */
-static uint8_t s_lookahead_buffer[FS_BUFFERS_SIZE];
+static uint8_t s_lookahead_buffer[FS_CACHE_SIZE];
 
 /** @brief Read a region in a block */
 static int fs_read(const struct lfs_config* c, lfs_block_t block, lfs_off_t off, void* buffer, lfs_size_t size);
@@ -55,13 +55,13 @@ bool init(bool& fs_reinitialized, i_storage_memory& storage_memory)
         .unlock = fs_unlock,
 
         // Block device configuration
-        .read_size      = FS_BUFFERS_SIZE,
-        .prog_size      = FS_BUFFERS_SIZE,
+        .read_size      = FS_CACHE_SIZE,
+        .prog_size      = FS_CACHE_SIZE,
         .block_size     = storage_memory.get_block_size(),
         .block_count    = storage_memory.get_size() / storage_memory.get_block_size(),
         .block_cycles   = 500u,
-        .cache_size     = FS_BUFFERS_SIZE,
-        .lookahead_size = FS_BUFFERS_SIZE,
+        .cache_size     = FS_CACHE_SIZE,
+        .lookahead_size = FS_CACHE_SIZE,
 
         // Buffers
         .read_buffer      = s_read_buffer,
@@ -97,8 +97,8 @@ bool init(bool& fs_reinitialized, i_storage_memory& storage_memory)
 /** @brief Get filesystem info */
 bool info(size_t& free_space, size_t& total_space)
 {
-    bool       ret = false;
-    lfs_fsinfo fsinfo;
+    bool       ret    = false;
+    lfs_fsinfo fsinfo = {};
     if (lfs_fs_stat(&s_lfs, &fsinfo) == LFS_ERR_OK)
     {
         lfs_ssize_t allocated_blocks = lfs_fs_size(&s_lfs);

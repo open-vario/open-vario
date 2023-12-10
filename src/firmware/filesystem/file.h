@@ -34,7 +34,10 @@ class file
     ~file();
 
     /** @brief Indicate if the file is valid */
-    bool is_open() { return (m_lfs != nullptr); }
+    bool is_open() const { return (m_lfs != nullptr); }
+
+    /** @brief Indicate if the file is valid */
+    operator bool() const { return is_open(); }
 
     /** @brief Close the file */
     bool close();
@@ -59,7 +62,7 @@ class file
     /** @brief File configuration */
     lfs_file_config m_config;
     /** @brief File buffer */
-    uint8_t m_buffer[fs::FILE_BUFFER_SIZE];
+    uint8_t m_buffer[fs::FS_CACHE_SIZE];
 };
 
 } // namespace ov

@@ -40,6 +40,12 @@ char** environ  = __env;
 /* Functions */
 void initialise_monitor_handles() { }
 
+void* _sbrk(void* p)
+{
+    (void)p;
+    return NULL;
+}
+
 int _getpid(void)
 {
     return 1;

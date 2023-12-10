@@ -3,7 +3,6 @@
 #define OV_DIR_H
 
 #include "lfs.h"
-
 namespace ov
 {
 
@@ -42,7 +41,10 @@ class dir
     ~dir();
 
     /** @brief Indicate if the directory is valid */
-    bool is_open() { return (m_lfs != nullptr); }
+    bool is_open() const { return (m_lfs != nullptr); }
+
+    /** @brief Indicate if the directory is valid */
+    operator bool() const { return is_open(); }
 
     /** @brief Close the directory */
     bool close();

@@ -1,10 +1,14 @@
 
 #include "stm32wbxx_hal.h"
 
+#include "debug_console.h"
 #include "fs.h"
+#include "fs_console.h"
 #include "os.h"
 #include "ov_board.h"
 #include "thread.h"
+
+#include <cstdio>
 
 /** @brief System Clock Configuration */
 static void SystemClock_Config(void);
@@ -14,7 +18,7 @@ static void PeriphCommonClock_Config(void);
 class Test
 {
   public:
-    Test() { }
+    Test() : m_console(m_board.get_debug_port()) { }
 
     void start()
     {
@@ -25,6 +29,7 @@ class Test
   private:
     ov::ov_board      m_board;
     ov::thread<4096u> m_thread;
+    ov::debug_console m_console;
 
     void task_func(void*)
     {
@@ -35,50 +40,15 @@ class Test
         bool fs_reinitialized = false;
         ov::fs::init(fs_reinitialized, m_board.get_storage_memory());
 
-        size_t free_space = 0;
-        size_t total_size = 0;
-        ov::fs::info(free_space, total_size);
+        // Init console commands
+        ov::fs_console fs_console(m_console);
+        fs_console.register_handlers();
 
-        {
-            ov::fs::mkdir("/test");
-
-            ov::file f = ov::fs::open("/test.dat", ov::fs::o_creat | ov::fs::o_rdwr);
-            if (f.is_open())
-            {
-                char    data[128];
-                size_t  read_count = 0;
-                int32_t new_offset = 0;
-                f.seek(-15, ov::file::seek_end, new_offset);
-                if (f.read(data, sizeof(data), read_count) && (read_count > 0))
-                {
-                    data[0]++;
-                }
-                else
-                {
-                    size_t write_count = 0;
-                    f.write("This is a good test file!", 25u, write_count);
-                }
-            }
-
-            ov::file f2 = static_cast<ov::file&&>(f);
-            f2.close();
-
-            ov::dir d = ov::fs::open_dir("/");
-            if (d.is_open())
-            {
-                size_t         count = 0;
-                ov::dir::entry entry;
-                while (d.read(entry))
-                {
-                    count++;
-                }
-            }
-        }
+        // Start console
+        m_console.start();
 
         while (true)
         {
-            free_space++;
-            total_size++;
             ov::this_thread::sleep_for(2000u);
         }
     }

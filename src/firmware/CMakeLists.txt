@@ -2,19 +2,23 @@
 add_executable(openvario_fw 
     main.cpp
 
+    board/${TARGET_PLATFORM}/ov_board.cpp
+
+    console/debug_console.cpp
+
     filesystem/fs.cpp
     filesystem/dir.cpp
     filesystem/file.cpp
-
-    board/${TARGET_PLATFORM}/ov_board.cpp
+    filesystem/fs_console.cpp
 )
 
 # Include directories
 target_include_directories(openvario_fw PRIVATE 
     .
-    filesystem
     board
     board/${TARGET_PLATFORM}
+    console
+    filesystem
 )
 
 # Linked libraries
