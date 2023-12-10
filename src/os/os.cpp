@@ -16,5 +16,11 @@ void start()
     vTaskStartScheduler();
 }
 
+/** @brief Yield from interrupt */
+void yield_from_isr(bool higher_priority_task_woken)
+{
+    portYIELD_FROM_ISR(higher_priority_task_woken);
+}
+
 } // namespace os
 } // namespace ov

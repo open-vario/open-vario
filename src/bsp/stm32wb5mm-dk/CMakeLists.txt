@@ -6,10 +6,11 @@ add_library(openvario_bsp STATIC
 
     startup/startup_stm32wb5mmghx.s
     startup/system_stm32wbxx.c
+    startup/syscalls.c
 )
 
 # Exported includes
-target_include_directories(openvario_bsp PUBLIC 
+target_include_directories(openvario_bsp PUBLIC
     conf
 
     CMSIS/Include

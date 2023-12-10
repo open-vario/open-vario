@@ -119,6 +119,7 @@ typedef struct
   void (* MspInitCallback)      (struct __QSPI_HandleTypeDef *hqspi);
   void (* MspDeInitCallback)    (struct __QSPI_HandleTypeDef *hqspi);
 #endif
+  void* user;
 }QSPI_HandleTypeDef;
 
 /**

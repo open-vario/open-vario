@@ -10,6 +10,9 @@ namespace os
 /** @brief Starts the operating system */
 void start();
 
+/** @brief Yield from interrupt */
+void yield_from_isr(bool higher_priority_task_woken);
+
 } // namespace os
 } // namespace ov
 

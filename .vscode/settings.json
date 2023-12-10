@@ -1,4 +1,9 @@
 {
     "cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink_V794/JLinkGDBServer",
-    "cortex-debug.armToolchainPath": "/opt/st/stm32cubeide_1.14.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.11.3.rel1.linux64_1.1.100.202309141235/tools/bin",
+    "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
+    "files.associations": {
+        "random": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
+    }
 }

@@ -1,11 +1,9 @@
 
 #include "stm32wbxx_hal.h"
 
-#include "delegate.h"
-#include "lock_guard.h"
-#include "mutex.h"
+#include "fs.h"
 #include "os.h"
-#include "semaphore.h"
+#include "ov_board.h"
 #include "thread.h"
 
 /** @brief System Clock Configuration */
@@ -18,52 +16,69 @@ class Test
   public:
     Test() { }
 
-    void   f1() { count += 1; }
-    void   f2(size_t val) { count += val; }
-    size_t f3(void)
-    {
-        count += 1;
-        return count;
-    }
-    size_t f4(size_t val)
-    {
-        count += val;
-        return count;
-    }
-    size_t f5(size_t val, bool add)
-    {
-        count += val;
-        if (add)
-        {
-            count += val;
-        }
-        return count;
-    }
-
-    size_t f6(const size_t& val)
-    {
-        count += val;
-        return count;
-    }
-
     void start()
     {
         auto start_func = ov::thread_func::create<Test, &Test::task_func>(*this);
-        thread.start(start_func, "Test", 3u, this);
+        m_thread.start(start_func, "Test", 3u, this);
     }
 
   private:
-    ov::thread<4096u> thread;
-    ov::mutex         mutex;
-    size_t            count = 0;
+    ov::ov_board      m_board;
+    ov::thread<4096u> m_thread;
 
-    void task_func(void* param)
+    void task_func(void*)
     {
-        Test* test = reinterpret_cast<Test*>(param);
-        while (test == this)
+        // Init board
+        m_board.init();
+
+        // Init filesystem
+        bool fs_reinitialized = false;
+        ov::fs::init(fs_reinitialized, m_board.get_storage_memory());
+
+        size_t free_space = 0;
+        size_t total_size = 0;
+        ov::fs::info(free_space, total_size);
+
         {
-            ov::lock_guard<ov::mutex> lock(test->mutex);
-            test->f1();
+            ov::fs::mkdir("/test");
+
+            ov::file f = ov::fs::open("/test.dat", ov::fs::o_creat | ov::fs::o_rdwr);
+            if (f.is_open())
+            {
+                char    data[128];
+                size_t  read_count = 0;
+                int32_t new_offset = 0;
+                f.seek(-15, ov::file::seek_end, new_offset);
+                if (f.read(data, sizeof(data), read_count) && (read_count > 0))
+                {
+                    data[0]++;
+                }
+                else
+                {
+                    size_t write_count = 0;
+                    f.write("This is a good test file!", 25u, write_count);
+                }
+            }
+
+            ov::file f2 = static_cast<ov::file&&>(f);
+            f2.close();
+
+            ov::dir d = ov::fs::open_dir("/");
+            if (d.is_open())
+            {
+                size_t         count = 0;
+                ov::dir::entry entry;
+                while (d.read(entry))
+                {
+                    count++;
+                }
+            }
+        }
+
+        while (true)
+        {
+            free_space++;
+            total_size++;
             ov::this_thread::sleep_for(2000u);
         }
     }
@@ -74,36 +89,12 @@ static Test t;
 /** @brief Entry point */
 int main()
 {
-    ov::mutex mutex;
-    {
-        ov::lock_guard<ov::mutex> lock(mutex);
-    }
-
-    ov::semaphore sem(0, 10u);
-    sem.release();
-    sem.take();
-
-    auto delegate1 = ov::delegate<void>::create<Test, &Test::f1>(t);
-    delegate1.invoke();
-    auto delegate2 = ov::delegate<void, size_t>::create<Test, &Test::f2>(t);
-    delegate2.invoke(1234u);
-    auto delegate3 = ov::delegate<size_t>::create<Test, &Test::f3>(t);
-    delegate3.invoke();
-    auto delegate4 = ov::delegate<size_t, size_t>::create<Test, &Test::f4>(t);
-    delegate4.invoke(1234u);
-    auto delegate5 = ov::delegate<size_t, size_t, bool>::create<Test, &Test::f5>(t);
-    delegate5.invoke(1234u, true);
-    size_t n         = 100000u;
-    auto   delegate6 = ov::delegate<size_t, const size_t&>::create<Test, &Test::f6>(t);
-    delegate6.invoke(n);
-
-    t.start();
-
     // Configure clocks
     SystemClock_Config();
     PeriphCommonClock_Config();
 
     // Start operating system
+    t.start();
     ov::os::start();
 
     // Shall never happen

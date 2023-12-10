@@ -13,7 +13,8 @@
             "runToEntryPoint": "main",
             "servertype": "jlink",
             "device": "STM32WB55VG",
-            "svdFile": "${workspaceFolder}/src/bsp/STM32WB55_CM4.svd"
+            "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
+            "showDevDebugOutput": "raw"
         }
     ]
 }
