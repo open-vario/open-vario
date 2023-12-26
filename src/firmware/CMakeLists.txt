@@ -24,6 +24,7 @@ target_include_directories(openvario_fw PRIVATE
 # Linked libraries
 target_link_libraries(openvario_fw PRIVATE
     littlefs
+    yacswl
     openvario_peripherals
     $<TARGET_OBJECTS:openvario_os>
     $<TARGET_OBJECTS:openvario_bsp>

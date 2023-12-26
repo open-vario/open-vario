@@ -8,6 +8,9 @@
 #include "ov_board.h"
 #include "thread.h"
 
+#include "YACSGL.h"
+#include "YACSWL.h"
+
 #include <cstdio>
 
 /** @brief System Clock Configuration */
@@ -52,34 +55,48 @@ class Test
         size_t         width        = display.get_width();
         size_t         height       = display.get_heigth();
 
+        YACSGL_frame_t frame = {static_cast<uint16_t>(width), static_cast<uint16_t>(height), 0, 0, frame_buffer};
+
+        YACSWL_widget_t root_widget;
+        YACSWL_widget_init(&root_widget);
+        YACSWL_widget_set_size(&root_widget, frame.frame_x_width - 1u, frame.frame_y_heigth - 1u);
+        YACSWL_widget_set_border_width(&root_widget, 0u);
+        YACSWL_widget_set_foreground_color(&root_widget, YACSGL_P_WHITE);
+        YACSWL_widget_set_background_color(&root_widget, YACSGL_P_BLACK);
+
+        YACSWL_label_t label;
+        YACSWL_label_init(&label);
+        YACSWL_label_set_text(&label, "Yoh!");
+        YACSWL_widget_set_pos(&label.widget, 30u, 10u);
+        YACSWL_widget_set_border_width(&label.widget, 0u);
+        YACSWL_widget_set_foreground_color(&label.widget, YACSGL_P_WHITE);
+        YACSWL_widget_set_background_color(&label.widget, YACSGL_P_BLACK);
+
+        YACSWL_progress_bar_t prog_bar;
+        YACSWL_progress_bar_init(&prog_bar);
+        YACSWL_widget_set_pos(&prog_bar.widget, 10u, 50u);
+        YACSWL_widget_set_size(&prog_bar.widget, 100u, 10u);
+
+        YACSWL_widget_add_child(&root_widget, &label.widget);
+        YACSWL_widget_add_child(&root_widget, &prog_bar.widget);
+        YACSWL_widget_set_foreground_color(&prog_bar.widget, YACSGL_P_WHITE);
+        YACSWL_widget_set_background_color(&prog_bar.widget, YACSGL_P_BLACK);
+
+        uint8_t progress = 0;
         while (true)
         {
-            for (size_t i = 0; i < (width * height / 8u); i++)
-            {
-                if (i & 1)
-                {
-                    frame_buffer[i] = 0;
-                }
-                else
-                {
-                    frame_buffer[i] = 0xFFu;
-                }
-            }
+            YACSWL_progress_bar_set_progress(&prog_bar, progress);
+
+            YACSWL_widget_draw(&root_widget, &frame);
+
             display.refresh();
             ov::this_thread::sleep_for(1000u);
-            for (size_t i = 0; i < (width * height / 8u); i++)
+
+            progress += 10;
+            if (progress > 100)
             {
-                if (i & 1)
-                {
-                    frame_buffer[i] = 0xFFu;
-                }
-                else
-                {
-                    frame_buffer[i] = 0;
-                }
+                progress = 0;
             }
-            display.refresh();
-            ov::this_thread::sleep_for(1000u);
         }
     }
 };

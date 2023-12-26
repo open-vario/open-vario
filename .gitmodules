@@ -1,0 +1,6 @@
+[submodule "3rdparty/yacsgl"]
+	path = 3rdparty/yacsgl
+	url = git@github.com:tdont/YACSGL.git
+[submodule "3rdparty/yacswl"]
+	path = 3rdparty/yacswl
+	url = git@github.com:tdont/YACSWL.git
