@@ -47,9 +47,39 @@ class Test
         // Start console
         m_console.start();
 
+        ov::i_display& display      = m_board.get_display();
+        uint8_t*       frame_buffer = display.get_frame_buffer();
+        size_t         width        = display.get_width();
+        size_t         height       = display.get_heigth();
+
         while (true)
         {
-            ov::this_thread::sleep_for(2000u);
+            for (size_t i = 0; i < (width * height / 8u); i++)
+            {
+                if (i & 1)
+                {
+                    frame_buffer[i] = 0;
+                }
+                else
+                {
+                    frame_buffer[i] = 0xFFu;
+                }
+            }
+            display.refresh();
+            ov::this_thread::sleep_for(1000u);
+            for (size_t i = 0; i < (width * height / 8u); i++)
+            {
+                if (i & 1)
+                {
+                    frame_buffer[i] = 0xFFu;
+                }
+                else
+                {
+                    frame_buffer[i] = 0;
+                }
+            }
+            display.refresh();
+            ov::this_thread::sleep_for(1000u);
         }
     }
 };

@@ -1,6 +1,7 @@
 # Peripherals library
 add_library(openvario_peripherals
     s25flxxxs.cpp
+    ssd1315.cpp
 )
 
 # Include directories

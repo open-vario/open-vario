@@ -2,6 +2,7 @@
 #ifndef OV_I_BOARD_H
 #define OV_I_BOARD_H
 
+#include "i_display.h"
 #include "i_serial.h"
 #include "i_storage_memory.h"
 
@@ -20,6 +21,9 @@ class i_board
 
     /** @brief Get the storage memory */
     virtual i_storage_memory& get_storage_memory() = 0;
+
+    /** @brief Get the display */
+    virtual i_display& get_display() = 0;
 };
 
 } // namespace ov

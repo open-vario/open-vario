@@ -13,7 +13,18 @@ namespace ov
 static TIM_HandleTypeDef s_hal_tick;
 
 /** @brief Constructor */
-ov_board::ov_board() : m_dbg_usart_drv(), m_qspi_drv(), m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv) { }
+ov_board::ov_board()
+    : m_dbg_usart_drv(),
+      m_qspi_drv(),
+      m_oled_cs_pin(GPIOH, GPIO_PIN_0),
+      m_spi1_cs_drv({&m_oled_cs_pin}),
+      m_spi1_drv(SPI1, 10000000u, i_spi::polarity::high, i_spi::phase::first, m_spi1_cs_drv),
+      m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv),
+      m_oled_reset_pin(GPIOC, GPIO_PIN_8),
+      m_oled_data_pin(GPIOC, GPIO_PIN_9),
+      m_oled_display(m_spi1_drv, 0u, m_oled_reset_pin, m_oled_data_pin)
+{
+}
 
 /** @brief Initialize the peripherals */
 bool ov_board::init()
@@ -25,9 +36,12 @@ bool ov_board::init()
     ret = ret && io_init();
     ret = ret && m_dbg_usart_drv.init();
     ret = ret && m_qspi_drv.init();
+    ret = ret && m_spi1_cs_drv.init();
+    ret = ret && m_spi1_drv.init();
 
     // Initialize peripherals
     ret = ret && m_qspi_nor_flash.reset();
+    ret = ret && m_oled_display.init();
 
     return ret;
 }
@@ -83,9 +97,11 @@ bool ov_board::io_init()
     GPIO_InitTypeDef gpio_init;
 
     // Enable clocks
-    __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
 
     // UART1(debug) pins
     // PB7     ------> USART1_RX
@@ -117,6 +133,32 @@ bool ov_board::io_init()
     gpio_init.Pin   = GPIO_PIN_7 | GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_6;
     gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOD, &gpio_init);
+
+    // SPI1 pins
+    // PA1     ------> SPI1_SCK
+    // PA7     ------> SPI1_MOSI
+    // PB4     ------> SPI1_MISO
+    gpio_init.Pin       = GPIO_PIN_1 | GPIO_PIN_7;
+    gpio_init.Mode      = GPIO_MODE_AF_PP;
+    gpio_init.Pull      = GPIO_PULLDOWN;
+    gpio_init.Speed     = GPIO_SPEED_FREQ_LOW;
+    gpio_init.Alternate = GPIO_AF5_SPI1;
+    HAL_GPIO_Init(GPIOA, &gpio_init);
+
+    gpio_init.Pin = GPIO_PIN_4;
+    HAL_GPIO_Init(GPIOB, &gpio_init);
+
+    // OLED driver pins
+    // PC8     ------> Reset
+    // PC9     ------> Data/Control
+    // PH0     ------> SPI chip select
+    gpio_init.Pin   = GPIO_PIN_8 | GPIO_PIN_9;
+    gpio_init.Mode  = GPIO_MODE_OUTPUT_PP;
+    gpio_init.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &gpio_init);
+
+    gpio_init.Pin = GPIO_PIN_0;
+    HAL_GPIO_Init(GPIOH, &gpio_init);
 
     return ret;
 }
