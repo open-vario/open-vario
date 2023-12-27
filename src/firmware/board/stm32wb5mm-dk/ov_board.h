@@ -4,12 +4,16 @@
 
 #include "i_board.h"
 
+// Drivers
 #include "spi_pin_cs_driver.h"
 #include "stm32hal_iopin.h"
 #include "stm32hal_qspi.h"
 #include "stm32hal_spi.h"
 #include "stm32hal_usart.h"
 
+// Peripherals
+#include "fake_button.h"
+#include "pin_button.h"
 #include "s25flxxxs.h"
 #include "ssd1315.h"
 
@@ -35,6 +39,15 @@ class ov_board : public i_board
     /** @brief Get the display */
     i_display& get_display() override { return m_oled_display; }
 
+    /** @brief Get the 'Previous' button */
+    i_button& get_previous_button() override { return m_previous_button; }
+
+    /** @brief Get the 'Next' button */
+    i_button& get_next_button() override { return m_next_button; }
+
+    /** @brief Get the 'Select' button */
+    i_button& get_select_button() override { return m_select_button; }
+
   private:
     /** @brief Debug USART driver */
     stm32hal_usart m_dbg_usart_drv;
@@ -57,6 +70,17 @@ class ov_board : public i_board
     stm32hal_iopin m_oled_data_pin;
     /** @brief OLED display */
     ssd1315 m_oled_display;
+
+    /** @brief Pin for the 'Next' button */
+    stm32hal_iopin m_next_button_pin;
+    /** @brief Pin for the 'Select' button */
+    stm32hal_iopin m_select_button_pin;
+    /** @brief 'Previous' button */
+    fake_button m_previous_button;
+    /** @brief 'Next' button */
+    pin_button m_next_button;
+    /** @brief 'Select' button */
+    pin_button m_select_button;
 
     /** @brief Initialize the HAL */
     bool hal_init();

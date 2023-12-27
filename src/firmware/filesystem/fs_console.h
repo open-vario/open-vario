@@ -7,7 +7,7 @@
 namespace ov
 {
 
-/** @brief Console command helpers */
+/** @brief Console command helpers for the filesystem */
 class fs_console
 {
   public:

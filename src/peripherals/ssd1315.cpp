@@ -50,7 +50,7 @@ namespace ov
 
 /** @brief Constructor */
 ssd1315::ssd1315(i_spi& spi_drv, uint8_t spi_cs_line, i_output_pin& reset_pin, i_output_pin& data_pin)
-    : m_spi_drv(spi_drv), m_spi_cs_line(spi_cs_line), m_reset_pin(reset_pin), m_data_pin(data_pin)
+    : m_spi_drv(spi_drv), m_spi_cs_line(spi_cs_line), m_reset_pin(reset_pin), m_data_pin(data_pin), m_is_on(true), m_frame_buffer()
 {
 }
 
@@ -99,9 +99,10 @@ bool ssd1315::turn_on()
 {
     bool ret;
 
-    ret = send_command(SSD1315_CHARGE_PUMP_SETTING);
-    ret = send_command(SSD1315_HIGHER_COLUMN_START_ADRESS_5) && ret;
-    ret = send_command(SSD1315_DISPLAY_ON) && ret;
+    ret     = send_command(SSD1315_CHARGE_PUMP_SETTING);
+    ret     = send_command(SSD1315_HIGHER_COLUMN_START_ADRESS_5) && ret;
+    ret     = send_command(SSD1315_DISPLAY_ON) && ret;
+    m_is_on = true;
 
     return ret;
 }
@@ -111,9 +112,10 @@ bool ssd1315::turn_off()
 {
     bool ret;
 
-    ret = send_command(SSD1315_CHARGE_PUMP_SETTING);
-    ret = send_command(SSD1315_HIGHER_COLUMN_START_ADRESS_1) && ret;
-    ret = send_command(SSD1315_DISPLAY_OFF) && ret;
+    ret     = send_command(SSD1315_CHARGE_PUMP_SETTING);
+    ret     = send_command(SSD1315_HIGHER_COLUMN_START_ADRESS_1) && ret;
+    ret     = send_command(SSD1315_DISPLAY_OFF) && ret;
+    m_is_on = false;
 
     return ret;
 }

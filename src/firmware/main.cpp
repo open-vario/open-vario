@@ -4,6 +4,7 @@
 #include "debug_console.h"
 #include "fs.h"
 #include "fs_console.h"
+#include "hmi_manager.h"
 #include "os.h"
 #include "ov_board.h"
 #include "thread.h"
@@ -21,7 +22,11 @@ static void PeriphCommonClock_Config(void);
 class Test
 {
   public:
-    Test() : m_console(m_board.get_debug_port()) { }
+    Test()
+        : m_console(m_board.get_debug_port()),
+          m_hmi(m_board.get_display(), m_console, m_board.get_previous_button(), m_board.get_next_button(), m_board.get_select_button())
+    {
+    }
 
     void start()
     {
@@ -33,11 +38,15 @@ class Test
     ov::ov_board      m_board;
     ov::thread<4096u> m_thread;
     ov::debug_console m_console;
+    ov::hmi_manager   m_hmi;
 
     void task_func(void*)
     {
         // Init board
         m_board.init();
+
+        // Init HMI
+        m_hmi.start();
 
         // Init filesystem
         bool fs_reinitialized = false;
@@ -49,54 +58,9 @@ class Test
 
         // Start console
         m_console.start();
-
-        ov::i_display& display      = m_board.get_display();
-        uint8_t*       frame_buffer = display.get_frame_buffer();
-        size_t         width        = display.get_width();
-        size_t         height       = display.get_heigth();
-
-        YACSGL_frame_t frame = {static_cast<uint16_t>(width), static_cast<uint16_t>(height), 0, 0, frame_buffer};
-
-        YACSWL_widget_t root_widget;
-        YACSWL_widget_init(&root_widget);
-        YACSWL_widget_set_size(&root_widget, frame.frame_x_width - 1u, frame.frame_y_heigth - 1u);
-        YACSWL_widget_set_border_width(&root_widget, 0u);
-        YACSWL_widget_set_foreground_color(&root_widget, YACSGL_P_WHITE);
-        YACSWL_widget_set_background_color(&root_widget, YACSGL_P_BLACK);
-
-        YACSWL_label_t label;
-        YACSWL_label_init(&label);
-        YACSWL_label_set_text(&label, "Yoh!");
-        YACSWL_widget_set_pos(&label.widget, 30u, 10u);
-        YACSWL_widget_set_border_width(&label.widget, 0u);
-        YACSWL_widget_set_foreground_color(&label.widget, YACSGL_P_WHITE);
-        YACSWL_widget_set_background_color(&label.widget, YACSGL_P_BLACK);
-
-        YACSWL_progress_bar_t prog_bar;
-        YACSWL_progress_bar_init(&prog_bar);
-        YACSWL_widget_set_pos(&prog_bar.widget, 10u, 50u);
-        YACSWL_widget_set_size(&prog_bar.widget, 100u, 10u);
-
-        YACSWL_widget_add_child(&root_widget, &label.widget);
-        YACSWL_widget_add_child(&root_widget, &prog_bar.widget);
-        YACSWL_widget_set_foreground_color(&prog_bar.widget, YACSGL_P_WHITE);
-        YACSWL_widget_set_background_color(&prog_bar.widget, YACSGL_P_BLACK);
-
-        uint8_t progress = 0;
         while (true)
         {
-            YACSWL_progress_bar_set_progress(&prog_bar, progress);
-
-            YACSWL_widget_draw(&root_widget, &frame);
-
-            display.refresh();
             ov::this_thread::sleep_for(1000u);
-
-            progress += 10;
-            if (progress > 100)
-            {
-                progress = 0;
-            }
         }
     }
 };

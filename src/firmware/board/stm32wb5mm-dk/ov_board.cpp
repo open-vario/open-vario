@@ -22,7 +22,12 @@ ov_board::ov_board()
       m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv),
       m_oled_reset_pin(GPIOC, GPIO_PIN_8),
       m_oled_data_pin(GPIOC, GPIO_PIN_9),
-      m_oled_display(m_spi1_drv, 0u, m_oled_reset_pin, m_oled_data_pin)
+      m_oled_display(m_spi1_drv, 0u, m_oled_reset_pin, m_oled_data_pin),
+      m_next_button_pin(GPIOC, GPIO_PIN_12),
+      m_select_button_pin(GPIOC, GPIO_PIN_13),
+      m_previous_button(),
+      m_next_button(m_next_button_pin, false),
+      m_select_button(m_select_button_pin, false)
 {
 }
 
@@ -159,6 +164,15 @@ bool ov_board::io_init()
 
     gpio_init.Pin = GPIO_PIN_0;
     HAL_GPIO_Init(GPIOH, &gpio_init);
+
+    // Buttons pins
+    // PC12    ------> 'Previous'
+    // PC13    ------> 'Select'
+    gpio_init.Pin   = GPIO_PIN_12 | GPIO_PIN_13;
+    gpio_init.Mode  = GPIO_MODE_INPUT;
+    gpio_init.Pull  = GPIO_PULLUP;
+    gpio_init.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(GPIOC, &gpio_init);
 
     return ret;
 }

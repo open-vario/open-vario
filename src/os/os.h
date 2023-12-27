@@ -18,6 +18,9 @@ void yield_from_isr(bool higher_priority_task_woken);
 /** @brief Get the infinite timeout value */
 uint32_t infinite_timeout_value();
 
+/** @brief Get the current timestamp */
+uint32_t now();
+
 } // namespace os
 } // namespace ov
 

@@ -37,6 +37,9 @@ class ssd1315 : public i_display
     /** @brief Turn OFF the display */
     bool turn_off() override;
 
+    /** @brief Indicate if the display is ON */
+    bool is_on() override { return m_is_on; }
+
     /** @brief Refresh the display contents */
     bool refresh() override;
 
@@ -49,6 +52,8 @@ class ssd1315 : public i_display
     i_output_pin& m_reset_pin;
     /** @brief Data/control pin */
     i_output_pin& m_data_pin;
+    /** @brief Indicate if the display is ON */
+    bool m_is_on;
 
     /** @brief Frame buffer */
     uint8_t m_frame_buffer[128u * 8u];

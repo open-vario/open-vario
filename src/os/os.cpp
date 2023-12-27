@@ -28,5 +28,11 @@ uint32_t infinite_timeout_value()
     return portMAX_DELAY;
 }
 
+/** @brief Get the current timestamp */
+uint32_t now()
+{
+    return xTaskGetTickCount();
+}
+
 } // namespace os
 } // namespace ov

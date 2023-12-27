@@ -1,5 +1,6 @@
 # Peripherals library
 add_library(openvario_peripherals
+    pin_button.cpp
     s25flxxxs.cpp
     ssd1315.cpp
 )

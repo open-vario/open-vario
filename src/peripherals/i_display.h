@@ -33,6 +33,9 @@ class i_display
     /** @brief Turn OFF the display */
     virtual bool turn_off() = 0;
 
+    /** @brief Indicate if the display is ON */
+    virtual bool is_on() = 0;
+
     /** @brief Refresh the display contents */
     virtual bool refresh() = 0;
 };

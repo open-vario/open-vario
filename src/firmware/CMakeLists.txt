@@ -10,6 +10,11 @@ add_executable(openvario_fw
     filesystem/dir.cpp
     filesystem/file.cpp
     filesystem/fs_console.cpp
+
+    hmi/hmi_console.cpp
+    hmi/hmi_manager.cpp
+    hmi/screens/base_screen.cpp
+    hmi/screens/splash_screen.cpp
 )
 
 # Include directories
@@ -19,6 +24,8 @@ target_include_directories(openvario_fw PRIVATE
     board/${TARGET_PLATFORM}
     console
     filesystem
+    hmi
+    hmi/screens
 )
 
 # Linked libraries
