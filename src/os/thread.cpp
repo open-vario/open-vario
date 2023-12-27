@@ -42,6 +42,10 @@ bool base_thread::start(thread_func func, const char* name, uint32_t priority, v
                                      priority,
                                      reinterpret_cast<StackType_t*>(stack),
                                      &m_thread_data);
+        if (m_thread)
+        {
+            ret = true;
+        }
     }
 
     return ret;

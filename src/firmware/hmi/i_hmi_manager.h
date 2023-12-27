@@ -22,6 +22,9 @@ class i_hmi_manager
 
     /** @brief Turn the night mode ON/OFF */
     virtual void set_night_mode(bool on) = 0;
+
+    /** @brief Indicate if the night mode is ON */
+    virtual bool is_night_mode_on() = 0;
 };
 
 } // namespace ov

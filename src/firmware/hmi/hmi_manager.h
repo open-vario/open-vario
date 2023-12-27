@@ -6,6 +6,12 @@
 #include "i_hmi_manager.h"
 #include "thread.h"
 
+#include "dashboard1_screen.h"
+#include "dashboard2_screen.h"
+#include "dashboard3_screen.h"
+#include "settings_display_screen.h"
+#include "settings_exit_screen.h"
+#include "settings_screen.h"
 #include "splash_screen.h"
 
 namespace ov
@@ -35,6 +41,9 @@ class hmi_manager : public i_hmi_manager
 
     /** @brief Turn the night mode ON/OFF */
     void set_night_mode(bool on) override;
+
+    /** @brief Indicate if the night mode is ON */
+    bool is_night_mode_on() override;
 
   private:
     /** @brief Button data */
@@ -68,6 +77,18 @@ class hmi_manager : public i_hmi_manager
 
     /** @brief Splash screen */
     splash_screen m_splash_screen;
+    /** @brief Dashboard 1 screen */
+    dashboard1_screen m_dashboard1_screen;
+    /** @brief Dashboard 2 screen */
+    dashboard2_screen m_dashboard2_screen;
+    /** @brief Dashboard 3 screen */
+    dashboard3_screen m_dashboard3_screen;
+    /** @brief Settings screen */
+    settings_screen m_settings_screen;
+    /** @brief Display settings screen */
+    settings_display_screen m_settings_display_screen;
+    /** @brief Exit settings screen */
+    settings_exit_screen m_settings_exit_screen;
 
     /** @brief HMI thread */
     thread<2048u> m_thread;

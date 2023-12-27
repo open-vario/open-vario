@@ -26,6 +26,12 @@ hmi_manager::hmi_manager(
       m_next_screen(hmi_screen::splash),
       m_screens(),
       m_splash_screen(*this),
+      m_dashboard1_screen(*this),
+      m_dashboard2_screen(*this),
+      m_dashboard3_screen(*this),
+      m_settings_screen(*this),
+      m_settings_display_screen(*this),
+      m_settings_exit_screen(*this),
       m_thread()
 {
     // Buttons
@@ -39,7 +45,13 @@ hmi_manager::hmi_manager(
     }
 
     // Screens
-    m_screens[0] = &m_splash_screen;
+    m_screens[0u] = &m_splash_screen;
+    m_screens[1u] = &m_dashboard1_screen;
+    m_screens[2u] = &m_dashboard2_screen;
+    m_screens[3u] = &m_dashboard3_screen;
+    m_screens[4u] = &m_settings_screen;
+    m_screens[5u] = &m_settings_display_screen;
+    m_screens[6u] = &m_settings_exit_screen;
 }
 
 /** @brief Start the HMI manager */
@@ -47,7 +59,7 @@ bool hmi_manager::start()
 {
     // Start thread
     auto thread_func = ov::thread_func::create<hmi_manager, &hmi_manager::thread_func>(*this);
-    bool ret         = m_thread.start(thread_func, "HMI", 1u, nullptr);
+    bool ret         = m_thread.start(thread_func, "HMI", 2u, nullptr);
 
     // Regoster console handlers
     m_hmi_console.register_handlers();
@@ -71,6 +83,12 @@ void hmi_manager::set_display(bool on)
 void hmi_manager::set_night_mode(bool on)
 {
     m_is_night_mode = on;
+}
+
+/** @brief Indicate if the night mode is ON */
+bool hmi_manager::is_night_mode_on()
+{
+    return m_is_night_mode;
 }
 
 /** @brief HMI thread */
@@ -148,7 +166,7 @@ void hmi_manager::thread_func(void*)
         m_current_screen->set_night_mode(m_is_night_mode);
         m_current_screen->refresh(frame);
 
-        // Refresh rate = 4FPS
+        // Refresh rate = 5FPS
         if (m_display.is_on() && !m_display_on)
         {
             m_display.turn_off();
@@ -158,7 +176,7 @@ void hmi_manager::thread_func(void*)
             m_display.turn_on();
         }
         m_display.refresh();
-        ov::this_thread::sleep_for(250u);
+        ov::this_thread::sleep_for(200u);
     }
 }
 

@@ -1,71 +1,15 @@
 
 #include "stm32wbxx_hal.h"
 
-#include "debug_console.h"
-#include "fs.h"
-#include "fs_console.h"
-#include "hmi_manager.h"
-#include "os.h"
-#include "ov_board.h"
-#include "thread.h"
-
-#include "YACSGL.h"
-#include "YACSWL.h"
-
-#include <cstdio>
+#include "ov_app.h"
 
 /** @brief System Clock Configuration */
 static void SystemClock_Config(void);
 /** @brief Peripherals Common Clock Configuration */
 static void PeriphCommonClock_Config(void);
 
-class Test
-{
-  public:
-    Test()
-        : m_console(m_board.get_debug_port()),
-          m_hmi(m_board.get_display(), m_console, m_board.get_previous_button(), m_board.get_next_button(), m_board.get_select_button())
-    {
-    }
-
-    void start()
-    {
-        auto start_func = ov::thread_func::create<Test, &Test::task_func>(*this);
-        m_thread.start(start_func, "Test", 3u, this);
-    }
-
-  private:
-    ov::ov_board      m_board;
-    ov::thread<4096u> m_thread;
-    ov::debug_console m_console;
-    ov::hmi_manager   m_hmi;
-
-    void task_func(void*)
-    {
-        // Init board
-        m_board.init();
-
-        // Init HMI
-        m_hmi.start();
-
-        // Init filesystem
-        bool fs_reinitialized = false;
-        ov::fs::init(fs_reinitialized, m_board.get_storage_memory());
-
-        // Init console commands
-        ov::fs_console fs_console(m_console);
-        fs_console.register_handlers();
-
-        // Start console
-        m_console.start();
-        while (true)
-        {
-            ov::this_thread::sleep_for(1000u);
-        }
-    }
-};
-
-static Test t;
+/** @brief Open Vario application */
+static ov::ov_app ov_app;
 
 /** @brief Entry point */
 int main()
@@ -74,9 +18,8 @@ int main()
     SystemClock_Config();
     PeriphCommonClock_Config();
 
-    // Start operating system
-    t.start();
-    ov::os::start();
+    // Start application
+    ov_app.start();
 
     // Shall never happen
     return 0;

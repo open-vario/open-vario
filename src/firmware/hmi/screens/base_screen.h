@@ -47,6 +47,9 @@ class base_screen : public i_hmi_screen
     /** @brief Switch to the specified screen */
     void switch_to_screen(hmi_screen screen);
 
+    /** @brief Get HMI manager */
+    i_hmi_manager& get_hmi() { return m_hmi_manager; }
+
   private:
     /** @brief Screen identifier */
     const hmi_screen m_screen_id;

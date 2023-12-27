@@ -36,14 +36,18 @@ enum class hmi_screen
 {
     /** @brief Splash screen */
     splash,
-#if 0
-    /** @brief Dashboard */
-    dashboard,
-    /** @brief Infos */
-    infos,
-    /** @brief Screen OFF */
-    screen_off,
-#endif
+    /** @brief Dashboard 1 */
+    dashboard1,
+    /** @brief Dashboard 2 */
+    dashboard2,
+    /** @brief Dashboard 3 */
+    dashboard3,
+    /** @brief Settings */
+    settings,
+    /** @brief Settings - Display */
+    settings_display,
+    /** @brief Settings - Exit */
+    settings_exit,
     /** @brief Number of screens */
     count
 };
