@@ -39,12 +39,6 @@ class hmi_manager : public i_hmi_manager
     /** @brief Turn the display ON/OFF */
     void set_display(bool on) override;
 
-    /** @brief Turn the night mode ON/OFF */
-    void set_night_mode(bool on) override;
-
-    /** @brief Indicate if the night mode is ON */
-    bool is_night_mode_on() override;
-
   private:
     /** @brief Button data */
     struct button_data
@@ -65,8 +59,6 @@ class hmi_manager : public i_hmi_manager
     hmi_console m_hmi_console;
     /** @brief Indicate if the display is ON */
     bool m_display_on;
-    /** @brief Indicate if the night mode is ON */
-    bool m_is_night_mode;
 
     /** @brief Current screen */
     i_hmi_screen* m_current_screen;

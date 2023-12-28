@@ -2,6 +2,7 @@
 #ifndef OV_APP_H
 #define OV_APP_H
 
+#include "config_console.h"
 #include "debug_console.h"
 #include "fs_console.h"
 #include "hmi_manager.h"
@@ -28,6 +29,8 @@ class ov_app
     debug_console m_console;
     /** @brief Filesystem console commands */
     fs_console m_fs_console;
+    /** @brief Configuration console commands */
+    config_console m_config_console;
     /** @brief HMI manager */
     hmi_manager m_hmi;
     /** @brief Main thread */

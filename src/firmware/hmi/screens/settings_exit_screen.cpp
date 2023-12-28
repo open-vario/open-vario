@@ -1,5 +1,6 @@
 
 #include "settings_exit_screen.h"
+#include "ov_config.h"
 
 namespace ov
 {
@@ -22,6 +23,7 @@ void settings_exit_screen::event(button bt, button_event bt_event)
         }
         if (bt == button::select)
         {
+            ov::config::save();
             switch_to_screen(hmi_screen::dashboard1);
         }
     }

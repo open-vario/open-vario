@@ -16,6 +16,19 @@
             "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
             "showDevDebugOutput": "raw",
             "rtos": "FreeRTOS"
-        }
+        },
+        {
+            "name": "Cortex Debug Attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/bin_stm32wb5mm-dk/openvario_fw",
+            "request": "attach",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "device": "STM32WB55VG",
+            "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
+            "showDevDebugOutput": "raw",
+            "rtos": "FreeRTOS"
+        },
     ]
 }

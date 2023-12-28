@@ -4,6 +4,7 @@
 #include "i_display.h"
 #include "i_hmi_screen.h"
 #include "os.h"
+#include "ov_config.h"
 
 #include <YACSGL.h>
 #include <YACSWL.h>
@@ -21,7 +22,6 @@ hmi_manager::hmi_manager(
       m_buttons(),
       m_hmi_console(debug_console, *this),
       m_display_on(true),
-      m_is_night_mode(true),
       m_current_screen(&m_splash_screen),
       m_next_screen(hmi_screen::splash),
       m_screens(),
@@ -77,18 +77,6 @@ void hmi_manager::set_next_screen(hmi_screen screen)
 void hmi_manager::set_display(bool on)
 {
     m_display_on = on;
-}
-
-/** @brief Turn the night mode ON/OFF */
-void hmi_manager::set_night_mode(bool on)
-{
-    m_is_night_mode = on;
-}
-
-/** @brief Indicate if the night mode is ON */
-bool hmi_manager::is_night_mode_on()
-{
-    return m_is_night_mode;
 }
 
 /** @brief HMI thread */
@@ -163,7 +151,7 @@ void hmi_manager::thread_func(void*)
             // Switch screen
             m_current_screen = m_screens[static_cast<int>(m_next_screen)];
         }
-        m_current_screen->set_night_mode(m_is_night_mode);
+        m_current_screen->set_night_mode(ov::config::get().is_night_mode_on);
         m_current_screen->refresh(frame);
 
         // Refresh rate = 5FPS

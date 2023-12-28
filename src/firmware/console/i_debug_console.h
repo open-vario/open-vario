@@ -42,7 +42,7 @@ class i_debug_console
     virtual void write_line(const char* str) = 0;
 
     /** \brief Get the next parameter in the command line */
-    virtual const char* get_next_param(char* const current_param) = 0;
+    virtual const char* get_next_param(const char* current_param) = 0;
 };
 
 } // namespace ov

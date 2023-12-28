@@ -1,6 +1,7 @@
 
 #include "hmi_console.h"
 #include "hmi_manager.h"
+#include "ov_config.h"
 
 #include <cstring>
 
@@ -12,9 +13,9 @@ hmi_console::hmi_console(i_debug_console& console, i_hmi_manager& hmi_manager)
     : m_console(console),
       m_hmi_manager(hmi_manager),
       m_disp_handler{
-          "disp", "Turn ON/OFF the display", ov::handler_func::create<hmi_console, &hmi_console::disp_handler>(*this), nullptr, false},
+          "disp", "Turn ON/OFF the display", ov::handler_func::create<hmi_console, &hmi_console::disp_handler>(*this), nullptr, true},
       m_night_handler{
-          "night", "Turn ON/OFF the night mode", ov::handler_func::create<hmi_console, &hmi_console::night_handler>(*this), nullptr, false}
+          "night", "Turn ON/OFF the night mode", ov::handler_func::create<hmi_console, &hmi_console::night_handler>(*this), nullptr, true}
 {
 }
 
@@ -56,7 +57,7 @@ void hmi_console::night_handler(const char* mode)
     {
         m_console.write_line("OFF");
     }
-    m_hmi_manager.set_night_mode(on);
+    ov::config::get().is_night_mode_on = on;
 }
 
 } // namespace ov

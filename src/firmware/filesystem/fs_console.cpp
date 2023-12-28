@@ -140,12 +140,13 @@ void fs_console::hexdump_handler(const char* file_path)
             for (size_t i = 0; i < read_count; i++)
             {
                 char hex[5u];
-                snprintf(hex, sizeof(hex), "0x%2x", static_cast<int>(buff[i]));
+                snprintf(hex, sizeof(hex), "0x%02x", static_cast<int>(buff[i]));
                 m_console.write(hex);
                 column++;
                 if (column == 16u)
                 {
                     m_console.write_line("");
+                    column = 0;
                 }
                 else
                 {

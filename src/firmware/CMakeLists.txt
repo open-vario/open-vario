@@ -6,6 +6,9 @@ add_executable(openvario_fw
 
     board/${TARGET_PLATFORM}/ov_board.cpp
 
+    config/ov_config.cpp
+    config/config_console.cpp
+
     console/debug_console.cpp
 
     filesystem/fs.cpp
@@ -31,6 +34,7 @@ target_include_directories(openvario_fw PRIVATE
     app
     board
     board/${TARGET_PLATFORM}
+    config
     console
     filesystem
     hmi

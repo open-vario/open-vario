@@ -35,6 +35,9 @@ static void SystemClock_Config(void)
     // Tick priority
     uwTickPrio = 1;
 
+    // Disable interrupts
+    __disable_irq();
+
     // Configure LSE Drive Capability
     HAL_PWR_EnableBkUpAccess();
     __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);

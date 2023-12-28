@@ -31,7 +31,7 @@ class debug_console : public i_debug_console
     void write_line(const char* str) override;
 
     /** \brief Get the next parameter in the command line */
-    const char* get_next_param(char* const current_param) override;
+    const char* get_next_param(const char* current_param) override;
 
   private:
     /** @brief Debug serial port */

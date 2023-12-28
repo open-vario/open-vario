@@ -1,6 +1,7 @@
 
 #include "settings_display_screen.h"
 #include "i_hmi_manager.h"
+#include "ov_config.h"
 
 namespace ov
 {
@@ -23,8 +24,7 @@ void settings_display_screen::event(button bt, button_event bt_event)
         }
         if (bt == button::select)
         {
-            auto& hmi = get_hmi();
-            hmi.set_night_mode(!hmi.is_night_mode_on());
+            ov::config::get().is_night_mode_on = !ov::config::get().is_night_mode_on;
         }
     }
 }
@@ -54,7 +54,7 @@ void settings_display_screen::on_init(YACSGL_frame_t& frame)
 /** @brief Refresh the contents of the screen */
 void settings_display_screen::on_refresh(YACSGL_frame_t&)
 {
-    if (get_hmi().is_night_mode_on())
+    if (ov::config::get().is_night_mode_on)
     {
         YACSWL_label_set_text(&m_night_mode_label, m_night_mode_on_string);
     }

@@ -2,6 +2,7 @@
 #include "ov_app.h"
 #include "fs.h"
 #include "os.h"
+#include "ov_config.h"
 
 namespace ov
 {
@@ -11,6 +12,7 @@ ov_app::ov_app()
     : m_board(),
       m_console(m_board.get_debug_port()),
       m_fs_console(m_console),
+      m_config_console(m_console),
       m_hmi(m_board.get_display(), m_console, m_board.get_previous_button(), m_board.get_next_button(), m_board.get_select_button()),
       m_thread()
 {
@@ -57,8 +59,16 @@ void ov_app::init()
     bool fs_reinitialized = false;
     ov::fs::init(fs_reinitialized, m_board.get_storage_memory());
 
-    // Init console commands
+    // Load configuration
+    if (!ov::config::load())
+    {
+        // Save default values
+        ov::config::save();
+    }
+
+    // Register custom console commands
     m_fs_console.register_handlers();
+    m_config_console.register_handlers();
 
     // Start console
     m_console.start();

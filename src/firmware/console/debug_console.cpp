@@ -61,7 +61,7 @@ void debug_console::write_line(const char* str)
 }
 
 /** \brief Get the next parameter in the command line */
-const char* debug_console::get_next_param(char* const current_param)
+const char* debug_console::get_next_param(const char* current_param)
 {
     const char* next_param = nullptr;
 
