@@ -19,6 +19,9 @@ class ov_app
     /** @brief Constructor */
     ov_app();
 
+    /** @brief Initialize application */
+    bool init();
+
     /** @brief Start the application (shall not return in case of sucess) */
     void start();
 
@@ -39,8 +42,8 @@ class ov_app
     /** @brief Main thread */
     void thread_func(void*);
 
-    /** @brief Init process */
-    void init();
+    /** @brief Startup process */
+    void startup();
 };
 
 } // namespace ov

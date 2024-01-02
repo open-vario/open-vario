@@ -14,6 +14,9 @@ class i_ble_stack
 
     /** @brief Start the stack */
     virtual bool start() = 0;
+
+    /** @brief Indicate if a device is connected */
+    virtual bool is_device_connected() = 0;
 };
 
 } // namespace ov

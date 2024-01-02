@@ -17,7 +17,7 @@ void dashboard3_screen::event(button bt, button_event bt_event)
     {
         if (bt == button::next)
         {
-            switch_to_screen(hmi_screen::settings);
+            switch_to_screen(hmi_screen::ble);
         }
         if (bt == button::previous)
         {

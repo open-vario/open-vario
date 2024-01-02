@@ -19,6 +19,14 @@ bool stm32wb5mm_ble_stack::start()
     return ret;
 }
 
+/** @brief Indicate if a device is connected */
+bool stm32wb5mm_ble_stack::is_device_connected()
+{
+    auto status = APP_BLE_Get_Server_Connection_Status();
+    bool ret    = (status == APP_BLE_CONNECTED_CLIENT) || (status == APP_BLE_CONNECTED_SERVER);
+    return ret;
+}
+
 /** @brief BLE thread */
 void stm32wb5mm_ble_stack::thread_func(void*)
 {

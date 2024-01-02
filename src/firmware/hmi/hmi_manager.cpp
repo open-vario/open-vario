@@ -16,8 +16,12 @@ namespace ov
 static const uint32_t LONG_PUSH_DELAY = 1000u;
 
 /** @brief Constructor */
-hmi_manager::hmi_manager(
-    i_display& display, i_debug_console& debug_console, i_button& previous_button, i_button& next_button, i_button& select_button)
+hmi_manager::hmi_manager(i_display&       display,
+                         i_debug_console& debug_console,
+                         i_button&        previous_button,
+                         i_button&        next_button,
+                         i_button&        select_button,
+                         i_ble_stack&     ble_stack)
     : m_display(display),
       m_buttons(),
       m_hmi_console(debug_console, *this),
@@ -29,6 +33,7 @@ hmi_manager::hmi_manager(
       m_dashboard1_screen(*this),
       m_dashboard2_screen(*this),
       m_dashboard3_screen(*this),
+      m_ble_screen(*this, ble_stack),
       m_settings_screen(*this),
       m_settings_display_screen(*this),
       m_settings_exit_screen(*this),
@@ -49,9 +54,10 @@ hmi_manager::hmi_manager(
     m_screens[1u] = &m_dashboard1_screen;
     m_screens[2u] = &m_dashboard2_screen;
     m_screens[3u] = &m_dashboard3_screen;
-    m_screens[4u] = &m_settings_screen;
-    m_screens[5u] = &m_settings_display_screen;
-    m_screens[6u] = &m_settings_exit_screen;
+    m_screens[4u] = &m_ble_screen;
+    m_screens[5u] = &m_settings_screen;
+    m_screens[6u] = &m_settings_display_screen;
+    m_screens[7u] = &m_settings_exit_screen;
 }
 
 /** @brief Start the HMI manager */

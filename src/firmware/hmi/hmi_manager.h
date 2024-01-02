@@ -6,6 +6,7 @@
 #include "i_hmi_manager.h"
 #include "thread.h"
 
+#include "ble_screen.h"
 #include "dashboard1_screen.h"
 #include "dashboard2_screen.h"
 #include "dashboard3_screen.h"
@@ -27,8 +28,12 @@ class hmi_manager : public i_hmi_manager
 {
   public:
     /** @brief Constructor */
-    hmi_manager(
-        i_display& display, i_debug_console& debug_console, i_button& previous_button, i_button& next_button, i_button& select_button);
+    hmi_manager(i_display&       display,
+                i_debug_console& debug_console,
+                i_button&        previous_button,
+                i_button&        next_button,
+                i_button&        select_button,
+                i_ble_stack&     ble_stack);
 
     /** @brief Start the HMI manager */
     bool start();
@@ -75,6 +80,8 @@ class hmi_manager : public i_hmi_manager
     dashboard2_screen m_dashboard2_screen;
     /** @brief Dashboard 3 screen */
     dashboard3_screen m_dashboard3_screen;
+    /** @brief BLE screen */
+    ble_screen m_ble_screen;
     /** @brief Settings screen */
     settings_screen m_settings_screen;
     /** @brief Display settings screen */

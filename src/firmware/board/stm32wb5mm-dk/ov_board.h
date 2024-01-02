@@ -30,6 +30,9 @@ class ov_board : public i_board
     /** @brief Constructor */
     ov_board();
 
+    /** @brief Initialize the clocks */
+    bool clock_init();
+
     /** @brief Initialize the peripherals */
     bool init();
 
@@ -93,8 +96,13 @@ class ov_board : public i_board
 
     /** @brief Initialize the HAL */
     bool hal_init();
-    /** @brief Initialize I/Os*/
+    /** @brief Initialize I/Os */
     bool io_init();
+
+    /** @brief System Clock Configuration */
+    bool system_clock_config();
+    /** @brief Peripherals Common Clock Configuration */
+    bool periph_common_clock_config();
 };
 
 } // namespace ov

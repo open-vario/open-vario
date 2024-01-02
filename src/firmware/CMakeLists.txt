@@ -25,6 +25,7 @@ add_executable(openvario_fw
     hmi/hmi_console.cpp
     hmi/hmi_manager.cpp
     hmi/screens/base_screen.cpp
+    hmi/screens/ble_screen.cpp
     hmi/screens/dashboard1_screen.cpp
     hmi/screens/dashboard2_screen.cpp
     hmi/screens/dashboard3_screen.cpp

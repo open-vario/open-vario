@@ -18,6 +18,9 @@ class stm32wb5mm_ble_stack : public i_ble_stack
     /** @brief Start the stack */
     bool start();
 
+    /** @brief Indicate if a device is connected */
+    bool is_device_connected() override;
+
   private:
     /** @brief BLE thread */
     thread<2048u> m_thread;
