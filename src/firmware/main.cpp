@@ -1,4 +1,5 @@
 
+#include "otp.h"
 #include "stm32wbxx_hal.h"
 
 #include "ov_app.h"
@@ -44,6 +45,10 @@ static void SystemClock_Config(void)
 
     // Configure the main internal regulator output voltage
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+    // Configure HSE tuning from OTP values
+    OTP_ID0_t* otp = reinterpret_cast<OTP_ID0_t*>(OTP_Read(0));
+    LL_RCC_HSE_SetCapacitorTuning(otp->hse_tuning);
 
     // Initializes the RCC Oscillators according to the specified parameters
     // in the RCC_OscInitTypeDef structure.

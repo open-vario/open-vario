@@ -17,6 +17,9 @@
 #include "s25flxxxs.h"
 #include "ssd1315.h"
 
+// BLE stack
+#include "stm32wb5mm_ble_stack.h"
+
 namespace ov
 {
 
@@ -47,6 +50,9 @@ class ov_board : public i_board
 
     /** @brief Get the 'Select' button */
     i_button& get_select_button() override { return m_select_button; }
+
+    /** @brief Get the BLE stack */
+    i_ble_stack& get_ble_stack() override { return m_ble_stack; }
 
   private:
     /** @brief Debug USART driver */
@@ -81,6 +87,9 @@ class ov_board : public i_board
     pin_button m_next_button;
     /** @brief 'Select' button */
     pin_button m_select_button;
+
+    /** @brief BLE stack */
+    stm32wb5mm_ble_stack m_ble_stack;
 
     /** @brief Initialize the HAL */
     bool hal_init();

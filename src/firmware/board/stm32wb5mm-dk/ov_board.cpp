@@ -27,7 +27,8 @@ ov_board::ov_board()
       m_select_button_pin(GPIOC, GPIO_PIN_13),
       m_previous_button(),
       m_next_button(m_next_button_pin, false),
-      m_select_button(m_select_button_pin, false)
+      m_select_button(m_select_button_pin, false),
+      m_ble_stack()
 {
 }
 
@@ -90,6 +91,15 @@ bool ov_board::hal_init()
     // Configure tick interrupt
     HAL_NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 15u, 0);
     HAL_NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+
+    // The OPTVERR flag is wrongly set at power on
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_OPTVERR);
+
+    // Shutdown CPU2
+    LL_C2_PWR_SetPowerMode(LL_PWR_MODE_SHUTDOWN);
+
+    // Enable IPCC(36), HSEM(38) wakeup interrupts on CPU1
+    LL_EXTI_EnableIT_32_63(LL_EXTI_LINE_36 | LL_EXTI_LINE_38);
 
     return ret;
 }

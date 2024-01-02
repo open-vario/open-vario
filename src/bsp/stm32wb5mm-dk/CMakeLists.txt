@@ -11,7 +11,6 @@ add_library(openvario_bsp STATIC
     STM32_WPAN/ble/core/auto/ble_l2cap_aci.c
     STM32_WPAN/ble/core/template/osal.c
     STM32_WPAN/ble/svc/Src/dis.c
-    STM32_WPAN/ble/svc/Src/hrs.c
     STM32_WPAN/ble/svc/Src/svc_ctl.c
     STM32_WPAN/interface/patterns/ble_thread/shci/shci.c
     STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.c

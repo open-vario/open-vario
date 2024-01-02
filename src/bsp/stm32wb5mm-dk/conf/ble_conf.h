@@ -69,7 +69,7 @@
 #define BLE_CFG_DIS_MODEL_NUMBER_STRING                                        0
 #define BLE_CFG_DIS_SERIAL_NUMBER_STRING                                       0
 #define BLE_CFG_DIS_HARDWARE_REVISION_STRING                                   0
-#define BLE_CFG_DIS_FIRMWARE_REVISION_STRING                                   0
+#define BLE_CFG_DIS_FIRMWARE_REVISION_STRING                                   1
 #define BLE_CFG_DIS_SOFTWARE_REVISION_STRING                                   0
 #define BLE_CFG_DIS_SYSTEM_ID                                                  0
 #define BLE_CFG_DIS_IEEE_CERTIFICATION                                         0
@@ -101,7 +101,7 @@
 
 #define BLE_CFG_UNKNOWN_APPEARANCE                  (0)
 #define BLE_CFG_HR_SENSOR_APPEARANCE                (832)
-#define BLE_CFG_GAP_APPEARANCE                      (BLE_CFG_HR_SENSOR_APPEARANCE)
+#define BLE_CFG_GAP_APPEARANCE                      (BLE_CFG_UNKNOWN_APPEARANCE)
 
 /******************************************************************************
  * Over The Air Feature (OTA) - STM Proprietary

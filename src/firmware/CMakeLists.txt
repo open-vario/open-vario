@@ -4,6 +4,12 @@ add_executable(openvario_fw
 
     app/ov_app.cpp
 
+    ble/${TARGET_PLATFORM}/app_ble.cpp
+    ble/${TARGET_PLATFORM}/dis_app.c
+    ble/${TARGET_PLATFORM}/hw_ipcc.c
+    ble/${TARGET_PLATFORM}/sequencer/stm32_seq.c
+    ble/${TARGET_PLATFORM}/stm32wb5mm_ble_stack.cpp
+
     board/${TARGET_PLATFORM}/ov_board.cpp
 
     config/ov_config.cpp
@@ -32,6 +38,9 @@ add_executable(openvario_fw
 target_include_directories(openvario_fw PRIVATE 
     .
     app
+    ble
+    ble/${TARGET_PLATFORM}
+    ble/${TARGET_PLATFORM}/sequencer
     board
     board/${TARGET_PLATFORM}
     config
