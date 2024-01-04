@@ -2,6 +2,7 @@
 #ifndef OV_APP_H
 #define OV_APP_H
 
+#include "ble_manager.h"
 #include "config_console.h"
 #include "debug_console.h"
 #include "fs_console.h"
@@ -19,6 +20,9 @@ class ov_app
     /** @brief Constructor */
     ov_app();
 
+    /** @brief Initialize application */
+    bool init();
+
     /** @brief Start the application (shall not return in case of sucess) */
     void start();
 
@@ -33,14 +37,16 @@ class ov_app
     config_console m_config_console;
     /** @brief HMI manager */
     hmi_manager m_hmi;
+    /** @brief BLE */
+    ble_manager m_ble;
     /** @brief Main thread */
     thread<2048u> m_thread;
 
     /** @brief Main thread */
     void thread_func(void*);
 
-    /** @brief Init process */
-    void init();
+    /** @brief Startup process */
+    void startup();
 };
 
 } // namespace ov

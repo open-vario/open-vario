@@ -2,6 +2,7 @@
     "cortex-debug.JLinkGDBServerPath": "/opt/SEGGER/JLink_V794/JLinkGDBServer",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi-10.3-2021.10/bin/",
     "files.associations": {
-        "yacsgl_font_5x7.h": "c"
+        "yacsgl_font_5x7.h": "c",
+        "utilities_common.h": "c"
     }
 }

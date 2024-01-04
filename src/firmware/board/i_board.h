@@ -2,6 +2,7 @@
 #ifndef OV_I_BOARD_H
 #define OV_I_BOARD_H
 
+#include "i_ble_stack.h"
 #include "i_button.h"
 #include "i_display.h"
 #include "i_serial.h"
@@ -34,6 +35,9 @@ class i_board
 
     /** @brief Get the 'Select' button */
     virtual i_button& get_select_button() = 0;
+
+    /** @brief Get the BLE stack */
+    virtual i_ble_stack& get_ble_stack() = 0;
 };
 
 } // namespace ov

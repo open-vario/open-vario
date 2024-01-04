@@ -5,6 +5,7 @@ add_library(openvario_os
     os.cpp
     semaphore.cpp
     thread.cpp
+    timer.cpp
 )
 
 # Include directories
