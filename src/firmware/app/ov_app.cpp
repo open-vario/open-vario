@@ -19,6 +19,7 @@ ov_app::ov_app()
             m_board.get_next_button(),
             m_board.get_select_button(),
             m_board.get_ble_stack()),
+      m_ble(m_board.get_ble_stack()),
       m_thread()
 {
 }
@@ -86,8 +87,8 @@ void ov_app::startup()
     // Start console
     m_console.start();
 
-    // Start BLE stack
-    m_board.get_ble_stack().start();
+    // Start BLE
+    m_ble.start();
 }
 
 } // namespace ov

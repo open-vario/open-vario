@@ -30,9 +30,6 @@ extern "C" {
 #include "hci_tl.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 
@@ -69,10 +66,9 @@ typedef enum
 /* Exported functions ---------------------------------------------*/
 void APPE_Tl_Init(void);
 APP_BLE_ConnStatus_t APP_BLE_Get_Server_Connection_Status(void);
+bool APP_BLE_Is_Ready();
 
 /* USER CODE BEGIN EF */
-void APP_BLE_Key_Button1_Action(void);
-void APP_BLE_Key_Button2_Action(void);
 
 /* USER CODE END EF */
 

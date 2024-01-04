@@ -4,6 +4,9 @@ add_executable(openvario_fw
 
     app/ov_app.cpp
 
+    ble/ble_manager.cpp
+    ble/ble_config_service.cpp
+    ble/generic/ble_characteristic.cpp
     ble/${TARGET_PLATFORM}/app_ble.cpp
     ble/${TARGET_PLATFORM}/dis_app.c
     ble/${TARGET_PLATFORM}/hw_ipcc.c
@@ -40,6 +43,7 @@ target_include_directories(openvario_fw PRIVATE
     .
     app
     ble
+    ble/generic
     ble/${TARGET_PLATFORM}
     ble/${TARGET_PLATFORM}/sequencer
     board

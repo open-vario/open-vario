@@ -299,6 +299,8 @@ ov::timer     advertising_timer(ov::timer_func::create<timer_wrapper, &timer_wra
 ov::semaphore hci_cmd_sem(0u, 1u);
 ov::semaphore shci_cmd_sem(0u, 1u);
 
+bool s_app_ble_is_ready = false;
+
 /* Functions Definition ------------------------------------------------------*/
 static void APP_BLE_Init(void)
 {
@@ -447,6 +449,8 @@ static void APP_BLE_Init(void)
                 p_wireless_info->FusVersionMinor,
                 p_wireless_info->FusVersionSub);
     }
+
+    s_app_ble_is_ready = true;
 
     return;
 }
@@ -1393,6 +1397,12 @@ void SVCCTL_ResumeUserEventFlow(void)
 }
 
 /* USER CODE BEGIN FD_WRAP_FUNCTIONS */
+
+bool APP_BLE_Is_Ready()
+{
+    return s_app_ble_is_ready;
+}
+
 
 void APPE_Tl_Init(void)
 {

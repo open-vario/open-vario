@@ -2,6 +2,7 @@
 #ifndef OV_APP_H
 #define OV_APP_H
 
+#include "ble_manager.h"
 #include "config_console.h"
 #include "debug_console.h"
 #include "fs_console.h"
@@ -36,6 +37,8 @@ class ov_app
     config_console m_config_console;
     /** @brief HMI manager */
     hmi_manager m_hmi;
+    /** @brief BLE */
+    ble_manager m_ble;
     /** @brief Main thread */
     thread<2048u> m_thread;
 
