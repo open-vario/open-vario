@@ -1,5 +1,6 @@
 
 #include "dashboard3_screen.h"
+#include "ov_data.h"
 
 #include <cstdio>
 #include <cstring>
@@ -64,6 +65,51 @@ void dashboard3_screen::on_init(YACSGL_frame_t&)
 void dashboard3_screen::on_refresh(YACSGL_frame_t&)
 {
     // Update strings
+    auto gnss = ov::data::get_gnss();
+    if (gnss.is_valid)
+    {
+        uint32_t deg = 0;
+        uint32_t min = 0;
+        uint32_t sec = 0;
+        char     ref = 0;
+
+        // Latitude
+        if (gnss.latitude >= 0)
+        {
+            ref = 'N';
+        }
+        else
+        {
+            ref = 'S';
+            gnss.latitude *= -1.;
+        }
+        i_gnss::to_dms(gnss.latitude, deg, min, sec);
+        snprintf(m_lat_string, sizeof(m_lat_string), "LA: %02ld.%02ld'%02ld''%c", deg, min, sec, ref);
+
+        // Longitude
+        if (gnss.longitude >= 0)
+        {
+            ref = 'E';
+        }
+        else
+        {
+            ref = 'W';
+            gnss.longitude *= -1.;
+        }
+        i_gnss::to_dms(gnss.longitude, deg, min, sec);
+        snprintf(m_lon_string, sizeof(m_lon_string), "LO: %02ld.%02ld'%02ld''%c", deg, min, sec, ref);
+
+        // Track angle
+        uint16_t angle = gnss.track_angle / 10u;
+        uint16_t part  = gnss.track_angle - angle * 10u;
+        snprintf(m_track_angle_string, sizeof(m_track_angle_string), "TA: %03d.%d", angle, part);
+    }
+    else
+    {
+        strcpy(m_lat_string, "LA: --.--'--''-");
+        strcpy(m_lon_string, "LO: --.--'--''-");
+        strcpy(m_track_angle_string, "TA: ---.-");
+    }
 }
 
 } // namespace ov

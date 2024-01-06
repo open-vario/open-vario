@@ -95,7 +95,7 @@ bool stm32hal_usart::read(void* buffer, size_t size, uint32_t ms_timeout)
         if (ret)
         {
             // Disable RX interrupts
-            ATOMIC_SET_BIT(m_usart.Instance->CR1, USART_CR1_RXNEIE_RXFNEIE);
+            ATOMIC_CLEAR_BIT(m_usart.Instance->CR1, USART_CR1_RXNEIE_RXFNEIE);
 
             // Read available bytes
             while ((m_rx_bytes_count != 0u) && (read_count != size))

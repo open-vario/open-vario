@@ -1,5 +1,6 @@
 
 #include "dashboard2_screen.h"
+#include "ov_data.h"
 
 #include <cstdio>
 #include <cstring>
@@ -66,6 +67,19 @@ void dashboard2_screen::on_init(YACSGL_frame_t&)
 void dashboard2_screen::on_refresh(YACSGL_frame_t&)
 {
     // Update strings
+    auto gnss = ov::data::get_gnss();
+    if (gnss.is_valid)
+    {
+        // Speed
+        uint32_t speed_kmh = (gnss.speed * 36000u) / 1000u;
+        uint32_t speed     = speed_kmh / 10u;
+        uint32_t part      = speed_kmh - speed * 10u;
+        snprintf(m_speed_string, sizeof(m_speed_string), "SP: %03ld.%ldkm/h", speed, part);
+    }
+    else
+    {
+        strcpy(m_speed_string, "SP: ---.-km/h");
+    }
 }
 
 } // namespace ov

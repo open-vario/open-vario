@@ -10,6 +10,7 @@
 #include "dashboard1_screen.h"
 #include "dashboard2_screen.h"
 #include "dashboard3_screen.h"
+#include "gnss_screen.h"
 #include "settings_display_screen.h"
 #include "settings_exit_screen.h"
 #include "settings_screen.h"
@@ -82,6 +83,8 @@ class hmi_manager : public i_hmi_manager
     dashboard3_screen m_dashboard3_screen;
     /** @brief BLE screen */
     ble_screen m_ble_screen;
+    /** @brief GNSS screen */
+    gnss_screen m_gnss_screen;
     /** @brief Settings screen */
     settings_screen m_settings_screen;
     /** @brief Display settings screen */

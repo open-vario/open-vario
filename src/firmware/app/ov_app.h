@@ -8,6 +8,7 @@
 #include "fs_console.h"
 #include "hmi_manager.h"
 #include "ov_board.h"
+#include "sensors_console.h"
 #include "thread.h"
 
 namespace ov
@@ -35,6 +36,8 @@ class ov_app
     fs_console m_fs_console;
     /** @brief Configuration console commands */
     config_console m_config_console;
+    /** @brief Sensors console commands */
+    sensors_console m_sensors_console;
     /** @brief HMI manager */
     hmi_manager m_hmi;
     /** @brief BLE */

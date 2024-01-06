@@ -2,7 +2,7 @@
 #include "fs_console.h"
 #include "fs.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 namespace ov
 {

@@ -89,6 +89,37 @@ const char* debug_console::get_next_param(const char* current_param)
     return next_param;
 }
 
+/** @brief Start a periodic handler */
+void debug_console::start_periodic(periodic_handler_func func, uint32_t ms_period)
+{
+    write_line("Press Ctrl+C or ESC to stop...");
+
+    // Loop
+    bool end = false;
+    while (!end)
+    {
+        // Check for escape command
+        char read_char = 0;
+        while (m_serial_port.read(&read_char, 1u, 0u))
+        {
+            if ((read_char == 0x03) || (read_char == 0x1b))
+            {
+                end = true;
+            }
+        }
+        if (!end)
+        {
+            // Call handler
+            func.invoke();
+
+            // Wait next period
+            ov::this_thread::sleep_for(ms_period);
+        }
+    }
+
+    write_line("End of periodic display");
+}
+
 /** @brief Console thread */
 void debug_console::thread_func(void*)
 {

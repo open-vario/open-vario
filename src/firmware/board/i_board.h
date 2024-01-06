@@ -5,6 +5,7 @@
 #include "i_ble_stack.h"
 #include "i_button.h"
 #include "i_display.h"
+#include "i_gnss.h"
 #include "i_serial.h"
 #include "i_storage_memory.h"
 
@@ -38,6 +39,9 @@ class i_board
 
     /** @brief Get the BLE stack */
     virtual i_ble_stack& get_ble_stack() = 0;
+
+    /** @brief Get the GNSS  */
+    virtual i_gnss& get_gnss() = 0;
 };
 
 } // namespace ov

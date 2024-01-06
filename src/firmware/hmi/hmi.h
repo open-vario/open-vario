@@ -44,6 +44,8 @@ enum class hmi_screen
     dashboard3,
     /** @brief BLE */
     ble,
+    /** @brief GNSS */
+    gnss,
     /** @brief Settings */
     settings,
     /** @brief Settings - Display */

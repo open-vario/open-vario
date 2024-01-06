@@ -3,6 +3,8 @@ add_executable(openvario_fw
     main.cpp
 
     app/ov_app.cpp
+    app/ov_data.cpp
+    app/sensors_console.cpp
 
     ble/ble_manager.cpp
     ble/ble_config_service.cpp
@@ -32,6 +34,7 @@ add_executable(openvario_fw
     hmi/screens/dashboard1_screen.cpp
     hmi/screens/dashboard2_screen.cpp
     hmi/screens/dashboard3_screen.cpp
+    hmi/screens/gnss_screen.cpp
     hmi/screens/settings_screen.cpp
     hmi/screens/settings_display_screen.cpp
     hmi/screens/settings_exit_screen.cpp

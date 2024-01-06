@@ -7,12 +7,14 @@
 // Drivers
 #include "spi_pin_cs_driver.h"
 #include "stm32hal_iopin.h"
+#include "stm32hal_lpuart.h"
 #include "stm32hal_qspi.h"
 #include "stm32hal_spi.h"
 #include "stm32hal_usart.h"
 
 // Peripherals
 #include "fake_button.h"
+#include "nmea_gnss.h"
 #include "pin_button.h"
 #include "s25flxxxs.h"
 #include "ssd1315.h"
@@ -57,6 +59,9 @@ class ov_board : public i_board
     /** @brief Get the BLE stack */
     i_ble_stack& get_ble_stack() override { return m_ble_stack; }
 
+    /** @brief Get the GNSS  */
+    i_gnss& get_gnss() override { return m_gnss; }
+
   private:
     /** @brief Debug USART driver */
     stm32hal_usart m_dbg_usart_drv;
@@ -93,6 +98,13 @@ class ov_board : public i_board
 
     /** @brief BLE stack */
     stm32wb5mm_ble_stack m_ble_stack;
+
+    /** @brief GNSS serial port */
+    stm32hal_lpuart m_gnss_lpuart_drv;
+    /** @brief LPUART mux pin */
+    stm32hal_iopin m_lpuart_mux_pin;
+    /** @brief GNSS (UBlox SAM-M8Q)*/
+    nmea_gnss m_gnss;
 
     /** @brief Initialize the HAL */
     bool hal_init();

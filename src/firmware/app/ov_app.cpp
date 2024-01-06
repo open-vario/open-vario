@@ -3,6 +3,9 @@
 #include "fs.h"
 #include "os.h"
 #include "ov_config.h"
+#include "ov_data.h"
+
+#include <stdio.h>
 
 namespace ov
 {
@@ -13,6 +16,7 @@ ov_app::ov_app()
       m_console(m_board.get_debug_port()),
       m_fs_console(m_console),
       m_config_console(m_console),
+      m_sensors_console(m_console),
       m_hmi(m_board.get_display(),
             m_console,
             m_board.get_previous_button(),
@@ -54,9 +58,20 @@ void ov_app::thread_func(void*)
     startup();
 
     // Main loop
+    auto& gnss = m_board.get_gnss();
     while (true)
     {
-        ov::this_thread::sleep_for(1000u);
+        // Get gnss data
+        if (gnss.update_data())
+        {
+            ov::data::set_gnss(gnss.get_data());
+        }
+        else
+        {
+            ov::data::invalidate_gnss();
+        }
+
+        ov::this_thread::sleep_for(100u);
     }
 }
 
@@ -83,6 +98,7 @@ void ov_app::startup()
     // Register custom console commands
     m_fs_console.register_handlers();
     m_config_console.register_handlers();
+    m_sensors_console.register_handlers();
 
     // Start console
     m_console.start();

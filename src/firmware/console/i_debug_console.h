@@ -4,11 +4,15 @@
 
 #include "delegate.h"
 
+#include <cstdint>
+
 namespace ov
 {
 
 /** @brief Command handler function */
 using handler_func = delegate<void, const char*>;
+/** @brief Periodic command handler function */
+using periodic_handler_func = delegate<void>;
 
 /** @brief Interface for the debug console implementations */
 class i_debug_console
@@ -43,6 +47,9 @@ class i_debug_console
 
     /** \brief Get the next parameter in the command line */
     virtual const char* get_next_param(const char* current_param) = 0;
+
+    /** @brief Start a periodic handler */
+    virtual void start_periodic(periodic_handler_func func, uint32_t ms_period) = 0;
 };
 
 } // namespace ov

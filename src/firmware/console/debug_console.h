@@ -33,6 +33,9 @@ class debug_console : public i_debug_console
     /** \brief Get the next parameter in the command line */
     const char* get_next_param(const char* current_param) override;
 
+    /** @brief Start a periodic handler */
+    void start_periodic(periodic_handler_func func, uint32_t ms_period) override;
+
   private:
     /** @brief Debug serial port */
     i_serial& m_serial_port;
