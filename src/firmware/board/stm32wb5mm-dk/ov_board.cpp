@@ -83,6 +83,13 @@ bool ov_board::init()
     return ret;
 }
 
+/** @brief Reset the board */
+void ov_board::reset()
+{
+    // Software reset
+    NVIC_SystemReset();
+}
+
 /** @brief Initialize the HAL */
 bool ov_board::hal_init()
 {

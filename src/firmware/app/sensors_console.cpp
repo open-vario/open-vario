@@ -1,15 +1,18 @@
 
 #include "sensors_console.h"
+#include "ov_config.h"
 #include "ov_data.h"
 
 #include <cstdio>
+#include <cstdlib>
 
 namespace ov
 {
 
 /** @brief Constructor */
-sensors_console::sensors_console(i_debug_console& console)
+sensors_console::sensors_console(i_debug_console& console, i_barometric_altimeter& altimeter)
     : m_console(console),
+      m_altimeter(altimeter),
       m_gnss_handler{"gnss",
                      "Display the GNSS data",
                      ov::handler_func::create<sensors_console, &sensors_console::gnss_handler>(*this),
@@ -19,7 +22,12 @@ sensors_console::sensors_console(i_debug_console& console)
                      "Display the barometric altimeter data",
                      ov::handler_func::create<sensors_console, &sensors_console::alti_handler>(*this),
                      nullptr,
-                     false}
+                     false},
+      m_alticalib_handler{"alticalib",
+                          "Calibrate the barometric altimeter data",
+                          ov::handler_func::create<sensors_console, &sensors_console::alticalib_handler>(*this),
+                          nullptr,
+                          true}
 {
 }
 
@@ -28,6 +36,7 @@ void sensors_console::register_handlers()
 {
     m_console.register_handler(m_gnss_handler);
     m_console.register_handler(m_alti_handler);
+    m_console.register_handler(m_alticalib_handler);
 }
 
 /** @brief Handler for the 'gnss' command */
@@ -46,6 +55,18 @@ void sensors_console::alti_handler(const char*)
 
     auto handler = ov::periodic_handler_func::create<sensors_console, &sensors_console::display_alti_data>(*this);
     m_console.start_periodic(handler, 250u);
+}
+
+/** @brief Handler for the 'alticalib' command */
+void sensors_console::alticalib_handler(const char* new_alti)
+{
+    auto  alti_data = ov::data::get_altimeter();
+    int   altitude  = atoi(new_alti) * 10;
+    auto& config    = ov::config::get();
+    m_altimeter.set_references(alti_data.temperature, alti_data.pressure, altitude);
+    config.alti_ref_temp     = alti_data.temperature;
+    config.alti_ref_pressure = alti_data.pressure;
+    config.alti_ref_alti     = altitude;
 }
 
 /** @brief Display gnss data */

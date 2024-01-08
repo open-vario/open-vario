@@ -42,6 +42,9 @@ class ov_board : public i_board
     /** @brief Initialize the peripherals */
     bool init();
 
+    /** @brief Reset the board */
+    void reset() override;
+
     /** @brief Get the debug serial port */
     i_serial& get_debug_port() override { return m_dbg_usart_drv; }
 

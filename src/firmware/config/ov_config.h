@@ -30,6 +30,13 @@ struct ov_config
     /** @brief Glide ratio integration time (ms) */
     uint32_t gr_integ_time;
 
+    /** @brief Reference temperature for the barometric altimeter (1 = 0.1°C) */
+    int16_t alti_ref_temp;
+    /** @brief Reference pressure for the barometric altimeter (1 = 0.01mbar) */
+    uint32_t alti_ref_pressure;
+    /** @brief Reference altitude for the barometric altimeter (1 = 0.1m) */
+    int32_t alti_ref_alti;
+
     // Display settings
 
     /** @brief Night mode */

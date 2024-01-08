@@ -27,7 +27,7 @@ bool barometric_altimeter::init()
 void barometric_altimeter::set_references(const int16_t ref_temperature, const uint32_t ref_pressure, const int32_t ref_altitude)
 {
     // Convert units for internal computation
-    m_ref_temp     = static_cast<double>(ref_temperature + 273u) / 10.;
+    m_ref_temp     = static_cast<double>(ref_temperature + 2730u) / 10.;
     m_ref_pressure = static_cast<double>(ref_pressure) / 100.;
     m_ref_alti     = static_cast<double>(ref_altitude) / 10.;
 }

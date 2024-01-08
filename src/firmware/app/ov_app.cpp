@@ -13,10 +13,10 @@ namespace ov
 /** @brief Constructor */
 ov_app::ov_app()
     : m_board(),
-      m_console(m_board.get_debug_port()),
+      m_console(m_board, m_board.get_debug_port()),
       m_fs_console(m_console),
       m_config_console(m_console),
-      m_sensors_console(m_console),
+      m_sensors_console(m_console, m_board.get_altimeter()),
       m_hmi(m_board.get_display(),
             m_console,
             m_board.get_previous_button(),
@@ -109,6 +109,10 @@ void ov_app::startup()
 
     // Start BLE
     m_ble.start();
+
+    // Load altimeter with calibration data
+    const auto& config = ov::config::get();
+    m_board.get_altimeter().set_references(config.alti_ref_temp, config.alti_ref_pressure, config.alti_ref_alti);
 }
 
 } // namespace ov

@@ -17,7 +17,7 @@ class i_barometric_altimeter
     {
         /** @brief Pressure (1 = 0.01mbar) */
         int32_t pressure;
-        /** @brief Altitude (Altitude : 1 = 0.1m) */
+        /** @brief Altitude (1 = 0.1m) */
         int32_t altitude;
         /** @brief Temperature (1 = 0.1°C) */
         int16_t temperature;

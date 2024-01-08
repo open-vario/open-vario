@@ -1,5 +1,6 @@
 
 #include "debug_console.h"
+#include "i_board.h"
 #include "i_serial.h"
 #include "os.h"
 
@@ -9,15 +10,18 @@ namespace ov
 {
 
 /** @brief Constructor */
-debug_console::debug_console(i_serial& serial_port)
-    : m_serial_port(serial_port),
+debug_console::debug_console(i_board& board, i_serial& serial_port)
+    : m_board(board),
+      m_serial_port(serial_port),
       m_thread(),
       m_handlers(nullptr),
       m_help_handler{"help",
                      "Display the list of available commands",
                      handler_func::create<debug_console, &debug_console::help_handler>(*this),
                      nullptr,
-                     false}
+                     false},
+      m_reset_handler{
+          "reset", "Reset the system", handler_func::create<debug_console, &debug_console::reset_handler>(*this), nullptr, false}
 {
 }
 
@@ -25,6 +29,7 @@ debug_console::debug_console(i_serial& serial_port)
 bool debug_console::start()
 {
     register_handler(m_help_handler);
+    register_handler(m_reset_handler);
     return m_thread.start(thread_func::create<debug_console, &debug_console::thread_func>(*this), "Debug console", 1u, nullptr);
 }
 
@@ -269,6 +274,13 @@ void debug_console::help_handler(const char*)
         write_line(current_handler->help);
         current_handler = current_handler->next;
     }
+}
+
+/** @brief Reset command handler */
+void debug_console::reset_handler(const char*)
+{
+    write_line("System will now reset!");
+    m_board.reset();
 }
 
 } // namespace ov

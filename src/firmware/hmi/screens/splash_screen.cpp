@@ -48,11 +48,12 @@ void splash_screen::on_init(YACSGL_frame_t& frame)
 /** @brief Refresh the contents of the screen */
 void splash_screen::on_refresh(YACSGL_frame_t& frame)
 {
+    // Fake progress ;)
     static uint8_t progress = 0;
 
     YACSWL_progress_bar_set_progress(&m_progress_bar, progress);
 
-    progress += 10u;
+    progress += 20u;
     if (progress > 100u)
     {
         this->switch_to_screen(hmi_screen::dashboard1);

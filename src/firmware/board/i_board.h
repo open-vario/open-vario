@@ -20,6 +20,9 @@ class i_board
     /** @brief Destructor */
     virtual ~i_board() { }
 
+    /** @brief Reset the board */
+    virtual void reset() = 0;
+
     /** @brief Get the debug serial port */
     virtual i_serial& get_debug_port() = 0;
 

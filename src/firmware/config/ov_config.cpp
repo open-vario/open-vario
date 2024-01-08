@@ -32,6 +32,9 @@ static const config_entry s_config_desc[] = {
     // Sensors settings
     {"Sink rate integ time", entry_type::uint, sizeof(s_config.sr_integ_time), &s_config.sr_integ_time, &s_default_sr_integ_time},
     {"Glide ratio integ time", entry_type::uint, sizeof(s_config.gr_integ_time), &s_config.gr_integ_time, &s_default_gr_integ_time},
+    {"Alti ref temp", entry_type::sint, sizeof(s_config.alti_ref_temp), &s_config.alti_ref_temp, &s_default_alti_ref_temp},
+    {"Alti ref pressure", entry_type::uint, sizeof(s_config.alti_ref_pressure), &s_config.alti_ref_pressure, &s_default_alti_ref_pressure},
+    {"Alti ref altitude", entry_type::sint, sizeof(s_config.alti_ref_alti), &s_config.alti_ref_alti, &s_default_alti_ref_alti},
     // Display settings
     {"Night mode", entry_type::boolean, sizeof(s_config.is_night_mode_on), &s_config.is_night_mode_on, &s_default_is_night_mode_on},
     // Null entry

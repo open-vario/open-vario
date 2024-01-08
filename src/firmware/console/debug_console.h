@@ -9,6 +9,7 @@ namespace ov
 {
 
 // Forward declarations
+class i_board;
 class i_serial;
 
 /** @brief Debug console */
@@ -16,7 +17,7 @@ class debug_console : public i_debug_console
 {
   public:
     /** @brief Constructor */
-    debug_console(i_serial& serial_port);
+    debug_console(i_board& board, i_serial& serial_port);
 
     /** @brief Start the console */
     bool start();
@@ -37,6 +38,8 @@ class debug_console : public i_debug_console
     void start_periodic(periodic_handler_func func, uint32_t ms_period) override;
 
   private:
+    /** @brief Board */
+    i_board& m_board;
     /** @brief Debug serial port */
     i_serial& m_serial_port;
     /** @brief Console thread */
@@ -45,6 +48,8 @@ class debug_console : public i_debug_console
     cmd_handler* m_handlers;
     /** @brief Help command handler */
     cmd_handler m_help_handler;
+    /** @brief Reset command handler */
+    cmd_handler m_reset_handler;
 
     /** @brief Console thread */
     void thread_func(void*);
@@ -53,6 +58,8 @@ class debug_console : public i_debug_console
 
     /** @brief Help command handler */
     void help_handler(const char*);
+    /** @brief Reset command handler */
+    void reset_handler(const char*);
 };
 
 } // namespace ov
