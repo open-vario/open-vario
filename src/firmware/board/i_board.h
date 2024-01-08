@@ -2,6 +2,7 @@
 #ifndef OV_I_BOARD_H
 #define OV_I_BOARD_H
 
+#include "i_barometric_altimeter.h"
 #include "i_ble_stack.h"
 #include "i_button.h"
 #include "i_display.h"
@@ -42,6 +43,9 @@ class i_board
 
     /** @brief Get the GNSS  */
     virtual i_gnss& get_gnss() = 0;
+
+    /** @brief Get the barometric altimeter */
+    virtual i_barometric_altimeter& get_altimeter() = 0;
 };
 
 } // namespace ov

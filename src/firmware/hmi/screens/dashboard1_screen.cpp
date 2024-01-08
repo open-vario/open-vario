@@ -1,5 +1,6 @@
 
 #include "dashboard1_screen.h"
+#include "ov_data.h"
 
 #include <cstdio>
 #include <cstring>
@@ -65,6 +66,29 @@ void dashboard1_screen::on_init(YACSGL_frame_t&)
 void dashboard1_screen::on_refresh(YACSGL_frame_t&)
 {
     // Update strings
+    auto alti = ov::data::get_altimeter();
+    if (alti.is_valid)
+    {
+        // Altitude
+        int32_t altitude = alti.altitude / 10;
+        snprintf(m_qnh_string, sizeof(m_qnh_string), "A : %04ldm", altitude);
+
+        // Pressure
+        int32_t pressure = alti.pressure / 100;
+        int32_t part     = alti.pressure - pressure * 100u;
+        snprintf(m_pressure_string, sizeof(m_pressure_string), "P : %04ld.%02ldmbar", pressure, part);
+
+        // Temperature
+        int32_t temperature = alti.temperature / 10;
+        part                = alti.temperature - temperature * 10u;
+        snprintf(m_temperature_string, sizeof(m_temperature_string), "T : %02ld.%0ldC", temperature, part);
+    }
+    else
+    {
+        strcpy(m_qnh_string, "A : ----m");
+        strcpy(m_pressure_string, "P : ----.--mbar");
+        strcpy(m_temperature_string, "T : --.-C");
+    }
 }
 
 } // namespace ov

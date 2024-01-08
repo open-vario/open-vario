@@ -27,7 +27,7 @@ struct date_time
     uint16_t millis;
 };
 
-/** @brief Interface for all global navigation satellite systems implementations */
+/** @brief Interface for global navigation satellite systems implementations */
 class i_gnss
 {
   public:
@@ -54,9 +54,6 @@ class i_gnss
 
     /** @brief Destructor */
     virtual ~i_gnss() { }
-
-    /** @brief Initialize the GNSS */
-    virtual bool init() = 0;
 
     /** @brief Update navigation data */
     virtual bool update_data() = 0;

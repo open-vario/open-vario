@@ -2,19 +2,18 @@
 #ifndef I_IO_PIN_H
 #define I_IO_PIN_H
 
+#include "i_input_pin.h"
+#include "i_output_pin.h"
+
 namespace ov
 {
 
-/** @brief Interface for input/output pins drivers implementations */
-class i_io_pin
+/** @brief Interface for pin drivers with both input and output capabilities implementations */
+class i_io_pin : public i_input_pin, public i_output_pin
 {
   public:
-    /** @brief Pin level */
-    typedef bool Level;
-    /** @brief High level */
-    static const Level HIGH = true;
-    /** @brief Low level */
-    static const Level LOW = false;
+    /** @brief Destructor */
+    virtual ~i_io_pin() { }
 };
 
 } // namespace ov

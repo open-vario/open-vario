@@ -2,13 +2,13 @@
 #ifndef I_INPUT_PIN_H
 #define I_INPUT_PIN_H
 
-#include "i_io_pin.h"
+#include "io_pin.h"
 
 namespace ov
 {
 
 /** @brief Interface for input pins drivers implementations */
-class i_input_pin : public i_io_pin
+class i_input_pin
 {
   public:
     /** @brief Indicate if the pin level is low */
@@ -18,7 +18,7 @@ class i_input_pin : public i_io_pin
     virtual bool is_high() = 0;
 
     /** @brief Get the pin level */
-    virtual Level get_level() = 0;
+    virtual io::level get_level() = 0;
 };
 
 } // namespace ov

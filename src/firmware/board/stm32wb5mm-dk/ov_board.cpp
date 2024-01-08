@@ -23,6 +23,10 @@ ov_board::ov_board()
       m_spi1_cs_drv({&m_oled_cs_pin}),
       m_spi1_drv(SPI1, 10000000u, i_spi::polarity::high, i_spi::phase::first, m_spi1_cs_drv),
 
+      m_soft_i2c_drv_scl(GPIOC, GPIO_PIN_5),
+      m_soft_i2c_drv_sda(GPIOC, GPIO_PIN_4),
+      m_soft_i2c_drv(m_soft_i2c_drv_scl, m_soft_i2c_drv_sda, soft_i2c::delay_func::create<ov_board, &ov_board::soft_i2c_delay>(*this)),
+
       m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv),
 
       m_oled_reset_pin(GPIOC, GPIO_PIN_8),
@@ -38,7 +42,10 @@ ov_board::ov_board()
 
       m_gnss_lpuart_drv(),
       m_lpuart_mux_pin(GPIOE, GPIO_PIN_2),
-      m_gnss(m_gnss_lpuart_drv)
+      m_gnss(m_gnss_lpuart_drv),
+
+      m_barometric_sensor(m_soft_i2c_drv, 0xEEu),
+      m_altimeter(m_barometric_sensor)
 {
 }
 
@@ -57,18 +64,21 @@ bool ov_board::init()
 
     // Initialize drivers
     ret = hal_init();
-    ret = ret && io_init();
-    ret = ret && m_dbg_usart_drv.init();
-    ret = ret && m_qspi_drv.init();
-    ret = ret && m_spi1_cs_drv.init();
-    ret = ret && m_spi1_drv.init();
-    ret = ret && m_gnss_lpuart_drv.init();
+    ret = io_init() && ret;
+    ret = m_dbg_usart_drv.init() && ret;
+    ret = m_qspi_drv.init() && ret;
+    ret = m_spi1_cs_drv.init() && ret;
+    ret = m_spi1_drv.init() && ret;
+    ret = m_soft_i2c_drv.init() && ret;
+    ret = m_gnss_lpuart_drv.init() && ret;
     m_lpuart_mux_pin.set_high();
 
     // Initialize peripherals
-    ret = ret && m_qspi_nor_flash.reset();
-    ret = ret && m_oled_display.init();
-    ret = ret && m_gnss.init();
+    ret = m_qspi_nor_flash.reset() && ret;
+    ret = m_oled_display.init() && ret;
+    ret = m_gnss.init() && ret;
+    ret = m_barometric_sensor.init() && ret;
+    ret = m_altimeter.init() && ret;
 
     return ret;
 }
@@ -160,7 +170,7 @@ bool ov_board::io_init()
     gpio_init.Pin       = GPIO_PIN_9;
     gpio_init.Mode      = GPIO_MODE_AF_PP;
     gpio_init.Pull      = GPIO_NOPULL;
-    gpio_init.Speed     = GPIO_SPEED_FREQ_LOW;
+    gpio_init.Speed     = GPIO_SPEED_FREQ_HIGH;
     gpio_init.Alternate = GPIO_AF10_QUADSPI;
     HAL_GPIO_Init(GPIOB, &gpio_init);
 
@@ -178,12 +188,21 @@ bool ov_board::io_init()
     gpio_init.Pin       = GPIO_PIN_1 | GPIO_PIN_7;
     gpio_init.Mode      = GPIO_MODE_AF_PP;
     gpio_init.Pull      = GPIO_PULLDOWN;
-    gpio_init.Speed     = GPIO_SPEED_FREQ_LOW;
+    gpio_init.Speed     = GPIO_SPEED_FREQ_HIGH;
     gpio_init.Alternate = GPIO_AF5_SPI1;
     HAL_GPIO_Init(GPIOA, &gpio_init);
 
     gpio_init.Pin = GPIO_PIN_4;
     HAL_GPIO_Init(GPIOB, &gpio_init);
+
+    // Software I2C (MS56XX) pins
+    // PC4     ------> SOFT_I2C_SDA
+    // PC5     ------> SOFT_I2C_SCL
+    gpio_init.Pin   = GPIO_PIN_4 | GPIO_PIN_5;
+    gpio_init.Mode  = GPIO_MODE_OUTPUT_OD;
+    gpio_init.Pull  = GPIO_PULLUP;
+    gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOC, &gpio_init);
 
     // OLED driver pins
     // PC8     ------> Reset
@@ -191,7 +210,7 @@ bool ov_board::io_init()
     // PH0     ------> SPI chip select
     gpio_init.Pin   = GPIO_PIN_8 | GPIO_PIN_9;
     gpio_init.Mode  = GPIO_MODE_OUTPUT_PP;
-    gpio_init.Speed = GPIO_SPEED_FREQ_LOW;
+    gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOC, &gpio_init);
 
     gpio_init.Pin = GPIO_PIN_0;
@@ -311,6 +330,11 @@ bool ov_board::system_clock_config()
 
     HAL_RCCEx_CRSConfig(&RCC_CRSInitStruct);
 
+    // Enable Core Debug counter for accurate delays
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CYCCNT = 0;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+
     return ret;
 }
 
@@ -339,6 +363,17 @@ bool ov_board::periph_common_clock_config()
     }
 
     return ret;
+}
+
+/** @brief Delay function for software I2C driver */
+void ov_board::soft_i2c_delay()
+{
+    // ~5µs delay
+    uint32_t now     = DWT->CYCCNT;
+    uint32_t timeout = 5u * (SystemCoreClock / 1000000u);
+    while ((DWT->CYCCNT - now) < timeout)
+    {
+    }
 }
 
 } // namespace ov

@@ -30,6 +30,13 @@ i_gnss::data get_gnss()
     return s_data.gnss;
 }
 
+/** @brief Get the barometric altimeter data */
+i_barometric_altimeter::data get_altimeter()
+{
+    lock_guard<mutex> lock(s_mutex);
+    return s_data.altimeter;
+}
+
 // Setters
 
 /** @brief Set the GNSS data */
@@ -44,6 +51,13 @@ void invalidate_gnss()
 {
     lock_guard<mutex> lock(s_mutex);
     s_data.gnss = {};
+}
+
+/** @brief Set the barometric altimeter data */
+void set_altimeter(const i_barometric_altimeter::data& data)
+{
+    lock_guard<mutex> lock(s_mutex);
+    s_data.altimeter = data;
 }
 
 } // namespace data

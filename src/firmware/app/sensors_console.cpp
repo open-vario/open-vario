@@ -10,8 +10,16 @@ namespace ov
 /** @brief Constructor */
 sensors_console::sensors_console(i_debug_console& console)
     : m_console(console),
-      m_gnss_handler{
-          "gnss", "Display the GNSS data", ov::handler_func::create<sensors_console, &sensors_console::gnss_handler>(*this), nullptr, false}
+      m_gnss_handler{"gnss",
+                     "Display the GNSS data",
+                     ov::handler_func::create<sensors_console, &sensors_console::gnss_handler>(*this),
+                     nullptr,
+                     false},
+      m_alti_handler{"alti",
+                     "Display the barometric altimeter data",
+                     ov::handler_func::create<sensors_console, &sensors_console::alti_handler>(*this),
+                     nullptr,
+                     false}
 {
 }
 
@@ -19,6 +27,7 @@ sensors_console::sensors_console(i_debug_console& console)
 void sensors_console::register_handlers()
 {
     m_console.register_handler(m_gnss_handler);
+    m_console.register_handler(m_alti_handler);
 }
 
 /** @brief Handler for the 'gnss' command */
@@ -28,6 +37,15 @@ void sensors_console::gnss_handler(const char*)
 
     auto handler = ov::periodic_handler_func::create<sensors_console, &sensors_console::display_gnss_data>(*this);
     m_console.start_periodic(handler, 1000u);
+}
+
+/** @brief Handler for the 'alti' command */
+void sensors_console::alti_handler(const char*)
+{
+    m_console.write_line("Periodic display of barometric altimeter data");
+
+    auto handler = ov::periodic_handler_func::create<sensors_console, &sensors_console::display_alti_data>(*this);
+    m_console.start_periodic(handler, 250u);
 }
 
 /** @brief Display gnss data */
@@ -98,6 +116,34 @@ void sensors_console::display_gnss_data()
 
         m_console.write("Track angle : ");
         snprintf(tmp, sizeof(tmp), "%d", gnss.track_angle);
+        m_console.write_line(tmp);
+    }
+    else
+    {
+        m_console.write_line("Invalid data");
+    }
+}
+
+/** @brief Display alti data */
+void sensors_console::display_alti_data()
+{
+    char tmp[32u] = {};
+
+    auto altimeter = ov::data::get_altimeter();
+
+    m_console.write_line("------------------------------");
+    if (altimeter.is_valid)
+    {
+        m_console.write("Pressure : ");
+        snprintf(tmp, sizeof(tmp), "%ld", altimeter.pressure);
+        m_console.write_line(tmp);
+
+        m_console.write("Altitude : ");
+        snprintf(tmp, sizeof(tmp), "%ld", altimeter.altitude);
+        m_console.write_line(tmp);
+
+        m_console.write("Temperature : ");
+        snprintf(tmp, sizeof(tmp), "%d", altimeter.temperature);
         m_console.write_line(tmp);
     }
     else

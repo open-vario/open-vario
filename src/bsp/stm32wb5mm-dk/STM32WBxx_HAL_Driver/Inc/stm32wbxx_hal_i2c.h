@@ -251,6 +251,7 @@ typedef struct __I2C_HandleTypeDef
   /*!< I2C Msp DeInit callback                   */
 
 #endif  /* USE_HAL_I2C_REGISTER_CALLBACKS */
+  void* user;
 } I2C_HandleTypeDef;
 
 #if (USE_HAL_I2C_REGISTER_CALLBACKS == 1)

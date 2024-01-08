@@ -5,7 +5,9 @@
 #include "i_board.h"
 
 // Drivers
+#include "soft_i2c.h"
 #include "spi_pin_cs_driver.h"
+#include "stm32hal_i2c.h"
 #include "stm32hal_iopin.h"
 #include "stm32hal_lpuart.h"
 #include "stm32hal_qspi.h"
@@ -13,7 +15,9 @@
 #include "stm32hal_usart.h"
 
 // Peripherals
+#include "barometric_altimeter.h"
 #include "fake_button.h"
+#include "ms56xx_i2c.h"
 #include "nmea_gnss.h"
 #include "pin_button.h"
 #include "s25flxxxs.h"
@@ -62,6 +66,9 @@ class ov_board : public i_board
     /** @brief Get the GNSS  */
     i_gnss& get_gnss() override { return m_gnss; }
 
+    /** @brief Get the barometric altimeter */
+    i_barometric_altimeter& get_altimeter() override { return m_altimeter; }
+
   private:
     /** @brief Debug USART driver */
     stm32hal_usart m_dbg_usart_drv;
@@ -74,6 +81,13 @@ class ov_board : public i_board
     spi_pin_cs_driver<1u> m_spi1_cs_drv;
     /** @brief SPI1 driver */
     stm32hal_spi m_spi1_drv;
+
+    /** @brief SCL pin for the software I2C driver */
+    stm32hal_iopin m_soft_i2c_drv_scl;
+    /** @brief SDA pin for the software I2C driver */
+    stm32hal_iopin m_soft_i2c_drv_sda;
+    /** @brief Software i2C driver */
+    soft_i2c m_soft_i2c_drv;
 
     /** @brief Storage memory */
     s25flxxxs m_qspi_nor_flash;
@@ -106,6 +120,11 @@ class ov_board : public i_board
     /** @brief GNSS (UBlox SAM-M8Q)*/
     nmea_gnss m_gnss;
 
+    /** @brief Barometric sensor */
+    ms56xx_i2c m_barometric_sensor;
+    /** @brief Barometric altimeter */
+    barometric_altimeter m_altimeter;
+
     /** @brief Initialize the HAL */
     bool hal_init();
     /** @brief Initialize I/Os */
@@ -115,6 +134,8 @@ class ov_board : public i_board
     bool system_clock_config();
     /** @brief Peripherals Common Clock Configuration */
     bool periph_common_clock_config();
+    /** @brief Delay function for software I2C driver */
+    void soft_i2c_delay();
 };
 
 } // namespace ov

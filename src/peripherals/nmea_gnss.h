@@ -17,7 +17,7 @@ class nmea_gnss : public i_gnss
     nmea_gnss(i_serial& serial_port);
 
     /** @brief Initialize the GNSS */
-    bool init() override;
+    bool init();
 
     /** @brief Update navigation data */
     bool update_data() override;

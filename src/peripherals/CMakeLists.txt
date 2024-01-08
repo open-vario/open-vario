@@ -1,5 +1,8 @@
 # Peripherals library
 add_library(openvario_peripherals
+    barometric_altimeter.cpp
+    ms56xx.cpp
+    ms56xx_i2c.cpp
     i_gnss.cpp
     nmea_gnss.cpp
     pin_button.cpp
