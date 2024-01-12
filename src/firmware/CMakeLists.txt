@@ -34,11 +34,15 @@ add_executable(openvario_fw
     hmi/screens/dashboard1_screen.cpp
     hmi/screens/dashboard2_screen.cpp
     hmi/screens/dashboard3_screen.cpp
+    hmi/screens/flight_screen.cpp
     hmi/screens/gnss_screen.cpp
     hmi/screens/settings_screen.cpp
     hmi/screens/settings_display_screen.cpp
     hmi/screens/settings_exit_screen.cpp
     hmi/screens/splash_screen.cpp
+
+    recorder/flight_recorder.cpp
+    recorder/recorder_console.cpp
 )
 
 # Include directories
@@ -56,6 +60,7 @@ target_include_directories(openvario_fw PRIVATE
     filesystem
     hmi
     hmi/screens
+    recorder
 )
 
 # Linked libraries

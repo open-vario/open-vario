@@ -17,13 +17,16 @@ ov_app::ov_app()
       m_fs_console(m_console),
       m_config_console(m_console),
       m_sensors_console(m_console, m_board.get_altimeter()),
+      m_recorder_console(m_console, m_recorder),
       m_hmi(m_board.get_display(),
             m_console,
             m_board.get_previous_button(),
             m_board.get_next_button(),
             m_board.get_select_button(),
-            m_board.get_ble_stack()),
+            m_board.get_ble_stack(),
+            m_recorder),
       m_ble(m_board.get_ble_stack()),
+      m_recorder(),
       m_thread()
 {
 }
@@ -103,12 +106,16 @@ void ov_app::startup()
     m_fs_console.register_handlers();
     m_config_console.register_handlers();
     m_sensors_console.register_handlers();
+    m_recorder_console.register_handlers();
 
     // Start console
     m_console.start();
 
     // Start BLE
     m_ble.start();
+
+    // Initialize recorder
+    m_recorder.init();
 
     // Load altimeter with calibration data
     const auto& config = ov::config::get();

@@ -65,9 +65,7 @@
  * The default value is undefined (commented out).  If you need this value bring it
  * back and set it to a suitable value */
 
-/*
- #define configSYSTICK_CLOCK_HZ                  [Platform specific]
- */
+#define configSYSTICK_CLOCK_HZ (configCPU_CLOCK_HZ / 8u)
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/

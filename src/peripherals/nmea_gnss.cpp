@@ -424,7 +424,7 @@ bool nmea_gnss::convert_speed(const char* speed, uint32_t& spd)
     double d_speed = atof(speed);
 
     // Convert value
-    spd = static_cast<uint32_t>(d_speed * 0.514444);
+    spd = static_cast<uint32_t>(d_speed * 5.144444);
 
     return ret;
 }

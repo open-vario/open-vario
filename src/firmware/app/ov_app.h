@@ -5,9 +5,11 @@
 #include "ble_manager.h"
 #include "config_console.h"
 #include "debug_console.h"
+#include "flight_recorder.h"
 #include "fs_console.h"
 #include "hmi_manager.h"
 #include "ov_board.h"
+#include "recorder_console.h"
 #include "sensors_console.h"
 #include "thread.h"
 
@@ -38,10 +40,14 @@ class ov_app
     config_console m_config_console;
     /** @brief Sensors console commands */
     sensors_console m_sensors_console;
+    /** @brief Flight recorder console */
+    recorder_console m_recorder_console;
     /** @brief HMI manager */
     hmi_manager m_hmi;
     /** @brief BLE */
     ble_manager m_ble;
+    /** @brief Flight recorder */
+    flight_recorder m_recorder;
     /** @brief Main thread */
     thread<2048u> m_thread;
 

@@ -70,10 +70,10 @@ void dashboard2_screen::on_refresh(YACSGL_frame_t&)
     auto gnss = ov::data::get_gnss();
     if (gnss.is_valid)
     {
-        // Speed
-        uint32_t speed_kmh = (gnss.speed * 36000u) / 1000u;
-        uint32_t speed     = speed_kmh / 10u;
-        uint32_t part      = speed_kmh - speed * 10u;
+        // Speed => Use dam/h unit for computation to avoid precision loss
+        uint32_t speed_damh = gnss.speed * 36u;
+        uint32_t speed      = speed_damh / 100u;
+        uint32_t part       = (speed_damh - speed * 100u) / 10u;
         snprintf(m_speed_string, sizeof(m_speed_string), "SP: %03ld.%ldkm/h", speed, part);
     }
     else
