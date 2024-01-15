@@ -23,6 +23,13 @@ add_library(openvario_bsp STATIC
     STM32_WPAN/utilities/stm_queue.c
     STM32_WPAN/utilities/otp.c
 
+    STM32_USB_Device_Library/Core/Src/usbd_core.c
+    STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+    STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+    STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+    usb/usbd_conf.c
+    usb/usbd_desc.c
+
     startup/startup_stm32wb5mmghx.s
     startup/system_stm32wbxx.c
     startup/syscalls.c
@@ -47,4 +54,8 @@ target_include_directories(openvario_bsp PUBLIC
     STM32_WPAN/interface/patterns/ble_thread/shci
     STM32_WPAN/interface/patterns/ble_thread/tl
     STM32_WPAN/utilities
+
+    STM32_USB_Device_Library/Core/Inc
+    STM32_USB_Device_Library/Class/CDC/Inc
+    usb
 )

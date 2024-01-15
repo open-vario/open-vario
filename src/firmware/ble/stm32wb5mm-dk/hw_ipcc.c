@@ -221,17 +221,10 @@ void HW_IPCC_Init(void)
     LL_C1_IPCC_EnableIT_RXO(IPCC);
     LL_C1_IPCC_EnableIT_TXF(IPCC);
 
-    HAL_NVIC_SetPriority(IPCC_C1_RX_IRQn, 14u, 0u);
-    HAL_NVIC_SetPriority(IPCC_C1_TX_IRQn, 14u, 0u);
+    HAL_NVIC_SetPriority(IPCC_C1_RX_IRQn, 13u, 0u);
+    HAL_NVIC_SetPriority(IPCC_C1_TX_IRQn, 13u, 0u);
     HAL_NVIC_EnableIRQ(IPCC_C1_RX_IRQn);
     HAL_NVIC_EnableIRQ(IPCC_C1_TX_IRQn);
-
-    // s_hipcc.Instance = IPCC;
-    // if (HAL_IPCC_Init(&s_hipcc) != HAL_OK)
-    // {
-    //     while (1)
-    //         ;
-    // }
 
     return;
 }

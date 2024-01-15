@@ -40,6 +40,7 @@ add_executable(openvario_fw
     hmi/screens/settings_display_screen.cpp
     hmi/screens/settings_exit_screen.cpp
     hmi/screens/splash_screen.cpp
+    hmi/screens/usb_screen.cpp
 
     recorder/flight_recorder.cpp
     recorder/recorder_console.cpp

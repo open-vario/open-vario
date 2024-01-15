@@ -13,3 +13,6 @@ add_subdirectory(peripherals)
 
 # Firmware
 add_subdirectory(firmware)
+
+# Utilities
+add_subdirectory(utils)

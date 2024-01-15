@@ -44,10 +44,12 @@ enum class hmi_screen
     dashboard3,
     /** @brief Flight */
     flight,
-    /** @brief BLE */
-    ble,
     /** @brief GNSS */
     gnss,
+    /** @brief BLE */
+    ble,
+    /** @brief USB */
+    usb,
     /** @brief Settings */
     settings,
     /** @brief Settings - Display */

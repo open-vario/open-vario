@@ -28,14 +28,16 @@ extern "C" {
 
 #include "cmsis_compiler.h"
 #include "string.h"
+#include "stm32wbxx_hal.h"
 
 /******************************************************************************
  * common
  ******************************************************************************/
-#define UTILS_ENTER_CRITICAL_SECTION( )   uint32_t primask_bit = __get_PRIMASK( );\
-                                          __disable_irq( )
+#define UTILS_ENTER_CRITICAL_SECTION( )   HAL_NVIC_DisableIRQ(IPCC_C1_RX_IRQn); \
+                                          HAL_NVIC_DisableIRQ(IPCC_C1_TX_IRQn);
 
-#define UTILS_EXIT_CRITICAL_SECTION( )          __set_PRIMASK( primask_bit )
+#define UTILS_EXIT_CRITICAL_SECTION( )         HAL_NVIC_EnableIRQ(IPCC_C1_RX_IRQn); \
+                                               HAL_NVIC_EnableIRQ(IPCC_C1_TX_IRQn);
 
 #define UTILS_MEMSET8( dest, value, size )      memset( dest, value, size);
 

@@ -9,6 +9,7 @@
 #include "i_gnss.h"
 #include "i_serial.h"
 #include "i_storage_memory.h"
+#include "i_usb_cdc.h"
 
 namespace ov
 {
@@ -25,6 +26,9 @@ class i_board
 
     /** @brief Get the debug serial port */
     virtual i_serial& get_debug_port() = 0;
+
+    /** @brief Get the USB CDC port */
+    virtual i_usb_cdc& get_usb_cdc() = 0;
 
     /** @brief Get the storage memory */
     virtual i_storage_memory& get_storage_memory() = 0;

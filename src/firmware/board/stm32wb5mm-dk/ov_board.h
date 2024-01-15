@@ -13,6 +13,7 @@
 #include "stm32hal_qspi.h"
 #include "stm32hal_spi.h"
 #include "stm32hal_usart.h"
+#include "stm32hal_usb_cdc.h"
 
 // Peripherals
 #include "barometric_altimeter.h"
@@ -48,6 +49,9 @@ class ov_board : public i_board
     /** @brief Get the debug serial port */
     i_serial& get_debug_port() override { return m_dbg_usart_drv; }
 
+    /** @brief Get the USB CDC port */
+    i_usb_cdc& get_usb_cdc() override { return m_usb_cdc_drv; }
+
     /** @brief Get the storage memory */
     i_storage_memory& get_storage_memory() override { return m_qspi_nor_flash; }
 
@@ -75,6 +79,10 @@ class ov_board : public i_board
   private:
     /** @brief Debug USART driver */
     stm32hal_usart m_dbg_usart_drv;
+
+    /** @brief USB CDC driver */
+    stm32hal_usb_cdc m_usb_cdc_drv;
+
     /** @brief QSPI driver */
     stm32hal_qspi m_qspi_drv;
 

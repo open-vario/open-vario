@@ -18,11 +18,11 @@ void ble_screen::event(button bt, button_event bt_event)
     {
         if (bt == button::next)
         {
-            switch_to_screen(hmi_screen::gnss);
+            switch_to_screen(hmi_screen::usb);
         }
         if (bt == button::previous)
         {
-            switch_to_screen(hmi_screen::flight);
+            switch_to_screen(hmi_screen::gnss);
         }
     }
 }

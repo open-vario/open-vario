@@ -17,4 +17,5 @@ target_include_directories(openvario_drivers PUBLIC
 # Linked libraries
 target_link_libraries(openvario_drivers PUBLIC
     openvario_os
+    openvario_utils
 )

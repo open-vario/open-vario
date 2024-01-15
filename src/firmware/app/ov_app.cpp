@@ -24,6 +24,7 @@ ov_app::ov_app()
             m_board.get_next_button(),
             m_board.get_select_button(),
             m_board.get_ble_stack(),
+            m_board.get_usb_cdc(),
             m_recorder),
       m_ble(m_board.get_ble_stack()),
       m_recorder(),
@@ -112,6 +113,7 @@ void ov_app::startup()
     m_console.start();
 
     // Start BLE
+    ov::this_thread::sleep_for(1000u); // FIXME: USB enumeration must be finished before starting BLE
     m_ble.start();
 
     // Initialize recorder

@@ -16,6 +16,7 @@
 #include "settings_exit_screen.h"
 #include "settings_screen.h"
 #include "splash_screen.h"
+#include "usb_screen.h"
 
 namespace ov
 {
@@ -36,6 +37,7 @@ class hmi_manager : public i_hmi_manager
                 i_button&          next_button,
                 i_button&          select_button,
                 i_ble_stack&       ble_stack,
+                i_usb_cdc&         usb,
                 i_flight_recorder& recorder);
 
     /** @brief Start the HMI manager */
@@ -85,10 +87,12 @@ class hmi_manager : public i_hmi_manager
     dashboard3_screen m_dashboard3_screen;
     /** @brief Flight screen */
     flight_screen m_flight_screen;
-    /** @brief BLE screen */
-    ble_screen m_ble_screen;
     /** @brief GNSS screen */
     gnss_screen m_gnss_screen;
+    /** @brief BLE screen */
+    ble_screen m_ble_screen;
+    /** @brief USB screen */
+    usb_screen m_usb_screen;
     /** @brief Settings screen */
     settings_screen m_settings_screen;
     /** @brief Display settings screen */
