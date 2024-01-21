@@ -73,7 +73,7 @@ bool hmi_manager::start()
 {
     // Start thread
     auto thread_func = ov::thread_func::create<hmi_manager, &hmi_manager::thread_func>(*this);
-    bool ret         = m_thread.start(thread_func, "HMI", 2u, nullptr);
+    bool ret         = m_thread.start(thread_func, "HMI", 3u, nullptr);
 
     // Register console handlers
     m_hmi_console.register_handlers();

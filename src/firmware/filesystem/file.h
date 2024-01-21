@@ -48,6 +48,24 @@ class file
     /** @brief Write data to the file */
     bool write(const void* buffer, size_t size, size_t& write_count);
 
+    /** @brief Read data from the file with size check */
+    template <typename T>
+    bool read(T& data)
+    {
+        size_t read_count = 0;
+        bool   ret        = read(&data, sizeof(data), read_count);
+        return (ret && (read_count == sizeof(data)));
+    }
+
+    /** @brief Write data to the file with size check */
+    template <typename T>
+    bool write(const T& data)
+    {
+        size_t write_count = 0;
+        bool   ret         = write(&data, sizeof(data), write_count);
+        return (ret && (write_count == sizeof(data)));
+    }
+
     /** @brief Seek to a specific location in the file */
     bool seek(int32_t offset, seek_whence whence, int32_t& new_offset);
 

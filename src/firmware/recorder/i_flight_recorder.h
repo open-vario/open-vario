@@ -14,12 +14,16 @@ class i_flight_recorder
     /** @brief Status of the recorder */
     enum class status
     {
+        /** @brief Error */
+        stopped_error,
         /** @brief Stopped */
         stopped,
         /** @brief Starting */
         starting,
         /** @brief Started */
         started,
+        /** @brief Error */
+        started_error,
         /** @brief Stopping */
         stopping
     };
@@ -41,6 +45,8 @@ class i_flight_recorder
 
     /** @brief Directory to store the recorded data */
     static constexpr const char* RECORDED_DATA_DIR = "/flights";
+    /** @brief Extension for flight files */
+    static constexpr const char* RECORDED_DATA_EXT = ".rec";
 };
 
 } // namespace ov

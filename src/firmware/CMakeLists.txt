@@ -42,6 +42,10 @@ add_executable(openvario_fw
     hmi/screens/splash_screen.cpp
     hmi/screens/usb_screen.cpp
 
+    maintenance/maintenance_manager.cpp
+    maintenance/maintenance_protocol.cpp
+
+    recorder/flight_file.cpp
     recorder/flight_recorder.cpp
     recorder/recorder_console.cpp
 )
@@ -61,6 +65,7 @@ target_include_directories(openvario_fw PRIVATE
     filesystem
     hmi
     hmi/screens
+    maintenance
     recorder
 )
 

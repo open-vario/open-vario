@@ -22,6 +22,8 @@ struct ov_config
     char glider3_name[32u];
     /** @brief Glider 4's name */
     char glider4_name[32u];
+    /** @brief Selected glider */
+    uint8_t glider;
 
     // Sensors settings
 
@@ -36,6 +38,11 @@ struct ov_config
     uint32_t alti_ref_pressure;
     /** @brief Reference altitude for the barometric altimeter (1 = 0.1m) */
     int32_t alti_ref_alti;
+
+    // Recorder settings
+
+    /** @brief Recording period in milliseconds */
+    uint32_t recording_period;
 
     // Display settings
 

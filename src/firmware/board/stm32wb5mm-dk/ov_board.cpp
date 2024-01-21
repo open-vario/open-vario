@@ -81,7 +81,7 @@ bool ov_board::init()
     ret = m_oled_display.init() && ret;
     ret = m_gnss.init() && ret;
     ret = m_barometric_sensor.init() && ret;
-    ret = m_altimeter.init() && ret;    
+    ret = m_altimeter.init() && ret;
 
     return ret;
 }

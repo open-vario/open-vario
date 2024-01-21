@@ -26,6 +26,9 @@ enum open_flags
 /** @brief Initialize the filesystem */
 bool init(bool& fs_reinitialized, i_storage_memory& storage_memory);
 
+/** @brief Format the filesystem */
+bool format();
+
 /** @brief Get filesystem info */
 bool info(size_t& free_space, size_t& total_space);
 

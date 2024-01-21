@@ -1,7 +1,9 @@
 
 #include "flight_recorder.h"
+#include "flight_file.h"
 #include "fs.h"
 #include "os.h"
+#include "ov_config.h"
 #include "ov_data.h"
 
 #include <cstdio>
@@ -27,7 +29,7 @@ bool flight_recorder::init()
     {
         // Start recording thread
         auto thread_func = ov::thread_func::create<flight_recorder, &flight_recorder::thread_func>(*this);
-        ret              = m_thread.start(thread_func, "Recorder", 3u, nullptr);
+        ret              = m_thread.start(thread_func, "Recorder", 4u, nullptr);
     }
 
     return ret;
@@ -39,7 +41,7 @@ bool flight_recorder::start()
     bool ret = false;
 
     // Check if already started
-    if (m_status == status::stopped)
+    if (m_status <= status::stopped)
     {
         // Indicate start of recording
         m_status = status::starting;
@@ -56,7 +58,7 @@ bool flight_recorder::stop()
     bool ret = false;
 
     // Check if started
-    if (m_status == status::started)
+    if ((m_status == status::started) || (m_status == status::started_error))
     {
         // Indicate end of recording
         m_status = status::stopping;
@@ -79,18 +81,22 @@ uint32_t flight_recorder::get_recording_duration()
 /** @brief Recorder thread */
 void flight_recorder::thread_func(void*)
 {
-    char    filepath[64u];
-    ov_data data;
+    char             filepath[64u];
+    ov_data          data;
+    const ov_config& config = ov::config::get();
 
     // Thread loop
     while (true)
     {
         // Wait start
-        while (m_status == status::stopped)
+        while (m_status <= status::stopped)
         {
             ov::this_thread::sleep_for(250u);
         }
         ov::this_thread::sleep_for(1000u);
+
+        // Save recording period so that it cannot change during the flight
+        uint32_t recording_period = config.recording_period;
 
         // Create flight file path
         data = ov::data::get();
@@ -98,14 +104,15 @@ void flight_recorder::thread_func(void*)
         {
             snprintf(filepath,
                      sizeof(filepath),
-                     "%s/%04d-%02d-%02dT%02d-%02d-%02d.rec",
+                     "%s/%04d-%02d-%02dT%02d-%02d-%02d%s",
                      RECORDED_DATA_DIR,
                      static_cast<int>(data.gnss.date.year) + 2000,
                      static_cast<int>(data.gnss.date.month),
                      static_cast<int>(data.gnss.date.day),
                      static_cast<int>(data.gnss.date.hour),
                      static_cast<int>(data.gnss.date.minute),
-                     static_cast<int>(data.gnss.date.second));
+                     static_cast<int>(data.gnss.date.second),
+                     RECORDED_DATA_EXT);
         }
         else
         {
@@ -114,8 +121,31 @@ void flight_recorder::thread_func(void*)
         }
 
         // Create flight file
-        file flight_file = fs::open(filepath, ov::fs::o_creat | ov::fs::o_trunc | ov::fs::o_wronly);
-        if (flight_file.is_open())
+        flight_file::header header = {};
+        const char*         glider_name;
+        header.timestamp = data.gnss.date;
+        switch (config.glider)
+        {
+            case 1:
+                [[fallthrough]];
+            default:
+                glider_name = config.glider1_name;
+                break;
+            case 2:
+                glider_name = config.glider2_name;
+                break;
+            case 3:
+                glider_name = config.glider3_name;
+                break;
+            case 4:
+                glider_name = config.glider4_name;
+                break;
+        }
+        strcpy(header.glider, glider_name);
+        header.period = recording_period;
+
+        flight_file flight(filepath, header);
+        if (flight.is_open())
         {
             // Recorder is now started
             m_recording_start = os::now();
@@ -124,30 +154,41 @@ void flight_recorder::thread_func(void*)
             // Wait stop
             while (m_status != status::stopping)
             {
-                // Record current flight data
-                size_t write_count = 0;
-                flight_file.write(&data.gnss.is_valid, sizeof(data.gnss.is_valid), write_count);
-                flight_file.write(&data.gnss.altitude, sizeof(data.gnss.altitude), write_count);
-                flight_file.write(&data.gnss.latitude, sizeof(data.gnss.latitude), write_count);
-                flight_file.write(&data.gnss.longitude, sizeof(data.gnss.longitude), write_count);
-                flight_file.write(&data.gnss.speed, sizeof(data.gnss.speed), write_count);
-                flight_file.write(&data.gnss.track_angle, sizeof(data.gnss.track_angle), write_count);
-                flight_file.write(&data.altimeter.is_valid, sizeof(data.altimeter.is_valid), write_count);
-                flight_file.write(&data.altimeter.pressure, sizeof(data.altimeter.pressure), write_count);
-                flight_file.write(&data.altimeter.temperature, sizeof(data.altimeter.temperature), write_count);
-                flight_file.write(&data.altimeter.altitude, sizeof(data.altimeter.altitude), write_count);
+                // Get flight data
+                data = ov::data::get();
+
+                // Write a new entry
+                flight_file::entry entry;
+                entry.gnss      = data.gnss;
+                entry.altimeter = data.altimeter;
+                if (!flight.write(entry))
+                {
+                    // Error
+                    m_status = status::started_error;
+                }
 
                 // Recording period
-                ov::this_thread::sleep_for(1000u);
+                ov::this_thread::sleep_for(recording_period);
             }
 
             // Close flight file
-            flight_file.close();
-            ov::this_thread::sleep_for(1000u);
+            if (flight.close())
+            {
+                // Recorder is now stopped
+                ov::this_thread::sleep_for(1000u);
+                m_status = status::stopped;
+            }
+            else
+            {
+                // Error
+                m_status = status::stopped_error;
+            }
         }
-
-        // Recorder is now stopped
-        m_status = status::stopped;
+        else
+        {
+            // Error
+            m_status = status::stopped_error;
+        }
     }
 }
 

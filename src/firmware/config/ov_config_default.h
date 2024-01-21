@@ -19,6 +19,8 @@ static const char s_default_glider2_name[32u] = "Glider 2";
 static const char s_default_glider3_name[32u] = "Glider 3";
 /** @brief Glider 4's name */
 static const char s_default_glider4_name[32u] = "Glider 4";
+/** @brief Selected glider */
+static const uint8_t s_default_glider = 1u;
 
 // Sensors settings
 
@@ -32,6 +34,11 @@ static const int16_t s_default_alti_ref_temp = 150;
 static const uint32_t s_default_alti_ref_pressure = 101300;
 /** @brief Reference altitude for the barometric altimeter (1 = 0.1m) */
 static const int32_t s_default_alti_ref_alti = 0;
+
+// Recorder settings
+
+/** @brief Recording period in milliseconds */
+static const uint32_t s_default_recording_period = 1000u;
 
 // Display settings
 

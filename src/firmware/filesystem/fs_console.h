@@ -31,6 +31,8 @@ class fs_console
     ov::i_debug_console::cmd_handler m_hexdump_handler;
     /** @brief Handler for the 'rm' command */
     ov::i_debug_console::cmd_handler m_rm_handler;
+    /** @brief Handler for the 'fsformat' command */
+    ov::i_debug_console::cmd_handler m_fsformat_handler;
 
     /** @brief Handler for the 'ls' command */
     void ls_handler(const char* dir_path);
@@ -42,6 +44,8 @@ class fs_console
     void hexdump_handler(const char* file_path);
     /** @brief Handler for the 'rm' command */
     void rm_handler(const char* file_path);
+    /** @brief Handler for the 'fsformat' command */
+    void fsformat_handler(const char*);
 };
 
 } // namespace ov

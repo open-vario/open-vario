@@ -55,6 +55,9 @@ class s25flxxxs : public i_storage_memory
 
     /** @brief Put the memory in write mode */
     bool enable_write();
+
+    /** @brief Skip the first 128kBytes which are only 4kBytes sectors */
+    static constexpr size_t MEMSKIP_OFFSET = 0x20000u;
 };
 
 } // namespace ov

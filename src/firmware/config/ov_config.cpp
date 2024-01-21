@@ -29,12 +29,15 @@ static const config_entry s_config_desc[] = {
     {"Glider2 name", entry_type::string, sizeof(s_config.glider2_name), &s_config.glider2_name, s_default_glider2_name},
     {"Glider3 name", entry_type::string, sizeof(s_config.glider3_name), &s_config.glider3_name, s_default_glider3_name},
     {"Glider4 name", entry_type::string, sizeof(s_config.glider4_name), &s_config.glider4_name, s_default_glider4_name},
+    {"Selected glider", entry_type::uint, sizeof(s_config.glider), &s_config.glider, &s_default_glider},
     // Sensors settings
     {"Sink rate integ time", entry_type::uint, sizeof(s_config.sr_integ_time), &s_config.sr_integ_time, &s_default_sr_integ_time},
     {"Glide ratio integ time", entry_type::uint, sizeof(s_config.gr_integ_time), &s_config.gr_integ_time, &s_default_gr_integ_time},
     {"Alti ref temp", entry_type::sint, sizeof(s_config.alti_ref_temp), &s_config.alti_ref_temp, &s_default_alti_ref_temp},
     {"Alti ref pressure", entry_type::uint, sizeof(s_config.alti_ref_pressure), &s_config.alti_ref_pressure, &s_default_alti_ref_pressure},
     {"Alti ref altitude", entry_type::sint, sizeof(s_config.alti_ref_alti), &s_config.alti_ref_alti, &s_default_alti_ref_alti},
+    // Recorder settings
+    {"Recording period", entry_type::uint, sizeof(s_config.recording_period), &s_config.recording_period, &s_default_recording_period},
     // Display settings
     {"Night mode", entry_type::boolean, sizeof(s_config.is_night_mode_on), &s_config.is_night_mode_on, &s_default_is_night_mode_on},
     // Null entry
@@ -84,8 +87,8 @@ bool load()
         uint32_t magic      = 0;
 
         // Read header
-        ret = file.read(&version, sizeof(version), read_count);
-        ret = ret && file.read(&magic, sizeof(magic), read_count);
+        ret = file.read(version);
+        ret = ret && file.read(magic);
         ret = ret && (version == CURRENT_CONFIG_VERSION) && (magic == MAGIC_START);
 
         // Read values
@@ -110,7 +113,7 @@ bool load()
         }
 
         // Read footer
-        ret = ret && file.read(&magic, sizeof(magic), read_count);
+        ret = ret && file.read(magic);
         ret = ret && (magic == MAGIC_END);
     }
     if (!ret)
@@ -134,8 +137,8 @@ bool save()
         size_t write_count = 0;
 
         // Write header
-        ret = file.write(&CURRENT_CONFIG_VERSION, sizeof(CURRENT_CONFIG_VERSION), write_count);
-        ret = ret && file.write(&MAGIC_START, sizeof(MAGIC_START), write_count);
+        ret = file.write(CURRENT_CONFIG_VERSION);
+        ret = ret && file.write(MAGIC_START);
 
         // Write values
         auto* entry = &s_config_desc[0];
@@ -155,7 +158,7 @@ bool save()
         }
 
         // Write footer
-        ret = ret && file.write(&MAGIC_END, sizeof(MAGIC_END), write_count);
+        ret = ret && file.write(MAGIC_END);
     }
 
     return ret;

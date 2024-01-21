@@ -8,6 +8,7 @@
 #include "flight_recorder.h"
 #include "fs_console.h"
 #include "hmi_manager.h"
+#include "maintenance_manager.h"
 #include "ov_board.h"
 #include "recorder_console.h"
 #include "sensors_console.h"
@@ -48,6 +49,8 @@ class ov_app
     ble_manager m_ble;
     /** @brief Flight recorder */
     flight_recorder m_recorder;
+    /** @brief Maintenance manager */
+    maintenance_manager m_maintenance;
     /** @brief Main thread */
     thread<2048u> m_thread;
 

@@ -10,14 +10,16 @@ s25flxxxs::s25flxxxs(ref reference, i_qspi& qspi) : m_reference(reference), m_qs
 /** @brief Get the memory size in bytes */
 size_t s25flxxxs::get_size()
 {
-    static constexpr size_t sizes[] = {0x1000000u, 0x2000000u}; // 16MB and 32MB
+    // 16MB and 32MB
+    // Skip the first 128kBytes which are only 4kBytes sectors
+    static constexpr size_t sizes[] = {0x1000000u - MEMSKIP_OFFSET, 0x2000000u - MEMSKIP_OFFSET};
     return sizes[static_cast<int>(m_reference)];
 }
 
 /** @brief Get the erase block size in bytes */
 size_t s25flxxxs::get_block_size()
 {
-    return 0x1000u; // 4kB
+    return 0x10000u; // 64kB
 }
 
 /** @brief Reset the memory */
@@ -53,7 +55,7 @@ bool s25flxxxs::read(size_t address, void* buffer, size_t size)
         i_qspi::command cmd = {};
 
         cmd.cmd          = 0x6Bu;
-        cmd.address      = address;
+        cmd.address      = address + MEMSKIP_OFFSET;
         cmd.addr_mode    = i_qspi::line_mode::l_1;
         cmd.addr_size    = i_qspi::address_size::s_24bits;
         cmd.data_mode    = i_qspi::line_mode::l_4;
@@ -77,7 +79,7 @@ bool s25flxxxs::write(size_t address, const void* buffer, size_t size)
     if ((address + size) < get_size())
     {
         size_t         written         = 0;
-        size_t         current_address = address;
+        size_t         current_address = address + MEMSKIP_OFFSET;
         size_t         bytes_to_write  = page_size - (address % page_size);
         const uint8_t* u8_buffer       = reinterpret_cast<const uint8_t*>(buffer);
         ret                            = true;
@@ -93,7 +95,7 @@ bool s25flxxxs::write(size_t address, const void* buffer, size_t size)
             i_qspi::command cmd = {};
 
             cmd.cmd       = 0x32u;
-            cmd.address   = address;
+            cmd.address   = current_address;
             cmd.addr_mode = i_qspi::line_mode::l_1;
             cmd.addr_size = i_qspi::address_size::s_24bits;
             cmd.data_mode = i_qspi::line_mode::l_4;
@@ -134,8 +136,8 @@ bool s25flxxxs::erase(size_t block)
         // Prepare command
         i_qspi::command cmd = {};
 
-        cmd.cmd       = 0x20u;
-        cmd.address   = address;
+        cmd.cmd       = 0xD8u;
+        cmd.address   = address + MEMSKIP_OFFSET;
         cmd.addr_mode = i_qspi::line_mode::l_1;
         cmd.addr_size = i_qspi::address_size::s_24bits;
         cmd.data_mode = i_qspi::line_mode::none;

@@ -79,7 +79,7 @@ bool stm32hal_usb_cdc::read(void* buffer, size_t size, uint32_t ms_timeout)
         NVIC_DisableIRQ(USB_LP_IRQn);
 
         // Read available data
-        while (m_rx_buffer.read(*rx_data) && (left != 0u))
+        while ( (left != 0u) && m_rx_buffer.read(*rx_data))
         {
             // Next data
             rx_data++;

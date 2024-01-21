@@ -21,7 +21,7 @@ bool ble_manager::start()
     {
         // Start thread
         auto thread_func = ov::thread_func::create<ble_manager, &ble_manager::thread_func>(*this);
-        ret              = m_thread.start(thread_func, "BLE MGR", 4u, nullptr);
+        ret              = m_thread.start(thread_func, "BLE MGR", 5u, nullptr);
     }
 
     return ret;

@@ -39,6 +39,8 @@ static int fs_unlock(const struct lfs_config*);
 /** @brief Initialize the filesystem */
 bool init(bool& fs_reinitialized, i_storage_memory& storage_memory)
 {
+    bool ret = false;
+
     /** @brief Configuration of the filesystem */
     s_lfs_cfg = {
         // Context
@@ -80,18 +82,29 @@ bool init(bool& fs_reinitialized, i_storage_memory& storage_memory)
     if (err < 0)
     {
         // Format filesystem
-        lfs_format(&s_lfs, &s_lfs_cfg);
+        ret              = format();
         fs_reinitialized = true;
-
-        // Try to remount
-        err = lfs_mount(&s_lfs, &s_lfs_cfg);
     }
     else
     {
         fs_reinitialized = false;
+        ret              = true;
     }
 
-    return (err == 0);
+    return ret;
+}
+
+/** @brief Format the filesystem */
+bool format()
+{
+    // Format filesystem
+    int err = lfs_format(&s_lfs, &s_lfs_cfg);
+    if (err >= 0)
+    {
+        // Try to remount
+        err = lfs_mount(&s_lfs, &s_lfs_cfg);
+    }
+    return (err >= 0);
 }
 
 /** @brief Get filesystem info */

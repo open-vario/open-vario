@@ -28,6 +28,7 @@ ov_app::ov_app()
             m_recorder),
       m_ble(m_board.get_ble_stack()),
       m_recorder(),
+      m_maintenance(m_board.get_usb_cdc()),
       m_thread()
 {
 }
@@ -114,7 +115,7 @@ void ov_app::startup()
 
     // Start BLE
     ov::this_thread::sleep_for(1000u); // FIXME: USB enumeration must be finished before starting BLE
-    m_ble.start();
+    //m_ble.start();
 
     // Initialize recorder
     m_recorder.init();
@@ -122,6 +123,9 @@ void ov_app::startup()
     // Load altimeter with calibration data
     const auto& config = ov::config::get();
     m_board.get_altimeter().set_references(config.alti_ref_temp, config.alti_ref_pressure, config.alti_ref_alti);
+
+    // Start maintenance link
+    m_maintenance.init();
 }
 
 } // namespace ov

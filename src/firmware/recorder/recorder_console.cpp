@@ -58,6 +58,14 @@ void recorder_console::flstatus_handler(const char*)
         }
         break;
 
+        case i_flight_recorder::status::stopped_error:
+            [[fallthrough]];
+        case i_flight_recorder::status::started_error:
+        {
+            m_console.write_line("Error :(");
+        }
+        break;
+
         case i_flight_recorder::status::stopping:
         {
             m_console.write_line("Landing in progress!");

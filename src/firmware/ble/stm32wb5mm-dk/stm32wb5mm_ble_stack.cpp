@@ -30,7 +30,7 @@ bool stm32wb5mm_ble_stack::start(i_ble_service* services[], size_t services_coun
 
     // Start thread
     auto thread_func = ov::thread_func::create<stm32wb5mm_ble_stack, &stm32wb5mm_ble_stack::thread_func>(*this);
-    bool ret         = m_thread.start(thread_func, "BLE", 5u, nullptr);
+    bool ret         = m_thread.start(thread_func, "BLE", 6u, nullptr);
 
     return ret;
 }

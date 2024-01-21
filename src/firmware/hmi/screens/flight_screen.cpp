@@ -31,11 +31,11 @@ void flight_screen::event(button bt, button_event bt_event)
         {
             // Start/stop recording
             auto recorder_status = m_recorder.get_status();
-            if (recorder_status == i_flight_recorder::status::stopped)
+            if (recorder_status <= i_flight_recorder::status::stopped)
             {
                 m_recorder.start();
             }
-            if (recorder_status == i_flight_recorder::status::started)
+            if ((recorder_status == i_flight_recorder::status::started) || (recorder_status == i_flight_recorder::status::started_error))
             {
                 m_recorder.stop();
             }
@@ -107,6 +107,15 @@ void flight_screen::on_refresh(YACSGL_frame_t& frame)
 
             YACSWL_label_set_text(&m_flight_status_label, m_flight_status_string);
             YACSWL_label_set_text(&m_flight_start_label, "flying!");
+        }
+        break;
+
+        case i_flight_recorder::status::started_error:
+            [[fallthrough]];
+        case i_flight_recorder::status::stopped_error:
+        {
+            YACSWL_label_set_text(&m_flight_status_label, "Recording");
+            YACSWL_label_set_text(&m_flight_start_label, "error :(");
         }
         break;
 

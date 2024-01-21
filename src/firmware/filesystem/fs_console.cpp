@@ -31,7 +31,12 @@ fs_console::fs_console(i_debug_console& console)
                    "Remove the specified file or directory (must be empty)",
                    ov::handler_func::create<fs_console, &fs_console::rm_handler>(*this),
                    nullptr,
-                   true}
+                   true},
+      m_fsformat_handler{"fsformat",
+                         "Format the filesystem (all the stored data will be erased)",
+                         ov::handler_func::create<fs_console, &fs_console::fsformat_handler>(*this),
+                         nullptr,
+                         false}
 {
 }
 
@@ -43,6 +48,7 @@ void fs_console::register_handlers()
     m_console.register_handler(m_cat_handler);
     m_console.register_handler(m_hexdump_handler);
     m_console.register_handler(m_rm_handler);
+    m_console.register_handler(m_fsformat_handler);
 }
 
 /** @brief Handler for the 'ls' command */
@@ -176,6 +182,20 @@ void fs_console::rm_handler(const char* file_path)
     {
         m_console.write("Unable to remove file/directory : ");
         m_console.write_line(file_path);
+    }
+}
+
+/** @brief Handler for the 'fsformat' command */
+void fs_console::fsformat_handler(const char*)
+{
+    m_console.write_line("Formatting filesystem...");
+    if (ov::fs::format())
+    {
+        m_console.write_line("Done");
+    }
+    else
+    {
+        m_console.write_line("Error");
     }
 }
 
