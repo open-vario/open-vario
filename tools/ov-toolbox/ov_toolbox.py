@@ -4,8 +4,8 @@ import serial.tools.list_ports
 import time
 import sys
 
-from ov_device import OvDevice
-from ov_flightfile import save_flight
+from common.ov_device import OvDevice
+from common.ov_flightfile import save_flight
 
 # USB VID/PID of OpenVario device
 OV_USB_VID = 0x0483
@@ -90,4 +90,4 @@ if __name__ == '__main__':
     else:
         print("Unable to communicate with the device")
 
-#    sys.exit(exit_code)
+    sys.exit(exit_code)

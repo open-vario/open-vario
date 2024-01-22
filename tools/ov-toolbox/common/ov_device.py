@@ -2,8 +2,9 @@
 
 import serial
 import struct
-from ov_requests import *
-from ov_protocol import OvProtocol
+from .ov_requests import *
+from .ov_protocol import OvProtocol
+from .ov_flight import OvDateTime, OvFlight, OvFlightEntry
 
 
 class OvDevice(object):

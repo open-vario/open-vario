@@ -33,6 +33,14 @@
             "request": "launch",
             "program": "${workspaceFolder}/tools/ov-toolbox/ov_toolbox.py",
             "justMyCode": true
+        },
+        {
+            "name": "OV Converter",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/ov-toolbox/ov_converter.py",
+            "args": "${workspaceFolder}/2024-01-22T20-05-42.rec",
+            "justMyCode": true
         }
     ]
 }
