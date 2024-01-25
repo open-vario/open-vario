@@ -48,6 +48,8 @@ add_executable(openvario_fw
     recorder/flight_file.cpp
     recorder/flight_recorder.cpp
     recorder/recorder_console.cpp
+
+    xctrack/xctrack_link.cpp
 )
 
 # Include directories
@@ -67,6 +69,7 @@ target_include_directories(openvario_fw PRIVATE
     hmi/screens
     maintenance
     recorder
+    xctrack
 )
 
 # Linked libraries

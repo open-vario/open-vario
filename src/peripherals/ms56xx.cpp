@@ -44,8 +44,8 @@ i_barometric_sensor::data ms56xx::get_data()
     if (is_valid)
     {
         // Calculate temperature
-        const int32_t dT   = D2 - m_calib_data.c5 * 256;
-        int32_t       TEMP = 2000 + (dT * m_calib_data.c6) / 8388608;
+        const int64_t dT   = static_cast<int32_t>(D2) - static_cast<int32_t>(m_calib_data.c5 * 256);
+        int64_t       TEMP = 2000ll + (dT * static_cast<int64_t>(m_calib_data.c6)) / 8388608ll;
 
         // Calculate temperature compensated offset and sensitivity
         int64_t OFF =

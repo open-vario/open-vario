@@ -37,7 +37,7 @@ class hmi_manager : public i_hmi_manager
                 i_button&          next_button,
                 i_button&          select_button,
                 i_ble_stack&       ble_stack,
-                i_usb_cdc&         usb,
+                i_xctrack_link&    xctrack_link,
                 i_flight_recorder& recorder);
 
     /** @brief Start the HMI manager */

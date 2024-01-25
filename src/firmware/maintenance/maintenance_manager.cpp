@@ -18,7 +18,7 @@ maintenance_manager::maintenance_manager(i_serial& serial_port) : m_protocol(ser
 /** @brief Initialize the maintenance */
 bool maintenance_manager::init()
 {
-    // Start recording thread
+    // Start maintenance thread
     auto thread_func = ov::thread_func::create<maintenance_manager, &maintenance_manager::thread_func>(*this);
     bool ret         = m_thread.start(thread_func, "Maintenance", 2u, nullptr);
 

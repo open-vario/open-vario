@@ -24,10 +24,11 @@ ov_app::ov_app()
             m_board.get_next_button(),
             m_board.get_select_button(),
             m_board.get_ble_stack(),
-            m_board.get_usb_cdc(),
+            m_xctrack,
             m_recorder),
       m_ble(m_board.get_ble_stack()),
       m_recorder(),
+      m_xctrack(m_board.get_usb_cdc()),
       m_maintenance(m_board.get_usb_cdc()),
       m_thread()
 {
@@ -123,6 +124,9 @@ void ov_app::startup()
     // Load altimeter with calibration data
     const auto& config = ov::config::get();
     m_board.get_altimeter().set_references(config.alti_ref_temp, config.alti_ref_pressure, config.alti_ref_alti);
+
+    // Start XCTrack link
+    m_xctrack.init();
 
     // Start maintenance link
     m_maintenance.init();

@@ -13,6 +13,7 @@
 #include "recorder_console.h"
 #include "sensors_console.h"
 #include "thread.h"
+#include "xctrack_link.h"
 
 namespace ov
 {
@@ -49,6 +50,8 @@ class ov_app
     ble_manager m_ble;
     /** @brief Flight recorder */
     flight_recorder m_recorder;
+    /** @brief XCTrack link */
+    xctrack_link m_xctrack;
     /** @brief Maintenance manager */
     maintenance_manager m_maintenance;
     /** @brief Main thread */
