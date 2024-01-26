@@ -30,6 +30,8 @@ class sensors_console
     ov::i_debug_console::cmd_handler m_alti_handler;
     /** @brief Handler for the 'alticalib' command */
     ov::i_debug_console::cmd_handler m_alticalib_handler;
+    /** @brief Handler for the 'accel' command */
+    ov::i_debug_console::cmd_handler m_accel_handler;
 
     /** @brief Handler for the 'gnss' command */
     void gnss_handler(const char*);
@@ -37,11 +39,15 @@ class sensors_console
     void alti_handler(const char*);
     /** @brief Handler for the 'alticalib' command */
     void alticalib_handler(const char* new_alti);
+    /** @brief Handler for the 'accel' command */
+    void accel_handler(const char*);
 
     /** @brief Display gnss data */
     void display_gnss_data();
     /** @brief Display alti data */
     void display_alti_data();
+    /** @brief Display accel data */
+    void display_accel_data();
 };
 
 } // namespace ov

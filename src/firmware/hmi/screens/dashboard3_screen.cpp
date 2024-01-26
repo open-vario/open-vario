@@ -18,7 +18,7 @@ void dashboard3_screen::event(button bt, button_event bt_event)
     {
         if (bt == button::next)
         {
-            switch_to_screen(hmi_screen::flight);
+            switch_to_screen(hmi_screen::dashboard4);
         }
         if (bt == button::previous)
         {

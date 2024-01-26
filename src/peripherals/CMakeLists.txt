@@ -1,6 +1,7 @@
 # Peripherals library
 add_library(openvario_peripherals
     barometric_altimeter.cpp
+    ism330dhcx.cpp
     ms56xx.cpp
     ms56xx_i2c.cpp
     i_gnss.cpp

@@ -18,6 +18,7 @@
 // Peripherals
 #include "barometric_altimeter.h"
 #include "fake_button.h"
+#include "ism330dhcx.h"
 #include "ms56xx_i2c.h"
 #include "nmea_gnss.h"
 #include "pin_button.h"
@@ -76,6 +77,9 @@ class ov_board : public i_board
     /** @brief Get the barometric altimeter */
     i_barometric_altimeter& get_altimeter() override { return m_altimeter; }
 
+    /** @brief Get the accelerometer */
+    i_accelerometer_sensor& get_accelerometer() override { return m_accelerometer_sensor; }
+
   private:
     /** @brief Debug USART driver */
     stm32hal_usart m_dbg_usart_drv;
@@ -99,6 +103,9 @@ class ov_board : public i_board
     stm32hal_iopin m_soft_i2c_drv_sda;
     /** @brief Software i2C driver */
     soft_i2c m_soft_i2c_drv;
+
+    /** @brief I2C driver for internal sensors */
+    stm32hal_i2c m_internal_i2c_drv;
 
     /** @brief Storage memory */
     s25flxxxs m_qspi_nor_flash;
@@ -135,6 +142,9 @@ class ov_board : public i_board
     ms56xx_i2c m_barometric_sensor;
     /** @brief Barometric altimeter */
     barometric_altimeter m_altimeter;
+
+    /** @brief Accelerometer sensor */
+    ism330dhcx m_accelerometer_sensor;
 
     /** @brief Initialize the HAL */
     bool hal_init();

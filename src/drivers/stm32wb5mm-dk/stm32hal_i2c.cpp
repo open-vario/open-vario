@@ -1,6 +1,7 @@
 
 #include "stm32hal_i2c.h"
 #include "os.h"
+#include "thread.h"
 
 namespace ov
 {
@@ -101,6 +102,10 @@ bool stm32hal_i2c::xfer(const uint8_t slave_address, const xfer_desc& xfer)
         {
             cr2_reg |= (1u << 25u);
         }
+        else
+        {
+            cr2_reg |= (1u << 24u);
+        }
 
         // Start condition
         cr2_reg |= (1u << 13u);
@@ -150,9 +155,8 @@ bool stm32hal_i2c::xfer(const uint8_t slave_address, const xfer_desc& xfer)
         // Wait stop condition
         if (m_xfer->stop_cond)
         {
-            // Wait end of transfer
             const uint32_t start_time = os::now();
-            while (((i2c->ISR & (1u << 5u)) == 0) && ((os::now() - start_time) < 10u))
+            while (((i2c->ISR & (1u << 5u)) == 0) && ((os::now() - start_time) <= 100u))
             {
             }
         }
@@ -168,7 +172,7 @@ bool stm32hal_i2c::xfer(const uint8_t slave_address, const xfer_desc& xfer)
     } while ((m_xfer != nullptr) && (m_error == i_i2c::error::success));
 
     // Clear control register
-    i2c->CR2 = 0;
+    //i2c->CR2 = 0;
 
     return (m_error == i_i2c::error::success);
 }

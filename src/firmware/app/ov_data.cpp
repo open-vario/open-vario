@@ -37,6 +37,13 @@ i_barometric_altimeter::data get_altimeter()
     return s_data.altimeter;
 }
 
+/** @brief Get the accelerometer data */
+i_accelerometer_sensor::data get_accelerometer()
+{
+    lock_guard<mutex> lock(s_mutex);
+    return s_data.accelerometer;
+}
+
 // Setters
 
 /** @brief Set the GNSS data */
@@ -58,6 +65,13 @@ void set_altimeter(const i_barometric_altimeter::data& data)
 {
     lock_guard<mutex> lock(s_mutex);
     s_data.altimeter = data;
+}
+
+/** @brief Set the accelerometer data */
+void set_accelerometer(const i_accelerometer_sensor::data& data)
+{
+    lock_guard<mutex> lock(s_mutex);
+    s_data.accelerometer = data;
 }
 
 } // namespace data

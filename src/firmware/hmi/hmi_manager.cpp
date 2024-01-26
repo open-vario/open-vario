@@ -35,6 +35,7 @@ hmi_manager::hmi_manager(i_display&         display,
       m_dashboard1_screen(*this),
       m_dashboard2_screen(*this),
       m_dashboard3_screen(*this),
+      m_dashboard4_screen(*this),
       m_flight_screen(*this, recorder),
       m_gnss_screen(*this),
       m_ble_screen(*this, ble_stack),
@@ -59,13 +60,14 @@ hmi_manager::hmi_manager(i_display&         display,
     m_screens[1u]  = &m_dashboard1_screen;
     m_screens[2u]  = &m_dashboard2_screen;
     m_screens[3u]  = &m_dashboard3_screen;
-    m_screens[4u]  = &m_flight_screen;
-    m_screens[5u]  = &m_gnss_screen;
-    m_screens[6u]  = &m_ble_screen;
-    m_screens[7u]  = &m_usb_screen;
-    m_screens[8u]  = &m_settings_screen;
-    m_screens[9u]  = &m_settings_display_screen;
-    m_screens[10u] = &m_settings_exit_screen;
+    m_screens[4u]  = &m_dashboard4_screen;
+    m_screens[5u]  = &m_flight_screen;
+    m_screens[6u]  = &m_gnss_screen;
+    m_screens[7u]  = &m_ble_screen;
+    m_screens[8u]  = &m_usb_screen;
+    m_screens[9u]  = &m_settings_screen;
+    m_screens[10u] = &m_settings_display_screen;
+    m_screens[11u] = &m_settings_exit_screen;
 }
 
 /** @brief Start the HMI manager */

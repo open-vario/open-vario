@@ -64,8 +64,9 @@ void ov_app::thread_func(void*)
     startup();
 
     // Main loop
-    auto& gnss      = m_board.get_gnss();
-    auto& altimeter = m_board.get_altimeter();
+    auto& gnss          = m_board.get_gnss();
+    auto& altimeter     = m_board.get_altimeter();
+    auto& accelerometer = m_board.get_accelerometer();
     while (true)
     {
         // Get gnss data
@@ -80,6 +81,9 @@ void ov_app::thread_func(void*)
 
         // Get barometric altimeter data
         ov::data::set_altimeter(altimeter.get_data());
+
+        // Get accelerometer data
+        ov::data::set_accelerometer(accelerometer.get_data());
 
         ov::this_thread::sleep_for(100u);
     }

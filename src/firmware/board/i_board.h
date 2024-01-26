@@ -2,6 +2,7 @@
 #ifndef OV_I_BOARD_H
 #define OV_I_BOARD_H
 
+#include "i_accelerometer_sensor.h"
 #include "i_barometric_altimeter.h"
 #include "i_ble_stack.h"
 #include "i_button.h"
@@ -53,6 +54,9 @@ class i_board
 
     /** @brief Get the barometric altimeter */
     virtual i_barometric_altimeter& get_altimeter() = 0;
+
+    /** @brief Get the accelerometer */
+    virtual i_accelerometer_sensor& get_accelerometer() = 0;
 };
 
 } // namespace ov

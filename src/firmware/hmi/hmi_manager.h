@@ -10,6 +10,7 @@
 #include "dashboard1_screen.h"
 #include "dashboard2_screen.h"
 #include "dashboard3_screen.h"
+#include "dashboard4_screen.h"
 #include "flight_screen.h"
 #include "gnss_screen.h"
 #include "settings_display_screen.h"
@@ -85,6 +86,8 @@ class hmi_manager : public i_hmi_manager
     dashboard2_screen m_dashboard2_screen;
     /** @brief Dashboard 3 screen */
     dashboard3_screen m_dashboard3_screen;
+    /** @brief Dashboard 4 screen */
+    dashboard4_screen m_dashboard4_screen;
     /** @brief Flight screen */
     flight_screen m_flight_screen;
     /** @brief GNSS screen */

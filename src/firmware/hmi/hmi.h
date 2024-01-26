@@ -42,6 +42,8 @@ enum class hmi_screen
     dashboard2,
     /** @brief Dashboard 3 */
     dashboard3,
+    /** @brief Dashboard 4 */
+    dashboard4,
     /** @brief Flight */
     flight,
     /** @brief GNSS */

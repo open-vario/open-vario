@@ -27,7 +27,12 @@ sensors_console::sensors_console(i_debug_console& console, i_barometric_altimete
                           "Calibrate the barometric altimeter data",
                           ov::handler_func::create<sensors_console, &sensors_console::alticalib_handler>(*this),
                           nullptr,
-                          true}
+                          true},
+      m_accel_handler{"accel",
+                      "Display the accelerometer data",
+                      ov::handler_func::create<sensors_console, &sensors_console::accel_handler>(*this),
+                      nullptr,
+                      false}
 {
 }
 
@@ -37,6 +42,7 @@ void sensors_console::register_handlers()
     m_console.register_handler(m_gnss_handler);
     m_console.register_handler(m_alti_handler);
     m_console.register_handler(m_alticalib_handler);
+    m_console.register_handler(m_accel_handler);
 }
 
 /** @brief Handler for the 'gnss' command */
@@ -67,6 +73,15 @@ void sensors_console::alticalib_handler(const char* new_alti)
     config.alti_ref_temp     = alti_data.temperature;
     config.alti_ref_pressure = alti_data.pressure;
     config.alti_ref_alti     = altitude;
+}
+
+/** @brief Handler for the 'accel' command */
+void sensors_console::accel_handler(const char*)
+{
+    m_console.write_line("Periodic display of accelerometer data");
+
+    auto handler = ov::periodic_handler_func::create<sensors_console, &sensors_console::display_accel_data>(*this);
+    m_console.start_periodic(handler, 250u);
 }
 
 /** @brief Display gnss data */
@@ -165,6 +180,38 @@ void sensors_console::display_alti_data()
 
         m_console.write("Temperature : ");
         snprintf(tmp, sizeof(tmp), "%d", altimeter.temperature);
+        m_console.write_line(tmp);
+    }
+    else
+    {
+        m_console.write_line("Invalid data");
+    }
+}
+
+/** @brief Display accel data */
+void sensors_console::display_accel_data()
+{
+    char tmp[32u] = {};
+
+    auto accelerometer = ov::data::get_accelerometer();
+
+    m_console.write_line("------------------------------");
+    if (accelerometer.is_valid)
+    {
+        m_console.write("Acceleration X : ");
+        snprintf(tmp, sizeof(tmp), "%d", accelerometer.x_accel);
+        m_console.write_line(tmp);
+
+        m_console.write("Acceleration Y : ");
+        snprintf(tmp, sizeof(tmp), "%d", accelerometer.y_accel);
+        m_console.write_line(tmp);
+
+        m_console.write("Acceleration Z : ");
+        snprintf(tmp, sizeof(tmp), "%d", accelerometer.z_accel);
+        m_console.write_line(tmp);
+
+        m_console.write("Acceleration : ");
+        snprintf(tmp, sizeof(tmp), "%d", accelerometer.total_accel);
         m_console.write_line(tmp);
     }
     else

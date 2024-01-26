@@ -29,6 +29,8 @@ ov_board::ov_board()
       m_soft_i2c_drv_sda(GPIOC, GPIO_PIN_4),
       m_soft_i2c_drv(m_soft_i2c_drv_scl, m_soft_i2c_drv_sda, soft_i2c::delay_func::create<ov_board, &ov_board::soft_i2c_delay>(*this)),
 
+      m_internal_i2c_drv(I2C3),
+
       m_qspi_nor_flash(s25flxxxs::ref::s25fl128s, m_qspi_drv),
 
       m_oled_reset_pin(GPIOC, GPIO_PIN_8),
@@ -47,7 +49,9 @@ ov_board::ov_board()
       m_gnss(m_gnss_lpuart_drv),
 
       m_barometric_sensor(m_soft_i2c_drv, 0xEEu),
-      m_altimeter(m_barometric_sensor)
+      m_altimeter(m_barometric_sensor),
+
+      m_accelerometer_sensor(m_internal_i2c_drv, 0xD7u)
 {
 }
 
@@ -73,6 +77,7 @@ bool ov_board::init()
     ret = m_spi1_cs_drv.init() && ret;
     ret = m_spi1_drv.init() && ret;
     ret = m_soft_i2c_drv.init() && ret;
+    ret = m_internal_i2c_drv.init() && ret;
     ret = m_gnss_lpuart_drv.init() && ret;
     m_lpuart_mux_pin.set_high();
 
@@ -82,6 +87,7 @@ bool ov_board::init()
     ret = m_gnss.init() && ret;
     ret = m_barometric_sensor.init() && ret;
     ret = m_altimeter.init() && ret;
+    ret = m_accelerometer_sensor.init() && ret;
 
     return ret;
 }
@@ -213,6 +219,16 @@ bool ov_board::io_init()
     gpio_init.Pull  = GPIO_PULLUP;
     gpio_init.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOC, &gpio_init);
+
+    // I2C3 (ISM330) pins
+    // PB11    ------> I2C3_SDA
+    // PB13    ------> I2C3_SCL
+    gpio_init.Pin       = GPIO_PIN_11 | GPIO_PIN_13;
+    gpio_init.Mode      = GPIO_MODE_AF_OD;
+    gpio_init.Pull      = GPIO_PULLUP;
+    gpio_init.Speed     = GPIO_SPEED_FREQ_HIGH;
+    gpio_init.Alternate = GPIO_AF4_I2C3;
+    HAL_GPIO_Init(GPIOB, &gpio_init);
 
     // OLED driver pins
     // PC8     ------> Reset
