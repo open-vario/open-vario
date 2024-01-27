@@ -36,6 +36,7 @@ void xctrack_link::thread_func(void*)
             {
                 // Send data to XCTrack
                 send_barometric_data();
+                send_custom_data();
             }
         }
 
@@ -61,7 +62,7 @@ void xctrack_link::send_barometric_data()
     }
 
     // Prepare frame
-    char lk8000_frame[40u];
+    char lk8000_frame[64u];
     int  lk8000_frame_size =
         snprintf(lk8000_frame, sizeof(lk8000_frame), lk8000_frame_format, baro_data.pressure, (baro_data.temperature / 10));
 
@@ -71,12 +72,44 @@ void xctrack_link::send_barometric_data()
     {
         checksum ^= lk8000_frame[i];
     }
-    char checksum_str[6u];
+    char checksum_str[12u];
     snprintf(checksum_str, sizeof(checksum_str), "*%X\r\n", static_cast<int>(checksum));
     strcat(lk8000_frame, checksum_str);
 
     // Send frame
     m_usb.write(lk8000_frame);
+}
+
+/** @brief Send custom data */
+void xctrack_link::send_custom_data()
+{
+    // Use LK8000 protocol => https://github.com/LK8000/LK8000/blob/master/Docs/LK8EX1.txt
+    // $XCTOD,field1,field2,...,field50[\r]\n
+    // $XCTOD,acceleration,temperature\r\n
+    static const char* xctod_frame_format = "$XCTOD,%d.%02d,%d\r\n";
+
+    // Get acceleration
+    auto accel_data = ov::data::get_accelerometer();
+    if (!accel_data.is_valid)
+    {
+        accel_data.total_accel = 999;
+    }
+    uint16_t accel = accel_data.total_accel / 1000u;
+    uint16_t part  = (accel_data.total_accel - accel * 1000u) / 10u;
+
+    // Get temperature
+    auto baro_data = ov::data::get_altimeter();
+    if (!baro_data.is_valid)
+    {
+        baro_data.temperature = 99;
+    }
+
+    // Prepare frame
+    char xctod_frame[64u];
+    snprintf(xctod_frame, sizeof(xctod_frame), xctod_frame_format, accel, part, baro_data.temperature / 10);
+
+    // Send frame
+    m_usb.write(xctod_frame);
 }
 
 } // namespace ov

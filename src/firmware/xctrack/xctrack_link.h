@@ -39,6 +39,8 @@ class xctrack_link : public i_xctrack_link
     void thread_func(void*);
     /** @brief Send barometric data */
     void send_barometric_data();
+    /** @brief Send custom data */
+    void send_custom_data();
 };
 
 } // namespace ov

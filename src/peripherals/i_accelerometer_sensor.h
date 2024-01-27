@@ -21,7 +21,7 @@ class i_accelerometer_sensor
         int16_t y_accel;
         /** @brief Acceleration on Z (1000 = 1g) */
         int16_t z_accel;
-        /** @brief Total acceleration */
+        /** @brief Total acceleration (1000 = 1g) */
         int16_t total_accel;
         /** @brief Indicate if the data is valid */
         bool is_valid;
