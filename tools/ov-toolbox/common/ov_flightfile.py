@@ -27,17 +27,18 @@ def save_flight(name: str, flight: OvFlight) -> bool:
         flight_file.write("[data]\n")
         entry_id = 0
         for flight_data in flight.entries:
-            flight_file.write("{}={},{},{},{},{},{},{},{},{},{}\n".format(entry_id,
-                                                                          flight_data.gnss.is_valid,
-                                                                          flight_data.gnss.latitude,
-                                                                          flight_data.gnss.longitude,
-                                                                          flight_data.gnss.speed,
-                                                                          flight_data.gnss.altitude,
-                                                                          flight_data.gnss.track_angle,
-                                                                          flight_data.altimeter.is_valid,
-                                                                          flight_data.altimeter.pressure,
-                                                                          flight_data.altimeter.altitude,
-                                                                          flight_data.altimeter.temperature))
+            flight_file.write("{}={},{},{},{},{},{},{},{},{},{},{}\n".format(entry_id,
+                                                                             flight_data.gnss.is_valid,
+                                                                             flight_data.gnss.latitude,
+                                                                             flight_data.gnss.longitude,
+                                                                             flight_data.gnss.speed,
+                                                                             flight_data.gnss.altitude,
+                                                                             flight_data.altimeter.is_valid,
+                                                                             flight_data.altimeter.pressure,
+                                                                             flight_data.altimeter.altitude,
+                                                                             flight_data.altimeter.temperature,
+                                                                             flight_data.accelerometer.is_valid,
+                                                                             flight_data.accelerometer.acceleration))
             entry_id += 1
 
         # Close file
@@ -81,7 +82,7 @@ def load_flight(filename: str) -> OvFlight:
             for i in range(len(flight_file["data"])):
                 value = flight_file.get("data", "{}".format(i))
                 values = value.split(",")
-                if len(values) == 10:
+                if len(values) == 11:
 
                     entry = OvFlightEntry()
 
@@ -91,13 +92,16 @@ def load_flight(filename: str) -> OvFlight:
                     entry.gnss.longitude = float(values[2])
                     entry.gnss.speed = int(values[3])
                     entry.gnss.altitude = int(values[4])
-                    entry.gnss.track_angle = int(values[5])
 
                     # Extract altimeter data
-                    entry.altimeter.is_valid = eval(values[6])
-                    entry.altimeter.altitude = int(values[7])
-                    entry.altimeter.pressure = int(values[8])
-                    entry.altimeter.temperature = int(values[9])
+                    entry.altimeter.is_valid = eval(values[5])
+                    entry.altimeter.altitude = int(values[6])
+                    entry.altimeter.pressure = int(values[7])
+                    entry.altimeter.temperature = int(values[8])
+
+                    # Extract accelerometer data
+                    entry.accelerometer.is_valid = eval(values[9])
+                    entry.accelerometer.acceleration = int(values[10])
 
                     flight.entries.append(entry)
 

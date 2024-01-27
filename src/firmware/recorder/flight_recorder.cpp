@@ -159,8 +159,14 @@ void flight_recorder::thread_func(void*)
 
                 // Write a new entry
                 flight_file::entry entry;
-                entry.gnss      = data.gnss;
-                entry.altimeter = data.altimeter;
+                entry.gnss_is_valid  = data.gnss.is_valid;
+                entry.latitude       = data.gnss.latitude;
+                entry.longitude      = data.gnss.longitude;
+                entry.speed          = data.gnss.speed;
+                entry.altitude       = data.gnss.altitude;
+                entry.altimeter      = data.altimeter;
+                entry.accel_is_valid = data.accelerometer.is_valid;
+                entry.total_accel    = data.accelerometer.total_accel;
                 if (!flight.write(entry))
                 {
                     // Error

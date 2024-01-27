@@ -75,6 +75,18 @@ class OvFlightAltimeterData:
         self.temperature = 0
 
 
+class OvFlightAccelerometerData:
+    """ Recorded flight accelerometer data """
+
+    def __init__(self) -> None:
+        """ Constructor """
+
+        # Indicate if the data is valid
+        self.is_valid = False
+        # Total acceleration (1000 = 1g)
+        self.acceleration = 0
+
+
 class OvFlightEntry:
     """ Recorded flight entry """
 
@@ -85,6 +97,8 @@ class OvFlightEntry:
         self.gnss = OvFlightGnssData()
         # Altimeter data
         self.altimeter = OvFlightAltimeterData()
+        # Accelerometer data
+        self.accelerometer = OvFlightAccelerometerData()
 
 
 class OvFlight:

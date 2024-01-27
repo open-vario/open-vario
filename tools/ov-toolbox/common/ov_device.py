@@ -214,12 +214,15 @@ class OvDevice(object):
         entry.gnss.longitude, index = self.__read_double(frame, index)
         entry.gnss.altitude, index = self.__read_uint(frame, 4, index)
         entry.gnss.speed, index = self.__read_uint(frame, 4, index)
-        entry.gnss.track_angle, index = self.__read_uint(frame, 2, index)
 
         entry.altimeter.is_valid, index = self.__read_bool(frame, index)
         entry.altimeter.altitude, index = self.__read_int(frame, 4, index)
         entry.altimeter.pressure, index = self.__read_int(frame, 4, index)
         entry.altimeter.temperature, index = self.__read_int(frame, 2, index)
+
+        entry.accelerometer.is_valid, index = self.__read_bool(frame, index)
+        entry.accelerometer.acceleration, index = self.__read_int(
+            frame, 2, index)
 
         return entry, index
 

@@ -199,16 +199,17 @@ bool maintenance_manager::handle_read_flight_req(ov_request& request)
                 {
                     write(request, true);
                 }
-                write(request, entry.gnss.is_valid);
-                write(request, entry.gnss.latitude);
-                write(request, entry.gnss.longitude);
-                write(request, entry.gnss.altitude);
-                write(request, entry.gnss.speed);
-                write(request, entry.gnss.track_angle);
+                write(request, entry.gnss_is_valid);
+                write(request, entry.latitude);
+                write(request, entry.longitude);
+                write(request, entry.altitude);
+                write(request, entry.speed);
                 write(request, entry.altimeter.is_valid);
                 write(request, entry.altimeter.altitude);
                 write(request, entry.altimeter.pressure);
                 write(request, entry.altimeter.temperature);
+                write(request, entry.accel_is_valid);
+                write(request, entry.total_accel);
 
                 count++;
             }

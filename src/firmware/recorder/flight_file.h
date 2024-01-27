@@ -31,10 +31,28 @@ class flight_file
     /** @brief Flight file entry */
     struct entry
     {
-        /** @brief GNSS data */
-        i_gnss::data gnss;
+        // GNSS data
+
+        /** @brief Indicate if the GNSS data is valid */
+        bool gnss_is_valid;
+        /** @brief Latitude (1 = 1°) */
+        double latitude;
+        /** @brief Longitude (1 = 1°) */
+        double longitude;
+        /** @brief Speed (1 = 0.1 m/s) */
+        uint32_t speed;
+        /** @brief Altitude (1 = 0.1 m) */
+        uint32_t altitude;
+
         /** @brief Barometric altimeter data */
         i_barometric_altimeter::data altimeter;
+
+        // Accelerometer data
+
+        /** @brief Indicate if the accelerometer data is valid */
+        bool accel_is_valid;
+        /** @brief Total acceleration (1000 = 1g) */
+        int16_t total_accel;
     };
 
     /** @brief Constructor to open the file for read operations */

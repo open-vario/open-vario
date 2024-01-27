@@ -110,26 +110,28 @@ bool stm32hal_usb_cdc::write(const void* buffer, size_t size)
     while (ret && (left != 0u))
     {
         // Wait end of previous transmission
-        m_tx_sem.take(os::infinite_timeout_value());
-
-        // Copy data into transmission buffer
-        size_t tx_count = left;
-        if (tx_count > sizeof(m_ll_tx_buffer))
+        ret = m_tx_sem.take(100u);
+        if (ret)
         {
-            tx_count = sizeof(m_ll_tx_buffer);
-        }
-        memcpy(m_ll_tx_buffer, tx_data, tx_count);
+            // Copy data into transmission buffer
+            size_t tx_count = left;
+            if (tx_count > sizeof(m_ll_tx_buffer))
+            {
+                tx_count = sizeof(m_ll_tx_buffer);
+            }
+            memcpy(m_ll_tx_buffer, tx_data, tx_count);
 
-        // Start transmission
-        USBD_CDC_SetTxBuffer(&m_usb, m_ll_tx_buffer, tx_count);
-        if (USBD_CDC_TransmitPacket(&m_usb) != USBD_OK)
-        {
-            ret = false;
-        }
+            // Start transmission
+            USBD_CDC_SetTxBuffer(&m_usb, m_ll_tx_buffer, tx_count);
+            if (USBD_CDC_TransmitPacket(&m_usb) != USBD_OK)
+            {
+                ret = false;
+            }
 
-        // Next data
-        left -= tx_count;
-        tx_data += tx_count;
+            // Next data
+            left -= tx_count;
+            tx_data += tx_count;
+        }
     }
 
     return ret;
@@ -153,6 +155,11 @@ int8_t stm32hal_usb_cdc::iface_init()
 
     // Clear receive buffer
     s_instance->m_rx_buffer.clear();
+
+    // Release TX semaphore
+    bool higher_priority_task_woken = false;
+    s_instance->m_tx_sem.release_from_isr(higher_priority_task_woken);
+    os::yield_from_isr(higher_priority_task_woken);
 
     // Update link status
     s_instance->m_is_link_up = true;
