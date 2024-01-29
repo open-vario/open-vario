@@ -54,6 +54,8 @@ enum class hmi_screen
     usb,
     /** @brief Settings */
     settings,
+    /** @brief Settings - Glider */
+    settings_glider,
     /** @brief Settings - Display */
     settings_display,
     /** @brief Settings - Exit */

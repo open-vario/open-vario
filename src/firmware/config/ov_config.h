@@ -48,6 +48,8 @@ struct ov_config
 
     /** @brief Night mode */
     bool is_night_mode_on;
+    /** @brief Display screen saver timeout in milliseconds */
+    uint32_t disp_saver_timeout;
 };
 
 /** @brief Confiuration entry type */

@@ -16,7 +16,7 @@ namespace ov
 static stm32wb5mm_ble_stack* s_ble_stack;
 
 /** @brief Constructor */
-stm32wb5mm_ble_stack::stm32wb5mm_ble_stack() : m_thread(), m_services(nullptr), m_services_count(0u), m_is_ready(false)
+stm32wb5mm_ble_stack::stm32wb5mm_ble_stack() : m_thread(), m_services(nullptr), m_services_count(0u), m_is_started(false), m_is_ready(false)
 {
     s_ble_stack = this;
 }
@@ -47,6 +47,7 @@ bool stm32wb5mm_ble_stack::is_device_connected()
 void stm32wb5mm_ble_stack::thread_func(void*)
 {
     // Start BLE stack
+    m_is_started = true;
     APPE_Tl_Init();
 
     // Thread loop

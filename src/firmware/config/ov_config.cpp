@@ -40,6 +40,7 @@ static const config_entry s_config_desc[] = {
     {"Recording period", entry_type::uint, sizeof(s_config.recording_period), &s_config.recording_period, &s_default_recording_period},
     // Display settings
     {"Night mode", entry_type::boolean, sizeof(s_config.is_night_mode_on), &s_config.is_night_mode_on, &s_default_is_night_mode_on},
+    {"Display timeout", entry_type::uint, sizeof(s_config.disp_saver_timeout), &s_config.disp_saver_timeout, &s_default_disp_saver_timeout},
     // Null entry
     {nullptr, entry_type::sint, 0u, nullptr, nullptr}};
 

@@ -15,6 +15,7 @@
 #include "gnss_screen.h"
 #include "settings_display_screen.h"
 #include "settings_exit_screen.h"
+#include "settings_glider_screen.h"
 #include "settings_screen.h"
 #include "splash_screen.h"
 #include "usb_screen.h"
@@ -37,7 +38,7 @@ class hmi_manager : public i_hmi_manager
                 i_button&          previous_button,
                 i_button&          next_button,
                 i_button&          select_button,
-                i_ble_stack&       ble_stack,
+                i_ble_manager&     ble_manager,
                 i_xctrack_link&    xctrack_link,
                 i_flight_recorder& recorder);
 
@@ -98,6 +99,8 @@ class hmi_manager : public i_hmi_manager
     usb_screen m_usb_screen;
     /** @brief Settings screen */
     settings_screen m_settings_screen;
+    /** @brief Glider settings screen */
+    settings_glider_screen m_settings_glider_screen;
     /** @brief Display settings screen */
     settings_display_screen m_settings_display_screen;
     /** @brief Exit settings screen */

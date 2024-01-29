@@ -74,7 +74,7 @@ uint32_t flight_recorder::get_recording_duration()
 {
     // Compute duration
     uint32_t now      = os::now();
-    uint32_t duration = (now - m_recording_start) / configTICK_RATE_HZ;
+    uint32_t duration = (now - m_recording_start) / 1000u;
     return duration;
 }
 

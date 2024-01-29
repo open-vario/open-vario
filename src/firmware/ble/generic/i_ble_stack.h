@@ -17,6 +17,9 @@ class i_ble_stack
     /** @brief Start the stack */
     virtual bool start(i_ble_service* services[], size_t services_count) = 0;
 
+    /** @brief Indicate if the stack is started */
+    virtual bool is_started() = 0;
+
     /** @brief Indicate if the stack is ready */
     virtual bool is_ready() = 0;
 

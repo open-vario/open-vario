@@ -33,17 +33,25 @@ static const uint8_t GLIDER3_NAME_CHAR_UUID[] = {
 static const uint8_t GLIDER4_NAME_CHAR_UUID[] = {
     0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x06u, 0x01u};
 
+/** @brief UUID of the selected glider characteristic */
+static const uint8_t SELECTED_GLIDER_CHAR_UUID[] = {
+    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x07u, 0x01u};
+
 /** @brief UUID of the sink rate integration time characteristic */
 static const uint8_t SINK_RATE_INTEG_TIME_CHAR_UUID[] = {
-    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x07u, 0x01u};
+    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x08u, 0x01u};
 
 /** @brief UUID of the glide ratio integration time characteristic */
 static const uint8_t GLIDE_RATIO_INTEG_TIME_CHAR_UUID[] = {
-    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x08u, 0x01u};
+    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x09u, 0x01u};
 
 /** @brief UUID of the night mode characteristic */
 static const uint8_t NIGHT_MODE_CHAR_UUID[] = {
-    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x09u, 0x01u};
+    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x0Au, 0x01u};
+
+/** @brief UUID of the display saver timeout characteristic */
+static const uint8_t DISP_SAVER_TIMEOUT_CHAR_UUID[] = {
+    0x51u, 0x6Cu, 0x57u, 0x37u, 0x82u, 0x50u, 0x49u, 0x3Bu, 0xBBu, 0x95u, 0xB2u, 0xA1u, 0x6Fu, 0x65u, 0x0Bu, 0x01u};
 
 /** @brief Constructor */
 ble_config_service::ble_config_service()
@@ -74,6 +82,10 @@ ble_config_service::ble_config_service()
                           GLIDER4_NAME_CHAR_UUID,
                           sizeof(ov_config::glider4_name),
                           i_ble_characteristic::properties::read | i_ble_characteristic::properties::write),
+      m_selected_glider_char(m_service,
+                             "Selected glider",
+                             SELECTED_GLIDER_CHAR_UUID,
+                             i_ble_characteristic::properties::read | i_ble_characteristic::properties::write),
       m_sr_integ_time_char(m_service,
                            "Sink rate integ time",
                            SINK_RATE_INTEG_TIME_CHAR_UUID,
@@ -83,18 +95,24 @@ ble_config_service::ble_config_service()
                            GLIDE_RATIO_INTEG_TIME_CHAR_UUID,
                            i_ble_characteristic::properties::read | i_ble_characteristic::properties::write),
       m_is_night_mode_on_char(
-          m_service, "Night mode", NIGHT_MODE_CHAR_UUID, i_ble_characteristic::properties::read | i_ble_characteristic::properties::write)
+          m_service, "Night mode", NIGHT_MODE_CHAR_UUID, i_ble_characteristic::properties::read | i_ble_characteristic::properties::write),
+      m_disp_saver_timeout(m_service,
+                           "Display timeout",
+                           DISP_SAVER_TIMEOUT_CHAR_UUID,
+                           i_ble_characteristic::properties::read | i_ble_characteristic::properties::write)
 {
     // Fill characteristics array
-    m_chars[0u] = &m_save_config_char;
-    m_chars[1u] = &m_device_name_char;
-    m_chars[2u] = &m_glider1_name_char;
-    m_chars[3u] = &m_glider2_name_char;
-    m_chars[4u] = &m_glider3_name_char;
-    m_chars[5u] = &m_glider4_name_char;
-    m_chars[6u] = &m_sr_integ_time_char;
-    m_chars[7u] = &m_gr_integ_time_char;
-    m_chars[8u] = &m_is_night_mode_on_char;
+    m_chars[0u]  = &m_save_config_char;
+    m_chars[1u]  = &m_device_name_char;
+    m_chars[2u]  = &m_glider1_name_char;
+    m_chars[3u]  = &m_glider2_name_char;
+    m_chars[4u]  = &m_glider3_name_char;
+    m_chars[5u]  = &m_glider4_name_char;
+    m_chars[6u]  = &m_selected_glider_char;
+    m_chars[7u]  = &m_sr_integ_time_char;
+    m_chars[8u]  = &m_gr_integ_time_char;
+    m_chars[9u]  = &m_is_night_mode_on_char;
+    m_chars[10u] = &m_disp_saver_timeout;
 
     // Register event handlers
     m_save_config_char.register_app_event_handler(TYPED_HANDLER(uint32_t, ble_config_service, save_config_handler, *this));
@@ -103,9 +121,11 @@ ble_config_service::ble_config_service()
     m_glider2_name_char.register_app_event_handler(TYPED_HANDLER(char*, ble_config_service, glider2_name_handler, *this));
     m_glider3_name_char.register_app_event_handler(TYPED_HANDLER(char*, ble_config_service, glider3_name_handler, *this));
     m_glider4_name_char.register_app_event_handler(TYPED_HANDLER(char*, ble_config_service, glider4_name_handler, *this));
+    m_selected_glider_char.register_app_event_handler(TYPED_HANDLER(uint8_t, ble_config_service, selected_glider_handler, *this));
     m_sr_integ_time_char.register_app_event_handler(TYPED_HANDLER(uint32_t, ble_config_service, sr_integ_time_char_handler, *this));
     m_gr_integ_time_char.register_app_event_handler(TYPED_HANDLER(uint32_t, ble_config_service, gr_integ_time_char_handler, *this));
     m_is_night_mode_on_char.register_app_event_handler(TYPED_HANDLER(bool, ble_config_service, is_night_mode_on_char_handler, *this));
+    m_disp_saver_timeout.register_app_event_handler(TYPED_HANDLER(uint32_t, ble_config_service, disp_saver_timeout_handler, *this));
 }
 
 /** @brief Set the initial values of the characteristics */
@@ -117,9 +137,11 @@ void ble_config_service::set_init_values()
     m_glider2_name_char.update_value(config.glider2_name);
     m_glider3_name_char.update_value(config.glider3_name);
     m_glider4_name_char.update_value(config.glider4_name);
+    m_selected_glider_char.update_value(config.glider);
     m_sr_integ_time_char.update_value(config.sr_integ_time);
     m_gr_integ_time_char.update_value(config.gr_integ_time);
     m_is_night_mode_on_char.update_value(config.is_night_mode_on);
+    m_disp_saver_timeout.update_value(config.disp_saver_timeout);
 }
 
 /** @brief Event handler for the save config characteristic */
@@ -183,6 +205,19 @@ bool ble_config_service::glider4_name_handler(const char* new_value)
     return true;
 }
 
+/** @brief Event handler for the selected glider characteristic */
+bool ble_config_service::selected_glider_handler(const uint8_t& new_value)
+{
+    bool ret = false;
+    if ((new_value > 0) && (new_value <= 4u))
+    {
+        auto& config  = ov::config::get();
+        config.glider = new_value;
+        ret           = true;
+    }
+    return ret;
+}
+
 /** @brief Event handler for the sink rate integration time characteristic */
 bool ble_config_service::sr_integ_time_char_handler(const uint32_t& new_value)
 {
@@ -204,6 +239,14 @@ bool ble_config_service::is_night_mode_on_char_handler(const bool& new_value)
 {
     auto& config            = ov::config::get();
     config.is_night_mode_on = new_value;
+    return true;
+}
+
+/** @brief Event handler for the display screen saver timeout characteristic */
+bool ble_config_service::disp_saver_timeout_handler(const uint32_t& new_value)
+{
+    auto& config              = ov::config::get();
+    config.disp_saver_timeout = new_value;
     return true;
 }
 

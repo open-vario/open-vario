@@ -2,6 +2,7 @@
 #ifndef OV_BLE_MANAGER_H
 #define OV_BLE_MANAGER_H
 
+#include "i_ble_manager.h"
 #include "thread.h"
 
 #include "ble_config_service.h"
@@ -9,18 +10,21 @@
 namespace ov
 {
 
-// Forward declaration
-class i_ble_stack;
-
 /** @brief BLE manager */
-class ble_manager
+class ble_manager : public i_ble_manager
 {
   public:
     /** @brief Constructor */
     ble_manager(i_ble_stack& ble_stack);
 
     /** @brief Start the BLE manager */
-    bool start();
+    bool start() override;
+
+    /** @brief Indicate if the BLE manager is started */
+    bool is_started() override { return m_ble_stack.is_started(); }
+
+    /** @brief Get the BLE stack */
+    i_ble_stack& ble_stack() override { return m_ble_stack; }
 
   private:
     /** @brief BLE stack */

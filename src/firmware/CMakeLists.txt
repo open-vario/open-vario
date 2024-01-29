@@ -37,9 +37,10 @@ add_executable(openvario_fw
     hmi/screens/dashboard4_screen.cpp
     hmi/screens/flight_screen.cpp
     hmi/screens/gnss_screen.cpp
-    hmi/screens/settings_screen.cpp
     hmi/screens/settings_display_screen.cpp
     hmi/screens/settings_exit_screen.cpp
+    hmi/screens/settings_glider_screen.cpp
+    hmi/screens/settings_screen.cpp
     hmi/screens/splash_screen.cpp
     hmi/screens/usb_screen.cpp
 

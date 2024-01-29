@@ -20,7 +20,7 @@ void settings_display_screen::event(button bt, button_event bt_event)
         }
         if (bt == button::previous)
         {
-            switch_to_screen(hmi_screen::settings_exit);
+            switch_to_screen(hmi_screen::settings_glider);
         }
         if (bt == button::select)
         {

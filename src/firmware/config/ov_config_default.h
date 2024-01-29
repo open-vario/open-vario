@@ -12,13 +12,13 @@ namespace ov
 /** @brief Device's name */
 static const char s_default_device_name[32u] = "OpenVarioDevice";
 /** @brief Glider 1's name */
-static const char s_default_glider1_name[32u] = "Glider 1";
+static const char s_default_glider1_name[32u] = "My glider 1";
 /** @brief Glider 2's name */
-static const char s_default_glider2_name[32u] = "Glider 2";
+static const char s_default_glider2_name[32u] = "My glider 2";
 /** @brief Glider 3's name */
-static const char s_default_glider3_name[32u] = "Glider 3";
+static const char s_default_glider3_name[32u] = "My glider 3";
 /** @brief Glider 4's name */
-static const char s_default_glider4_name[32u] = "Glider 4";
+static const char s_default_glider4_name[32u] = "My glider 4";
 /** @brief Selected glider */
 static const uint8_t s_default_glider = 1u;
 
@@ -44,6 +44,8 @@ static const uint32_t s_default_recording_period = 1000u;
 
 /** @brief Night mode */
 static const bool s_default_is_night_mode_on = true;
+/** @brief Display screen saver timeout in milliseconds */
+static const uint32_t s_default_disp_saver_timeout = 20000u;
 
 } // namespace ov
 

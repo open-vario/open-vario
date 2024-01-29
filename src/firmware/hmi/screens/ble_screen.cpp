@@ -1,13 +1,13 @@
 
 #include "ble_screen.h"
-#include "i_ble_stack.h"
+#include "i_ble_manager.h"
 
 namespace ov
 {
 
 /** @brief Constructor */
-ble_screen::ble_screen(i_hmi_manager& hmi_manager, i_ble_stack& ble_stack)
-    : base_screen(hmi_screen::ble, hmi_manager), m_ble_stack(ble_stack)
+ble_screen::ble_screen(i_hmi_manager& hmi_manager, i_ble_manager& ble_manager)
+    : base_screen(hmi_screen::ble, hmi_manager), m_ble_manager(ble_manager)
 {
 }
 
@@ -23,6 +23,13 @@ void ble_screen::event(button bt, button_event bt_event)
         if (bt == button::previous)
         {
             switch_to_screen(hmi_screen::gnss);
+        }
+        if (bt == button::select)
+        {
+            if (!m_ble_manager.is_started())
+            {
+                m_ble_manager.start();
+            }
         }
     }
 }
@@ -53,13 +60,20 @@ void ble_screen::on_init(YACSGL_frame_t& frame)
 void ble_screen::on_refresh(YACSGL_frame_t& frame)
 {
     // Update status
-    if (m_ble_stack.is_device_connected())
+    if (m_ble_manager.is_started())
     {
-        YACSWL_label_set_text(&m_connection_status_label, m_connected_string);
+        if (m_ble_manager.ble_stack().is_device_connected())
+        {
+            YACSWL_label_set_text(&m_connection_status_label, m_connected_string);
+        }
+        else
+        {
+            YACSWL_label_set_text(&m_connection_status_label, m_not_connected_string);
+        }
     }
     else
     {
-        YACSWL_label_set_text(&m_connection_status_label, m_not_connected_string);
+        YACSWL_label_set_text(&m_connection_status_label, m_off_string);
     }
     YACSWL_widget_set_pos(&m_connection_status_label.widget,
                           (frame.frame_x_width - YACSWL_widget_get_width(&m_connection_status_label.widget)) / 2u,

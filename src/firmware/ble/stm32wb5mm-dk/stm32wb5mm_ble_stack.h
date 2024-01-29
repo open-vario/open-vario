@@ -19,6 +19,9 @@ class stm32wb5mm_ble_stack : public i_ble_stack
     /** @brief Start the stack */
     bool start(i_ble_service* services[], size_t services_count);
 
+    /** @brief Indicate if the stack is started */
+    bool is_started() override { return m_is_started; }
+
     /** @brief Indicate if the stack is ready */
     bool is_ready() override { return m_is_ready; }
 
@@ -32,6 +35,8 @@ class stm32wb5mm_ble_stack : public i_ble_stack
     i_ble_service** m_services;
     /** @brief Number of BLE services */
     size_t m_services_count;
+    /** @brief Indicate that the stack is started */
+    bool m_is_started;
     /** @brief Indicate that the stack is ready */
     bool m_is_ready;
 

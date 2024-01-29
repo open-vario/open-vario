@@ -1,6 +1,5 @@
 
 #include "ble_manager.h"
-#include "i_ble_stack.h"
 
 namespace ov
 {

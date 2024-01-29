@@ -21,7 +21,7 @@ hmi_manager::hmi_manager(i_display&         display,
                          i_button&          previous_button,
                          i_button&          next_button,
                          i_button&          select_button,
-                         i_ble_stack&       ble_stack,
+                         i_ble_manager&     ble_manager,
                          i_xctrack_link&    xctrack_link,
                          i_flight_recorder& recorder)
     : m_display(display),
@@ -38,9 +38,10 @@ hmi_manager::hmi_manager(i_display&         display,
       m_dashboard4_screen(*this),
       m_flight_screen(*this, recorder),
       m_gnss_screen(*this),
-      m_ble_screen(*this, ble_stack),
+      m_ble_screen(*this, ble_manager),
       m_usb_screen(*this, xctrack_link),
       m_settings_screen(*this),
+      m_settings_glider_screen(*this),
       m_settings_display_screen(*this),
       m_settings_exit_screen(*this),
       m_thread()
@@ -66,8 +67,9 @@ hmi_manager::hmi_manager(i_display&         display,
     m_screens[7u]  = &m_ble_screen;
     m_screens[8u]  = &m_usb_screen;
     m_screens[9u]  = &m_settings_screen;
-    m_screens[10u] = &m_settings_display_screen;
-    m_screens[11u] = &m_settings_exit_screen;
+    m_screens[10u] = &m_settings_glider_screen;
+    m_screens[11u] = &m_settings_display_screen;
+    m_screens[12u] = &m_settings_exit_screen;
 }
 
 /** @brief Start the HMI manager */
@@ -109,6 +111,7 @@ void hmi_manager::thread_func(void*)
     {
         m_screens[i]->init(frame);
     }
+    auto last_user_action = os::now();
 
     // Thread loop
     while (true)
@@ -123,22 +126,27 @@ void hmi_manager::thread_func(void*)
             bool is_pushed = bt.button->is_pushed();
             if (is_pushed)
             {
-                // Check if the button was released
-                if (bt.is_pushed)
+                // Update last user action timestamp
+                last_user_action = os::now();
+                if (m_display.is_on())
                 {
-                    // Trigger 'long push' event
-                    if ((current_ts - bt.pushed_ts) >= LONG_PUSH_DELAY)
+                    // Check if the button was released
+                    if (bt.is_pushed)
                     {
-                        m_current_screen->event(static_cast<button>(i), button_event::long_push);
+                        // Trigger 'long push' event
+                        if ((current_ts - bt.pushed_ts) >= LONG_PUSH_DELAY)
+                        {
+                            m_current_screen->event(static_cast<button>(i), button_event::long_push);
+                        }
                     }
-                }
-                else
-                {
-                    // Trigger 'down' event
-                    m_current_screen->event(static_cast<button>(i), button_event::down);
+                    else
+                    {
+                        // Trigger 'down' event
+                        m_current_screen->event(static_cast<button>(i), button_event::down);
 
-                    // Save timestamp
-                    bt.pushed_ts = current_ts;
+                        // Save timestamp
+                        bt.pushed_ts = current_ts;
+                    }
                 }
             }
             else
@@ -171,13 +179,21 @@ void hmi_manager::thread_func(void*)
         m_current_screen->refresh(frame);
 
         // Refresh rate = 5FPS
-        if (m_display.is_on() && !m_display_on)
+        if (m_display.is_on())
         {
-            m_display.turn_off();
+            if (!m_display_on ||
+                ((ov::config::get().disp_saver_timeout != 0u) && ((os::now() - last_user_action) > ov::config::get().disp_saver_timeout)))
+            {
+                m_display.turn_off();
+            }
         }
-        if (!m_display.is_on() && m_display_on)
+        else
         {
-            m_display.turn_on();
+            if (m_display_on &&
+                ((ov::config::get().disp_saver_timeout == 0u) || ((os::now() - last_user_action) <= ov::config::get().disp_saver_timeout)))
+            {
+                m_display.turn_on();
+            }
         }
         m_display.refresh();
         ov::this_thread::sleep_for(200u);

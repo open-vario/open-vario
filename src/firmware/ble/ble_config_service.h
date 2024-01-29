@@ -23,7 +23,7 @@ class ble_config_service
 
   private:
     /** @brief Number of characteristics */
-    static const size_t m_chars_count = 9u;
+    static const size_t m_chars_count = 11u;
     /** @brief Characteristics */
     i_ble_characteristic* m_chars[m_chars_count];
 
@@ -42,12 +42,16 @@ class ble_config_service
     ble_characteristic<char*> m_glider3_name_char;
     /** @brief Glider 4's name characteristic */
     ble_characteristic<char*> m_glider4_name_char;
+    /** @brief Selected glider characteristic */
+    ble_characteristic<uint8_t> m_selected_glider_char;
     /** @brief Sink rate integration time characteristic */
     ble_characteristic<uint32_t> m_sr_integ_time_char;
     /** @brief Glide ratio integration time characteristic */
     ble_characteristic<uint32_t> m_gr_integ_time_char;
     /** @brief Night mode characteristic */
     ble_characteristic<bool> m_is_night_mode_on_char;
+    /** @brief Display screen saver timeout characteristic */
+    ble_characteristic<uint32_t> m_disp_saver_timeout;
 
     /** @brief Event handler for the save config characteristic */
     bool save_config_handler(const uint32_t& new_value);
@@ -61,12 +65,16 @@ class ble_config_service
     bool glider3_name_handler(const char* new_value);
     /** @brief Event handler for the glider 4's name characteristic */
     bool glider4_name_handler(const char* new_value);
+    /** @brief Event handler for the selected glider characteristic */
+    bool selected_glider_handler(const uint8_t& new_value);
     /** @brief Event handler for the sink rate integration time characteristic */
     bool sr_integ_time_char_handler(const uint32_t& new_value);
     /** @brief Event handler for the glide ratio integration time characteristic */
     bool gr_integ_time_char_handler(const uint32_t& new_value);
     /** @brief Event handler for the night mode characteristic */
     bool is_night_mode_on_char_handler(const bool& new_value);
+    /** @brief Event handler for the display screen saver timeout characteristic */
+    bool disp_saver_timeout_handler(const uint32_t& new_value);
 };
 
 } // namespace ov

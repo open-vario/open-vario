@@ -31,7 +31,7 @@ uint32_t infinite_timeout_value()
 /** @brief Get the current timestamp */
 uint32_t now()
 {
-    return xTaskGetTickCount();
+    return xTaskGetTickCount() * portTICK_PERIOD_MS;
 }
 
 } // namespace os
