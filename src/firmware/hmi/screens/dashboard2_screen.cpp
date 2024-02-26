@@ -2,6 +2,7 @@
 #include "dashboard2_screen.h"
 #include "ov_data.h"
 
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 
@@ -31,7 +32,7 @@ void dashboard2_screen::event(button bt, button_event bt_event)
 void dashboard2_screen::on_init(YACSGL_frame_t&)
 {
     // Default values
-    strcpy(m_sink_rate_string, "SR: 00.0m/s");
+    strcpy(m_sink_rate_string, "SR: +00.0m/s");
     strcpy(m_glide_ratio_string, "GR: 00.0");
     strcpy(m_speed_string, "SP: 000.0km/h");
 
@@ -67,9 +68,43 @@ void dashboard2_screen::on_init(YACSGL_frame_t&)
 void dashboard2_screen::on_refresh(YACSGL_frame_t&)
 {
     // Update strings
+
+    // Sink rate
+    auto alti_data = ov::data::get_altimeter();
+    if (alti_data.is_valid)
+    {
+        auto sink_rate = ov::data::get_sink_rate();
+        char sign      = '+';
+        if (sink_rate < 0)
+        {
+            sign = '-';
+        }
+        sink_rate             = abs(sink_rate);
+        int16_t sink_rate_int = sink_rate / 10;
+        int16_t part          = sink_rate - sink_rate_int * 10;
+        snprintf(m_sink_rate_string, sizeof(m_sink_rate_string), "SR: %c%02d.%dm/s", sign, sink_rate_int, part);
+    }
+    else
+    {
+        strcpy(m_sink_rate_string, "SR: +--.-m/s");
+    }
+
     auto gnss = ov::data::get_gnss();
     if (gnss.is_valid)
     {
+        // Glide ratio
+        auto glide_ratio = ov::data::get_glide_ratio();
+        if (glide_ratio != ov_data::INVALID_GLIDE_RATIO_VALUE)
+        {
+            uint16_t glide_ratio_int = glide_ratio / 10;
+            uint16_t part            = glide_ratio - glide_ratio_int * 10;
+            snprintf(m_glide_ratio_string, sizeof(m_glide_ratio_string), "GR: %02d.%d", glide_ratio_int, part);
+        }
+        else
+        {
+            strcpy(m_glide_ratio_string, "GR: INF!");
+        }
+
         // Speed => Use dam/h unit for computation to avoid precision loss
         uint32_t speed_damh = gnss.speed * 36u;
         uint32_t speed      = speed_damh / 100u;
@@ -79,6 +114,7 @@ void dashboard2_screen::on_refresh(YACSGL_frame_t&)
     else
     {
         strcpy(m_speed_string, "SP: ---.-km/h");
+        strcpy(m_glide_ratio_string, "GR: --.-");
     }
 }
 

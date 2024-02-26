@@ -2,6 +2,7 @@
 #include "dashboard1_screen.h"
 #include "ov_data.h"
 
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 
@@ -80,7 +81,7 @@ void dashboard1_screen::on_refresh(YACSGL_frame_t&)
 
         // Temperature
         int32_t temperature = alti.temperature / 10;
-        part                = alti.temperature - temperature * 10u;
+        part                = abs(alti.temperature - temperature * 10u);
         snprintf(m_temperature_string, sizeof(m_temperature_string), "T : %02ld.%0ldC", temperature, part);
     }
     else

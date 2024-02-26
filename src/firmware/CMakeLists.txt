@@ -8,6 +8,7 @@ add_executable(openvario_fw
 
     ble/ble_manager.cpp
     ble/ble_config_service.cpp
+    ble/ble_rt_data_service.cpp
     ble/generic/ble_characteristic.cpp
     ble/${TARGET_PLATFORM}/app_ble.cpp
     ble/${TARGET_PLATFORM}/dis_app.c

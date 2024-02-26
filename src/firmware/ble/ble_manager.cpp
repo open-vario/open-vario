@@ -5,10 +5,11 @@ namespace ov
 {
 
 /** @brief Constructor */
-ble_manager::ble_manager(i_ble_stack& ble_stack) : m_ble_stack(ble_stack), m_thread(), m_services(), m_config_service()
+ble_manager::ble_manager(i_ble_stack& ble_stack) : m_ble_stack(ble_stack), m_thread(), m_services(), m_config_service(), m_rt_data_service()
 {
     // Fill services array
     m_services[0u] = &m_config_service.get_service();
+    m_services[1u] = &m_rt_data_service.get_service();
 }
 
 /** @brief Start the BLE manager */
@@ -42,6 +43,7 @@ void ble_manager::thread_func(void*)
     while (true)
     {
         // Update characteristics
+        m_rt_data_service.update_values();
 
         // Wait next period
         ov::this_thread::sleep_for(500u);

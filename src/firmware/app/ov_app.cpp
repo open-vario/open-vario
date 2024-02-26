@@ -1,6 +1,7 @@
 
 #include "ov_app.h"
 #include "fs.h"
+#include "mean_filter.h"
 #include "os.h"
 #include "ov_config.h"
 #include "ov_data.h"
@@ -63,29 +64,98 @@ void ov_app::thread_func(void*)
     // Initialize application
     startup();
 
-    // Main loop
+    // Sensors data
     auto& gnss          = m_board.get_gnss();
     auto& altimeter     = m_board.get_altimeter();
     auto& accelerometer = m_board.get_accelerometer();
+
+    i_gnss::data                 gnss_data;
+    i_barometric_altimeter::data baro_data;
+    i_accelerometer_sensor::data accel_data;
+
+    // Filters for sink rate and glide ratio computation
+    int32_t                            sink_rate_previous_altitude = 0;
+    mean_filter<int16_t, int32_t, 40u> sink_rate_filter;
+
+    uint32_t                       glide_ratio_period_ms = 0u;
+    circular_buffer<int32_t, 15u>  glide_ratio_altitudes;
+    circular_buffer<uint16_t, 15u> glide_ratio_distances;
+
+    // Main loop
+    constexpr uint32_t sensor_period_ms = 250u;
     while (true)
     {
         // Get gnss data
         if (gnss.update_data())
         {
-            ov::data::set_gnss(gnss.get_data());
+            gnss_data = gnss.get_data();
+            ov::data::set_gnss(gnss_data);
         }
         else
         {
+            gnss_data.is_valid = false;
             ov::data::invalidate_gnss();
         }
 
         // Get barometric altimeter data
-        ov::data::set_altimeter(altimeter.get_data());
+        baro_data = altimeter.get_data();
+        ov::data::set_altimeter(baro_data);
 
         // Get accelerometer data
-        ov::data::set_accelerometer(accelerometer.get_data());
+        accel_data = accelerometer.get_data();
+        ov::data::set_accelerometer(accel_data);
 
-        ov::this_thread::sleep_for(100u);
+        // Filters depths
+        size_t sink_rate_depth   = ov::config::get().sr_integ_time / sensor_period_ms;
+        size_t glide_ratio_depth = ov::config::get().gr_integ_time / 1000u;
+        if (sink_rate_filter.get_depth() != sink_rate_depth)
+        {
+            sink_rate_filter.set_depth(sink_rate_depth);
+        }
+        if (glide_ratio_altitudes.get_depth() != glide_ratio_depth)
+        {
+            glide_ratio_altitudes.set_depth(glide_ratio_depth);
+            glide_ratio_distances.set_depth(glide_ratio_depth);
+        }
+
+        // Compute sink rate
+        int32_t delta_alti          = baro_data.altitude - sink_rate_previous_altitude;
+        sink_rate_previous_altitude = baro_data.altitude;
+
+        int16_t sink_rate      = static_cast<int16_t>((delta_alti * 1000) / static_cast<int32_t>(sensor_period_ms));
+        auto    mean_sink_rate = sink_rate_filter.add_value(sink_rate);
+        ov::data::set_sink_rate(mean_sink_rate);
+
+        // Compute glide ratio every second
+        glide_ratio_period_ms += sensor_period_ms;
+        if (sensor_period_ms == 1000u)
+        {
+            int32_t previous_altitude = glide_ratio_altitudes.get_oldest_value();
+            delta_alti                = baro_data.altitude - previous_altitude;
+            glide_ratio_altitudes.add_value(baro_data.altitude);
+            if (gnss_data.is_valid)
+            {
+                glide_ratio_distances.add_value(static_cast<uint16_t>(gnss_data.speed));
+            }
+            else
+            {
+                glide_ratio_distances.add_value(glide_ratio_distances.get_oldest_value());
+            }
+
+            // Glide ratio validity
+            uint16_t glide_ratio = ov_data::INVALID_GLIDE_RATIO_VALUE;
+            if (gnss_data.is_valid && (delta_alti > 0))
+            {
+                uint16_t cumulated_distance = glide_ratio_distances.sum();
+                glide_ratio                 = cumulated_distance / static_cast<uint16_t>(delta_alti);
+            }
+            ov::data::set_glide_ratio(glide_ratio);
+
+            // Reset computation period
+            glide_ratio_period_ms = 0u;
+        }
+
+        ov::this_thread::sleep_for(sensor_period_ms);
     }
 }
 

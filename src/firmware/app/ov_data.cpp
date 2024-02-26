@@ -44,6 +44,20 @@ i_accelerometer_sensor::data get_accelerometer()
     return s_data.accelerometer;
 }
 
+/** @brief Get the sink rate */
+int16_t get_sink_rate()
+{
+    lock_guard<mutex> lock(s_mutex);
+    return s_data.sink_rate;
+}
+
+/** @brief Get the glide ratio */
+uint16_t get_glide_ratio()
+{
+    lock_guard<mutex> lock(s_mutex);
+    return s_data.glide_ratio;
+}
+
 // Setters
 
 /** @brief Set the GNSS data */
@@ -72,6 +86,20 @@ void set_accelerometer(const i_accelerometer_sensor::data& data)
 {
     lock_guard<mutex> lock(s_mutex);
     s_data.accelerometer = data;
+}
+
+/** @brief Set the sink rate */
+void set_sink_rate(int16_t data)
+{
+    lock_guard<mutex> lock(s_mutex);
+    s_data.sink_rate = data;
+}
+
+/** @brief Set the sink rate */
+void set_glide_ratio(uint16_t data)
+{
+    lock_guard<mutex> lock(s_mutex);
+    s_data.glide_ratio = data;
 }
 
 } // namespace data

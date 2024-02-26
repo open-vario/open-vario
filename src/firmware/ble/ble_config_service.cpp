@@ -221,17 +221,27 @@ bool ble_config_service::selected_glider_handler(const uint8_t& new_value)
 /** @brief Event handler for the sink rate integration time characteristic */
 bool ble_config_service::sr_integ_time_char_handler(const uint32_t& new_value)
 {
-    auto& config         = ov::config::get();
-    config.sr_integ_time = new_value;
-    return true;
+    bool  ret    = false;
+    auto& config = ov::config::get();
+    if ((new_value >= 100u) && (new_value <= 10000u))
+    {
+        config.sr_integ_time = new_value;
+        ret                  = true;
+    }
+    return ret;
 }
 
 /** @brief Event handler for the glide ratio integration time characteristic */
 bool ble_config_service::gr_integ_time_char_handler(const uint32_t& new_value)
 {
-    auto& config         = ov::config::get();
-    config.gr_integ_time = new_value;
-    return true;
+    bool  ret    = false;
+    auto& config = ov::config::get();
+    if ((new_value >= 1000u) && (new_value <= 15000u))
+    {
+        config.gr_integ_time = new_value;
+        ret                  = true;
+    }
+    return ret;
 }
 
 /** @brief Event handler for the night mode characteristic */

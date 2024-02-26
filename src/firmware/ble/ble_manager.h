@@ -6,6 +6,7 @@
 #include "thread.h"
 
 #include "ble_config_service.h"
+#include "ble_rt_data_service.h"
 
 namespace ov
 {
@@ -32,10 +33,12 @@ class ble_manager : public i_ble_manager
     /** @brief BLE update thread */
     thread<2048u> m_thread;
     /** @brief BLE services */
-    i_ble_service* m_services[1u];
+    i_ble_service* m_services[2u];
 
     /** @brief Configuration service */
     ble_config_service m_config_service;
+    /** @brief Real-time data service */
+    ble_rt_data_service m_rt_data_service;
 
     /** @brief BLE update thread */
     void thread_func(void*);
