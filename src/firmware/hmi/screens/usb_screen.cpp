@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "usb_screen.h"
 #include "i_xctrack_link.h"

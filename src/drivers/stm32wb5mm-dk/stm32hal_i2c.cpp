@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "stm32hal_i2c.h"
 #include "os.h"

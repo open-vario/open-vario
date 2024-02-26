@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_NMEA_GNSS_H
 #define OV_NMEA_GNSS_H

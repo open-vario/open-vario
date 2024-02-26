@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef SPI_PIN_CS_DRIVER_H
-#define SPI_PIN_CS_DRIVER_H
+#ifndef OV_SPI_PIN_CS_DRIVER_H
+#define OV_SPI_PIN_CS_DRIVER_H
 
 #include "i_output_pin.h"
 #include "i_spi.h"
@@ -59,4 +63,4 @@ class spi_pin_cs_driver : public spi_pin_cs_driver_base
 
 } // namespace ov
 
-#endif // SPI_PIN_CS_DRIVER_H
+#endif // OV_SPI_PIN_CS_DRIVER_H

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "spi_pin_cs_driver.h"
 

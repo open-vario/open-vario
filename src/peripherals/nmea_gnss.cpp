@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "nmea_gnss.h"
 #include "os.h"

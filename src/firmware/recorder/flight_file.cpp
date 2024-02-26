@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "flight_file.h"
 #include "fs.h"
@@ -32,9 +35,9 @@ flight_file::flight_file(const char* path, header& header)
     // Write header
     if (m_file.is_open())
     {
-        uint32_t magic       = header::MAGIC_NUMBER;
-        bool     is_valid    = m_file.write(magic);
-        is_valid             = is_valid && m_file.write(m_header);
+        uint32_t magic    = header::MAGIC_NUMBER;
+        bool     is_valid = m_file.write(magic);
+        is_valid          = is_valid && m_file.write(m_header);
         if (!is_valid)
         {
             m_file.close();

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "base_screen.h"
 #include "i_hmi_manager.h"

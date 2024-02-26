@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "ov_board.h"
 
@@ -374,9 +377,7 @@ void ov_board::soft_i2c_delay()
     // ~5µs delay
     uint32_t now     = DWT->CYCCNT;
     uint32_t timeout = 5u * (SystemCoreClock / 1000000u);
-    while ((DWT->CYCCNT - now) < timeout)
-    {
-    }
+    while ((DWT->CYCCNT - now) < timeout) { }
 }
 
 } // namespace ov

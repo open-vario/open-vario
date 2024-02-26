@@ -1,22 +1,7 @@
-/* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file    app_ble.c
-  * @author  MCD Application Team
-  * @brief   BLE Application
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 /* Includes ------------------------------------------------------------------*/
 #include "app_ble.h"
@@ -1006,9 +991,9 @@ static void Ble_Hci_Gap_Gatt_Init(void)
 
     if (role > 0)
     {
-        auto& ov_config = ov::config::get();
-        const char* name = ov_config.device_name;
-        ret              = aci_gap_init(
+        auto&       ov_config = ov::config::get();
+        const char* name      = ov_config.device_name;
+        ret                   = aci_gap_init(
             role, CFG_PRIVACY, APPBLE_GAP_DEVICE_NAME_LENGTH, &gap_service_handle, &gap_dev_name_char_handle, &gap_appearance_char_handle);
 
         if (ret != BLE_STATUS_SUCCESS)
@@ -1402,7 +1387,6 @@ bool APP_BLE_Is_Ready()
 {
     return s_app_ble_is_ready;
 }
-
 
 void APPE_Tl_Init(void)
 {

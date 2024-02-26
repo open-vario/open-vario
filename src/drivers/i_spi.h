@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef I_SPI_H
-#define I_SPI_H
+#ifndef OV_I_SPI_H
+#define OV_I_SPI_H
 
 #include <cstddef>
 #include <cstdint>
@@ -70,4 +74,4 @@ class i_spi
 
 } // namespace ov
 
-#endif // I_SPI_H
+#endif // OV_I_SPI_H

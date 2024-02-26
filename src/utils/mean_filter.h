@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_MEAN_FILTER_H
 #define OV_MEAN_FILTER_H

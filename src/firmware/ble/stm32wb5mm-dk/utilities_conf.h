@@ -23,42 +23,45 @@
 #define UTILITIES_CONF_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "cmsis_compiler.h"
-#include "string.h"
 #include "stm32wbxx_hal.h"
+#include "string.h"
 
 /******************************************************************************
  * common
  ******************************************************************************/
-#define UTILS_ENTER_CRITICAL_SECTION( )   HAL_NVIC_DisableIRQ(IPCC_C1_RX_IRQn); \
-                                          HAL_NVIC_DisableIRQ(IPCC_C1_TX_IRQn);
+#define UTILS_ENTER_CRITICAL_SECTION()    \
+    HAL_NVIC_DisableIRQ(IPCC_C1_RX_IRQn); \
+    HAL_NVIC_DisableIRQ(IPCC_C1_TX_IRQn);
 
-#define UTILS_EXIT_CRITICAL_SECTION( )         HAL_NVIC_EnableIRQ(IPCC_C1_RX_IRQn); \
-                                               HAL_NVIC_EnableIRQ(IPCC_C1_TX_IRQn);
+#define UTILS_EXIT_CRITICAL_SECTION()    \
+    HAL_NVIC_EnableIRQ(IPCC_C1_RX_IRQn); \
+    HAL_NVIC_EnableIRQ(IPCC_C1_TX_IRQn);
 
-#define UTILS_MEMSET8( dest, value, size )      memset( dest, value, size);
+#define UTILS_MEMSET8(dest, value, size) memset(dest, value, size);
 
 /******************************************************************************
  * tiny low power manager
  * (any macro that does not need to be modified can be removed)
  ******************************************************************************/
-#define UTIL_LPM_INIT_CRITICAL_SECTION( )
-#define UTIL_LPM_ENTER_CRITICAL_SECTION( )      UTILS_ENTER_CRITICAL_SECTION( )
-#define UTIL_LPM_EXIT_CRITICAL_SECTION( )       UTILS_EXIT_CRITICAL_SECTION( )
+#define UTIL_LPM_INIT_CRITICAL_SECTION()
+#define UTIL_LPM_ENTER_CRITICAL_SECTION() UTILS_ENTER_CRITICAL_SECTION()
+#define UTIL_LPM_EXIT_CRITICAL_SECTION() UTILS_EXIT_CRITICAL_SECTION()
 
 /******************************************************************************
  * sequencer
  * (any macro that does not need to be modified can be removed)
  ******************************************************************************/
-#define UTIL_SEQ_INIT_CRITICAL_SECTION( )
-#define UTIL_SEQ_ENTER_CRITICAL_SECTION( )      UTILS_ENTER_CRITICAL_SECTION( )
-#define UTIL_SEQ_EXIT_CRITICAL_SECTION( )       UTILS_EXIT_CRITICAL_SECTION( )
-#define UTIL_SEQ_CONF_TASK_NBR                  (32)
-#define UTIL_SEQ_CONF_PRIO_NBR                  (2)
-#define UTIL_SEQ_MEMSET8( dest, value, size )   UTILS_MEMSET8( dest, value, size )
+#define UTIL_SEQ_INIT_CRITICAL_SECTION()
+#define UTIL_SEQ_ENTER_CRITICAL_SECTION() UTILS_ENTER_CRITICAL_SECTION()
+#define UTIL_SEQ_EXIT_CRITICAL_SECTION() UTILS_EXIT_CRITICAL_SECTION()
+#define UTIL_SEQ_CONF_TASK_NBR (32)
+#define UTIL_SEQ_CONF_PRIO_NBR (2)
+#define UTIL_SEQ_MEMSET8(dest, value, size) UTILS_MEMSET8(dest, value, size)
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #include "stm32wb5mm_ble_stack.h"
 #include "app_ble.h"

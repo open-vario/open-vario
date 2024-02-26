@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_IO_PIN_H
 #define OV_IO_PIN_H

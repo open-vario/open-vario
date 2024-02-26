@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_DATE_TIME_H
 #define OV_DATE_TIME_H

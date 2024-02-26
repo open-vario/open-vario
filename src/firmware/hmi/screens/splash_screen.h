@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_SPLASH_SCREEN_H
 #define OV_SPLASH_SCREEN_H

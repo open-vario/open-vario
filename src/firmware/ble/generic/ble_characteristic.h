@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_BLE_CHARACTERISTIC_H
 #define OV_BLE_CHARACTERISTIC_H

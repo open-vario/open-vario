@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef I_IO_PIN_H
-#define I_IO_PIN_H
+#ifndef OV_I_IO_PIN_H
+#define OV_I_IO_PIN_H
 
 #include "i_input_pin.h"
 #include "i_output_pin.h"
@@ -18,4 +22,4 @@ class i_io_pin : public i_input_pin, public i_output_pin
 
 } // namespace ov
 
-#endif // I_IO_PIN_H
+#endif // OV_I_IO_PIN_H

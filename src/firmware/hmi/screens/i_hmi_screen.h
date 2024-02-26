@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef I_HMI_SCREEN_H
-#define I_HMI_SCREEN_H
+#ifndef OV_I_HMI_SCREEN_H
+#define OV_I_HMI_SCREEN_H
 
 #include "hmi.h"
 
@@ -34,4 +38,4 @@ class i_hmi_screen
 
 } // namespace ov
 
-#endif // I_HMI_SCREEN_H
+#endif // OV_I_HMI_SCREEN_H

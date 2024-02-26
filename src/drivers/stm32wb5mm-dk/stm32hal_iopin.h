@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_STM32HAL_IOPIN_H
 #define OV_STM32HAL_IOPIN_H

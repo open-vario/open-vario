@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_I_BAROMETRIC_ALTIMETER_H
 #define OV_I_BAROMETRIC_ALTIMETER_H

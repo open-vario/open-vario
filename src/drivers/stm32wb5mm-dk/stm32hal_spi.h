@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef STM32HAL_SPI_H
-#define STM32HAL_SPI_H
+#ifndef OV_STM32HAL_SPI_H
+#define OV_STM32HAL_SPI_H
 
 #include "i_spi.h"
 #include "semaphore.h"
@@ -45,4 +49,4 @@ class stm32hal_spi : public i_spi
 
 } // namespace ov
 
-#endif // STM32HAL_SPI_H
+#endif // OV_STM32HAL_SPI_H

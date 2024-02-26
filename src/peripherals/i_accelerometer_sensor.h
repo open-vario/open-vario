@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_I_ACCELEROMETER_SENSOR_H
 #define OV_I_ACCELEROMETER_SENSOR_H

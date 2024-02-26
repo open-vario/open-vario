@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef DEBUG_CONSOLE_H
-#define DEBUG_CONSOLE_H
+#ifndef OV_DEBUG_CONSOLE_H
+#define OV_DEBUG_CONSOLE_H
 
 #include "i_debug_console.h"
 #include "thread.h"
@@ -64,4 +68,4 @@ class debug_console : public i_debug_console
 
 } // namespace ov
 
-#endif // DEBUG_CONSOLE_H
+#endif // OV_DEBUG_CONSOLE_H

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
 #ifndef OV_STM32WB5MM_BLE_STACK_H
 #define OV_STM32WB5MM_BLE_STACK_H

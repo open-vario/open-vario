@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2023 open-vario
+ * SPDX-License-Identifier: MIT
+ */
 
-#ifndef STM32HAL_I2C_H
-#define STM32HAL_I2C_H
+#ifndef OV_STM32HAL_I2C_H
+#define OV_STM32HAL_I2C_H
 
 #include "i_i2c.h"
 #include "semaphore.h"
@@ -40,4 +44,4 @@ class stm32hal_i2c : public i_i2c
 
 } // namespace ov
 
-#endif // STM32HAL_I2C_H
+#endif // OV_STM32HAL_I2C_H
