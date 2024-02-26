@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.18)
 
 project(OpenVario DESCRIPTION "Open source variometer for paragliding and hang gliding"
-                  VERSION 0.0.1
+                  VERSION 1.0.0
 )
 
 # Definitions for Version.h file
