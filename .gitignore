@@ -1,0 +1,4 @@
+bin_*
+build_*
+docker/gcc-arm-none-eabi*
+*.pyc

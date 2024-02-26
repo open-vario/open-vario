@@ -1,0 +1,26 @@
+#################################################################################
+#           Target specific definition for stm32wb5mm-dk platform               #
+#################################################################################
+
+# Toolchain path
+set(CMAKE_TOOLCHAIN_PATH "/opt/gcc-arm-none-eabi-10.3-2021.10/")
+
+# CPU flags
+set(MCPU_FLAGS "-mthumb -mcpu=cortex-m4")
+set(VFP_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
+
+# Generic toolchain definition
+include(${CMAKE_CURRENT_LIST_DIR}/../../3rdparty/cmake-embedded-toolchains/arm-cortex-gnu/arm-cortex-gnu-toolchain.cmake)
+
+# Warnings
+set(WARNING_FLAGS "-Wall -Wextra -Werror")
+
+# Set compiler flags
+set(COMMON_FLAGS            "-DUSE_HAL_DRIVER -DSTM32WB5Mxx -ffunction-sections -fdata-sections -fstack-usage -fno-exceptions")
+set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -Og -g3 -ggdb3 -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -Og -g3 -ggdb3 -DDEBUG")
+set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -O2 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE_INIT} ${WARNING_FLAGS} ${COMMON_FLAGS} -O2 -DNDEBUG")
+
+# FreeRTOS target
+set(FREERTOS_PORT "GCC_ARM_CM4F")

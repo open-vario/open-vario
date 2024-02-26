@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cortex Debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/bin_stm32wb5mm-dk/openvario_fw",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "device": "STM32WB55VG",
+            "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
+            "showDevDebugOutput": "raw",
+            "rtos": "FreeRTOS"
+        },
+        {
+            "name": "Cortex Debug Attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/bin_stm32wb5mm-dk/openvario_fw",
+            "request": "attach",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "jlink",
+            "device": "STM32WB55VG",
+            "svdFile": "${workspaceFolder}/src/bsp/stm32wb5mm-dk/STM32WB55_CM4.svd",
+            "showDevDebugOutput": "raw",
+            "rtos": "FreeRTOS"
+        },
+        {
+            "name": "OV Toolbox",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/ov-toolbox/ov_toolbox.py",
+            "justMyCode": true
+        },
+        {
+            "name": "OV Converter",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools/ov-toolbox/ov_converter.py",
+            "args": "${workspaceFolder}/2024-01-22T20-05-42.rec",
+            "justMyCode": true
+        }
+    ]
+}
