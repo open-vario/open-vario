@@ -1,3 +1,21 @@
+# Open-Vario
+
+Open-Vario is an open-source multi-function connected variometer for paragliding and hang gliding.
+
+A variometer – also known as a rate of climb and descent indicator (RCDI), rate-of-climb indicator, vertical speed indicator (VSI), or vertical velocity indicator (VVI) – is one of the flight instruments used to inform the pilot of the rate of descent or climb. This is the key information to help looking for the thermals which will allow the glider to climb up and thus to stay in the air and allow multiple hours of flight.
+
+Along with variometer functionality, Open-Vario provides the following features:
+
+* GNSS positioning
+* Accelerometer
+* Temperature
+* Glide ratio computation
+* Flight data recording (altitude, speed, position…)
+* Local HMI to display sensor and flight data
+* BLE link to configure parameter and read real-time flight data values
+* USB OTG link to connect to the [XCTrack](https://xctrack.org/) smartphone application
+* USB device link to connect to PC python tools to export recorded flights
+
 # Build system
 
 The build system is based on CMake + GCC arm-none-eabi and meant to be run on a Linux platform. An additional helper makefile is provided to simplify the use.
