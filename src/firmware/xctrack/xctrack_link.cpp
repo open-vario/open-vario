@@ -45,7 +45,7 @@ void xctrack_link::thread_func(void*)
         }
 
         // Periodicity
-        ov::this_thread::sleep_for(100u);
+        ov::this_thread::sleep_for(250u);
     }
 }
 

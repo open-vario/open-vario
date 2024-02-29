@@ -18,6 +18,7 @@ if __name__ == '__main__':
     if (len(sys.argv) > 1):
 
         # Open input file
+        print("Converting flight '{}'...".format(sys.argv[1]))
         flight_file = load_flight(sys.argv[1])
         if not flight_file is None:
 
@@ -27,6 +28,7 @@ if __name__ == '__main__':
                 kml_file = sys.argv[2]
             try:
                 file = open(kml_file, "w")
+                print("Saving flight '{}'...".format(kml_file))
 
                 # Write header
                 file.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
@@ -84,5 +86,7 @@ if __name__ == '__main__':
                 print("Unable to open output file : {}".format(kml_file))
     else:
         print("Missing file to convert as input parameter")
+
+    print("Done!")
 
     sys.exit(exit_code)
