@@ -127,7 +127,6 @@ bool soft_i2c::stop()
 {
     // SDA goes from LOW to HIGH while SCL is still HIGH
     m_sda_pin.set_low();
-    m_delay();
     m_scl_pin.set_high();
     m_delay();
     m_sda_pin.set_high();
@@ -174,6 +173,9 @@ bool soft_i2c::receive_byte(uint8_t& byte, bool ack)
     bool bit = false;
     for (int i = 0; ((i < 8) && ret); i++)
     {
+        // Next bit
+        byte = byte << 1;
+
         // Receive bit
         ret = ret && receive_bit(bit);
 
@@ -182,9 +184,6 @@ bool soft_i2c::receive_byte(uint8_t& byte, bool ack)
         {
             byte |= 1u;
         }
-
-        // Next bit
-        byte = byte << 1;
     }
     if (ret)
     {
@@ -210,7 +209,6 @@ bool soft_i2c::send_bit(bool bit)
     {
         m_sda_pin.set_low();
     }
-    m_delay();
 
     // Generate clock on SCL
     m_scl_pin.set_high();
@@ -226,7 +224,6 @@ bool soft_i2c::receive_bit(bool& bit)
 {
     // Release SDA
     m_sda_pin.set_high();
-    m_delay();
 
     // Generate clock
     m_scl_pin.set_high();
