@@ -53,7 +53,7 @@ void ov_app::start()
 {
     // Create main thread
     auto thread_func = ov::thread_func::create<ov_app, &ov_app::thread_func>(*this);
-    if (m_thread.start(thread_func, "Main", 7u, nullptr))
+    if (m_thread.start(thread_func, "Main", 8u, nullptr))
     {
         // Start operating system
         ov::os::start();
