@@ -11,17 +11,23 @@
 namespace ov
 {
 
+// Forward declarations
+class i_barometric_altimeter;
+
 /** @brief Dashboard 1 screen */
 class dashboard1_screen : public base_screen
 {
   public:
     /** @brief Constructor */
-    dashboard1_screen(i_hmi_manager& hmi_manager);
+    dashboard1_screen(i_hmi_manager& hmi_manager, i_barometric_altimeter& altimeter);
 
     /** @brief Button event */
     void event(button bt, button_event bt_event) override;
 
   private:
+    /** @brief Altimeter */
+    i_barometric_altimeter& m_altimeter;
+
     /** @brief QNH label */
     YACSWL_label_t m_qnh_label;
     /** @brief Pressure label */

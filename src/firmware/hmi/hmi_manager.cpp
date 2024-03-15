@@ -20,14 +20,15 @@ namespace ov
 static const uint32_t LONG_PUSH_DELAY = 1000u;
 
 /** @brief Constructor */
-hmi_manager::hmi_manager(i_display&         display,
-                         i_debug_console&   debug_console,
-                         i_button&          previous_button,
-                         i_button&          next_button,
-                         i_button&          select_button,
-                         i_ble_manager&     ble_manager,
-                         i_xctrack_link&    xctrack_link,
-                         i_flight_recorder& recorder)
+hmi_manager::hmi_manager(i_display&              display,
+                         i_debug_console&        debug_console,
+                         i_button&               previous_button,
+                         i_button&               next_button,
+                         i_button&               select_button,
+                         i_ble_manager&          ble_manager,
+                         i_xctrack_link&         xctrack_link,
+                         i_flight_recorder&      recorder,
+                         i_barometric_altimeter& altimeter)
     : m_display(display),
       m_buttons(),
       m_hmi_console(debug_console, *this),
@@ -36,7 +37,7 @@ hmi_manager::hmi_manager(i_display&         display,
       m_next_screen(hmi_screen::splash),
       m_screens(),
       m_splash_screen(*this),
-      m_dashboard1_screen(*this),
+      m_dashboard1_screen(*this, altimeter),
       m_dashboard2_screen(*this),
       m_dashboard3_screen(*this),
       m_dashboard4_screen(*this),

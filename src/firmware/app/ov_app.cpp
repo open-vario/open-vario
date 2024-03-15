@@ -30,7 +30,8 @@ ov_app::ov_app()
             m_board.get_select_button(),
             m_ble,
             m_xctrack,
-            m_recorder),
+            m_recorder,
+            m_board.get_altimeter()),
       m_ble(m_board.get_ble_stack()),
       m_recorder(),
       m_xctrack(m_board.get_usb_cdc()),
@@ -77,16 +78,18 @@ void ov_app::thread_func(void*)
     i_barometric_altimeter::data baro_data;
     i_accelerometer_sensor::data accel_data;
 
+    // Sensor acquisition period
+    constexpr uint32_t sensor_period_ms = 250u;
+
     // Filters for sink rate and glide ratio computation
-    int32_t                            sink_rate_previous_altitude = 0;
-    mean_filter<int16_t, int32_t, 40u> sink_rate_filter;
+    circular_buffer<int32_t, 40u>                           sink_rate_altitudes;
+    mean_filter<int16_t, int32_t, 1000u / sensor_period_ms> sink_rate_filter;
 
     uint32_t                       glide_ratio_period_ms = 0u;
     circular_buffer<int32_t, 15u>  glide_ratio_altitudes;
     circular_buffer<uint16_t, 15u> glide_ratio_distances;
 
     // Main loop
-    constexpr uint32_t sensor_period_ms = 250u;
     while (true)
     {
         // Get gnss data
@@ -112,9 +115,9 @@ void ov_app::thread_func(void*)
         // Filters depths
         size_t sink_rate_depth   = ov::config::get().sr_integ_time / sensor_period_ms;
         size_t glide_ratio_depth = ov::config::get().gr_integ_time / 1000u;
-        if (sink_rate_filter.get_depth() != sink_rate_depth)
+        if (sink_rate_altitudes.get_depth() != sink_rate_depth)
         {
-            sink_rate_filter.set_depth(sink_rate_depth);
+            sink_rate_altitudes.set_depth(sink_rate_depth);
         }
         if (glide_ratio_altitudes.get_depth() != glide_ratio_depth)
         {
@@ -123,10 +126,11 @@ void ov_app::thread_func(void*)
         }
 
         // Compute sink rate
-        int32_t delta_alti          = baro_data.altitude - sink_rate_previous_altitude;
-        sink_rate_previous_altitude = baro_data.altitude;
+        int32_t previous_altitude = sink_rate_altitudes.get_oldest_value();
+        int32_t delta_alti        = baro_data.altitude - previous_altitude;
+        sink_rate_altitudes.add_value(baro_data.altitude);
 
-        int16_t sink_rate      = static_cast<int16_t>((delta_alti * 1000) / static_cast<int32_t>(sensor_period_ms));
+        int16_t sink_rate      = static_cast<int16_t>((delta_alti * 1000) / static_cast<int32_t>(sink_rate_depth * sensor_period_ms));
         auto    mean_sink_rate = sink_rate_filter.add_value(sink_rate);
         ov::data::set_sink_rate(mean_sink_rate);
 

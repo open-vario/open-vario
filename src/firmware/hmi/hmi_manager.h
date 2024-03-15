@@ -31,20 +31,22 @@ namespace ov
 class i_display;
 class i_button;
 class i_hmi_screen;
+class i_barometric_altimeter;
 
 /** @brief HMI manager */
 class hmi_manager : public i_hmi_manager
 {
   public:
     /** @brief Constructor */
-    hmi_manager(i_display&         display,
-                i_debug_console&   debug_console,
-                i_button&          previous_button,
-                i_button&          next_button,
-                i_button&          select_button,
-                i_ble_manager&     ble_manager,
-                i_xctrack_link&    xctrack_link,
-                i_flight_recorder& recorder);
+    hmi_manager(i_display&              display,
+                i_debug_console&        debug_console,
+                i_button&               previous_button,
+                i_button&               next_button,
+                i_button&               select_button,
+                i_ble_manager&          ble_manager,
+                i_xctrack_link&         xctrack_link,
+                i_flight_recorder&      recorder,
+                i_barometric_altimeter& altimeter);
 
     /** @brief Start the HMI manager */
     bool start();

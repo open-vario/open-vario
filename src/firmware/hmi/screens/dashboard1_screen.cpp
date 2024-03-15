@@ -4,6 +4,8 @@
  */
 
 #include "dashboard1_screen.h"
+#include "i_barometric_altimeter.h"
+#include "ov_config.h"
 #include "ov_data.h"
 
 #include <cmath>
@@ -14,7 +16,10 @@ namespace ov
 {
 
 /** @brief Constructor */
-dashboard1_screen::dashboard1_screen(i_hmi_manager& hmi_manager) : base_screen(hmi_screen::dashboard1, hmi_manager) { }
+dashboard1_screen::dashboard1_screen(i_hmi_manager& hmi_manager, i_barometric_altimeter& altimeter)
+    : base_screen(hmi_screen::dashboard1, hmi_manager), m_altimeter(altimeter)
+{
+}
 
 /** @brief Button event */
 void dashboard1_screen::event(button bt, button_event bt_event)
@@ -28,6 +33,28 @@ void dashboard1_screen::event(button bt, button_event bt_event)
         if (bt == button::previous)
         {
             switch_to_screen(hmi_screen::settings);
+        }
+    }
+    if (bt_event == button_event::long_push)
+    {
+        if (bt == button::select)
+        {
+            // Calibrate with GNSS input (if valid)
+            auto gnss_data = ov::data::get_gnss();
+            if (gnss_data.is_valid)
+            {
+                auto alti_data = ov::data::get_altimeter();
+                if (alti_data.is_valid)
+                {
+                    m_altimeter.set_references(alti_data.temperature, alti_data.pressure, gnss_data.altitude);
+
+                    auto& config             = ov::config::get();
+                    config.alti_ref_alti     = gnss_data.altitude;
+                    config.alti_ref_pressure = alti_data.pressure;
+                    config.alti_ref_temp     = alti_data.temperature;
+                    ov::config::save();
+                }
+            }
         }
     }
 }
