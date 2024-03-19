@@ -37,8 +37,6 @@ class flight_file
     {
         // GNSS data
 
-        /** @brief Indicate if the GNSS data is valid */
-        bool gnss_is_valid;
         /** @brief Latitude (1 = 1°) */
         double latitude;
         /** @brief Longitude (1 = 1°) */
@@ -46,17 +44,37 @@ class flight_file
         /** @brief Speed (1 = 0.1 m/s) */
         uint32_t speed;
         /** @brief Altitude (1 = 0.1 m) */
-        uint32_t altitude;
+        uint32_t gnss_altitude;
 
-        /** @brief Barometric altimeter data */
-        i_barometric_altimeter::data altimeter;
+        // Altimeter data
+
+        /** @brief Pressure (1 = 0.01mbar) */
+        int32_t pressure;
+        /** @brief Altitude (1 = 0.1m) */
+        int32_t altitude;
+        /** @brief Temperature (1 = 0.1°C) */
+        int16_t temperature;
 
         // Accelerometer data
 
-        /** @brief Indicate if the accelerometer data is valid */
-        bool accel_is_valid;
         /** @brief Total acceleration (1000 = 1g) */
         int16_t total_accel;
+
+        // Computed data
+
+        /** @brief Sink rate (1 = 0.1m/s) */
+        int16_t sink_rate;
+        /** @brief Glide ratio (1 = 0.1) */
+        uint16_t glide_ratio;
+
+        // Data validity
+
+        /** @brief Indicate if the GNSS data is valid */
+        bool gnss_is_valid;
+        /** @brief Indicate if the altimeter data is valid */
+        bool alti_is_valid;
+        /** @brief Indicate if the accelerometer data is valid */
+        bool accel_is_valid;
     };
 
     /** @brief Constructor to open the file for read operations */

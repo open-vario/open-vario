@@ -68,8 +68,9 @@ if __name__ == '__main__':
                 file.write("\t\t\t\t<altitudeMode>absolute</altitudeMode>\n")
                 file.write("\t\t\t\t<coordinates>\n")
                 for entry in flight_file.entries:
-                    file.write("\t\t\t\t\t{:.6f},{:.6f},{}\n".format(
-                        entry.gnss.longitude, entry.gnss.latitude, int(entry.gnss.altitude / 10)))
+                    if entry.gnss.is_valid:
+                        file.write("\t\t\t\t\t{:.6f},{:.6f},{}\n".format(
+                            entry.gnss.longitude, entry.gnss.latitude, int(entry.gnss.altitude / 10)))
                 file.write("\t\t\t\t</coordinates>\n")
                 file.write("\t\t\t</LineString>\n")
                 file.write("\t\t</Placemark>\n")

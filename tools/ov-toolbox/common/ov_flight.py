@@ -87,6 +87,18 @@ class OvFlightAccelerometerData:
         self.acceleration = 0
 
 
+class OvFlightComputedData:
+    """ Recorded flight computed data """
+
+    def __init__(self) -> None:
+        """ Constructor """
+
+        # Sink rate (1 = 0.1m/s)
+        self.sink_rate = 0
+        # Glide ratio (1 = 0.1)
+        self.glide_ratio = 0
+
+
 class OvFlightEntry:
     """ Recorded flight entry """
 
@@ -99,6 +111,8 @@ class OvFlightEntry:
         self.altimeter = OvFlightAltimeterData()
         # Accelerometer data
         self.accelerometer = OvFlightAccelerometerData()
+        # Computed data
+        self.computed = OvFlightComputedData()
 
 
 class OvFlight:

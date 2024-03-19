@@ -224,6 +224,11 @@ class OvDevice(object):
         entry.accelerometer.acceleration, index = self.__read_int(
             frame, 2, index)
 
+        entry.computed.sink_rate, index = self.__read_int(
+            frame, 2, index)
+        entry.computed.glide_ratio, index = self.__read_uint(
+            frame, 2, index)
+
         return entry, index
 
     def __write_int(self, int: int, size: int) -> bytearray:

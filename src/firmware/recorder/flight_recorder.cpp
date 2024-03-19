@@ -167,10 +167,15 @@ void flight_recorder::thread_func(void*)
                 entry.latitude       = data.gnss.latitude;
                 entry.longitude      = data.gnss.longitude;
                 entry.speed          = data.gnss.speed;
-                entry.altitude       = data.gnss.altitude;
-                entry.altimeter      = data.altimeter;
+                entry.gnss_altitude  = data.gnss.altitude;
+                entry.alti_is_valid  = data.altimeter.is_valid;
+                entry.pressure       = data.altimeter.pressure;
+                entry.altitude       = data.altimeter.altitude;
+                entry.temperature    = data.altimeter.temperature;
                 entry.accel_is_valid = data.accelerometer.is_valid;
                 entry.total_accel    = data.accelerometer.total_accel;
+                entry.sink_rate      = data.sink_rate;
+                entry.glide_ratio    = data.glide_ratio;
                 if (!flight.write(entry))
                 {
                     // Error

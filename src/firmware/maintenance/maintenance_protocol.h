@@ -31,7 +31,7 @@ enum class ov_request_id : uint8_t
 struct ov_request
 {
     /** @brief Maximum payload size in bytes */
-    static constexpr uint32_t MAX_PAYLOAD_SIZE = 1000u;
+    static constexpr uint32_t MAX_PAYLOAD_SIZE = 5000u;
 
     /** @brief Identifier */
     ov_request_id id;

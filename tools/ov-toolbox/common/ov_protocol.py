@@ -57,7 +57,7 @@ class OvProtocol(object):
         # Start of frame => 4 bytes
         # Id             => 1 byte
         # Size           => 2 bytes (LE)
-        # Payload        => 0 to 1000 bytes
+        # Payload        => 0 to 5000 bytes
         # Checksum       => 2 bytes (LE)
 
         frame = bytearray(9 + len(payload))
@@ -160,7 +160,7 @@ class OvProtocol(object):
             self.__rx_frame_length = byte
         else:
             self.__rx_frame_length += (byte << 8)
-            if (self.__rx_frame_length == 0) or (self.__rx_frame_length > 1000):
+            if (self.__rx_frame_length == 0) or (self.__rx_frame_length > 5000):
                 print("Invalid received frame length => {}".format(
                     self.__rx_frame_length))
                 ret = None

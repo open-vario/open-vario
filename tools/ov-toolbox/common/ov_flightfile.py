@@ -27,18 +27,20 @@ def save_flight(name: str, flight: OvFlight) -> bool:
         flight_file.write("[data]\n")
         entry_id = 0
         for flight_data in flight.entries:
-            flight_file.write("{}={},{},{},{},{},{},{},{},{},{},{}\n".format(entry_id,
-                                                                             flight_data.gnss.is_valid,
-                                                                             flight_data.gnss.latitude,
-                                                                             flight_data.gnss.longitude,
-                                                                             flight_data.gnss.speed,
-                                                                             flight_data.gnss.altitude,
-                                                                             flight_data.altimeter.is_valid,
-                                                                             flight_data.altimeter.pressure,
-                                                                             flight_data.altimeter.altitude,
-                                                                             flight_data.altimeter.temperature,
-                                                                             flight_data.accelerometer.is_valid,
-                                                                             flight_data.accelerometer.acceleration))
+            flight_file.write("{}={},{},{},{},{},{},{},{},{},{},{},{},{}\n".format(entry_id,
+                                                                                   flight_data.gnss.is_valid,
+                                                                                   flight_data.gnss.latitude,
+                                                                                   flight_data.gnss.longitude,
+                                                                                   flight_data.gnss.speed,
+                                                                                   flight_data.gnss.altitude,
+                                                                                   flight_data.altimeter.is_valid,
+                                                                                   flight_data.altimeter.pressure,
+                                                                                   flight_data.altimeter.altitude,
+                                                                                   flight_data.altimeter.temperature,
+                                                                                   flight_data.accelerometer.is_valid,
+                                                                                   flight_data.accelerometer.acceleration,
+                                                                                   flight_data.computed.sink_rate,
+                                                                                   flight_data.computed.glide_ratio))
             entry_id += 1
 
         # Close file

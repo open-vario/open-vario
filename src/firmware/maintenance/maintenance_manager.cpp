@@ -196,7 +196,7 @@ bool maintenance_manager::handle_read_flight_req(ov_request& request)
 
             // Read a packet of entries
             int count = 0;
-            while ((count < 25) && flight.read(entry))
+            while ((count < static_cast<int>(ov_request::MAX_PAYLOAD_SIZE / sizeof(entry))) && flight.read(entry))
             {
                 // Write entry
                 if (count == 0)
@@ -208,12 +208,14 @@ bool maintenance_manager::handle_read_flight_req(ov_request& request)
                 write(request, entry.longitude);
                 write(request, entry.altitude);
                 write(request, entry.speed);
-                write(request, entry.altimeter.is_valid);
-                write(request, entry.altimeter.altitude);
-                write(request, entry.altimeter.pressure);
-                write(request, entry.altimeter.temperature);
+                write(request, entry.alti_is_valid);
+                write(request, entry.altitude);
+                write(request, entry.pressure);
+                write(request, entry.temperature);
                 write(request, entry.accel_is_valid);
                 write(request, entry.total_accel);
+                write(request, entry.sink_rate);
+                write(request, entry.glide_ratio);
 
                 count++;
             }
