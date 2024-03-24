@@ -84,7 +84,7 @@ def load_flight(filename: str) -> OvFlight:
             for i in range(len(flight_file["data"])):
                 value = flight_file.get("data", "{}".format(i))
                 values = value.split(",")
-                if len(values) == 11:
+                if len(values) == 13:
 
                     entry = OvFlightEntry()
 
@@ -104,6 +104,10 @@ def load_flight(filename: str) -> OvFlight:
                     # Extract accelerometer data
                     entry.accelerometer.is_valid = eval(values[9])
                     entry.accelerometer.acceleration = int(values[10])
+
+                    # Extract computed data
+                    entry.computed.sink_rate = int(values[11])
+                    entry.computed.glide_ratio = int(values[12])
 
                     flight.entries.append(entry)
 
